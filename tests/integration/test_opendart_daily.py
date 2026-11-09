@@ -98,7 +98,7 @@ def test_daily_runs_over_several_days(world, tmp_path):
     for p in tmp_path.rglob("*"):
         if p.is_file() and p.suffix in (".json", ".jsonl"):
             assert TEST_KEY not in p.read_text(encoding="utf-8")
-    assert len(list((tmp_path / "manifests").rglob("*.json"))) == 6
+    assert len(list((tmp_path / "manifests").rglob("*.json"))) == 9      # 3일 × (공시·재무제표·XBRL)
 
 
 def test_done_items_without_cfs_check_are_requeued(world, tmp_path):
@@ -146,3 +146,64 @@ def test_cli_requires_key_and_check_mode(monkeypatch, capsys, tmp_path):
     monkeypatch.delenv("DART_API_KEY", raising=False)
     assert opendart_daily.main(["--data-dir", str(tmp_path)]) == 2
     assert "DART_API_KEY" in capsys.readouterr().err
+
+
+# ---------- XBRL 사업부문 단계 ----------
+
+def test_xbrl_stage_stores_segment_numbers_but_not_the_raw_zip(world, tmp_path):
+    from collectors.opendart_segments import SERIES_SEGMENTS
+    from feature_store.segment_exposure import compute_exposure
+    from tests.unit.test_segments import samsung_like
+
+    fake = world
+    fake.statement("20261106000100", SAMSUNG, 2026, "11014", "OFS", accounts("10,000"))
+    clock = Clock(datetime(2026, 11, 8, 21, 17, tzinfo=UTC))
+    res = make_run(fake, tmp_path, clock).run(end=date(2026, 11, 8), lookback_days=3)
+    assert res.xbrl_manifest.counts == {"not_yet": 1} and not res.failed            # XBRL 아직 없음(013)
+
+    fake.xbrl["20261106000100"] = samsung_like()
+    clock.t += timedelta(days=1)
+    res = make_run(fake, tmp_path, clock).run(end=date(2026, 11, 9), lookback_days=4)
+    assert res.xbrl_manifest.counts["reports"] == 1 and res.xbrl_manifest.counts["segment_ok"] == 1
+    req = res.xbrl_manifest.requests[0]
+    assert req["segment"] == "OK" and req["values"] == 12 and TEST_KEY not in json.dumps(req)
+    st = opendart_daily.XbrlState.load(tmp_path)
+    assert st.done["20261106000100"]["segment"] == "OK" and not st.attempts
+
+    # 원본 zip은 어디에도 저장하지 않는다 (서술형 주석 포함 → 계약상 저장·재배포 안 함)
+    assert not (tmp_path / "raw" / "opendart_xbrl").exists()
+    for p in tmp_path.rglob("*"):
+        if p.is_file():
+            assert not p.read_bytes().startswith(b"PK"), p
+
+    store = PITFileStore(tmp_path, default_registry()).load([SERIES_SEGMENTS])
+    rep = compute_exposure(store, SAMSUNG, datetime(2026, 11, 10, 23, 30, tzinfo=UTC))
+    assert rep.industry_revenue_weights["semiconductor"] == pytest.approx(130 / 364)
+
+    # 다음 날 다시 돌려도 다시 받지 않는다
+    clock.t += timedelta(days=1)
+    res = make_run(fake, tmp_path, clock).run(end=date(2026, 11, 10), lookback_days=1)
+    assert res.xbrl_manifest.counts == {} and res.xbrl_manifest.target["queued"] == 0
+
+
+def test_xbrl_time_budget_and_give_up(world, tmp_path):
+    fake = world
+    fake.statement("20261106000100", SAMSUNG, 2026, "11014", "OFS", accounts("10,000"))
+    clock = Clock(datetime(2026, 11, 8, 21, 17, tzinfo=UTC))
+    # 시간 예산 0분이면 XBRL 단계를 건너뛴다
+    res = make_run(fake, tmp_path, clock).run(end=date(2026, 11, 8), lookback_days=3, xbrl_minutes=0)
+    assert res.xbrl_manifest is None
+    # XBRL이 계속 없으면(013) XBRL_MAX_ATTEMPTS번 뒤 포기하고 경고
+    for _ in range(opendart_daily.XBRL_MAX_ATTEMPTS):
+        clock.t += timedelta(days=1)
+        res = make_run(fake, tmp_path, clock).run(end=date(2026, 11, 8), lookback_days=3)
+    st = opendart_daily.XbrlState.load(tmp_path)
+    assert "20261106000100" in st.gave_up and any("포기" in w for w in res.xbrl_manifest.warnings)
+
+
+def test_xbrl_unparseable_payload_is_given_up(world, tmp_path):
+    fake = world
+    fake.statement("20261106000100", SAMSUNG, 2026, "11014", "OFS", accounts("10,000"))
+    fake.xbrl["20261106000100"] = b"PK\x03\x04broken"
+    res = make_run(fake, tmp_path, Clock(datetime(2026, 11, 8, 21, 17, tzinfo=UTC))).run(end=date(2026, 11, 8), lookback_days=3)
+    assert res.xbrl_manifest.counts == {"gave_up": 1} and "해석 실패" in res.xbrl_manifest.warnings[0]

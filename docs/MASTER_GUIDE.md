@@ -668,6 +668,16 @@ Company (예: 삼성전자)
 - **부문별 분석 신뢰도를 따로 보여 준다.** 같은 반도체 기업이라도 메모리 업황 데이터는 충분하고(`SUFFICIENT`), 파운드리 수요 데이터는 부족하고(`LIMITED`), 환율은 오래됐을(`STALE`) 수 있다. 기업 전체 노출도를 한 점수로 표시하기 전에 부문·드라이버별 커버리지(3-6)를 함께 제시한다.
 - 글로벌 드라이버가 실제 예측에 기여하는지는 Model A/B/C 실험으로 검증한다. 업종 단위 노출(Model C-industry)과 사업부문 단위 노출(Model C-segment)을 같은 표본에서 비교하고, 기여가 없으면 그대로 보고한다.
 
+**구현 (2026-11):** 데이터는 OpenDART 재무제표 원본(XBRL)의 영업부문·지역 주석에서 숫자만 추출한다(계약 `opendart_xbrl_v1`, 원본 zip은 저장하지 않음).
+실제 DART XBRL 점검에서 확인한 구조와 대응:
+
+- 거의 모든 숫자 사실에 연결·별도 차원이 붙는다 → 연결 기준을 먼저 쓰고, 없으면 별도 기준을 쓰되 `LIMITED`.
+- 같은 부문이 영업부문 표 외에 공사계약·수익 분해 표에도 나온다 → 멤버 이름에 담긴 표 이름으로 영업부문 표를 고른다.
+- 영업이익 대신 부문 이익(당기순이익 등)만 공시하는 회사가 있다 → `segment_profit`으로 구분하고 이익 가중은 `LIMITED`.
+- 단일 부문 회사는 부문 표가 없다 → 추출 상태를 레코드로 남기고 노출도는 `INSUFFICIENT`(추정하지 않음).
+- 부문→산업 연결은 레이블 키워드 규칙(`config/segment_taxonomy.json`, 버전 관리)으로 하고, 연결되지 않은 부문은 `UNMAPPED`로 표시한다.
+- 코드: `collectors/opendart_xbrl.py`(해석), `collectors/opendart_segments.py`(추출·PIT 레코드), `feature_store/segment_exposure.py`(노출도).
+
 권장 레코드:
 
 ```python

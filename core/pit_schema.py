@@ -55,6 +55,7 @@ class PITRecord:
     source_document_id: Optional[str] = None
     source_url: Optional[str] = None
     quality_status: QualityStatus = QualityStatus.VALID
+    attributes: Optional[str] = None    # 관측값을 설명하는 부가 정보 JSON (예: 부문 레이블·원본 태그). 관측값 키에는 들어가지 않는다
 
     def __post_init__(self):
         for name in ("available_at_utc", "ingested_at_utc", "event_time_utc", "official_release_at_utc",

@@ -39,7 +39,8 @@ GitHub Actions [`opendart-daily`](.github/workflows/opendart-daily.yml)가 매�
 | [`collectors/base_client.py`](collectors/base_client.py) | 호출 속도·예산 제한, 429·5xx 재시도(지수 백오프·Retry-After), 인증키 가림, 페이지 완결성·스키마 변화 확인 | 6-3 |
 | [`collectors/opendart.py`](collectors/opendart.py) | OpenDART 호출과 PIT 변환. 정정 보고서는 바뀐 계정만 새 버전, 가용 시각은 접수일 규칙과 실제 수집 시각 중 늦은 쪽 | 4-3 |
 | [`storage/`](storage/) | 변경 불가 원본(내용 주소·해시 검증), PIT 버전 파일(추가 전용·재수집 중복 없음), 실행별 수집 기록 | 6-1, 6-2 |
-| [`orchestration/opendart_daily.py`](orchestration/opendart_daily.py) | 매일 실행: 최근 7일 공시 다시 훑기 → 정기보고서 재무제표 대기열 → 수집 기록 | 6-4 |
+| [`orchestration/opendart_daily.py`](orchestration/opendart_daily.py) | 매일 실행: 최근 7일 공시 다시 훑기 → 정기보고서 재무제표 대기열 → 사업부문 XBRL → 수집 기록 | 6-4 |
+| [`collectors/opendart_segments.py`](collectors/opendart_segments.py), [`feature_store/segment_exposure.py`](feature_store/segment_exposure.py) | XBRL 영업부문·지역 주석에서 부문별 매출·영업이익과 지역별 매출을 PIT로 추출하고, 부문→산업 규칙([`config/segment_taxonomy.json`](config/segment_taxonomy.json))으로 매출·이익 가중 산업 노출도와 부문별 신뢰도를 계산 | 5-3 |
 
 공시 원문 문서(본문·첨부)는 받지 않습니다. 이용 조건을 따로 검토해야 해서입니다.
 
@@ -57,7 +58,7 @@ pytest -q
 
 ## 다음 단계 (가이드 18장 로드맵)
 
-1. Sprint 1 나머지: 사업부문 비중 PIT 레코드와 as-of 조회(5-3), 수정주가·기업행위 PIT 관리
+1. Sprint 1 나머지: 수정주가·기업행위 PIT 관리, 종목 식별자 매핑(4-8)
 2. 다른 공급원(KRX 시세, 한국은행 ECOS) 약관 검토와 계약 등록 → 수집기 (Sprint 1 완료 조건: 재현 가능한 PIT Feature Snapshot)
 3. Sprint 2: Strategy Lab 실험 기록과 잠긴 최종 OOS 구간(7-12), 예측 기록 감사(7-10), 업종 단위 vs 사업부문 단위 노출도 비교
 
