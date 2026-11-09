@@ -25,7 +25,7 @@ Global Quant & AI Investment Intelligence Platform — 한국 주식 분석에 �
 | [`core/data_contracts.py`](core/data_contracts.py) | 데이터 공급원 계약과 목적별 권한 게이트. 저장·캐싱·보관·ML 학습·LLM 입력·공개 표시·재배포·파생 사용을 따로 확인하고, 검토 전·미등록 데이터는 막는다. FRED/ALFRED는 서면 허가 없이 저장·학습 불가 | 3-1 ~ 3-5 |
 | [`core/coverage.py`](core/coverage.py) | 분석 엔진별 필요 데이터 정의와 SUFFICIENT / LIMITED / STALE / INSUFFICIENT 판정. 모든 종목에 하나의 최소 이력을 강제하지 않는다 | 3-6 |
 | [`core/pit_schema.py`](core/pit_schema.py) | Point-in-Time 레코드(관측 기간·발표 시각·공급자 가용 시각·수집 시각 분리)와 추가 전용 저장소. 정정은 새 revision으로 덧붙이고, as-of 조회는 그 시점에 알 수 있었던 버전만 돌려준다 | 4-1, 4-2 |
-| [`core/calendar_align.py`](core/calendar_align.py) | KRX·NYSE 거래소 캘린더 기반 시간 정렬. DART 공시 가용 시각(접수일 다음 KRX 세션 08:30 KST), 서머타임·조기폐장, 시리즈별 as-of 정렬, 한국 연휴 중 미국 누적 수익률, 거래 세션 기준 staleness | 4-3 ~ 4-7 |
+| [`core/calendar_align.py`](core/calendar_align.py) | KRX·NYSE 거래소 캘린더 기반 시간 정렬. DART 공시 가용 시각(접수일 다음 KRX 세션 08:30 KST), 서머타임·조기폐장, 회사·시리즈별 as-of 정렬, 한국 연휴 중 미국 누적 수익률(빠진 세션은 계산하지 않음), 거래 세션 기준 staleness | 4-3 ~ 4-7 |
 
 ## 매일 자동 수집 (OpenDART)
 

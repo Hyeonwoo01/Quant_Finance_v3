@@ -24,17 +24,19 @@ def _random_times(rng, n, minutes=60 * 24 * 30):
 @pytest.mark.parametrize("seed", SEEDS)
 def test_align_asof_matches_brute_force(seed):
     rng = np.random.default_rng(seed)
-    series = [f"S{i}" for i in range(rng.integers(1, 5))]
-    grid = pd.DataFrame({"decision_time_utc": _random_times(rng, 40),
+    series = [f"S{i}" for i in range(rng.integers(1, 4))]
+    entities = [f"E{i}" for i in range(rng.integers(1, 4))]          # 여러 회사가 같은 series_id를 쓴다
+    grid = pd.DataFrame({"decision_time_utc": _random_times(rng, 40), "entity_id": rng.choice(entities, 40),
                          "series_id": rng.choice(series, 40)})
-    obs = pd.DataFrame({"available_at_utc": _random_times(rng, 60),
+    obs = pd.DataFrame({"available_at_utc": _random_times(rng, 60), "entity_id": rng.choice(entities, 60),
                         "series_id": rng.choice(series, 60),
-                        "value": rng.normal(size=60)}).drop_duplicates(["series_id", "available_at_utc"])
+                        "value": rng.normal(size=60)}).drop_duplicates(["entity_id", "series_id", "available_at_utc"])
 
     out = align_asof(grid, obs)
     assert len(out) == len(grid)
     for i, row in out.iterrows():
-        cand = obs[(obs.series_id == row.series_id) & (obs.available_at_utc <= row.decision_time_utc)]
+        cand = obs[(obs.entity_id == row.entity_id) & (obs.series_id == row.series_id)
+                   & (obs.available_at_utc <= row.decision_time_utc)]
         if cand.empty:
             assert row.match_status == "NO_DATA" and pd.isna(row.value)
         else:
