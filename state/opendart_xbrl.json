@@ -1,0 +1,30 @@
+{
+ "attempts": {},
+ "done": {
+  "20261106000023": {
+   "corp_code": "00855163",
+   "corp_name": "미원화학",
+   "done_at_utc": "2026-11-09T06:21:22.235069+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261106000178": {
+   "corp_code": "00105101",
+   "corp_name": "INVENI",
+   "done_at_utc": "2026-11-09T06:21:48.260198+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "OK",
+   "values": 6
+  },
+  "20261106000241": {
+   "corp_code": "00125521",
+   "corp_name": "에스엘",
+   "done_at_utc": "2026-11-09T06:22:19.370581+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 13
+  }
+ },
+ "gave_up": {}
+}
