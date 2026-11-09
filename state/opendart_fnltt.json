@@ -2,40 +2,48 @@
  "done": {
   "20261106000023": {
    "bsns_year": 2026,
+   "cfs_checked": true,
    "corp_code": "00855163",
    "corp_name": "미원화학",
-   "done_at_utc": "2026-11-09T01:24:49.685686+00:00",
+   "done_at_utc": "2026-11-09T01:28:57.922203+00:00",
    "fs_divs": [
     "OFS"
    ],
    "kind": "분기보고서",
    "period_end": "2026-09-30",
+   "rcept_dt": "20261106",
    "report_nm": "분기보고서 (2026.09)",
    "reprt_code": "11014"
   },
   "20261106000178": {
    "bsns_year": 2026,
+   "cfs_checked": true,
    "corp_code": "00105101",
    "corp_name": "INVENI",
-   "done_at_utc": "2026-11-09T01:24:53.587905+00:00",
+   "done_at_utc": "2026-11-09T01:29:09.507276+00:00",
    "fs_divs": [
-    "OFS"
+    "OFS",
+    "CFS"
    ],
    "kind": "분기보고서",
    "period_end": "2026-09-30",
+   "rcept_dt": "20261106",
    "report_nm": "분기보고서 (2026.09)",
    "reprt_code": "11014"
   },
   "20261106000241": {
    "bsns_year": 2026,
+   "cfs_checked": true,
    "corp_code": "00125521",
    "corp_name": "에스엘",
-   "done_at_utc": "2026-11-09T01:24:58.562629+00:00",
+   "done_at_utc": "2026-11-09T01:29:21.717142+00:00",
    "fs_divs": [
-    "OFS"
+    "OFS",
+    "CFS"
    ],
    "kind": "반기보고서",
    "period_end": "2026-06-30",
+   "rcept_dt": "20261106",
    "report_nm": "[기재정정]반기보고서 (2026.06)",
    "reprt_code": "11012"
   }
