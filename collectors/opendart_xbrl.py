@@ -12,6 +12,7 @@ import io
 import os
 import re
 import sys
+import time
 import xml.etree.ElementTree as ET
 import zipfile
 from collections import Counter, defaultdict
@@ -268,7 +269,11 @@ def main(argv=None) -> int:
         for sc, (rcept_no, name, rnm) in sorted(reports.items()):
             print(f"--- {name} ({sc}) {rnm} {rcept_no}")
             try:
-                doc = parse_xbrl_zip(fetch_xbrl(client, rcept_no, code))
+                t0 = time.monotonic()
+                payload = fetch_xbrl(client, rcept_no, code)
+                t1 = time.monotonic()
+                doc = parse_xbrl_zip(payload)
+                print(f"   받기 {t1 - t0:.1f}초 ({len(payload) / 1e6:.1f}MB), 해석 {time.monotonic() - t1:.1f}초")
             except (OpenDartError, ValueError, zipfile.BadZipFile) as e:
                 print(f"   실패: {e}")
                 continue
