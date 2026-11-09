@@ -106,6 +106,9 @@ class PITStore:
     def __len__(self):
         return len(self._records)
 
+    def revision(self, revision_id: str) -> Optional[PITRecord]:
+        return self._revisions.get(revision_id)
+
     def query_as_of(self, as_of_utc: datetime, purpose: Purpose, *, entity_id: Optional[str] = None,
                     series_id: Optional[str] = None, include_suspect: bool = False) -> pd.DataFrame:
         """as_of 시점에 그 목적으로 쓸 수 있었던 값 (가이드 4-2 PIT 조회 규칙 1~5).
