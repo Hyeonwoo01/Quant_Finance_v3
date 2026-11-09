@@ -10,7 +10,7 @@ from collectors.base_client import HttpResponse
 from core.data_contracts import PermissionDenied, Purpose
 from core.pit_schema import PITRecord
 from storage.manifests import BatchManifest
-from storage.pit_store import PITFileStore, record_from_json, record_to_json
+from storage.pit_store import PITFileStore, by_period_month, record_from_json, record_to_json
 from storage.raw_store import RawStore, sha256_hex
 from tests.conftest import make_contract
 
@@ -83,7 +83,7 @@ def test_pit_file_store_appends_and_reloads(tmp_path, registry):
     # 다음 달에 정정본
     later = T0 + timedelta(days=40)
     assert fs.append([rec("r2", 105.0, later, supersedes_revision_id="r1")]).added == 1
-    assert sorted(p.name for p in (tmp_path / "pit_versions" / "dart_fin").glob("*.jsonl")) == ["2026-11.jsonl", "2026-12.jsonl"]
+    assert [p.name for p in (tmp_path / "pit_versions" / "dart_fin").glob("*.jsonl")] == ["00126380.jsonl"]   # 원본·정정본이 한 파일
 
     store = PITFileStore(tmp_path, registry).load()
     assert store.query_as_of(T0 + timedelta(days=1), Purpose.ML_TRAINING)["value"].tolist() == [100.0]
@@ -108,6 +108,17 @@ def test_invalid_batch_writes_nothing(tmp_path, registry):
     with pytest.raises(ValueError, match="없는 revision"):
         fs.append([rec("ok"), rec("bad", supersedes_revision_id="nope", metric_id="x")])
     assert list(fs.iter_records()) == []
+
+
+def test_partition_by_period_month_and_selective_load(tmp_path, registry):
+    fs = PITFileStore(tmp_path, registry, partitions={"filings": by_period_month})
+    fs.append([rec("a", series_id="filings", observation_period_start=date(2026, 10, 30), observation_period_end=date(2026, 10, 30)),
+               rec("b", series_id="filings", observation_period_start=date(2026, 11, 2), observation_period_end=date(2026, 11, 2))])
+    assert sorted(p.name for p in (tmp_path / "pit_versions" / "filings").glob("*.jsonl")) == ["2026-10.jsonl", "2026-11.jsonl"]
+    assert [r.revision_id for r in fs.iter_records(parts=[("filings", "2026-11")])] == ["b"]   # 필요한 파일만 읽음
+    store = fs.load(["filings"])
+    assert store.latest(rec("x", series_id="filings", observation_period_start=date(2026, 11, 2),
+                            observation_period_end=date(2026, 11, 2)).observation_key).revision_id == "b"
 
 
 def test_series_id_must_be_a_plain_name(tmp_path, registry):
