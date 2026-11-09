@@ -171,27 +171,62 @@ def fetch_xbrl(client: OpenDartClient, rcept_no: str, reprt_code: str) -> bytes:
 
 # ---------------- 구조 점검 (probe) ----------------
 
-def summarize(doc: XbrlDoc, max_lines: int = 60) -> list[str]:
-    """어떤 차원(축)이 몇 개의 숫자 사실에 쓰였는지, 부문·지역 축의 멤버와 주요 값. 원문 서술은 출력하지 않는다."""
+CONSOLIDATION_AXIS = "ifrs-full:ConsolidatedAndSeparateFinancialStatementsAxis"
+SEGMENT_AXIS = "ifrs-full:SegmentsAxis"
+SEGMENT_ITEMS_AXIS = "ifrs-full:SegmentConsolidationItemsAxis"
+GEO_AXIS = "ifrs-full:GeographicalAreasAxis"
+PRODUCT_AXIS = "ifrs-full:ProductsAndServicesAxis"
+
+
+def split_dims(ctx: Context) -> tuple[Optional[str], tuple]:
+    """(연결·별도 멤버, 나머지 차원). DART XBRL은 거의 모든 사실에 연결·별도 차원을 붙인다."""
+    cons, other = None, []
+    for a, m in ctx.dims:
+        if a == CONSOLIDATION_AXIS:
+            cons = m
+        else:
+            other.append((a, m))
+    return cons, tuple(other)
+
+
+def summarize(doc: XbrlDoc, max_lines: int = 80) -> list[str]:
+    """부문·지역·제품 축이 어떤 모양으로 쓰였는지와 당기 주요 값. 원문 서술은 출력하지 않는다."""
     num = [f for f in doc.facts if f.value is not None]
-    lines = [f"파일 {len(doc.files)}개, context {len(doc.contexts)}개, 사실 {len(doc.facts)}개(숫자 {len(num)}개), "
-             f"레이블 {len(doc.labels)}개, sha256 {doc.payload_sha256[:12]}"]
-    axes = Counter(a for f in num for a, _ in f.context.dims)
-    lines.append("축별 숫자 사실 수: " + ", ".join(f"{a}={n}" for a, n in axes.most_common(15)))
-    ends = Counter(f.context.end for f in num if not f.context.instant)
-    cur_end = max(ends) if ends else None
-    for axis in [a for a in axes if re.search(r"Segment|Geograph|Region|Area|Product", a, re.I)][:4]:
-        facts = [f for f in num if not f.context.instant and f.context.end == cur_end and len(f.context.dims) == 1
-                 and f.context.dims[0][0] == axis]
-        concepts = Counter(f.concept for f in facts)
-        lines.append(f"[{axis}] 당기 단일차원 숫자 사실 {len(facts)}개, 개념: " +
-                     ", ".join(f"{c}={n}" for c, n in concepts.most_common(8)))
-        members = sorted({f.context.dims[0][1] for f in facts})
-        for mem in members[:14]:
-            vals = {c: v for c, v in ((f.concept, f.value) for f in facts if f.context.dims[0][1] == mem)}
-            rev = next((vals[c] for c in vals if re.search(r"Revenue|Sales", c)), None)
-            op = next((vals[c] for c in vals if re.search(r"OperatingIncome|ProfitLossFromOperating", c)), None)
-            lines.append(f"   {mem} ({doc.label(mem)}): 매출류 {rev}, 영업이익류 {op}, 개념 {len(vals)}개, 기간 {cur_end}")
+    lines = [f"사실 {len(doc.facts)}개(숫자 {len(num)}개), 레이블 {len(doc.labels)}개, sha256 {doc.payload_sha256[:12]}"]
+    dur = [f for f in num if not f.context.instant and f.context.start and f.context.end]
+    if not dur:
+        return lines
+    cur_end = max(f.context.end for f in dur)
+    longest = min(f.context.start for f in dur if f.context.end == cur_end)       # 당기 누적(가장 긴) 기간
+    cur = [f for f in dur if f.context.end == cur_end and f.context.start == longest]
+    lines.append(f"당기 {longest}~{cur_end}, 당기 숫자 사실 {len(cur)}개")
+    for axis in (SEGMENT_AXIS, GEO_AXIS, PRODUCT_AXIS):
+        hits = [(f, *split_dims(f.context)) for f in cur if any(a == axis for a, _ in f.context.dims)]
+        if not hits:
+            continue
+        shapes = Counter((cons.split(":")[-1] if cons else None, tuple(a.split(":")[-1] for a, _ in other))
+                         for _, cons, other in hits)
+        lines.append(f"[{axis}] 당기 사실 {len(hits)}개, 차원 모양: " +
+                     "; ".join(f"{c}/{'+'.join(o)}={n}" for (c, o), n in shapes.most_common(5)))
+        lines.append("   개념: " + ", ".join(f"{c}={n}" for c, n in Counter(f.concept for f, _, _ in hits).most_common(10)))
+        items = Counter(m for _, _, other in hits for a, m in other if a == SEGMENT_ITEMS_AXIS)
+        if items:
+            lines.append("   통합항목 멤버: " + ", ".join(f"{m}({doc.label(m)})={n}" for m, n in items.most_common(6)))
+        best_cons = Counter(cons for _, cons, _ in hits).most_common(1)[0][0]
+        members = defaultdict(dict)
+        for f, cons, other in hits:
+            od = dict(other)
+            if cons != best_cons or set(od) - {axis, SEGMENT_ITEMS_AXIS}:
+                continue
+            members[od[axis]][(f.concept, od.get(SEGMENT_ITEMS_AXIS))] = f.value
+        for mem, vals in list(members.items())[:14]:
+            def pick(pat):
+                for (c, item), v in vals.items():
+                    if re.search(pat, c) and item in (None, "ifrs-full:OperatingSegmentsMember"):
+                        return f"{v:,.0f}"
+                return None
+            lines.append(f"   {mem} ({doc.label(mem)}): 매출 {pick(r'Revenue|Sales')}, "
+                         f"영업이익 {pick(r'OperatingIncome|ProfitLossFromOperating|OperatingProfit')}, 사실 {len(vals)}개")
     return lines[:max_lines]
 
 
@@ -214,7 +249,8 @@ def _find_reports(client: OpenDartClient, stock_codes: list, detail_ty: str, bgn
 
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description="OpenDART XBRL 구조 점검 (원본은 저장하지 않음)")
-    ap.add_argument("--stocks", default="005930,000660,005380,051910,005490,009540,012450,035420,006400,000270")
+    ap.add_argument("--stocks", default="005930,000660,005380,051910,005490,009540,012450,035420,006400,000270,"
+                                       "066570,096770,028260,373220,068270")
     ap.add_argument("--annual", default="2026-03-01:2026-04-15", help="사업보고서 접수일 범위")
     ap.add_argument("--half", default="2026-08-01:2026-08-31", help="반기보고서 접수일 범위")
     ap.add_argument("--max-calls", type=int, default=200)
