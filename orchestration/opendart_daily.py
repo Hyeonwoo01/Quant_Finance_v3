@@ -65,7 +65,19 @@ class FsState:
         if not p.exists():
             return cls()
         d = json.loads(p.read_text(encoding="utf-8"))
-        return cls({k: Pending(**v) for k, v in d.get("pending", {}).items()}, d.get("done", {}), d.get("gave_up", {}))
+        st = cls({k: Pending(**v) for k, v in d.get("pending", {}).items()}, d.get("done", {}), d.get("gave_up", {}))
+        st.requeue_unchecked_cfs()
+        return st
+
+    def requeue_unchecked_cfs(self) -> None:
+        """연결재무제표를 묻지 않고 끝낸 항목(비고 '연'으로 판단하던 시기)은 대기열로 되돌린다.
+        다시 받으면 별도재무제표는 '변화 없음'으로 건너뛰고 연결재무제표만 새로 들어간다."""
+        for rcept_no, d in list(self.done.items()):
+            if d.get("cfs_checked") or "CFS" in d.get("fs_divs", []):
+                continue
+            self.pending[rcept_no] = Pending(rcept_no, d["corp_code"], d.get("corp_name", ""), d["report_nm"],
+                                             d.get("rcept_dt", rcept_no[:8]), "", datetime.now(timezone.utc).isoformat())
+            del self.done[rcept_no]
 
     def save(self, data_dir: Path) -> None:
         p = data_dir / STATE_FILE
@@ -218,12 +230,13 @@ class DailyRun:
             m.count("not_yet")
             return False
         y, code, results = found
-        if "연" in item.rm:
-            r, sha, ok = self._fetch(item, y, code, "CFS", run_id, m)
-            if ok:
-                results.append(("CFS", r, sha))
-            elif r.status != NO_DATA:
-                m.warnings.append(f"{item.rcept_no}: 연결 재무제표 응답의 접수번호가 다름 {sorted({x.get('rcept_no') for x in r.rows})}")
+        # 연결재무제표는 항상 묻는다. 공시 목록 비고(rm)의 '연' 표시는 실제로 거의 쓰이지 않아(첫 수집 2,064건 중 1건)
+        # 그것으로 연결 여부를 판단할 수 없다. 종속회사가 없는 회사는 013(데이터 없음)이 온다.
+        r, sha, ok = self._fetch(item, y, code, "CFS", run_id, m)
+        if ok:
+            results.append(("CFS", r, sha))
+        elif r.status != NO_DATA:
+            m.warnings.append(f"{item.rcept_no}: 연결 재무제표 응답의 접수번호가 다름 {sorted({x.get('rcept_no') for x in r.rows})}")
 
         filing = FilingRef(item.rcept_no, item.corp_code, parse_rcept_dt(item.rcept_dt), rep.period_end)
         ingested = self.now()
@@ -251,8 +264,10 @@ class DailyRun:
                 m.warnings.append(f"{item.rcept_no} {fs_div}: 같은 revision_id인데 내용이 다름 {list(res.conflicts)[:10]}")
             fs_divs.append(fs_div)
         state.done[item.rcept_no] = {"corp_code": item.corp_code, "corp_name": item.corp_name, "report_nm": item.report_nm,
+                                     "rcept_dt": item.rcept_dt,
                                      "kind": rep.kind, "period_end": rep.period_end.isoformat(), "bsns_year": y,
-                                     "reprt_code": code, "fs_divs": fs_divs, "done_at_utc": ingested.isoformat()}
+                                     "reprt_code": code, "fs_divs": fs_divs, "cfs_checked": True,
+                                     "done_at_utc": ingested.isoformat()}
         del state.pending[item.rcept_no]
         m.count("reports")
         return True

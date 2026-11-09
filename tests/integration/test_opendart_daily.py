@@ -39,7 +39,7 @@ def accounts(op):
 @pytest.fixture
 def world():
     fake = FakeDart()
-    fake.filing("20261106000100", SAMSUNG, "분기보고서 (2026.09)", rm="유연")
+    fake.filing("20261106000100", SAMSUNG, "분기보고서 (2026.09)", rm="")      # 실제 데이터처럼 비고에 '연'이 없어도 연결을 묻는다
     fake.filing("20261106000200", SAMSUNG, "주요사항보고서(자기주식취득결정)")
     fake.filing("20261106000300", KOSDAQ_CO, "분기보고서 (2026.09)", corp_cls="K", rm="코")
     return fake
@@ -66,8 +66,8 @@ def test_daily_runs_over_several_days(world, tmp_path):
     assert not st.pending and st.done["20261106000100"]["fs_divs"] == ["OFS", "CFS"]
 
     # 3일차: 비고에 '정'이 붙고, [기재정정] 보고서가 들어옴 — 연결 영업이익만 바뀜
-    fake.filing("20261106000100", SAMSUNG, "분기보고서 (2026.09)", rm="유연정")
-    fake.filing("20261110000400", SAMSUNG, "[기재정정]분기보고서 (2026.09)", rm="유연")
+    fake.filing("20261106000100", SAMSUNG, "분기보고서 (2026.09)", rm="정")
+    fake.filing("20261110000400", SAMSUNG, "[기재정정]분기보고서 (2026.09)", rm="")
     fake.statement("20261110000400", SAMSUNG, 2026, "11014", "OFS", accounts("10,000"))
     fake.statement("20261110000400", SAMSUNG, 2026, "11014", "CFS", accounts("11,000"))
     clock.t += timedelta(days=1)
@@ -92,13 +92,31 @@ def test_daily_runs_over_several_days(world, tmp_path):
 
     filings = store.query_as_of(datetime(2026, 11, 10, 23, 30, tzinfo=UTC), Purpose.PUBLIC_DISPLAY, series_id="dart_filings")
     rm = {r.source_document_id: json.loads(r.value)["rm"] for r in filings.itertuples()}
-    assert rm["20261106000100"] == "유연정" and len(rm) == 4
+    assert rm["20261106000100"] == "정" and len(rm) == 4
 
     # 저장된 어떤 파일에도 인증키가 없다
     for p in tmp_path.rglob("*"):
         if p.is_file() and p.suffix in (".json", ".jsonl"):
             assert TEST_KEY not in p.read_text(encoding="utf-8")
     assert len(list((tmp_path / "manifests").rglob("*.json"))) == 6
+
+
+def test_done_items_without_cfs_check_are_requeued(world, tmp_path):
+    """연결재무제표를 묻지 않고 끝냈던 항목(이전 버전)은 다음 실행에서 연결만 새로 받는다."""
+    fake, clock = world, Clock(datetime(2026, 11, 8, 21, 17, tzinfo=UTC))
+    fake.statement("20261106000100", SAMSUNG, 2026, "11014", "OFS", accounts("10,000"))
+    make_run(fake, tmp_path, clock).run(end=date(2026, 11, 8), lookback_days=3)
+    st = FsState.load(tmp_path)
+    assert st.done["20261106000100"]["fs_divs"] == ["OFS"] and st.done["20261106000100"]["cfs_checked"]
+    # 이전 버전이 남긴 상태처럼 cfs_checked를 지운다
+    d = st.done["20261106000100"]
+    del d["cfs_checked"], d["rcept_dt"]
+    st.save(tmp_path)
+    fake.statement("20261106000100", SAMSUNG, 2026, "11014", "CFS", accounts("12,000"))
+    clock.t += timedelta(days=1)
+    res = make_run(fake, tmp_path, clock).run(end=date(2026, 11, 9), lookback_days=1)
+    assert res.fs_manifest.counts["added"] == 4 and res.fs_manifest.counts["unchanged"] == 4
+    assert FsState.load(tmp_path).done["20261106000100"]["fs_divs"] == ["OFS", "CFS"]
 
 
 def test_fatal_status_stops_run_and_marks_failure(world, tmp_path):
