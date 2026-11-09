@@ -1,0 +1,76 @@
+name: macro-daily
+
+# 매일 07:47 KST(전날 22:47 UTC)에 관세청 품목별 수출입·한국은행 ECOS·미국 EIA 지표를 받아 data 브랜치에 쌓는다.
+# 한국 장 시작 전 컷오프(08:30 KST) 전에 끝나도록 돈다. OpenDART 수집과 같은 data 브랜치를 쓰므로 같은 concurrency 그룹.
+# 수동 실행: mode=check면 저장 없이 인증키·연결만, probe면 저장 없이 응답 구조와 품목 코드 후보를 출력한다.
+on:
+  schedule:
+    - cron: "47 22 * * *"
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "collect = 수집해서 data 브랜치에 저장, check = 인증키·연결 확인, probe = 응답 구조 확인 (저장 없음)"
+        type: choice
+        options: [collect, check, probe]
+        default: collect
+
+permissions:
+  contents: write
+
+concurrency:
+  group: data-branch
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      PYTHONUNBUFFERED: "1"
+      MODE: ${{ inputs.mode || 'collect' }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: data 브랜치 가져오기
+        if: env.MODE == 'collect'
+        uses: actions/checkout@v4
+        with:
+          ref: data
+          path: data
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: 수집
+        id: collect
+        continue-on-error: true
+        env:
+          DATA_GO_KR_KEY: ${{ secrets.DATA_GO_KR_KEY }}
+          ECOS_API_KEY: ${{ secrets.ECOS_API_KEY }}
+          EIA_API_KEY: ${{ secrets.EIA_API_KEY }}
+        run: |
+          case "$MODE" in
+            check) python -m orchestration.macro_daily --check ;;
+            probe) python -m orchestration.macro_daily --probe ;;
+            *) python -m orchestration.macro_daily --data-dir data ;;
+          esac
+      - name: data 브랜치에 저장 (실패해도 받은 만큼과 수집 기록은 남김)
+        if: always() && env.MODE == 'collect'
+        working-directory: data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then echo "변경 없음"; exit 0; fi
+          git commit -q -m "공공 지표 수집 $(date -u +%Y-%m-%dT%H:%MZ) (${{ steps.collect.outcome }})"
+          for i in 1 2 3; do
+            git push origin HEAD:data && exit 0
+            git pull --rebase origin data
+          done
+          exit 1
+      - name: 수집 실패 표시
+        if: steps.collect.outcome == 'failure'
+        run: |
+          echo "수집 단계가 실패했습니다. 위 '수집' 로그와 data 브랜치 manifests/를 확인하세요."
+          exit 1

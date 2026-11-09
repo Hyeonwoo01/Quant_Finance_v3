@@ -2,6 +2,7 @@
 
 [![tests](https://github.com/Hyeonwoo01/Quant_Finance_v3/actions/workflows/tests.yml/badge.svg)](https://github.com/Hyeonwoo01/Quant_Finance_v3/actions/workflows/tests.yml)
 [![opendart-daily](https://github.com/Hyeonwoo01/Quant_Finance_v3/actions/workflows/opendart-daily.yml/badge.svg?branch=main)](https://github.com/Hyeonwoo01/Quant_Finance_v3/actions/workflows/opendart-daily.yml)
+[![macro-daily](https://github.com/Hyeonwoo01/Quant_Finance_v3/actions/workflows/macro-daily.yml/badge.svg?branch=main)](https://github.com/Hyeonwoo01/Quant_Finance_v3/actions/workflows/macro-daily.yml)
 
 Global Quant & AI Investment Intelligence Platform — 한국 주식 분석에 미국·글로벌 산업·거시 데이터를 더해,
 그 정보가 실제로 예측·위험·기업가치 판단을 개선하는지 Point-in-Time으로 검증하는 플랫폼입니다 (설계·구현 진행 중).
@@ -36,7 +37,7 @@ GitHub Actions [`opendart-daily`](.github/workflows/opendart-daily.yml)가 매�
 
 | 모듈 | 하는 일 | 가이드 |
 |---|---|---|
-| [`core/source_registry.py`](core/source_registry.py) | 약관을 확인하고 등록한 공급원 계약 (지금은 OpenDART 공시 목록·재무제표) | 3-1, 17 |
+| [`core/source_registry.py`](core/source_registry.py) | 약관을 확인하고 등록한 공급원 계약 (OpenDART, 관세청, 한국은행 ECOS, 미국 EIA) | 3-1, 17 |
 | [`collectors/base_client.py`](collectors/base_client.py) | 호출 속도·예산 제한, 429·5xx 재시도(지수 백오프·Retry-After), 인증키 가림, 페이지 완결성·스키마 변화 확인 | 6-3 |
 | [`collectors/opendart.py`](collectors/opendart.py) | OpenDART 호출과 PIT 변환. 정정 보고서는 바뀐 계정만 새 버전, 가용 시각은 접수일 규칙과 실제 수집 시각 중 늦은 쪽 | 4-3 |
 | [`storage/`](storage/) | 변경 불가 원본(내용 주소·해시 검증), PIT 버전 파일(추가 전용·재수집 중복 없음), 실행별 수집 기록 | 6-1, 6-2 |
@@ -44,6 +45,18 @@ GitHub Actions [`opendart-daily`](.github/workflows/opendart-daily.yml)가 매�
 | [`collectors/opendart_segments.py`](collectors/opendart_segments.py), [`feature_store/segment_exposure.py`](feature_store/segment_exposure.py) | XBRL 영업부문·지역 주석에서 부문별 매출·영업이익과 지역별 매출을 PIT로 추출하고, 부문→산업 규칙([`config/segment_taxonomy.json`](config/segment_taxonomy.json))으로 매출·이익 가중 산업 노출도와 부문별 신뢰도를 계산 | 5-3 |
 
 공시 원문 문서(본문·첨부)는 받지 않습니다. 이용 조건을 따로 검토해야 해서입니다.
+
+## 매일 자동 수집 (공공 산업·거시 지표)
+
+GitHub Actions [`macro-daily`](.github/workflows/macro-daily.yml)가 매일 07:47 KST에 관세청 품목별 수출입실적(반도체·선박·자동차·축전지),
+한국은행 ECOS(기준금리·국고채 금리·수출물가), 미국 EIA(원유 재고·천연가스 저장량)를 받아 같은 `data` 브랜치에 쌓습니다.
+세 곳 모두 최신 값만 주므로 가용 시각은 실제로 받은 시각이고, 값이 바뀌면 이전 버전을 가리키는 새 버전으로 남깁니다.
+ECOS는 한국은행이 작성한 통계만 받습니다(다른 기관 작성 통계는 받지 않고 경고로 남김).
+
+| 모듈 | 하는 일 | 가이드 |
+|---|---|---|
+| [`collectors/macro_sources.py`](collectors/macro_sources.py) | 관세청·ECOS·EIA 호출, 응답 오류 구분(인증·자료 없음), 관측값 → PIT 레코드 | 5-2, 6-3 |
+| [`orchestration/macro_daily.py`](orchestration/macro_daily.py) | 매일 실행: 공급원별로 키가 있는 것만 받고, 인증 오류·예산 소진이면 그 공급원만 멈춤. 받을 시리즈는 [`config/macro_series.json`](config/macro_series.json) | 6-4 |
 
 ## 테스트
 
