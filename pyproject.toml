@@ -1,0 +1,13 @@
+[project]
+name = "quant-finance-v3"
+version = "0.1.0"
+description = "Global Quant & AI Investment Intelligence Platform — 한국 주식 + 미국·글로벌 데이터, Point-in-Time 검증"
+requires-python = ">=3.12"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+filterwarnings = [
+    # exchange_calendars 4.13.2 내부의 Series.values 사용에서 나는 pandas 4 예고 경고 — 우리 코드가 아님. 라이브러리를 올릴 때 다시 확인한다.
+    "ignore:Series.values returning an ndarray that drops timezone:pandas.errors.Pandas4Warning",
+]
