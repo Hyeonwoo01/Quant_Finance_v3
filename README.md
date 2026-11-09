@@ -17,7 +17,9 @@
 | `raw/<source_id>/index/<날짜>.jsonl` | 받을 때마다 한 줄: 요청 파라미터(인증키 가림)·HTTP 상태·수신 시각·원본 해시 |
 | `pit_versions/dart_filings/<접수 연-월>.jsonl` | 공시 목록 Point-in-Time 레코드. 비고 변경은 이전 버전을 가리키는 새 버전 |
 | `pit_versions/dart_fs/<고유번호>.jsonl` | 재무제표 계정별 Point-in-Time 레코드. 정정 보고서는 바뀐 계정만 새 버전 |
+| `pit_versions/dart_segments/<고유번호>.jsonl` | 정기보고서 XBRL의 영업부문별 매출·영업이익(또는 부문 이익)과 지역별 매출, 추출 상태. XBRL 원본 zip은 서술형 주석이 있어 저장하지 않고 해시만 남김 |
 | `manifests/<source_id>/<날짜>/<실행 ID>.json` | 실행별 수집 기록: 요청·건수·경고·오류·권한 상태·코드 버전 |
 | `state/opendart_fnltt.json` | 재무제표 대기열 (API에 아직 안 올라온 보고서)·완료·포기 목록 |
+| `state/opendart_xbrl.json` | 사업부문 XBRL 처리 상태 (시도 횟수·완료·포기) |
 
 `available_at_utc`가 그 값을 쓸 수 있게 된 시각입니다: 접수일 다음 KRX 거래일 08:30 KST와 실제로 받은 시각 이후 첫 08:30 중 늦은 쪽.
