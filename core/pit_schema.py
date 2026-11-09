@@ -86,6 +86,7 @@ class PITStore:
         self.registry = registry
         self._records: list[PITRecord] = []
         self._revisions: dict[str, PITRecord] = {}
+        self._latest: dict[tuple, PITRecord] = {}
 
     def append(self, rec: PITRecord) -> None:
         if rec.revision_id in self._revisions:
@@ -102,9 +103,19 @@ class PITStore:
                 raise ValueError("정정본이 원본보다 먼저 이용 가능했을 수 없음")
         self._records.append(rec)
         self._revisions[rec.revision_id] = rec
+        cur = self._latest.get(rec.observation_key)
+        if cur is None or (rec.available_at_utc, rec.ingested_at_utc) >= (cur.available_at_utc, cur.ingested_at_utc):
+            self._latest[rec.observation_key] = rec
 
     def __len__(self):
         return len(self._records)
+
+    def revision(self, revision_id: str) -> Optional[PITRecord]:
+        return self._revisions.get(revision_id)
+
+    def latest(self, observation_key: tuple) -> Optional[PITRecord]:
+        """그 관측값의 가장 늦게 이용 가능해진 버전 (권한·품질과 무관한 저장 기준). 정정본이 가리킬 대상을 찾을 때 쓴다."""
+        return self._latest.get(observation_key)
 
     def query_as_of(self, as_of_utc: datetime, purpose: Purpose, *, entity_id: Optional[str] = None,
                     series_id: Optional[str] = None, include_suspect: bool = False) -> pd.DataFrame:
