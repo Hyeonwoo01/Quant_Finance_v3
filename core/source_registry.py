@@ -36,7 +36,17 @@ OPENDART_FINANCIALS = DataSourceContract(
     revision_policy="[기재정정] 보고서는 바뀐 계정만 새 revision으로 이전 버전을 가리킴",
     max_staleness_policy_id="kr_quarterly_report", **_OPENDART_PERMISSIONS)
 
-REGISTERED_CONTRACTS = (OPENDART_LIST, OPENDART_FINANCIALS)
+# XBRL 원본 zip에는 서술형 주석(공시 제출인의 저작물일 수 있음)이 들어 있다. 원본은 저장·재배포·LLM 입력하지 않고,
+# 메모리에서 숫자 사실(부문별·지역별 매출·영업이익 등)만 뽑아 저장한다. 숫자 사실은 전체 재무제표 API와 같은 성격이다.
+OPENDART_XBRL = DataSourceContract(
+    contract_id="opendart_xbrl_v1", provider="OpenDART", source_id="opendart_xbrl",
+    series_or_endpoint="fnlttXbrl.xml (재무제표 원본파일 XBRL: 주석의 부문·지역 숫자 사실만 추출)", frequency="quarterly",
+    unit="currency_amount", availability_policy_id="dart_next_krx_session_0830_or_ingested",
+    revision_policy="[기재정정] 보고서의 값이 바뀐 사실만 새 revision", max_staleness_policy_id="kr_quarterly_report",
+    **{**_OPENDART_PERMISSIONS, "archival_allowed": False, "llm_input_allowed": False,
+       "raw_redistribution_allowed": False, "approval_status": ApprovalStatus.APPROVED_FOR_PUBLIC_DISPLAY})
+
+REGISTERED_CONTRACTS = (OPENDART_LIST, OPENDART_FINANCIALS, OPENDART_XBRL)
 
 
 def default_registry() -> ContractRegistry:

@@ -9,9 +9,9 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: "collect = 수집해서 data 브랜치에 저장, check = 저장 없이 인증키·연결만 확인"
+        description: "collect = 수집해서 data 브랜치에 저장, check = 저장 없이 인증키·연결만 확인, probe-xbrl = 대형주 XBRL 구조 점검(저장 없음)"
         type: choice
-        options: [collect, check]
+        options: [collect, check, probe-xbrl]
         default: collect
       lookback_days:
         description: "어제부터 거꾸로 며칠 치 접수일을 훑을지 (1~60)"
@@ -55,6 +55,8 @@ jobs:
           if [ "$LOOKBACK" -lt 1 ] || [ "$LOOKBACK" -gt 60 ]; then echo "lookback_days는 1~60"; exit 2; fi
           if [ "$MODE" = "check" ]; then
             python -m orchestration.opendart_daily --check
+          elif [ "$MODE" = "probe-xbrl" ]; then
+            python -m collectors.opendart_xbrl
           else
             python -m orchestration.opendart_daily --data-dir data --lookback-days "$LOOKBACK"
           fi
