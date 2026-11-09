@@ -139,17 +139,25 @@ def parse_retry_after(value: Optional[str], now: datetime) -> Optional[float]:
 
 
 class BaseClient:
-    def __init__(self, base_url: str, *, secret_params: Iterable[str] = (), rate: Optional[TokenBucket] = None,
+    def __init__(self, base_url: str, *, secret_params: Iterable[str] = (), secret_values: Iterable[str] = (),
+                 rate: Optional[TokenBucket] = None,
                  budget: Optional[CallBudget] = None, max_retries: int = 4, backoff_base: float = 1.0,
                  backoff_cap: float = 60.0, max_retry_after: float = 300.0, timeout: float = 30.0,
                  transport: Transport = urllib_transport, sleep=time.sleep, rng: Optional[random.Random] = None,
                  now=lambda: datetime.now(timezone.utc)):
         self.base_url = base_url.rstrip("/")
         self.secret_params = SECRET_PARAM_NAMES | {s.lower() for s in secret_params}
+        # 주소 경로에 들어가는 키(예: ECOS)처럼 이름이 없는 비밀 값. 주소·오류·로그에서 지운다
+        self.secret_values = tuple(v for v in secret_values if v)
         self.rate, self.budget = rate, budget
         self.max_retries, self.backoff_base, self.backoff_cap = max_retries, backoff_base, backoff_cap
         self.max_retry_after, self.timeout = max_retry_after, timeout
         self.transport, self.sleep, self.rng, self.now = transport, sleep, rng or random.Random(), now
+
+    def scrub(self, text: str) -> str:
+        for v in self.secret_values:
+            text = text.replace(v, REDACTED)
+        return text
 
     def _backoff(self, attempt: int) -> float:
         """full jitter: 0 ~ min(cap, base·2^(attempt−1)) 사이 무작위."""
@@ -158,7 +166,8 @@ class BaseClient:
     def get(self, path: str, params: Mapping[str, object]) -> HttpResponse:
         url = f"{self.base_url}/{path.lstrip('/')}"
         send = {k: str(v) for k, v in params.items() if v is not None}
-        shown = redact(send, self.secret_params)
+        shown = {k: self.scrub(v) for k, v in redact(send, self.secret_params).items()}
+        shown_url = self.scrub(url)
         requested_at = self.now()
         for attempt in range(1, self.max_retries + 2):
             if self.rate:
@@ -174,16 +183,16 @@ class BaseClient:
                 headers = dict(headers or {})
                 if status not in RETRYABLE_STATUS:
                     if status >= 400:
-                        raise RequestFailed(f"{url} {shown}: HTTP {status}", status, attempt)
-                    return HttpResponse(url, shown, status, body, headers, attempt, requested_at, self.now())
+                        raise RequestFailed(f"{shown_url} {shown}: HTTP {status}", status, attempt)
+                    return HttpResponse(shown_url, shown, status, body, headers, attempt, requested_at, self.now())
                 reason = f"HTTP {status}"
             if attempt > self.max_retries:
-                raise RequestFailed(f"{url} {shown}: {reason}, {attempt}회 시도 후 실패", status, attempt)
+                raise RequestFailed(f"{shown_url} {shown}: {reason}, {attempt}회 시도 후 실패", status, attempt)
             ra = parse_retry_after({k.lower(): v for k, v in headers.items()}.get("retry-after"), self.now())
             if ra is not None and ra > self.max_retry_after:
-                raise RequestFailed(f"{url} {shown}: Retry-After {ra:.0f}초 — 기다리지 않고 멈춤", status, attempt)
+                raise RequestFailed(f"{shown_url} {shown}: Retry-After {ra:.0f}초 — 기다리지 않고 멈춤", status, attempt)
             delay = ra if ra is not None else self._backoff(attempt)
-            log.warning("%s %s: %s, %.1f초 뒤 재시도 (%d/%d)", url, shown, reason, delay, attempt, self.max_retries)
+            log.warning("%s %s: %s, %.1f초 뒤 재시도 (%d/%d)", shown_url, shown, reason, delay, attempt, self.max_retries)
             self.sleep(delay)
         raise AssertionError("도달하지 않음")
 

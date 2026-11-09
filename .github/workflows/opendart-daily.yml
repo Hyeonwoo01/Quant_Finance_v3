@@ -21,7 +21,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: opendart-daily
+  group: data-branch          # 같은 data 브랜치에 커밋하는 macro-daily와 동시에 돌지 않게
   cancel-in-progress: false
 
 jobs:
@@ -40,7 +40,7 @@ jobs:
         with:
           ref: data
           path: data
-          fetch-depth: 1
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: "3.13"
@@ -70,7 +70,11 @@ jobs:
           git add -A
           if git diff --cached --quiet; then echo "변경 없음"; exit 0; fi
           git commit -q -m "OpenDART 수집 $(date -u +%Y-%m-%dT%H:%MZ) (${{ steps.collect.outcome }})"
-          git push origin HEAD:data
+          for i in 1 2 3; do
+            git push origin HEAD:data && exit 0
+            git pull --rebase origin data
+          done
+          exit 1
       - name: 수집 실패 표시
         if: steps.collect.outcome == 'failure'
         run: |

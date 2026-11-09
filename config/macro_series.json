@@ -1,0 +1,29 @@
+{
+  "version": "0.1",
+  "note": "부문별 글로벌 드라이버 후보 (가이드 5-2). segments는 config/segment_taxonomy.json의 산업 ID. 연구 가설이며 Model A/B/C로 기여를 검증한다. 바꾸면 version을 올린다.",
+  "kcs": {
+    "months_back": 14,
+    "hs_codes": [
+      {"code": "8542", "label": "전자집적회로 (반도체)", "segments": ["semiconductor"]},
+      {"code": "8901", "label": "여객선·화물선 등 선박", "segments": ["shipbuilding"]},
+      {"code": "8703", "label": "승용자동차", "segments": ["auto"]},
+      {"code": "850760", "label": "리튬이온 축전지", "segments": ["battery"]}
+    ]
+  },
+  "ecos": {
+    "series": [
+      {"stat": "722Y001", "cycle": "M", "item": "0101000", "label": "한국은행 기준금리", "back": 24},
+      {"stat": "817Y002", "cycle": "D", "item": "010200000", "label": "국고채 3년 금리", "back": 45},
+      {"stat": "402Y014", "cycle": "M", "item": "*AA", "label": "수출물가지수 총지수", "back": 24}
+    ],
+    "probe_tables": ["402Y014"],
+    "probe_keywords": ["반도체", "메모리", "선박", "자동차", "석탄및석유", "화학", "1차금속", "전지", "디스플레이", "컴퓨터"]
+  },
+  "eia": {
+    "weeks_back": 26,
+    "series": [
+      {"route": "petroleum/stoc/wstk", "series": "WCESTUS1", "frequency": "weekly", "label": "미국 원유 재고 (전략비축유 제외)", "segments": ["energy_refining"]},
+      {"route": "natural-gas/stor/wkly", "series": "NW2_EPG0_SWO_R48_BCF", "frequency": "weekly", "label": "미국 천연가스 저장량 (본토 48개 주)", "segments": ["energy_refining", "chemicals_materials"]}
+    ]
+  }
+}
