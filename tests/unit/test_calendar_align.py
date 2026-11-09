@@ -84,20 +84,23 @@ def test_us_close_available_includes_provider_delay():
     assert us_close_available_at("2026-11-02", timedelta(hours=2)) == utc(2026, 11, 2, 23, 0)
 
 
-# ---------- 시리즈별 as-of 정렬 ----------
+# ---------- 회사·시리즈별 as-of 정렬 ----------
 
-def _grid(times, series):
-    return pd.DataFrame({"decision_time_utc": pd.to_datetime(times, utc=True, format="ISO8601"), "series_id": series})
+def _grid(times, entities, series):
+    return pd.DataFrame({"decision_time_utc": pd.to_datetime(times, utc=True, format="ISO8601"),
+                         "entity_id": entities, "series_id": series})
 
 
-def _obs(times, series, values):
-    return pd.DataFrame({"available_at_utc": pd.to_datetime(times, utc=True, format="ISO8601"), "series_id": series, "value": values})
+def _obs(times, entities, series, values):
+    return pd.DataFrame({"available_at_utc": pd.to_datetime(times, utc=True, format="ISO8601"),
+                         "entity_id": entities, "series_id": series, "value": values})
 
 
 def test_align_asof_is_per_series_and_never_uses_future():
-    grid = _grid(["2026-11-09 00:00", "2026-11-09 00:00", "2026-11-10 00:00", "2026-11-10 00:00"], ["A", "B", "A", "B"])
+    grid = _grid(["2026-11-09 00:00", "2026-11-09 00:00", "2026-11-10 00:00", "2026-11-10 00:00"],
+                 ["KR"] * 4, ["A", "B", "A", "B"])
     obs = _obs(["2026-11-08 12:00", "2026-11-09 00:00", "2026-11-09 06:00", "2026-11-10 00:00:01"],
-               ["A", "A", "B", "B"], [1.0, 2.0, 10.0, 11.0])
+               ["KR"] * 4, ["A", "A", "B", "B"], [1.0, 2.0, 10.0, 11.0])
     out = align_asof(grid, obs)
     assert out["series_id"].tolist() == ["A", "B", "A", "B"]           # 입력 순서 유지
     assert out["value"].tolist()[0] == 2.0                              # 같은 시각은 사용 가능
@@ -108,9 +111,20 @@ def test_align_asof_is_per_series_and_never_uses_future():
     assert (out.loc[m, "available_at_utc"] <= out.loc[m, "decision_time_utc"]).all()
 
 
+def test_same_series_name_of_different_companies_never_mix():
+    """series_id만으로 묶으면 삼성전자 매출이 SK하이닉스 행에 붙는다 (v2.1 예시 코드의 오류)."""
+    grid = _grid(["2026-11-10 00:00", "2026-11-10 00:00"], ["005930", "000660"], ["revenue", "revenue"])
+    obs = _obs(["2026-11-09 23:30"], ["005930"], ["revenue"], [100.0])
+    out = align_asof(grid, obs)
+    assert out["value"].tolist()[0] == 100.0 and np.isnan(out["value"].tolist()[1])
+    assert out["match_status"].tolist() == ["OK", "NO_DATA"]
+    mixed = align_asof(grid, obs, by="series_id")                      # 잘못된 그룹: 섞이는 것을 보여 준다
+    assert mixed["value"].tolist() == [100.0, 100.0]
+
+
 def test_align_asof_accepts_other_timezones_and_rejects_bad_input():
-    grid = _grid(["2026-11-09 00:00"], ["A"])
-    obs = _obs(["2026-11-08 23:30"], ["A"], [1.0])
+    grid = _grid(["2026-11-09 00:00"], ["KR"], ["A"])
+    obs = _obs(["2026-11-08 23:30"], ["KR"], ["A"], [1.0])
     obs["available_at_utc"] = obs["available_at_utc"].dt.tz_convert("Asia/Seoul")
     assert align_asof(grid, obs)["value"].tolist() == [1.0]
 
@@ -119,7 +133,7 @@ def test_align_asof_accepts_other_timezones_and_rejects_bad_input():
     with pytest.raises(ValueError, match="revision"):
         align_asof(grid, pd.concat([obs, obs]))
     with pytest.raises(ValueError, match="열이 필요"):
-        align_asof(grid.drop(columns="series_id"), obs)
+        align_asof(grid.drop(columns="entity_id"), obs)
 
 
 # ---------- 한국 연휴 중 미국 수익률 누적 ----------
@@ -129,27 +143,41 @@ def _us_close(prices: dict) -> pd.Series:
     return pd.Series(list(prices.values()), index=idx, dtype=float)
 
 
+CHUSEOK = {"2026-09-21": 99.0, "2026-09-22": 100.0, "2026-09-23": 102.0, "2026-09-24": 101.0,
+           "2026-09-25": 104.0, "2026-09-28": 110.0}
+
+
 def test_us_return_accumulates_over_chuseok():
-    close = _us_close({"2026-09-21": 99.0, "2026-09-22": 100.0, "2026-09-23": 102.0, "2026-09-24": 101.0,
-                       "2026-09-25": 104.0, "2026-09-28": 110.0})
+    close = _us_close(CHUSEOK)
     prev, cut = kr_decision_cutoff("2026-09-23"), kr_decision_cutoff("2026-09-28")
     assert (prev, cut) == (utc(2026, 9, 22, 23, 30), utc(2026, 9, 27, 23, 30))
     r = us_cumulative_return(close, prev, cut)
-    assert r["n_sessions"] == 3                                   # 9/23, 9/24, 9/25 세션 모두
-    assert r["return"] == pytest.approx(104.0 / 100.0 - 1)        # 마지막 종가 복사가 아니라 누적
+    assert r["status"] == "OK" and r["n_sessions"] == 3                      # 9/23, 9/24, 9/25 세션 모두
+    assert r["expected_sessions"] == ["2026-09-23", "2026-09-24", "2026-09-25"] and r["missing_sessions"] == []
+    assert r["return"] == pytest.approx(104.0 / 100.0 - 1)                   # 마지막 종가 복사가 아니라 누적
     rets = close.pct_change().loc[(close.index > prev) & (close.index <= cut)]
     assert r["return"] == pytest.approx(float(np.prod(1 + rets) - 1))
     assert r["start_at"] == us_close_available_at("2026-09-22") and r["end_at"] == us_close_available_at("2026-09-25")
 
 
+def test_missing_us_session_is_not_hidden():
+    """구간 안 종가가 하나라도 빠지면 남은 값으로 계산하지 않는다 — 빠진 날의 큰 움직임을 숨길 수 있다."""
+    prev, cut = kr_decision_cutoff("2026-09-23"), kr_decision_cutoff("2026-09-28")
+    r = us_cumulative_return(_us_close({k: v for k, v in CHUSEOK.items() if k != "2026-09-25"}), prev, cut)
+    assert r["status"] == "INCOMPLETE" and np.isnan(r["return"]) and r["missing_sessions"] == ["2026-09-25"]
+    # 시작 기준 종가(9/22)가 빠지면 더 오래된 9/21 종가로 대신하지 않는다
+    r = us_cumulative_return(_us_close({k: v for k, v in CHUSEOK.items() if k != "2026-09-22"}), prev, cut)
+    assert r["status"] == "INCOMPLETE" and np.isnan(r["return"]) and r["missing_sessions"] == ["2026-09-22"]
+
+
 def test_us_return_edge_cases():
     close = _us_close({"2026-11-25": 100.0, "2026-11-27": 101.0})
-    # 추수감사절(11/26) 미국 휴장: 11/27 08:30 KST 컷오프 사이에는 새 세션 없음
+    # 추수감사절(11/26) 미국 휴장: 11/27 08:30 KST 컷오프 사이에는 새 세션이 없다 — 이때만 0
     r = us_cumulative_return(close, kr_decision_cutoff("2026-11-26"), kr_decision_cutoff("2026-11-27"))
-    assert r["return"] == 0.0 and r["n_sessions"] == 0 and r["end_at"] is None
-    # 직전 컷오프까지의 종가가 없으면 NaN
+    assert r["status"] == "NO_US_SESSION" and r["return"] == 0.0 and r["n_sessions"] == 0 and r["end_at"] is None
+    # 있어야 할 세션(11/20~11/24)의 종가가 없으면 계산하지 않는다
     r = us_cumulative_return(close, utc(2026, 11, 20), kr_decision_cutoff("2026-11-26"))
-    assert np.isnan(r["return"]) and r["start_at"] is None
+    assert r["status"] == "INCOMPLETE" and np.isnan(r["return"]) and "2026-11-23" in r["missing_sessions"]
     with pytest.raises(ValueError, match="prev_cutoff_utc < cutoff_utc"):
         us_cumulative_return(close, utc(2026, 11, 27), utc(2026, 11, 27))
     with pytest.raises(ValueError, match="index"):
