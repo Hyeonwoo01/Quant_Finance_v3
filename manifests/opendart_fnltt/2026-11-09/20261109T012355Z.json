@@ -1,0 +1,95 @@
+{
+  "code_version": "df6bc72709306617b5d9240d5fda61d8bdb32a39",
+  "contract_id": "opendart_fnltt_v1",
+  "counts": {
+    "added": 549,
+    "older_than_stored": 0,
+    "parse_errors": 0,
+    "reports": 3,
+    "unchanged": 0
+  },
+  "errors": [],
+  "finished_at_utc": "2026-11-09T01:24:58.571685+00:00",
+  "permission": {
+    "approval_status": "approved_for_redistribution",
+    "attribution_required": true,
+    "license_url": "https://opendart.fss.or.kr/intro/terms.do",
+    "permission_reference": "OpenDART 이용약관(2020-01-21 시행) 2026-11-09 원문 검토 — DATA_SOURCES.md#opendart"
+  },
+  "requests": [
+    {
+      "attempts": 1,
+      "endpoint": "fnlttSinglAcntAll.json",
+      "http_status": 200,
+      "matched": true,
+      "params": {
+        "bsns_year": "2026",
+        "corp_code": "00855163",
+        "crtfc_key": "***",
+        "fs_div": "OFS",
+        "reprt_code": "11014"
+      },
+      "rcept_no": "20261106000023",
+      "returned_rcept_no": [
+        "20261106000023"
+      ],
+      "rows": 274,
+      "sha256": "3dc6a8bf02dc36096a35067061f6d78c20830eea7cd2eb6d327c3073aaef0b8b",
+      "status": "000"
+    },
+    {
+      "attempts": 1,
+      "endpoint": "fnlttSinglAcntAll.json",
+      "http_status": 200,
+      "matched": true,
+      "params": {
+        "bsns_year": "2026",
+        "corp_code": "00105101",
+        "crtfc_key": "***",
+        "fs_div": "OFS",
+        "reprt_code": "11014"
+      },
+      "rcept_no": "20261106000178",
+      "returned_rcept_no": [
+        "20261106000178"
+      ],
+      "rows": 134,
+      "sha256": "e2826a5f2ce13ac6c628d6e89379ed39c1e41ad7ee29a8664995a7cd679be373",
+      "status": "000"
+    },
+    {
+      "attempts": 1,
+      "endpoint": "fnlttSinglAcntAll.json",
+      "http_status": 200,
+      "matched": true,
+      "params": {
+        "bsns_year": "2026",
+        "corp_code": "00125521",
+        "crtfc_key": "***",
+        "fs_div": "OFS",
+        "reprt_code": "11012"
+      },
+      "rcept_no": "20261106000241",
+      "returned_rcept_no": [
+        "20261106000241"
+      ],
+      "rows": 174,
+      "sha256": "30613ee650234109a8e5087fb9fee9f91ede40b31770282435384f66214d4588",
+      "status": "000"
+    }
+  ],
+  "run_id": "20261109T012355Z",
+  "schema_version": "manifest-1",
+  "source_id": "opendart_fnltt",
+  "started_at_utc": "2026-11-09T01:24:42.697214+00:00",
+  "status": "ok",
+  "target": {
+    "corp_cls": [
+      "Y"
+    ],
+    "newly_queued": 3,
+    "pending_after": 0,
+    "pending_before": 3
+  },
+  "warnings": []
+}
