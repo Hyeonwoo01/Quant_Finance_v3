@@ -10,6 +10,7 @@ class FakeDart:
         self.key = key
         self.filings: list[dict] = []          # list.json 행
         self.fs: dict[tuple, list] = {}        # (corp_code, bsns_year, reprt_code, fs_div) → 행
+        self.xbrl: dict[str, bytes] = {}       # rcept_no → XBRL zip (없으면 XML 오류 013)
         self.calls: list[tuple] = []
         self.force_status = None               # 예: "020"이면 모든 호출에 그 상태
 
@@ -46,6 +47,12 @@ class FakeDart:
             if not rows:
                 return self._json({"status": "013", "message": "조회된 데이타가 없습니다."})
             return self._json({"status": "000", "message": "정상", "list": rows})
+        if endpoint == "fnlttXbrl.xml":
+            payload = self.xbrl.get(params["rcept_no"])
+            if payload is None:
+                body = '<?xml version="1.0" encoding="UTF-8"?><result><status>013</status><message>조회된 데이타가 없습니다.</message></result>'
+                return 200, {"Content-Type": "application/xml"}, body.encode("utf-8")
+            return 200, {"Content-Type": "application/x-msdownload"}, payload
         return 404, {}, b""
 
     def _list(self, p):

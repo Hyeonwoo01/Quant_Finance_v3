@@ -14,6 +14,9 @@ import json
 import logging
 import os
 import sys
+import time
+import xml.etree.ElementTree as ET
+import zipfile
 from dataclasses import asdict, dataclass, field, replace
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
@@ -24,9 +27,11 @@ from collectors.base_client import BudgetExhausted, CallBudget, CollectorError, 
 from collectors.opendart import (FS_KNOWN, FS_REQUIRED, LIST_REQUIRED, NO_DATA, OK, SERIES_FILINGS, SERIES_FS, ApiResult, FilingRef,
                                  OpenDartClient, OpenDartError, filing_record, fs_candidates, fs_records,
                                  parse_periodic, parse_rcept_dt)
+from collectors.opendart_segments import SERIES_SEGMENTS, extract_segments, segment_records
+from collectors.opendart_xbrl import fetch_xbrl, parse_xbrl_zip
 from core.data_contracts import ContractRegistry
 from core.repro import code_version
-from core.source_registry import OPENDART_FINANCIALS, OPENDART_LIST, default_registry
+from core.source_registry import OPENDART_FINANCIALS, OPENDART_LIST, OPENDART_XBRL, default_registry
 from storage.manifests import BatchManifest
 from storage.pit_store import PITFileStore, by_period_month
 from storage.raw_store import RawStore
@@ -38,6 +43,9 @@ FS_CORP_CLS = ("Y",)             # 재무제표는 우선 유가증권시장 상
 GIVE_UP_DAYS = 14                # 이 기간 동안 재무제표 API에 그 보고서가 안 나오면 대기열에서 빼고 경고
 STATE_FILE = Path("state") / "opendart_fnltt.json"
 CALLS_PER_FS_ITEM = 6            # 대기열 한 건에 드는 최대 호출 수 (후보 4 + 연결 1 + 여유)
+XBRL_STATE_FILE = Path("state") / "opendart_xbrl.json"
+XBRL_MAX_ATTEMPTS = 5            # XBRL 파일이 아직 없다는 응답이 이만큼 이어지면 포기하고 경고
+XBRL_MINUTES = 25.0              # 실행당 XBRL 단계 시간 예산 (보고서 하나 받는 데 수십 초 걸릴 수 있음)
 
 
 @dataclass
@@ -95,11 +103,35 @@ class RunResult:
     list_manifest: BatchManifest
     fs_manifest: Optional[BatchManifest]
     stopped: Optional[str] = None                   # 전체를 멈춘 이유 (키 오류·한도 초과·점검 등)
+    xbrl_manifest: Optional[BatchManifest] = None
 
     @property
     def failed(self) -> bool:
         return self.stopped is not None or self.list_manifest.status == "failed" or \
-            (self.fs_manifest is not None and self.fs_manifest.status == "failed")
+            any(m is not None and m.status == "failed" for m in (self.fs_manifest, self.xbrl_manifest))
+
+
+@dataclass
+class XbrlState:
+    """재무제표를 받은 정기보고서 중 XBRL(부문·지역) 처리 상태."""
+    attempts: dict = field(default_factory=dict)    # rcept_no → 시도 횟수
+    done: dict = field(default_factory=dict)        # rcept_no → {segment, geography, values, done_at_utc}
+    gave_up: dict = field(default_factory=dict)
+
+    @classmethod
+    def load(cls, data_dir: Path) -> "XbrlState":
+        p = data_dir / XBRL_STATE_FILE
+        if not p.exists():
+            return cls()
+        d = json.loads(p.read_text(encoding="utf-8"))
+        return cls(d.get("attempts", {}), d.get("done", {}), d.get("gave_up", {}))
+
+    def save(self, data_dir: Path) -> None:
+        p = data_dir / XBRL_STATE_FILE
+        p.parent.mkdir(parents=True, exist_ok=True)
+        d = {"attempts": dict(sorted(self.attempts.items())), "done": dict(sorted(self.done.items())),
+             "gave_up": dict(sorted(self.gave_up.items()))}
+        p.write_text(json.dumps(d, ensure_ascii=False, indent=1, sort_keys=True) + "\n", encoding="utf-8")
 
 
 def _request_entry(r: ApiResult, sha: str, **extra) -> dict:
@@ -117,8 +149,8 @@ def _link(rec, store):
 
 class DailyRun:
     def __init__(self, client: OpenDartClient, data_dir, registry: Optional[ContractRegistry] = None, *,
-                 now=lambda: datetime.now(timezone.utc), version: Optional[str] = None):
-        self.client, self.data_dir = client, Path(data_dir)
+                 now=lambda: datetime.now(timezone.utc), version: Optional[str] = None, clock=time.monotonic):
+        self.client, self.data_dir, self.clock = client, Path(data_dir), clock
         self.registry = registry or default_registry()
         self.now = now
         self.version = version or code_version()
@@ -272,8 +304,81 @@ class DailyRun:
         m.count("reports")
         return True
 
+    # ---------- 3) XBRL: 사업부문·지역 ----------
+    def collect_xbrl(self, fs_state: FsState, run_id: str, minutes: float) -> tuple[BatchManifest, Optional[str]]:
+        """재무제표를 받은 정기보고서의 XBRL에서 부문·지역 숫자만 뽑아 저장한다. 원본 zip은 저장하지 않는다
+        (서술형 주석이 들어 있어 계약상 저장·재배포하지 않음). 시간 예산 안에서 오래된 보고서부터 처리한다."""
+        st = XbrlState.load(self.data_dir)
+        todo = [k for k in sorted(fs_state.done) if k not in st.done and k not in st.gave_up]
+        m = BatchManifest.start(run_id=run_id, contract=OPENDART_XBRL, code_version=self.version, now=self.now(),
+                                target={"queued": len(todo), "minutes": minutes})
+        deadline, stopped = self.clock() + minutes * 60, None
+        for i, rcept_no in enumerate(todo):
+            if self.clock() >= deadline:
+                m.warnings.append(f"시간 예산 {minutes:g}분을 다 써서 {len(todo) - i}건은 다음 실행으로 넘김")
+                break
+            if self.client.budget.remaining < 2:
+                m.warnings.append("호출 예산이 남지 않아 나머지는 다음 실행으로 넘김")
+                break
+            item = fs_state.done[rcept_no]
+            t0 = self.clock()
+            try:
+                payload = fetch_xbrl(self.client, rcept_no, item["reprt_code"])
+                doc = parse_xbrl_zip(payload)
+            except BudgetExhausted as e:
+                m.warnings.append(str(e))
+                break
+            except OpenDartError as e:
+                if e.stop_all:
+                    m.errors.append(f"{rcept_no}: {e}")
+                    stopped = f"OpenDART status {e.status}"
+                    break
+                st.attempts[rcept_no] = st.attempts.get(rcept_no, 0) + 1
+                if st.attempts[rcept_no] >= XBRL_MAX_ATTEMPTS:
+                    st.gave_up[rcept_no] = {"reason": str(e), "attempts": st.attempts.pop(rcept_no)}
+                    m.warnings.append(f"{rcept_no} {item.get('corp_name', '')}: XBRL을 {XBRL_MAX_ATTEMPTS}번 못 받아 포기 ({e})")
+                    m.count("gave_up")
+                else:
+                    m.count("not_yet")
+                continue
+            except (ValueError, zipfile.BadZipFile, ET.ParseError) as e:
+                st.gave_up[rcept_no] = {"reason": f"해석 실패: {type(e).__name__}: {e}"[:300]}
+                m.warnings.append(f"{rcept_no}: XBRL 해석 실패 — 포기 ({type(e).__name__})")
+                m.count("gave_up")
+                continue
+            except CollectorError as e:
+                m.errors.append(f"{rcept_no}: {e}")
+                continue
+            ext = extract_segments(doc)
+            ingested = self.now()
+            store = self.pit.load(parts=[(SERIES_SEGMENTS, item["corp_code"])])
+            recs, same = segment_records(ext, corp_code=item["corp_code"], rcept_no=rcept_no,
+                                         rcept_dt=parse_rcept_dt(item.get("rcept_dt", rcept_no[:8])),
+                                         payload_sha256=doc.payload_sha256, contract_id=OPENDART_XBRL.contract_id,
+                                         ingested_at_utc=ingested, latest=store.latest)
+            res = self.pit.append(recs, store=store)
+            m.requests.append({"endpoint": "fnlttXbrl.xml", "rcept_no": rcept_no, "reprt_code": item["reprt_code"],
+                               "sha256": doc.payload_sha256, "bytes": len(payload),
+                               "seconds": round(self.clock() - t0, 1), "segment": ext.segment_status,
+                               "geography": ext.geography_status, "values": len(ext.values)})
+            m.count("reports")
+            m.count("added", res.added)
+            m.count("unchanged", res.unchanged + same)
+            m.count(f"segment_{ext.segment_status.lower()}")
+            if res.conflicts:
+                m.warnings.append(f"{rcept_no}: 같은 revision_id인데 내용이 다름 {list(res.conflicts)[:10]}")
+            st.attempts.pop(rcept_no, None)
+            st.done[rcept_no] = {"corp_code": item["corp_code"], "corp_name": item.get("corp_name", ""),
+                                 "segment": ext.segment_status, "geography": ext.geography_status,
+                                 "values": len(ext.values), "done_at_utc": ingested.isoformat()}
+        st.save(self.data_dir)
+        m.target["remaining"] = len([k for k in fs_state.done if k not in st.done and k not in st.gave_up])
+        m.finish(self.now())
+        m.write(self.data_dir)
+        return m, stopped
+
     # ---------- 전체 ----------
-    def run(self, *, end: date, lookback_days: int) -> RunResult:
+    def run(self, *, end: date, lookback_days: int, xbrl_minutes: float = XBRL_MINUTES) -> RunResult:
         started = self.now()
         run_id = f"{started:%Y%m%dT%H%M%SZ}"
         bgn = end - timedelta(days=lookback_days - 1)
@@ -310,7 +415,11 @@ class DailyRun:
         m_fs.target["pending_after"] = len(state.pending)
         m_fs.finish(self.now())
         m_fs.write(self.data_dir)
-        return RunResult(m_list, m_fs, stopped if stopped != "budget" else None)
+        m_x = None
+        if not (stopped and stopped != "budget") and xbrl_minutes > 0:
+            m_x, x_stopped = self.collect_xbrl(state, run_id, xbrl_minutes)
+            stopped = stopped or x_stopped
+        return RunResult(m_list, m_fs, stopped if stopped != "budget" else None, m_x)
 
 
 def check_connection(client: OpenDartClient, day: date) -> str:
@@ -324,7 +433,9 @@ def _summary(res: RunResult) -> str:
     lines = [f"공시 목록: {res.list_manifest.status} {res.list_manifest.counts}"]
     if res.fs_manifest:
         lines.append(f"재무제표: {res.fs_manifest.status} {res.fs_manifest.counts} 대기 {res.fs_manifest.target.get('pending_after')}")
-    for m in filter(None, (res.list_manifest, res.fs_manifest)):
+    if res.xbrl_manifest:
+        lines.append(f"사업부문(XBRL): {res.xbrl_manifest.status} {res.xbrl_manifest.counts} 남음 {res.xbrl_manifest.target.get('remaining')}")
+    for m in filter(None, (res.list_manifest, res.fs_manifest, res.xbrl_manifest)):
         lines += [f"  경고: {w}" for w in m.warnings[:20]] + [f"  오류: {e}" for e in m.errors[:20]]
     if res.stopped:
         lines.append(f"중단: {res.stopped}")
@@ -338,6 +449,7 @@ def main(argv=None) -> int:
     ap.add_argument("--end-date", help="마지막 접수일 (YYYY-MM-DD, 기본: 어제 KST)")
     ap.add_argument("--max-calls", type=int, default=8000, help="이번 실행의 호출 상한 (일일 한도 20,000건을 다른 작업과 나눠 씀)")
     ap.add_argument("--check", action="store_true", help="기록 없이 인증키·연결만 확인")
+    ap.add_argument("--xbrl-minutes", type=float, default=XBRL_MINUTES, help="사업부문 XBRL 단계 시간 예산(분), 0이면 건너뜀")
     args = ap.parse_args(argv)
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
 
@@ -351,7 +463,7 @@ def main(argv=None) -> int:
         if args.check:
             print(check_connection(client, end))
             return 0
-        res = DailyRun(client, args.data_dir).run(end=end, lookback_days=args.lookback_days)
+        res = DailyRun(client, args.data_dir).run(end=end, lookback_days=args.lookback_days, xbrl_minutes=args.xbrl_minutes)
     except OpenDartError as e:
         print(f"실패: {e}", file=sys.stderr)
         return 1
