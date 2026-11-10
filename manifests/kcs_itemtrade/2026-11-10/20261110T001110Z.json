@@ -1,0 +1,33 @@
+{
+  "code_version": "525f12d6ecea61931c5bf5f342a324ef2d4cbdcf",
+  "contract_id": "kcs_itemtrade_v1",
+  "counts": {},
+  "errors": [
+    "HS8542: KCS: 99 시작과 종료의 조회기간은 1년이내 기간만 가능합니다.",
+    "HS8901: KCS: 99 시작과 종료의 조회기간은 1년이내 기간만 가능합니다.",
+    "HS8703: KCS: 99 시작과 종료의 조회기간은 1년이내 기간만 가능합니다.",
+    "HS850760: KCS: 99 시작과 종료의 조회기간은 1년이내 기간만 가능합니다."
+  ],
+  "finished_at_utc": "2026-11-10T00:11:13.394293+00:00",
+  "permission": {
+    "approval_status": "approved_for_redistribution",
+    "attribution_required": true,
+    "license_url": "https://www.data.go.kr/data/15101609/openapi.do",
+    "permission_reference": "공공데이터포털 데이터셋 15101609 '이용허락범위 제한 없음' (2026-11-09 확인)"
+  },
+  "requests": [],
+  "run_id": "20261110T001110Z",
+  "schema_version": "manifest-1",
+  "source_id": "kcs_itemtrade",
+  "started_at_utc": "2026-11-10T00:11:10.016300+00:00",
+  "status": "failed",
+  "target": {
+    "hs_codes": [
+      "8542",
+      "8901",
+      "8703",
+      "850760"
+    ]
+  },
+  "warnings": []
+}
