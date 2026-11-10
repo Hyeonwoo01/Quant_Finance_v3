@@ -4,72 +4,238 @@
 [![opendart-daily](https://github.com/Hyeonwoo01/Quant_Finance_v3/actions/workflows/opendart-daily.yml/badge.svg?branch=main)](https://github.com/Hyeonwoo01/Quant_Finance_v3/actions/workflows/opendart-daily.yml)
 [![macro-daily](https://github.com/Hyeonwoo01/Quant_Finance_v3/actions/workflows/macro-daily.yml/badge.svg?branch=main)](https://github.com/Hyeonwoo01/Quant_Finance_v3/actions/workflows/macro-daily.yml)
 
-Global Quant & AI Investment Intelligence Platform — 한국 주식 분석에 미국·글로벌 산업·거시 데이터를 더해,
-그 정보가 실제로 예측·위험·기업가치 판단을 개선하는지 Point-in-Time으로 검증하는 플랫폼입니다 (설계·구현 진행 중).
+**Global Quant & AI Investment Intelligence Platform** — 한국 주식 분석에 미국·글로벌 산업·거시 데이터를 더하고,
+그 정보가 실제로 예측·위험·기업가치 판단을 개선하는지 **Point-in-Time(PIT)** 으로 검증하는 연구 플랫폼입니다.
+지금은 Sprint 1(데이터 기초)을 구현하고 있습니다.
 
 > **English summary.** A research platform that adds US/global industry and macro data to Korean equity analysis and
 > tests, strictly point-in-time, whether that information actually improves forecasts, risk and valuation.
-> Sprint 1 (this code) is the data foundation: purpose-based data licensing gates, per-engine data coverage status,
-> an append-only point-in-time store with revisions, and exchange-calendar time alignment (KRX/NYSE holidays, DST,
-> early closes, DART disclosure availability). A daily GitHub Actions job collects OpenDART filings and financial
-> statements into the `data` branch after the source's terms were reviewed and registered as a contract.
+> The current code is the data foundation: purpose-based data licensing gates, an append-only point-in-time store
+> with revisions, exchange-calendar time alignment, a point-in-time security master, and daily GitHub Actions jobs
+> that collect OpenDART filings/financials/segments and public industry & macro series. Data whose licence forbids
+> redistribution (Korean exchange prices) is written only to a separate private repository, enforced in code.
 
-분석 흐름: 기업의 사업구조 → 글로벌 산업 환경 → 거시경제 → 주가·위험 예측 → 기업가치 평가 → 포트폴리오 위험 관리 → AI 근거 설명
+| 문서 | 내용 |
+|---|---|
+| [docs/MASTER_GUIDE.md](docs/MASTER_GUIDE.md) | 마스터 개발 가이드 v2.2 — 설계 기준. 이 README의 `가이드 x-y`는 이 문서의 절 번호 |
+| [DATA_SOURCES.md](DATA_SOURCES.md) | 공급원별 약관 원문 검토, 목적별 권한 판단, 수집 범위와 시간 규칙 |
+| 이전 버전 | [Quant_Finance_Project_KOR](https://github.com/Hyeonwoo01/Quant_Finance_Project_KOR) (한국 전용 v2), [Quant_Finance_Project](https://github.com/Hyeonwoo01/Quant_Finance_Project) (미국·글로벌 v1) |
 
-- 설계 문서: [docs/MASTER_GUIDE.md](docs/MASTER_GUIDE.md) (마스터 개발 가이드 v2.2)
-- 이전 버전: [Quant_Finance_Project_KOR](https://github.com/Hyeonwoo01/Quant_Finance_Project_KOR) (한국 전용 v2),
-  [Quant_Finance_Project](https://github.com/Hyeonwoo01/Quant_Finance_Project) (미국·글로벌 v1)
+## 목차
 
-## 지금 있는 것 (Sprint 1: 데이터 기초)
+1. [개요](#1-개요)
+2. [현재 상태](#2-현재-상태)
+3. [아키텍처](#3-아키텍처)
+4. [디렉터리 구조](#4-디렉터리-구조)
+5. [데이터 공급원과 권한](#5-데이터-공급원과-권한)
+6. [매일 자동 수집](#6-매일-자동-수집)
+7. [저장 구조](#7-저장-구조)
+8. [시작하기](#8-시작하기)
+9. [개발 규칙](#9-개발-규칙)
+10. [다음 단계](#10-다음-단계)
 
-| 모듈 | 하는 일 | 가이드 |
+---
+
+## 1. 개요
+
+분석 흐름 (가이드 1장):
+
+```text
+기업의 사업구조 → 글로벌 산업 환경 → 거시경제 → 주가·위험 예측 → 기업가치 평가 → 포트폴리오 위험 관리 → AI 근거 설명
+```
+
+핵심 질문은 "글로벌 데이터를 더하면 한국 주식 판단이 실제로 나아지는가"입니다.
+그래서 모든 데이터를 **그 시점에 실제로 알 수 있었던 값**으로만 저장·조회합니다.
+나중에 받은 값으로 과거를 채우지 않고, 정정은 덮어쓰지 않고 새 버전으로 남깁니다.
+
+## 2. 현재 상태
+
+가이드 18장 로드맵 기준입니다. ✅ 완료 · 🔶 일부 · ⏳ 준비됨(실행 전) · ⬜ 아직
+
+### Sprint 1. PIT 데이터 인프라 및 시간 정렬
+
+| 항목 | 상태 | 구현 |
 |---|---|---|
-| [`core/data_contracts.py`](core/data_contracts.py) | 데이터 공급원 계약과 목적별 권한 게이트. 저장·캐싱·보관·ML 학습·LLM 입력·공개 표시·재배포·파생 사용을 따로 확인하고, 검토 전·미등록 데이터는 막는다. FRED/ALFRED는 서면 허가 없이 저장·학습 불가 | 3-1 ~ 3-5 |
-| [`core/coverage.py`](core/coverage.py) | 분석 엔진별 필요 데이터 정의와 SUFFICIENT / LIMITED / STALE / INSUFFICIENT 판정. 모든 종목에 하나의 최소 이력을 강제하지 않는다 | 3-6 |
-| [`core/pit_schema.py`](core/pit_schema.py) | Point-in-Time 레코드(관측 기간·발표 시각·공급자 가용 시각·수집 시각 분리)와 추가 전용 저장소. 정정은 새 revision으로 덧붙이고, as-of 조회는 그 시점에 알 수 있었던 버전만 돌려준다 | 4-1, 4-2 |
-| [`core/calendar_align.py`](core/calendar_align.py) | KRX·NYSE 거래소 캘린더 기반 시간 정렬. DART 공시 가용 시각(접수일 다음 KRX 세션 08:30 KST), 서머타임·조기폐장, 회사·시리즈별 as-of 정렬, 한국 연휴 중 미국 누적 수익률(빠진 세션은 계산하지 않음), 거래 세션 기준 staleness | 4-3 ~ 4-7 |
+| Data Contract 및 사용 권한 게이트 | ✅ | `core/data_contracts.py`, `core/source_registry.py` |
+| 엔진별 데이터 커버리지 상태 | ✅ | `core/coverage.py` |
+| Raw / PIT 스키마 | ✅ | `storage/raw_store.py`, `core/pit_schema.py`, `storage/pit_store.py` |
+| 사업부문 비중의 PIT 레코드와 as-of 조회 | ✅ | `collectors/opendart_segments.py`, `feature_store/segment_exposure.py` |
+| XKRX·NYSE 캘린더, 조기폐장·휴장, DART 컷오프 | ✅ | `core/calendar_align.py` |
+| `available_at <= decision_time` 불변조건 | ✅ | `tests/property/test_pit_invariants.py` |
+| 한국 연휴 중 미국 누적수익률 | ✅ | `core/calendar_align.py` |
+| 종목 식별자 시점별 매핑 (4-8) | ✅ | `core/security_master.py` — 수집 시작(2026-11-11) 이후만 |
+| 거시지표 수정 이력 | 🔶 | 값 변경은 새 버전. 공식 발표 시각은 아직 없음(받은 시각 기준) |
+| 비수정주가 | ⏳ | `collectors/fsc_krx.py` — 공공데이터포털 활용신청·비공개 저장소 설정 후 실행 |
+| 수정주가·기업행위 PIT | ⬜ | 배당·권리일정 공급원 검토 필요 |
 
-## 매일 자동 수집 (OpenDART)
+**Gate:** 재현 가능한 PIT Feature Snapshot 생성 — 가격 데이터 수집이 시작돼야 판단할 수 있습니다.
 
-GitHub Actions [`opendart-daily`](.github/workflows/opendart-daily.yml)가 매일 06:17 KST(한국 장 시작 전 컷오프 08:30 전)에
-상장사 공시 목록과 유가증권시장 상장사의 정기보고서 재무제표를 받아 [`data` 브랜치](https://github.com/Hyeonwoo01/Quant_Finance_v3/tree/data)에 쌓습니다.
-약관 검토와 수집 범위는 [DATA_SOURCES.md](DATA_SOURCES.md)에 있습니다.
+### 실제로 모이고 있는 데이터 (2026-11-10 기준)
 
-| 모듈 | 하는 일 | 가이드 |
+| 데이터 | 규모 | 저장 위치 |
 |---|---|---|
-| [`core/source_registry.py`](core/source_registry.py) | 약관을 확인하고 등록한 공급원 계약 (OpenDART, 관세청, 한국은행 ECOS, 미국 EIA) | 3-1, 17 |
-| [`collectors/base_client.py`](collectors/base_client.py) | 호출 속도·예산 제한, 429·5xx 재시도(지수 백오프·Retry-After), 인증키 가림, 페이지 완결성·스키마 변화 확인 | 6-3 |
-| [`collectors/opendart.py`](collectors/opendart.py) | OpenDART 호출과 PIT 변환. 정정 보고서는 바뀐 계정만 새 버전, 가용 시각은 접수일 규칙과 실제 수집 시각 중 늦은 쪽 | 4-3 |
-| [`storage/`](storage/) | 변경 불가 원본(내용 주소·해시 검증), PIT 버전 파일(추가 전용·재수집 중복 없음), 실행별 수집 기록 | 6-1, 6-2 |
-| [`orchestration/opendart_daily.py`](orchestration/opendart_daily.py) | 매일 실행: 종목 식별자 매핑 → 최근 7일 공시 다시 훑기 → 정기보고서 재무제표 대기열 → 사업부문 XBRL → 수집 기록 | 6-4 |
-| [`collectors/opendart_corpcode.py`](collectors/opendart_corpcode.py), [`core/security_master.py`](core/security_master.py) | DART 고유번호와 종목코드의 시점별 매핑. 바뀐 회사만 새 버전으로 남기고, 그 시점에 유효했던 매핑만 돌려준다. 수집 시작 전 시점은 "알 수 없음"으로 답한다(지금 종목코드로 과거를 묶지 않음) | 4-8 |
-| [`collectors/opendart_segments.py`](collectors/opendart_segments.py), [`feature_store/segment_exposure.py`](feature_store/segment_exposure.py) | XBRL 영업부문·지역 주석에서 부문별 매출·영업이익과 지역별 매출을 PIT로 추출하고, 부문→산업 규칙([`config/segment_taxonomy.json`](config/segment_taxonomy.json))으로 매출·이익 가중 산업 노출도와 부문별 신뢰도를 계산 | 5-3 |
+| 유가·코스닥 공시 목록 | 매일 최근 7일 재확인 | 공개 `data` 브랜치 |
+| 유가증권시장 정기보고서 재무제표 (별도·연결) | 보고서가 나오는 대로 | 공개 `data` 브랜치 |
+| 사업부문·지역별 매출·이익 (XBRL) | 재무제표를 받은 보고서 | 공개 `data` 브랜치 |
+| 종목 식별자 매핑 | 4,013개 회사 | 공개 `data` 브랜치 |
+| 관세청 품목별 수출입 (반도체·선박·자동차·축전지) | 월별, 최근 14개월 | 공개 `data` 브랜치 |
+| 한국은행 ECOS (기준금리·국고채 3년·수출물가 7종) | 월별·일별 | 공개 `data` 브랜치 |
+| 미국 EIA (원유 재고·천연가스 저장량) | 주별 | 공개 `data` 브랜치 |
+| 한국 주식 일별 시세 | 설정 대기 | **비공개 저장소** |
 
-공시 원문 문서(본문·첨부)는 받지 않습니다. 이용 조건을 따로 검토해야 해서입니다.
+## 3. 아키텍처
 
-## 매일 자동 수집 (공공 산업·거시 지표)
+가이드 2-1의 데이터 흐름 중 지금 구현된 부분입니다.
 
-GitHub Actions [`macro-daily`](.github/workflows/macro-daily.yml)가 매일 07:47 KST에 관세청 품목별 수출입실적(반도체·선박·자동차·축전지),
-한국은행 ECOS(기준금리·국고채 금리·수출물가), 미국 EIA(원유 재고·천연가스 저장량)를 받아 같은 `data` 브랜치에 쌓습니다.
-세 곳 모두 최신 값만 주므로 가용 시각은 실제로 받은 시각이고, 값이 바뀌면 이전 버전을 가리키는 새 버전으로 남깁니다.
-ECOS는 한국은행이 작성한 통계만 받습니다(다른 기관 작성 통계는 받지 않고 경고로 남김).
+```text
+ 공급원 (OpenDART · 관세청 · 한국은행 ECOS · 미국 EIA · 금융위원회 주식시세)
+   │
+   │  ① 계약 확인 — 등록되지 않았거나 그 목적이 승인되지 않은 데이터는 막는다 (Fail Closed)
+   ▼
+ core/source_registry.py ──► core/data_contracts.py
+   │
+   │  ② 수집 — 속도·호출 예산 제한, 재시도, 인증키 가림, 페이지 완결성·스키마 확인
+   ▼
+ collectors/*  (base_client.py 위에 공급원별 클라이언트)
+   │
+   │  ③ 저장 — 원본은 해시로, 값은 PIT 버전으로. 저장소가 공개면 재배포 허용 데이터만
+   ▼
+ storage/raw_store.py      변경 불가 원본 (gzip, SHA-256 주소)
+ storage/pit_store.py      PIT 버전 파일 (추가 전용, 정정은 새 revision)
+ storage/manifests.py      실행별 수집 기록
+ storage/visibility.py     공개/비공개 저장소 가드
+   │
+   │  ④ 조회 — available_at <= 의사결정 시각인 버전만
+   ▼
+ core/pit_schema.py (query_as_of) · core/calendar_align.py · core/security_master.py
+   │
+   ▼
+ feature_store/segment_exposure.py   사업부문 → 산업 노출도
+   │
+   ▼
+ (다음: engines/ · evaluation/ — Sprint 2 이후)
 
-| 모듈 | 하는 일 | 가이드 |
-|---|---|---|
-| [`collectors/macro_sources.py`](collectors/macro_sources.py) | 관세청·ECOS·EIA 호출, 응답 오류 구분(인증·자료 없음), 관측값 → PIT 레코드 | 5-2, 6-3 |
-| [`orchestration/macro_daily.py`](orchestration/macro_daily.py) | 매일 실행: 공급원별로 키가 있는 것만 받고, 인증 오류·예산 소진이면 그 공급원만 멈춤. 받을 시리즈는 [`config/macro_series.json`](config/macro_series.json) | 6-4 |
+ orchestration/*_daily.py  ①~③을 묶어 GitHub Actions에서 매일 실행
+```
 
-## 한국 주식 가격 (비공개 저장)
+### 시간 규칙 (가이드 4장)
 
-한국거래소 원천 시세는 제3자 제공·재배포가 금지돼 있어 이 저장소와 `data` 브랜치에 올리지 않습니다.
-GitHub Actions [`krx-daily`](.github/workflows/krx-daily.yml)가 평일 14:23 KST에 금융위원회 주식시세정보를 받아 따로 둔 비공개 저장소에만 쌓습니다.
+| 데이터 | 가용 시각 (`available_at_utc`) |
+|---|---|
+| DART 공시·재무제표·사업부문 | 접수일 다음 KRX 세션 08:30 KST와, 실제로 받은 뒤 첫 08:30 컷오프 중 늦은 쪽 |
+| 관세청·ECOS·EIA | 실제로 받은 뒤 첫 08:30 KST 컷오프 (공급원이 발표 시각·초판 값을 주지 않음) |
+| 한국 주식 일별 시세 | 공급자가 다음 영업일 13시에 주므로 T+2 세션 08:30 KST (과거 채우기에도 같은 규칙) |
+| 종목 식별자 매핑 | 실제로 받은 뒤 첫 08:30 컷오프. 그 전 시점은 "알 수 없음" |
 
-| 모듈 | 하는 일 | 가이드 |
-|---|---|---|
-| [`storage/visibility.py`](storage/visibility.py) | 비공개 표식이 없는 저장소에는 재배포·공개 표시가 승인된 데이터만 쓸 수 있게 막는다 | 3-1, 3-5 |
-| [`collectors/fsc_krx.py`](collectors/fsc_krx.py), [`orchestration/krx_daily.py`](orchestration/krx_daily.py) | 일별 시가·고가·저가·종가·거래량·상장주식수 수집. 가용 시각은 공급자 지연(다음 영업일 13시)을 반영해 T+2 세션 08:30. 로그에 시세 값을 출력하지 않는다 | 4-4, 8-1 |
+## 4. 디렉터리 구조
 
-## 테스트
+가이드 16장의 권장 구조를 따릅니다. 아직 없는 디렉터리(`engines/`, `evaluation/` 등)는 해당 Sprint에서 만듭니다.
+
+```text
+Quant_Finance_v3/
+├── README.md
+├── DATA_SOURCES.md                  # 공급원 약관 검토와 권한 판단
+├── docs/MASTER_GUIDE.md             # 설계 기준 문서
+├── pyproject.toml · requirements*.txt · .env.example
+│
+├── core/                            # 규칙과 모델 (외부 호출 없음)
+│   ├── data_contracts.py            # 계약·목적별 권한 게이트 (3-1~3-5)
+│   ├── source_registry.py           # 등록된 공급원 계약 목록 (3-1, 17)
+│   ├── coverage.py                  # 엔진별 데이터 커버리지 상태 (3-6)
+│   ├── pit_schema.py                # PIT 레코드·as-of 조회 (4-1, 4-2)
+│   ├── calendar_align.py            # 거래소 캘린더·가용 시각·as-of 정렬 (4-3~4-7)
+│   ├── security_master.py           # 종목 식별자 시점별 매핑 (4-8)
+│   └── repro.py                     # 코드 버전 기록
+│
+├── collectors/                      # 공급원별 호출과 응답 → PIT 레코드 변환
+│   ├── base_client.py               # 속도·예산 제한, 재시도, 인증키 가림 (6-3)
+│   ├── opendart.py                  # 공시 목록·재무제표 (4-3)
+│   ├── opendart_xbrl.py             # XBRL 해석 (원본 zip은 저장 안 함)
+│   ├── opendart_segments.py         # 영업부문·지역 숫자 추출 (5-3)
+│   ├── opendart_corpcode.py         # 고유번호 ↔ 종목코드 (4-8)
+│   ├── macro_sources.py             # 관세청·ECOS·EIA (5-2)
+│   └── fsc_krx.py                   # 금융위원회 주식시세 — 비공개 저장 전용 (8-1)
+│
+├── storage/                         # 파일 저장 (6-1, 6-2)
+│   ├── raw_store.py · pit_store.py · manifests.py
+│   └── visibility.py                # 공개 저장소에는 재배포 허용 데이터만
+│
+├── feature_store/
+│   └── segment_exposure.py          # 사업부문 → 산업·지역 노출도 (5-3)
+│
+├── orchestration/                   # 매일 실행 진입점 (6-4)
+│   ├── opendart_daily.py · macro_daily.py · krx_daily.py
+│
+├── config/
+│   ├── segment_taxonomy.json        # 부문 레이블 → 산업 규칙
+│   └── macro_series.json            # 받을 품목·통계·시리즈 목록
+│
+├── tests/
+│   ├── unit/                        # 모듈별 규칙
+│   ├── integration/                 # 가짜 OpenDART로 여러 날 실행
+│   ├── property/                    # 고정 시드 무작위 사례로 PIT 불변조건
+│   └── fake_opendart.py · conftest.py · fixtures/
+│
+└── .github/workflows/               # tests · opendart-daily · macro-daily · krx-daily
+```
+
+## 5. 데이터 공급원과 권한
+
+수집기를 만들기 전에 약관을 원문으로 확인하고 계약으로 등록합니다. 판단 근거는 [DATA_SOURCES.md](DATA_SOURCES.md)에 있습니다.
+
+| 공급원 | 계약 ID | 저장 | ML 학습 | 공개 표시 | 원본 재배포 | 저장 위치 |
+|---|---|---|---|---|---|---|
+| OpenDART 공시 목록·재무제표·고유번호 | `opendart_list_v1` · `opendart_fnltt_v1` · `opendart_corpcode_v1` | ✅ | ✅ | ✅ | ✅ | 공개 |
+| OpenDART XBRL (숫자만 추출) | `opendart_xbrl_v1` | ✅ | ✅ | ✅ | ❌ | 공개 (원본 zip 없음) |
+| 관세청 품목별 수출입 | `kcs_itemtrade_v1` | ✅ | ✅ | ✅ | ✅ | 공개 |
+| 한국은행 ECOS (한국은행 작성 통계만) | `bok_ecos_v1` | ✅ | ✅ | ✅ | ✅ | 공개 |
+| 미국 EIA (EIA 작성 시리즈만) | `eia_v1` | ✅ | ✅ | ✅ | ✅ | 공개 |
+| 금융위원회 주식시세 (원천: 한국거래소) | `fsc_krx_stock_price_v1` | ✅ | ❌ (문의 중) | ❌ | ❌ | **비공개만** |
+
+FRED/ALFRED는 서면 허가 없이 저장·학습에 쓰지 않습니다 (가이드 3-2). 계약이 바뀌면 기존 계약을 고치지 않고 새 ID로 등록합니다.
+
+## 6. 매일 자동 수집
+
+| 워크플로 | 시각 (KST) | 하는 일 | 저장 | 수동 실행 모드 |
+|---|---|---|---|---|
+| [`opendart-daily`](.github/workflows/opendart-daily.yml) | 매일 06:17 | 종목 식별자 매핑 → 최근 7일 공시 → 정기보고서 재무제표 → 사업부문 XBRL | 공개 `data` 브랜치 | `collect` · `check` · `probe-xbrl` |
+| [`macro-daily`](.github/workflows/macro-daily.yml) | 매일 07:47 | 관세청·ECOS·EIA 지표 | 공개 `data` 브랜치 | `collect` · `check` · `probe` |
+| [`krx-daily`](.github/workflows/krx-daily.yml) | 평일 14:23 | 한국 주식 일별 시세 (전 종목) | **비공개 저장소** | `collect` · `backfill` · `check` · `probe` |
+| [`tests`](.github/workflows/tests.yml) | push·PR | `pytest` (Python 3.12·3.13) | — | — |
+
+- `check`·`probe`는 저장하지 않고 인증키·연결·응답 구조만 확인합니다.
+- 한 공급원이 실패해도 다른 공급원은 계속합니다. 실패하면 받은 만큼과 수집 기록은 남기고 워크플로를 실패로 표시합니다.
+- `data` 브랜치에 쓰는 두 워크플로는 같은 concurrency 그룹이라 동시에 돌지 않습니다.
+- Actions 로그는 공개입니다. 인증키는 Secrets로만 넘기고, 비공개 데이터의 값은 로그에 출력하지 않습니다.
+
+## 7. 저장 구조
+
+[`data` 브랜치](https://github.com/Hyeonwoo01/Quant_Finance_v3/tree/data)와 비공개 저장소는 같은 배치를 씁니다.
+
+```text
+raw/<source_id>/objects/<sha[:2]>/<sha>.gz       원본 응답 (같은 내용은 한 번만, 인증키 가림)
+raw/<source_id>/index/<YYYY-MM-DD>.jsonl         받을 때마다 한 줄 (주소·파라미터·상태·해시)
+pit_versions/<series_id>/<partition>.jsonl       PIT 레코드 (추가 전용, 원본이 정정본보다 앞)
+manifests/<source_id>/<YYYY-MM-DD>/<run_id>.json 실행별 수집 기록 (건수·경고·오류·권한 상태)
+state/                                           대기열 (재무제표·XBRL 처리 상태)
+PRIVATE_STORE                                    비공개 저장소 표식 (비공개 저장소에만)
+```
+
+주요 시리즈 (`series_id`): `dart_filings` · `dart_fs` · `dart_segments` · `dart_corp_master` · `kcs_itemtrade` · `bok_ecos` · `eia` · `krx_daily_price`(비공개)
+
+저장된 데이터를 읽는 예:
+
+```python
+from datetime import datetime, timezone
+from core.data_contracts import Purpose
+from core.source_registry import default_registry
+from storage.pit_store import PITFileStore
+
+store = PITFileStore("data", default_registry()).load(["bok_ecos"])
+df = store.query_as_of(datetime(2026, 11, 12, tzinfo=timezone.utc), Purpose.ML_TRAINING)   # 그 시점에 알 수 있었던 값만
+```
+
+## 8. 시작하기
 
 ```bash
 python -m venv .venv && source .venv/bin/activate
@@ -77,14 +243,38 @@ pip install -r requirements.txt -r requirements-dev.txt
 pytest -q
 ```
 
-- `tests/unit/` — 모듈별 규칙 (예: 금요일 접수 공시는 월요일 08:30 KST, 추석 연휴 중 미국 3개 세션 수익률 누적, 정정 전후 as-of 조회)
-- `tests/property/` — 고정 시드 무작위 사례로 "쓰인 값은 모두 의사결정 시각 이전에 이용 가능했다"는 불변조건과 단순 구현과의 일치를 확인
-- GitHub Actions에서 Python 3.12·3.13으로 실행
+로컬에서 수집을 돌려 보려면 `.env.example`을 `.env`로 복사해 키를 넣고(커밋하지 않음) 환경변수로 불러옵니다.
 
-## 다음 단계 (가이드 18장 로드맵)
+```bash
+python -m orchestration.opendart_daily --check                 # 저장 없이 키·연결 확인
+python -m orchestration.macro_daily --probe                    # 저장 없이 응답 구조 확인
+python -m orchestration.opendart_daily --data-dir data         # 실제 수집 (data/ 아래에 저장)
+```
 
-1. Sprint 1 나머지: 수정주가·기업행위 PIT 관리, 종목 식별자 매핑(4-8)
-2. 다른 공급원(KRX 시세, 한국은행 ECOS) 약관 검토와 계약 등록 → 수집기 (Sprint 1 완료 조건: 재현 가능한 PIT Feature Snapshot)
-3. Sprint 2: Strategy Lab 실험 기록과 잠긴 최종 OOS 구간(7-12), 예측 기록 감사(7-10), 업종 단위 vs 사업부문 단위 노출도 비교
+GitHub Actions 설정 (Settings → Secrets and variables → Actions):
 
-API 키는 `.env.example`을 복사한 `.env`에만 넣고 커밋하지 않습니다.
+| 이름 | 종류 | 쓰는 곳 |
+|---|---|---|
+| `DART_API_KEY` | Secret | opendart-daily |
+| `DATA_GO_KR_KEY` | Secret | macro-daily(관세청), krx-daily — 공공데이터포털 인증키. API마다 활용신청 필요 |
+| `ECOS_API_KEY` · `EIA_API_KEY` | Secret | macro-daily |
+| `PRIVATE_DATA_TOKEN` | Secret | krx-daily — 비공개 저장소 Contents 읽기·쓰기 토큰 |
+| `PRIVATE_DATA_REPO` | Variable (선택) | krx-daily — 비공개 저장소 이름. 없으면 `<소유자>/Quant_Finance_v3_private` |
+
+## 9. 개발 규칙
+
+가이드 0-3의 원칙 가운데 코드에서 강제하는 것들입니다.
+
+- **권한 먼저:** 새 공급원은 약관 검토 → 계약 등록 → 수집기 순서. 권한이 확인되지 않으면 막는다 (`ContractRegistry.require`).
+- **PIT:** `available_at_utc`는 관측일을 복사해 만들지 않는다. 지금 값으로 과거를 채우지 않는다. 정정은 새 revision.
+- **재배포 금지 데이터는 공개 저장소에 쓰지 않는다:** `storage/visibility.py`가 쓰기 전에 막는다.
+- **비밀 값:** 인증키는 환경변수로만 받고 로그·오류·저장 기록에 남기지 않는다 (`collectors/base_client.py`).
+- **실패는 드러낸다:** 마지막 값을 최신처럼 쓰지 않는다. 페이지가 모자라거나 파일이 잘렸으면 저장하지 않고 오류로 남긴다.
+- **테스트:** 새 규칙에는 테스트를 붙인다. 네트워크 없이 가짜 전송으로 돌린다.
+
+## 10. 다음 단계
+
+1. **가격 데이터 실행:** 공공데이터포털에서 주식시세정보 활용신청 → 비공개 저장소·토큰 설정 → `krx-daily` `check` → `probe` → 과거 채우기.
+2. **Sprint 1 마무리:** 수정주가·기업행위(배당·권리일정) 공급원 검토, 첫 PIT Feature Snapshot.
+3. **사업부문 분류 규칙 v0.2:** 3분기 보고서(11/10~16)가 쌓인 뒤 미분류 레이블 반영.
+4. **Sprint 2:** 타깃 사전 정의, Purged Walk-forward, Model A/B/C 비교, 실험 기록과 잠긴 최종 OOS 구간 (가이드 7장).
