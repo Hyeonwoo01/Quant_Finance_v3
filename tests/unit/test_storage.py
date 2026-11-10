@@ -95,6 +95,9 @@ def test_reingest_is_idempotent_and_changed_values_are_conflicts(tmp_path, regis
     fs.append([rec("r1", 100.0)])
     again = fs.append([rec("r1", 100.0, ingested_at_utc=T0 + timedelta(days=1))])        # 다음 날 다시 받음
     assert (again.added, again.unchanged, again.conflicts) == (0, 1, ())
+    # 같은 값이 다른 원본 응답(예: 조회 기간이 밀린 공시 목록 페이지)에 실려 와도 같은 버전이다
+    other_page = fs.append([rec("r1", 100.0, ingested_at_utc=T0 + timedelta(days=2), raw_payload_hash="h2")])
+    assert (other_page.added, other_page.unchanged, other_page.conflicts) == (0, 1, ())
     changed = fs.append([rec("r1", 999.0), rec("r3", 1.0, metric_id="op_income")])
     assert changed.added == 1 and changed.conflicts == ("r1",)
     values = {r.revision_id: r.value for r in fs.iter_records()}

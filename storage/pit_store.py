@@ -62,8 +62,11 @@ def record_from_json(d: dict) -> PITRecord:
 
 
 def _same_content(a: PITRecord, b: PITRecord) -> bool:
-    """수집 시각과 그에 따른 가용 시각만 다르면 같은 레코드로 본다 (다시 받은 같은 버전)."""
-    return replace(a, ingested_at_utc=b.ingested_at_utc, available_at_utc=b.available_at_utc) == b
+    """수집 시각, 그에 따른 가용 시각, 원본 응답 해시만 다르면 같은 레코드로 본다 (다시 받은 같은 버전).
+    원본 응답 해시는 같은 값이라도 받을 때마다 달라질 수 있다 — 예: 공시 목록은 조회 기간이 하루씩 밀리면
+    같은 공시가 다른 내용의 페이지에 실려 온다."""
+    return replace(a, ingested_at_utc=b.ingested_at_utc, available_at_utc=b.available_at_utc,
+                   raw_payload_hash=b.raw_payload_hash) == b
 
 
 def _safe(name: str, what: str) -> str:

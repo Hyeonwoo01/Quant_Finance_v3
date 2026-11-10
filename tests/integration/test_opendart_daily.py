@@ -73,6 +73,8 @@ def test_daily_runs_over_several_days(world, tmp_path):
     clock.t += timedelta(days=1)
     res = make_run(fake, tmp_path, clock).run(end=date(2026, 11, 10), lookback_days=5)
     assert res.list_manifest.counts["added"] == 2                         # 바뀐 비고 + 정정 공시
+    # 페이지 내용이 달라져(원본 해시가 바뀜) 다시 실려 온 나머지 두 공시는 '변화 없음'이다. 충돌 경고가 아니다
+    assert res.list_manifest.counts["unchanged"] == 2 and not res.list_manifest.warnings
     assert res.fs_manifest.counts["added"] == 1 and res.fs_manifest.counts["unchanged"] == 7
     # 이미 맞는 (연도, 코드)를 알아서 후보를 하나만 물었다
     fs_calls = [c for c in fake.calls if c[0] == "fnlttSinglAcntAll.json" and c[1]["corp_code"] == SAMSUNG][-2:]
