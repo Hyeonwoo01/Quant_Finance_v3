@@ -1,0 +1,137 @@
+{
+  "code_version": "29699aee2d58f24451c05d2291b1559e83f092dd",
+  "contract_id": "kcs_itemtrade_v1",
+  "counts": {
+    "added": 0,
+    "series": 8,
+    "unchanged": 208
+  },
+  "errors": [],
+  "finished_at_utc": "2026-11-10T04:22:31.272184+00:00",
+  "permission": {
+    "approval_status": "approved_for_redistribution",
+    "attribution_required": true,
+    "license_url": "https://www.data.go.kr/data/15101609/openapi.do",
+    "permission_reference": "공공데이터포털 데이터셋 15101609 '이용허락범위 제한 없음' (2026-11-09 확인)"
+  },
+  "requests": [
+    {
+      "added": 0,
+      "http_status": 200,
+      "observations": 48,
+      "params": {
+        "endYymm": "202608",
+        "hsSgn": "8542",
+        "serviceKey": "***",
+        "strtYymm": "202509"
+      },
+      "series": "HS8542 전자집적회로 (반도체) 202509~202608",
+      "sha256": "dc48c0b34134d2a25a0b50ac06f4f221b831cef0ac6f37f6027c2f93ed9c63ae"
+    },
+    {
+      "added": 0,
+      "http_status": 200,
+      "observations": 4,
+      "params": {
+        "endYymm": "202611",
+        "hsSgn": "8542",
+        "serviceKey": "***",
+        "strtYymm": "202609"
+      },
+      "series": "HS8542 전자집적회로 (반도체) 202609~202611",
+      "sha256": "d249b8a4d2b905e9abf74616c9e8e82d90cb73ef31e53b2d852c02c57db6b92d"
+    },
+    {
+      "added": 0,
+      "http_status": 200,
+      "observations": 48,
+      "params": {
+        "endYymm": "202608",
+        "hsSgn": "8901",
+        "serviceKey": "***",
+        "strtYymm": "202509"
+      },
+      "series": "HS8901 여객선·화물선 등 선박 202509~202608",
+      "sha256": "6058b572532b711474ca6a80387b55c0ed692223151f1de7704ba483d7394bf2"
+    },
+    {
+      "added": 0,
+      "http_status": 200,
+      "observations": 4,
+      "params": {
+        "endYymm": "202611",
+        "hsSgn": "8901",
+        "serviceKey": "***",
+        "strtYymm": "202609"
+      },
+      "series": "HS8901 여객선·화물선 등 선박 202609~202611",
+      "sha256": "58486562624ff553bfcefef16a623ca7b5f321e2e9ae18c458996fd92ea6a5c0"
+    },
+    {
+      "added": 0,
+      "http_status": 200,
+      "observations": 48,
+      "params": {
+        "endYymm": "202608",
+        "hsSgn": "8703",
+        "serviceKey": "***",
+        "strtYymm": "202509"
+      },
+      "series": "HS8703 승용자동차 202509~202608",
+      "sha256": "998b264fa49914f5a0baae9f856df2695154ef92bb4bb579992d4ef66340eefc"
+    },
+    {
+      "added": 0,
+      "http_status": 200,
+      "observations": 4,
+      "params": {
+        "endYymm": "202611",
+        "hsSgn": "8703",
+        "serviceKey": "***",
+        "strtYymm": "202609"
+      },
+      "series": "HS8703 승용자동차 202609~202611",
+      "sha256": "429627582c5400a8cdc3ef75aa9bb3d0b77a4d782b16a9a3eed815b8a4b1fbc1"
+    },
+    {
+      "added": 0,
+      "http_status": 200,
+      "observations": 48,
+      "params": {
+        "endYymm": "202608",
+        "hsSgn": "850760",
+        "serviceKey": "***",
+        "strtYymm": "202509"
+      },
+      "series": "HS850760 리튬이온 축전지 202509~202608",
+      "sha256": "b445a75f7f725c62777eef145ad78f938484a0cc3c767ee060a4bca9c37e9a10"
+    },
+    {
+      "added": 0,
+      "http_status": 200,
+      "observations": 4,
+      "params": {
+        "endYymm": "202611",
+        "hsSgn": "850760",
+        "serviceKey": "***",
+        "strtYymm": "202609"
+      },
+      "series": "HS850760 리튬이온 축전지 202609~202611",
+      "sha256": "54e055e42fd227a7f82a6baeeee141323dbd8ca269e53f64cdb345c15cf8d09a"
+    }
+  ],
+  "run_id": "20261110T042217Z",
+  "schema_version": "manifest-1",
+  "source_id": "kcs_itemtrade",
+  "started_at_utc": "2026-11-10T04:22:17.879949+00:00",
+  "status": "ok",
+  "target": {
+    "hs_codes": [
+      "8542",
+      "8901",
+      "8703",
+      "850760"
+    ]
+  },
+  "warnings": []
+}
