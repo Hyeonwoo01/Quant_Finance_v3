@@ -3,6 +3,7 @@
 [![tests](https://github.com/Hyeonwoo01/Quant_Finance_v3/actions/workflows/tests.yml/badge.svg)](https://github.com/Hyeonwoo01/Quant_Finance_v3/actions/workflows/tests.yml)
 [![opendart-daily](https://github.com/Hyeonwoo01/Quant_Finance_v3/actions/workflows/opendart-daily.yml/badge.svg?branch=main)](https://github.com/Hyeonwoo01/Quant_Finance_v3/actions/workflows/opendart-daily.yml)
 [![macro-daily](https://github.com/Hyeonwoo01/Quant_Finance_v3/actions/workflows/macro-daily.yml/badge.svg?branch=main)](https://github.com/Hyeonwoo01/Quant_Finance_v3/actions/workflows/macro-daily.yml)
+[![krx-daily](https://github.com/Hyeonwoo01/Quant_Finance_v3/actions/workflows/krx-daily.yml/badge.svg?branch=main)](https://github.com/Hyeonwoo01/Quant_Finance_v3/actions/workflows/krx-daily.yml)
 
 **Global Quant & AI Investment Intelligence Platform** — 한국 주식 분석에 미국·글로벌 산업·거시 데이터를 더하고,
 그 정보가 실제로 예측·위험·기업가치 판단을 개선하는지 **Point-in-Time(PIT)** 으로 검증하는 연구 플랫폼입니다.
@@ -65,10 +66,10 @@
 | 한국 연휴 중 미국 누적수익률 | ✅ | `core/calendar_align.py` |
 | 종목 식별자 시점별 매핑 (4-8) | ✅ | `core/security_master.py` — 수집 시작(2026-11-11) 이후만 |
 | 거시지표 수정 이력 | 🔶 | 값 변경은 새 버전. 공식 발표 시각은 아직 없음(받은 시각 기준) |
-| 비수정주가 | ⏳ | `collectors/fsc_krx.py` — 공공데이터포털 활용신청·비공개 저장소 설정 후 실행 |
+| 비수정주가 | ✅ | `collectors/fsc_krx.py` — 2026-11-03 기준일부터 비공개 저장소에 수집 중. 그 전 구간은 과거 채우기 예정 |
 | 수정주가·기업행위 PIT | ⬜ | 배당·권리일정 공급원 검토 필요 |
 
-**Gate:** 재현 가능한 PIT Feature Snapshot 생성 — 가격 데이터 수집이 시작돼야 판단할 수 있습니다.
+**Gate:** 재현 가능한 PIT Feature Snapshot 생성 — 가격 과거 구간과 기업행위가 갖춰진 뒤 판단합니다.
 
 ### 실제로 모이고 있는 데이터 (2026-11-10 기준)
 
@@ -81,7 +82,7 @@
 | 관세청 품목별 수출입 (반도체·선박·자동차·축전지) | 월별, 최근 14개월 | 공개 `data` 브랜치 |
 | 한국은행 ECOS (기준금리·국고채 3년·수출물가 7종) | 월별·일별 | 공개 `data` 브랜치 |
 | 미국 EIA (원유 재고·천연가스 저장량) | 주별 | 공개 `data` 브랜치 |
-| 한국 주식 일별 시세 | 설정 대기 | **비공개 저장소** |
+| 한국 주식 일별 시세 (코스피·코스닥·코넥스 전 종목, 하루 약 2,900개) | 2026-11-03 기준일부터 | **비공개 저장소** |
 
 ## 3. 아키텍처
 
@@ -274,7 +275,7 @@ GitHub Actions 설정 (Settings → Secrets and variables → Actions):
 
 ## 10. 다음 단계
 
-1. **가격 데이터 실행:** 공공데이터포털에서 주식시세정보 활용신청 → 비공개 저장소·토큰 설정 → `krx-daily` `check` → `probe` → 과거 채우기.
+1. **가격 과거 채우기:** `krx-daily`의 `backfill` 모드로 과거 구간을 채운다 (한 번에 최대 260거래일).
 2. **Sprint 1 마무리:** 수정주가·기업행위(배당·권리일정) 공급원 검토, 첫 PIT Feature Snapshot.
 3. **사업부문 분류 규칙 v0.2:** 3분기 보고서(11/10~16)가 쌓인 뒤 미분류 레이블 반영.
 4. **Sprint 2:** 타깃 사전 정의, Purged Walk-forward, Model A/B/C 비교, 실험 기록과 잠긴 최종 OOS 구간 (가이드 7장).
