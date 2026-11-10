@@ -37,6 +37,18 @@ def _months_back(today: date, n: int) -> tuple[str, str]:
     return f"{y}{m:02d}", f"{today:%Y%m}"
 
 
+def _month_windows(today: date, n: int, size: int = 12) -> list[tuple[str, str]]:
+    """n개월 전부터 이번 달까지를 size개월 이하 구간으로 나눈다. 관세청 API는 한 번에 1년 이내만 조회할 수 있다."""
+    y, m = today.year, today.month - n
+    while m <= 0:
+        y, m = y - 1, m + 12
+    months = []
+    while (y, m) <= (today.year, today.month):
+        months.append(f"{y}{m:02d}")
+        y, m = (y + 1, 1) if m == 12 else (y, m + 1)
+    return [(months[i], months[min(i + size, len(months)) - 1]) for i in range(0, len(months), size)]
+
+
 class MacroRun:
     def __init__(self, data_dir, keys: dict, *, config: Optional[dict] = None, registry=None, max_calls: int = 300,
                  now=lambda: datetime.now(timezone.utc), version: Optional[str] = None, http_kw: Optional[dict] = None):
@@ -92,13 +104,19 @@ class MacroRun:
         m = BatchManifest.start(run_id=run_id, contract=KCS_ITEMTRADE, code_version=self.version, now=self.now(),
                                 target={"hs_codes": [h["code"] for h in cfg["hs_codes"]]})
         c = self._client("kcs")
-        start, end = _months_back(self.now().astimezone(KST).date(), cfg.get("months_back", 14))
+        windows = _month_windows(self.now().astimezone(KST).date(), cfg.get("months_back", 14))
+        stop = False
         for h in cfg["hs_codes"]:
-            def one(h=h):
-                resp, obs = c.itemtrade(h["code"], start, end)
-                self._store(m, KCS_ITEMTRADE, SERIES_KCS, "KR", "KCS", resp, obs, f"HS{h['code']} {h['label']}",
-                            "https://www.data.go.kr/data/15101609/openapi.do")
-            if not self._guard(m, f"HS{h['code']}", one):
+            for start, end in windows:                            # 한 번에 1년 이내만 조회 가능
+                def one(h=h, start=start, end=end):
+                    resp, obs = c.itemtrade(h["code"], start, end)
+                    self._store(m, KCS_ITEMTRADE, SERIES_KCS, "KR", "KCS", resp, obs,
+                                f"HS{h['code']} {h['label']} {start}~{end}",
+                                "https://www.data.go.kr/data/15101609/openapi.do")
+                if not self._guard(m, f"HS{h['code']} {start}~{end}", one):
+                    stop = True
+                    break
+            if stop:
                 break
         m.finish(self.now())
         m.write(self.data_dir)
@@ -182,21 +200,21 @@ class MacroRun:
         lines, today = [], self.now().astimezone(KST).date()
         if "kcs" in self.keys:
             c = self._client("kcs")
+            windows = _month_windows(today, self.config["kcs"].get("months_back", 14))
             for h in self.config["kcs"]["hs_codes"]:
-                try:                                              # 행 구조: 코드 자릿수, 총계 행, 월별 합
-                    r = c.raw(h["code"], *_months_back(today, 3))
-                    rows = kcs_rows(r.body)
-                    months = [x for x in rows if "." in x["period"]]
-                    lines.append(f"[kcs] HS{h['code']} 행 {len(rows)}개, 월 {sorted({x['period'] for x in months})}, "
-                                 f"코드 자릿수 {dict(Counter(len(x['hs']) for x in months))}, "
-                                 f"총계 행 {[(x['hs'], x['expDlr']) for x in rows if '.' not in x['period']]}")
-                    tail = c.http.scrub(r.body[-200:].decode("utf-8", "replace")).replace("\n", " ")
-                    lines.append(f"[kcs]   원문 끝: {tail}")
-                    for o in parse_kcs(r.body, h["code"]):
-                        if o.metric == "export_usd":
-                            lines.append(f"[kcs]   {o.period_end:%Y-%m} 수출 {o.value:,.0f} USD ({o.label})")
-                except (CollectorError, ValueError) as e:
-                    lines.append(f"[kcs] HS{h['code']} 실패 — {e}")
+                for start, end in windows:                        # 수집과 같은 조회 구간으로 행 구조·총계 대조 확인
+                    try:
+                        r = c.raw(h["code"], start, end)
+                        rows = kcs_rows(r.body)
+                        months = [x for x in rows if "." in x["period"]]
+                        lines.append(f"[kcs] HS{h['code']} {start}~{end} 행 {len(rows)}개, 월 {len({x['period'] for x in months})}개, "
+                                     f"코드 자릿수 {dict(Counter(len(x['hs']) for x in months))}, "
+                                     f"총계 행 {[(x['hs'], x['expDlr']) for x in rows if '.' not in x['period']]}")
+                        exp = [o for o in parse_kcs(r.body, h["code"]) if o.metric == "export_usd"]
+                        lines.append("[kcs]   월별 수출(억 달러): "
+                                     + ", ".join(f"{o.period_end:%y-%m} {o.value / 1e8:,.1f}" for o in exp))
+                    except (CollectorError, ValueError) as e:
+                        lines.append(f"[kcs] HS{h['code']} {start}~{end} 실패 — {e}")
         if "ecos" in self.keys:
             c = self._client("ecos")
             for stat in self.config["ecos"].get("probe_tables", []):
