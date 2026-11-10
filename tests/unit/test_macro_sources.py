@@ -16,12 +16,25 @@ from storage.pit_store import PITFileStore
 UTC = timezone.utc
 KCS_KEY, ECOS_KEY, EIA_KEY = "kcs+KEY/abc=", "ECOSKEY12345", "EIAKEY987"
 
-KCS_OK = """<?xml version="1.0" encoding="UTF-8"?><response><header><resultCode>00</resultCode><resultMsg>NORMAL SERVICE.</resultMsg></header>
-<body><items>
-<item><balPayments>100</balPayments><expDlr>12,000</expDlr><expWgt>50</expWgt><hsCode>8542</hsCode><impDlr>5000</impDlr><impWgt>20</impWgt><statKor>전자집적회로</statKor><year>2026.08</year></item>
-<item><balPayments>200</balPayments><expDlr>13000</expDlr><expWgt>55</expWgt><hsCode>8542</hsCode><impDlr>5100</impDlr><impWgt>21</impWgt><statKor>전자집적회로</statKor><year>2026.09</year></item>
-<item><balPayments>300</balPayments><expDlr>25000</expDlr><expWgt>105</expWgt><hsCode>-</hsCode><impDlr>10100</impDlr><impWgt>41</impWgt><statKor>-</statKor><year>총계</year></item>
-</items></body></response>""".encode()
+def kcs_item(hs, period, exp, imp=5000, exp_kg=50, imp_kg=20, label="전자집적회로"):
+    return (f"<item><balPayments>{exp - imp}</balPayments><expDlr>{exp}</expDlr><expWgt>{exp_kg}</expWgt><hsCode>{hs}</hsCode>"
+            f"<impDlr>{imp}</impDlr><impWgt>{imp_kg}</impWgt><statKor>{label}</statKor><year>{period}</year></item>")
+
+
+def kcs_body(items, total=None):
+    """items: (hs, period, exp) 목록. 총계 행은 실제 응답처럼 조회 기간 전체 합 (total로 수출 금액만 바꿔 불일치를 만든다)."""
+    n = len(items)
+    tot = kcs_item("-", "총계", sum(i[2] for i in items) if total is None else total, 5000 * n, 50 * n, 20 * n, "-")
+    return ('<?xml version="1.0" encoding="UTF-8"?><response><header><resultCode>00</resultCode>'
+            "<resultMsg>정상서비스.</resultMsg></header><body><items>"
+            + "".join(kcs_item(*i) for i in items) + tot + "</items></body></response>").encode()
+
+
+def kcs_ok(sep_value=13000):
+    return kcs_body([("8542", "2026.08", 12000), ("8542", "2026.09", sep_value)])
+
+
+KCS_OK = kcs_ok()
 KCS_GW_ERR = """<OpenAPI_ServiceResponse><cmmMsgHeader><errMsg>SERVICE ERROR</errMsg><returnAuthMsg>SERVICE_KEY_IS_NOT_REGISTERED_ERROR</returnAuthMsg><returnReasonCode>30</returnReasonCode></cmmMsgHeader></OpenAPI_ServiceResponse>""".encode()
 
 
@@ -108,6 +121,26 @@ def test_parse_kcs_months_and_errors():
     assert e.value.no_data
 
 
+def test_parse_kcs_sums_detail_rows_and_checks_total():
+    """실제 응답은 요청한 4단위가 아니라 10단위 세부 품목을 월마다 한 행씩 준다 → 월별로 더한다."""
+    items = [("8542311000", "2026.08", 2_000), ("8542321010", "2026.08", 9_000), ("8542390000", "2026.08", 500),
+             ("8542311000", "2026.09", 2_100), ("8542321010", "2026.09", 9_900)]
+    exp = {(o.period_end, o.metric): o for o in parse_kcs(kcs_body(items), "8542")}
+    aug, sep = exp[(date(2026, 8, 31), "export_usd")], exp[(date(2026, 9, 30), "export_usd")]
+    assert aug.value == 11_500 and sep.value == 12_000 and aug.series_key == "HS8542"
+    assert "3개 합계" in aug.label and "2개 합계" in sep.label
+    assert exp[(date(2026, 8, 31), "import_kg")].value == 60
+    with pytest.raises(SourceError) as e:                                     # 총계 행과 다르면 행이 빠진 것
+        parse_kcs(kcs_body(items, total=30_000), "8542")
+    assert e.value.code == "TOTAL_MISMATCH"
+    with pytest.raises(SourceError) as e:                                     # 같은 세부 코드가 한 달에 두 번
+        parse_kcs(kcs_body(items + [("8542311000", "2026.09", 1)]), "8542")
+    assert e.value.code == "DUPLICATE_ROWS"
+    with pytest.raises(SourceError) as e:                                     # 요청하지 않은 코드가 섞임
+        parse_kcs(kcs_body(items + [("8541100000", "2026.09", 1)]), "8542")
+    assert e.value.code == "HS_MISMATCH"
+
+
 def test_parse_ecos_and_eia():
     obs = parse_ecos(json.dumps(ecos_rows("722Y001", "0101000", ["202609"], ["2.25"])).encode(), "722Y001", "0101000", "M")
     assert (obs[0].series_key, obs[0].period_start, obs[0].period_end, obs[0].value) == \
@@ -139,7 +172,7 @@ def test_observation_revisions_including_flip_flop(registry):
     t = datetime(2026, 11, 9, 22, 47, tzinfo=UTC)
 
     def ingest(value, when):
-        obs = parse_kcs(KCS_OK.replace(b"13000", str(value).encode()), "8542")
+        obs = parse_kcs(kcs_ok(value), "8542")
         recs, same = observation_records(obs, series_id="kcs_itemtrade", entity_id="KR", provider="KCS",
                                          contract_id="kcs_itemtrade_v1", raw_sha="h", ingested_at_utc=when,
                                          source_url="u", latest=store.latest)
