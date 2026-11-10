@@ -41,7 +41,8 @@ GitHub Actions [`opendart-daily`](.github/workflows/opendart-daily.yml)가 매�
 | [`collectors/base_client.py`](collectors/base_client.py) | 호출 속도·예산 제한, 429·5xx 재시도(지수 백오프·Retry-After), 인증키 가림, 페이지 완결성·스키마 변화 확인 | 6-3 |
 | [`collectors/opendart.py`](collectors/opendart.py) | OpenDART 호출과 PIT 변환. 정정 보고서는 바뀐 계정만 새 버전, 가용 시각은 접수일 규칙과 실제 수집 시각 중 늦은 쪽 | 4-3 |
 | [`storage/`](storage/) | 변경 불가 원본(내용 주소·해시 검증), PIT 버전 파일(추가 전용·재수집 중복 없음), 실행별 수집 기록 | 6-1, 6-2 |
-| [`orchestration/opendart_daily.py`](orchestration/opendart_daily.py) | 매일 실행: 최근 7일 공시 다시 훑기 → 정기보고서 재무제표 대기열 → 사업부문 XBRL → 수집 기록 | 6-4 |
+| [`orchestration/opendart_daily.py`](orchestration/opendart_daily.py) | 매일 실행: 종목 식별자 매핑 → 최근 7일 공시 다시 훑기 → 정기보고서 재무제표 대기열 → 사업부문 XBRL → 수집 기록 | 6-4 |
+| [`collectors/opendart_corpcode.py`](collectors/opendart_corpcode.py), [`core/security_master.py`](core/security_master.py) | DART 고유번호와 종목코드의 시점별 매핑. 바뀐 회사만 새 버전으로 남기고, 그 시점에 유효했던 매핑만 돌려준다. 수집 시작 전 시점은 "알 수 없음"으로 답한다(지금 종목코드로 과거를 묶지 않음) | 4-8 |
 | [`collectors/opendart_segments.py`](collectors/opendart_segments.py), [`feature_store/segment_exposure.py`](feature_store/segment_exposure.py) | XBRL 영업부문·지역 주석에서 부문별 매출·영업이익과 지역별 매출을 PIT로 추출하고, 부문→산업 규칙([`config/segment_taxonomy.json`](config/segment_taxonomy.json))으로 매출·이익 가중 산업 노출도와 부문별 신뢰도를 계산 | 5-3 |
 
 공시 원문 문서(본문·첨부)는 받지 않습니다. 이용 조건을 따로 검토해야 해서입니다.
