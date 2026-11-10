@@ -1,5 +1,5 @@
 {
-  "version": "0.1",
+  "version": "0.2",
   "note": "부문별 글로벌 드라이버 후보 (가이드 5-2). segments는 config/segment_taxonomy.json의 산업 ID. 연구 가설이며 Model A/B/C로 기여를 검증한다. 바꾸면 version을 올린다.",
   "kcs": {
     "months_back": 14,
@@ -14,7 +14,13 @@
     "series": [
       {"stat": "722Y001", "cycle": "M", "item": "0101000", "label": "한국은행 기준금리", "back": 24},
       {"stat": "817Y002", "cycle": "D", "item": "010200000", "label": "국고채 3년 금리", "back": 45},
-      {"stat": "402Y014", "cycle": "M", "item": "*AA", "label": "수출물가지수 총지수", "back": 24}
+      {"stat": "402Y014", "cycle": "M", "item": "*AA", "label": "수출물가지수 총지수", "back": 24},
+      {"stat": "402Y014", "cycle": "M", "item": "3091AA", "label": "수출물가지수 반도체", "back": 24, "segments": ["semiconductor"]},
+      {"stat": "402Y014", "cycle": "M", "item": "31211AA", "label": "수출물가지수 자동차", "back": 24, "segments": ["auto"]},
+      {"stat": "402Y014", "cycle": "M", "item": "31013AA", "label": "수출물가지수 전지", "back": 24, "segments": ["battery"]},
+      {"stat": "402Y014", "cycle": "M", "item": "304AA", "label": "수출물가지수 석탄및석유제품", "back": 24, "segments": ["energy_refining"]},
+      {"stat": "402Y014", "cycle": "M", "item": "305AA", "label": "수출물가지수 화학제품", "back": 24, "segments": ["chemicals_materials"]},
+      {"stat": "402Y014", "cycle": "M", "item": "307AA", "label": "수출물가지수 1차금속제품", "back": 24, "segments": ["steel_metals"]}
     ],
     "probe_tables": ["402Y014"],
     "probe_keywords": ["반도체", "메모리", "선박", "자동차", "석탄및석유", "화학", "1차금속", "전지", "디스플레이", "컴퓨터"]

@@ -62,8 +62,8 @@ KCS_METRICS = {"expDlr": ("export_usd", "USD"), "impDlr": ("import_usd", "USD"),
                "expWgt": ("export_kg", "KG"), "impWgt": ("import_kg", "KG")}
 
 
-def parse_kcs(body: bytes, hs_code: str) -> list[Observation]:
-    """XML 응답 → 월별 관측. 총계 행은 뺀다. 오류 응답(게이트웨이 형식 포함)은 SourceError."""
+def kcs_rows(body: bytes) -> list[dict]:
+    """XML 응답 → 행 그대로 (총계 행 포함). 오류 응답(게이트웨이 형식 포함)은 SourceError."""
     root = ET.fromstring(body)
     if root.tag == "OpenAPI_ServiceResponse":                     # 게이트웨이 오류 (키 없음·미등록 등)
         msg = root.findtext(".//errMsg") or ""
@@ -74,17 +74,56 @@ def parse_kcs(body: bytes, hs_code: str) -> list[Observation]:
     if code not in ("00", "0", "000"):
         raise SourceError("KCS", code or "?", root.findtext(".//header/resultMsg") or "",
                           no_data=code in ("03",))
-    out = []
+    rows = []
     for item in root.iter("item"):
-        period = (item.findtext("year") or "").strip()
-        if "." not in period:                                     # '총계' 등
+        row = {"period": (item.findtext("year") or "").strip(), "hs": (item.findtext("hsCode") or "").strip(),
+               "label": (item.findtext("statKor") or "").strip()}
+        row.update({tag: _num(item.findtext(tag)) for tag in KCS_METRICS})
+        rows.append(row)
+    return rows
+
+
+def parse_kcs(body: bytes, hs_code: str) -> list[Observation]:
+    """XML 응답 → 요청한 HS 코드의 월별 관측.
+
+    이 API는 요청한 코드(2·4·6단위)의 값이 아니라 그 아래 가장 세부 단위(10단위) 품목을 월마다 한 행씩 준다
+    (실제 응답으로 확인, 2026-11). 그래서 요청 코드로 시작하는 가장 세부 단위 행을 월별로 더한다.
+    요청 코드와 정확히 같은 행이 있으면 그 행을 쓴다. 세부 품목 중량은 단위가 섞일 일이 없는 kg이라 그대로 더한다.
+    응답의 '총계' 행(조회 기간 전체 합)과 월별 합의 합이 다르면 일부 행이 빠진 것이므로 SourceError.
+    """
+    months: dict[tuple, list] = {}
+    totals = []
+    for row in kcs_rows(body):
+        if "." not in row["period"]:                              # '총계' 행
+            totals.append(row)
             continue
-        y, m = (int(x) for x in period.split(".")[:2])
+        if not row["hs"].startswith(hs_code):
+            raise SourceError("KCS", "HS_MISMATCH", f"요청 {hs_code}에 다른 코드 {row['hs']} 행이 섞임")
+        y, m = (int(x) for x in row["period"].split(".")[:2])
+        months.setdefault((y, m), []).append(row)
+    out, grand = [], {tag: 0.0 for tag in KCS_METRICS}
+    for (y, m), rows in sorted(months.items()):
+        exact = [r for r in rows if r["hs"] == hs_code]
+        if exact:
+            use, label = exact[:1], exact[0]["label"]
+        else:
+            depth = max(len(r["hs"]) for r in rows)
+            use = [r for r in rows if len(r["hs"]) == depth]
+            if len({r["hs"] for r in use}) != len(use):
+                raise SourceError("KCS", "DUPLICATE_ROWS", f"HS{hs_code} {y}-{m:02d}에 같은 세부 코드가 두 번 나옴")
+            label = f"HS {depth}단위 세부 품목 {len(use)}개 합계"
         start, end = month_bounds(y, m)
-        label = (item.findtext("statKor") or "").strip()
         for tag, (metric, unit) in KCS_METRICS.items():
-            value = _num(item.findtext(tag))
+            vals = [r[tag] for r in use if r[tag] is not None]
+            value = sum(vals) if vals else None
+            grand[tag] += value or 0.0
             out.append(Observation(f"HS{hs_code}", metric, start, end, value, unit, label))
+    if len(totals) == 1:                                          # 조회 기간 전체 합과 대조 (행 누락 감지)
+        for tag in KCS_METRICS:
+            t = totals[0][tag]
+            if t is not None and abs(t - grand[tag]) > max(1.0, 1e-9 * abs(t)):
+                raise SourceError("KCS", "TOTAL_MISMATCH",
+                                  f"HS{hs_code} {tag}: 월별 합 {grand[tag]:.0f} ≠ 총계 행 {t:.0f} (행 누락 의심)")
     return out
 
 
@@ -98,9 +137,12 @@ class KcsClient:
                                urllib.parse.quote(self._key, safe="")), budget=budget,
                                rate=rate if rate is not None else TokenBucket(2.0), **http_kw)
 
+    def raw(self, hs_code: str, start_yymm: str, end_yymm: str) -> HttpResponse:
+        return self.http.get("getItemtradeList", {"serviceKey": self._key, "strtYymm": start_yymm,
+                                                  "endYymm": end_yymm, "hsSgn": hs_code})
+
     def itemtrade(self, hs_code: str, start_yymm: str, end_yymm: str) -> tuple[HttpResponse, list[Observation]]:
-        r = self.http.get("getItemtradeList", {"serviceKey": self._key, "strtYymm": start_yymm, "endYymm": end_yymm,
-                                               "hsSgn": hs_code})
+        r = self.raw(hs_code, start_yymm, end_yymm)
         return r, parse_kcs(r.body, hs_code)
 
 

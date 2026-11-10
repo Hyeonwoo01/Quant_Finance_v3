@@ -10,6 +10,7 @@ import json
 import logging
 import os
 import sys
+from collections import Counter
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 from typing import Optional
@@ -17,7 +18,7 @@ from zoneinfo import ZoneInfo
 
 from collectors.base_client import BudgetExhausted, CallBudget, CollectorError
 from collectors.macro_sources import (BOK_ORG_NAMES, SERIES_ECOS, SERIES_EIA, SERIES_KCS, EcosClient, EiaClient,
-                                      KcsClient, SourceError, observation_records)
+                                      KcsClient, SourceError, kcs_rows, observation_records, parse_kcs)
 from core.repro import code_version
 from core.source_registry import BOK_ECOS, EIA, KCS_ITEMTRADE, default_registry
 from storage.manifests import BatchManifest
@@ -180,13 +181,22 @@ class MacroRun:
         """응답 구조 확인용 (저장 없음): 관세청 첫 행 필드, ECOS 품목 코드 후보, EIA 첫 행 필드."""
         lines, today = [], self.now().astimezone(KST).date()
         if "kcs" in self.keys:
-            try:
-                c = self._client("kcs")
-                r, obs = c.itemtrade("8542", *_months_back(today, 3))
-                lines.append(f"[kcs] HTTP {r.status}, 관측 {len(obs)}개, 앞부분: {obs[:4]}")
-                lines.append("[kcs] 원문 앞부분: " + c.http.scrub(r.body[:600].decode("utf-8", "replace")).replace("\n", " "))
-            except (CollectorError, ValueError) as e:
-                lines.append(f"[kcs] 실패 — {e}")
+            c = self._client("kcs")
+            for h in self.config["kcs"]["hs_codes"]:
+                try:                                              # 행 구조: 코드 자릿수, 총계 행, 월별 합
+                    r = c.raw(h["code"], *_months_back(today, 3))
+                    rows = kcs_rows(r.body)
+                    months = [x for x in rows if "." in x["period"]]
+                    lines.append(f"[kcs] HS{h['code']} 행 {len(rows)}개, 월 {sorted({x['period'] for x in months})}, "
+                                 f"코드 자릿수 {dict(Counter(len(x['hs']) for x in months))}, "
+                                 f"총계 행 {[(x['hs'], x['expDlr']) for x in rows if '.' not in x['period']]}")
+                    tail = c.http.scrub(r.body[-200:].decode("utf-8", "replace")).replace("\n", " ")
+                    lines.append(f"[kcs]   원문 끝: {tail}")
+                    for o in parse_kcs(r.body, h["code"]):
+                        if o.metric == "export_usd":
+                            lines.append(f"[kcs]   {o.period_end:%Y-%m} 수출 {o.value:,.0f} USD ({o.label})")
+                except (CollectorError, ValueError) as e:
+                    lines.append(f"[kcs] HS{h['code']} 실패 — {e}")
         if "ecos" in self.keys:
             c = self._client("ecos")
             for stat in self.config["ecos"].get("probe_tables", []):
