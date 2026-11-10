@@ -18,6 +18,7 @@ from typing import Iterator, Optional
 
 from collectors.base_client import HttpResponse, redact
 from core.data_contracts import ContractRegistry, Purpose
+from storage.visibility import require_placement
 
 
 @dataclass(frozen=True)
@@ -49,6 +50,7 @@ class RawStore:
 
     def put(self, *, contract_id: str, source_id: str, response: HttpResponse, request_id: Optional[str] = None) -> RawRef:
         self.registry.require(contract_id, Purpose.STORAGE)   # 권한 없으면 PermissionDenied, 아무것도 쓰지 않음
+        require_placement(self.registry, contract_id, self.root, Purpose.RAW_REDISTRIBUTION)   # 공개 저장소에는 재배포 허용 원본만
         sha = sha256_hex(response.body)
         path = self._object_path(source_id, sha)
         is_new = not path.exists()

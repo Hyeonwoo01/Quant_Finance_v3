@@ -18,8 +18,9 @@ from enum import Enum
 from pathlib import Path
 from typing import Callable, Iterable, Iterator, Mapping, Optional
 
-from core.data_contracts import ContractRegistry
+from core.data_contracts import ContractRegistry, Purpose
 from core.pit_schema import PITRecord, PITStore
+from storage.visibility import require_placement
 
 _DATETIME_FIELDS = {f.name for f in fields(PITRecord) if f.name.endswith("_utc")}
 _DATE_FIELDS = {"observation_period_start", "observation_period_end", "vintage_date"}
@@ -30,6 +31,13 @@ Partition = Callable[[PITRecord], str]
 
 def by_entity(rec: PITRecord) -> str:
     return rec.entity_id
+
+
+def by_period_day(rec: PITRecord) -> str:
+    """관측 기간 시작일 (예: 하루에 수천 종목이 생기는 일별 시세는 날짜별 파일)."""
+    if rec.observation_period_start is None:
+        raise ValueError(f"{rec.revision_id}: observation_period_start가 없어 날짜별로 나눌 수 없음")
+    return f"{rec.observation_period_start:%Y-%m-%d}"
 
 
 def by_period_month(rec: PITRecord) -> str:
@@ -136,6 +144,8 @@ class PITFileStore:
                 continue
             store.append(r)          # 권한·정정 규칙 검증 (실패하면 예외, 아직 아무것도 쓰지 않음)
             new.append(r)
+        for cid in sorted({r.license_contract_id for r in new}):      # 공개 저장소에는 공개 표시가 허용된 값만
+            require_placement(self.registry, cid, self.root, Purpose.PUBLIC_DISPLAY)
         by_path: dict[Path, list[str]] = {}
         for r in new:
             by_path.setdefault(self._path(r.series_id, self.partition_of(r)), []).append(

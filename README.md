@@ -59,6 +59,16 @@ ECOS는 한국은행이 작성한 통계만 받습니다(다른 기관 작성 �
 | [`collectors/macro_sources.py`](collectors/macro_sources.py) | 관세청·ECOS·EIA 호출, 응답 오류 구분(인증·자료 없음), 관측값 → PIT 레코드 | 5-2, 6-3 |
 | [`orchestration/macro_daily.py`](orchestration/macro_daily.py) | 매일 실행: 공급원별로 키가 있는 것만 받고, 인증 오류·예산 소진이면 그 공급원만 멈춤. 받을 시리즈는 [`config/macro_series.json`](config/macro_series.json) | 6-4 |
 
+## 한국 주식 가격 (비공개 저장)
+
+한국거래소 원천 시세는 제3자 제공·재배포가 금지돼 있어 이 저장소와 `data` 브랜치에 올리지 않습니다.
+GitHub Actions [`krx-daily`](.github/workflows/krx-daily.yml)가 평일 14:23 KST에 금융위원회 주식시세정보를 받아 따로 둔 비공개 저장소에만 쌓습니다.
+
+| 모듈 | 하는 일 | 가이드 |
+|---|---|---|
+| [`storage/visibility.py`](storage/visibility.py) | 비공개 표식이 없는 저장소에는 재배포·공개 표시가 승인된 데이터만 쓸 수 있게 막는다 | 3-1, 3-5 |
+| [`collectors/fsc_krx.py`](collectors/fsc_krx.py), [`orchestration/krx_daily.py`](orchestration/krx_daily.py) | 일별 시가·고가·저가·종가·거래량·상장주식수 수집. 가용 시각은 공급자 지연(다음 영업일 13시)을 반영해 T+2 세션 08:30. 로그에 시세 값을 출력하지 않는다 | 4-4, 8-1 |
+
 ## 테스트
 
 ```bash
