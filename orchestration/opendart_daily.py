@@ -17,6 +17,7 @@ import sys
 import time
 import xml.etree.ElementTree as ET
 import zipfile
+from collections import Counter
 from dataclasses import asdict, dataclass, field, replace
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
@@ -27,11 +28,13 @@ from collectors.base_client import BudgetExhausted, CallBudget, CollectorError, 
 from collectors.opendart import (FS_KNOWN, FS_REQUIRED, LIST_REQUIRED, NO_DATA, OK, SERIES_FILINGS, SERIES_FS, ApiResult, FilingRef,
                                  OpenDartClient, OpenDartError, filing_record, fs_candidates, fs_records,
                                  parse_periodic, parse_rcept_dt)
+from collectors.opendart_corpcode import SERIES_CORP_MASTER, CorpCodeError, fetch_corp_codes, master_records
 from collectors.opendart_segments import SERIES_SEGMENTS, extract_segments, segment_records
 from collectors.opendart_xbrl import fetch_xbrl, parse_xbrl_zip
 from core.data_contracts import ContractRegistry
 from core.repro import code_version
-from core.source_registry import OPENDART_FINANCIALS, OPENDART_LIST, OPENDART_XBRL, default_registry
+from core.source_registry import (OPENDART_CORPCODE, OPENDART_FINANCIALS, OPENDART_LIST, OPENDART_XBRL,
+                                  default_registry)
 from storage.manifests import BatchManifest
 from storage.pit_store import PITFileStore, by_period_month
 from storage.raw_store import RawStore
@@ -155,7 +158,34 @@ class DailyRun:
         self.now = now
         self.version = version or code_version()
         self.raw = RawStore(self.data_dir, self.registry)
-        self.pit = PITFileStore(self.data_dir, self.registry, partitions={SERIES_FILINGS: by_period_month})
+        self.pit = PITFileStore(self.data_dir, self.registry, partitions={
+            SERIES_FILINGS: by_period_month, SERIES_CORP_MASTER: lambda rec: "all"})
+
+    # ---------- 0) 종목 식별자 매핑 ----------
+    def collect_corp_master(self, run_id: str) -> BatchManifest:
+        """고유번호 파일을 받아 상장사의 {회사명, 종목코드}가 바뀐 회사만 새 버전으로 남긴다 (호출 1회).
+        파일이 잘렸거나 이상하면 아무것도 바꾸지 않고 오류로 남긴다. 원본 zip은 저장하지 않고 해시만 기록한다."""
+        m = BatchManifest.start(run_id=run_id, contract=OPENDART_CORPCODE, code_version=self.version, now=self.now(),
+                                target={"endpoint": "corpCode.xml"})
+        try:
+            f = fetch_corp_codes(self.client)
+            m.requests.append({"endpoint": "corpCode.xml", "params": f.response.params, "http_status": f.response.status,
+                               "attempts": f.response.attempts, "zip_sha256": f.zip_sha256, "xml_sha256": f.xml_sha256,
+                               "rows": len(f.rows), "raw_stored": False})
+            recs, counts = master_records(f.rows, self.pit.iter_records([SERIES_CORP_MASTER]),
+                                          contract_id=OPENDART_CORPCODE.contract_id, raw_sha=f.xml_sha256,
+                                          ingested_at_utc=self.now())
+            res = self.pit.append(recs)
+            for k, v in counts.items():
+                m.count(k, v)
+            m.count("added", res.added)
+            if res.conflicts:
+                m.warnings.append(f"같은 revision_id인데 내용이 다름 (쓰지 않음): {list(res.conflicts)[:20]}")
+        except (CollectorError, CorpCodeError) as e:      # 예산 소진·OpenDART 오류·파일 이상 모두 기록만 하고 넘어간다
+            m.errors.append(f"corpCode.xml: {e}")
+        m.finish(self.now())
+        m.write(self.data_dir)
+        return m
 
     # ---------- 1) 공시 목록 ----------
     def collect_filings(self, bgn: date, end: date, run_id: str, m: BatchManifest) -> tuple[dict, Optional[str]]:
@@ -462,14 +492,23 @@ def main(argv=None) -> int:
     try:
         if args.check:
             print(check_connection(client, end))
+            f = fetch_corp_codes(client)                      # 저장 없이 고유번호 파일의 크기만 확인
+            codes = Counter(r["stock_code"] for r in f.rows if r["stock_code"])
+            print(f"고유번호 파일: 회사 {len(f.rows)}개, 종목코드 있는 회사 {sum(codes.values())}개, "
+                  f"둘 이상의 회사가 쓰는 종목코드 {sum(1 for n in codes.values() if n > 1)}개")
             return 0
-        res = DailyRun(client, args.data_dir).run(end=end, lookback_days=args.lookback_days, xbrl_minutes=args.xbrl_minutes)
+        run = DailyRun(client, args.data_dir)
+        m_corp = run.collect_corp_master(datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ") + "-corp")
+        res = run.run(end=end, lookback_days=args.lookback_days, xbrl_minutes=args.xbrl_minutes)
     except OpenDartError as e:
         print(f"실패: {e}", file=sys.stderr)
         return 1
+    print(f"종목 식별자 매핑: {m_corp.status} {m_corp.counts}")
+    for e in m_corp.errors:
+        print(f"  오류: {e}")
     print(_summary(res))
     print(f"호출 {client.budget.used}회 / 상한 {client.budget.max_calls}회")
-    return 1 if res.failed else 0
+    return 1 if res.failed or m_corp.status == "failed" else 0
 
 
 if __name__ == "__main__":

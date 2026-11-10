@@ -36,6 +36,15 @@ OPENDART_FINANCIALS = DataSourceContract(
     revision_policy="[기재정정] 보고서는 바뀐 계정만 새 revision으로 이전 버전을 가리킴",
     max_staleness_policy_id="kr_quarterly_report", **_OPENDART_PERMISSIONS)
 
+# 고유번호 파일: 회사 식별 정보(고유번호·회사명·종목코드)뿐이라 공시 목록과 같은 조건. 원본 zip은 용량 때문에 저장하지 않는다
+# (계약상 금지가 아니라 운영상 선택 — collectors/opendart_corpcode.py).
+OPENDART_CORPCODE = DataSourceContract(
+    contract_id="opendart_corpcode_v1", provider="OpenDART", source_id="opendart_corpcode",
+    series_or_endpoint="corpCode.xml (고유번호: 회사별 고유번호·회사명·종목코드·최종변경일)", frequency="daily",
+    unit="mapping", availability_policy_id="ingested_next_kr_cutoff",
+    revision_policy="회사명·종목코드가 바뀌면 새 revision, 종목코드가 사라지면 빈 종목코드의 새 revision",
+    max_staleness_policy_id="kr_daily_1_session", **_OPENDART_PERMISSIONS)
+
 # XBRL 원본 zip에는 서술형 주석(공시 제출인의 저작물일 수 있음)이 들어 있다. 원본은 저장·재배포·LLM 입력하지 않고,
 # 메모리에서 숫자 사실(부문별·지역별 매출·영업이익 등)만 뽑아 저장한다. 숫자 사실은 전체 재무제표 API와 같은 성격이다.
 OPENDART_XBRL = DataSourceContract(
@@ -83,7 +92,7 @@ EIA = DataSourceContract(
     permission_reference="EIA Copyrights and Reuse + API Terms of Service, 2026-11-09 원문 확인",
     max_staleness_policy_id="series_release", **_OPEN)
 
-REGISTERED_CONTRACTS = (OPENDART_LIST, OPENDART_FINANCIALS, OPENDART_XBRL, KCS_ITEMTRADE, BOK_ECOS, EIA)
+REGISTERED_CONTRACTS = (OPENDART_LIST, OPENDART_FINANCIALS, OPENDART_XBRL, OPENDART_CORPCODE, KCS_ITEMTRADE, BOK_ECOS, EIA)
 
 
 def default_registry() -> ContractRegistry:

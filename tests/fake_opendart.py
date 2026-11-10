@@ -1,5 +1,7 @@
-"""테스트용 가짜 OpenDART. 응답 형식은 개발가이드 명세(list.json, fnlttSinglAcntAll.json)를 따른다."""
+"""테스트용 가짜 OpenDART. 응답 형식은 개발가이드 명세(list.json, fnlttSinglAcntAll.json, corpCode.xml)를 따른다."""
+import io
 import json
+import zipfile
 from urllib.parse import urlparse
 
 TEST_KEY = "TESTKEY-0000000000000000000000000000000"
@@ -11,6 +13,7 @@ class FakeDart:
         self.filings: list[dict] = []          # list.json 행
         self.fs: dict[tuple, list] = {}        # (corp_code, bsns_year, reprt_code, fs_div) → 행
         self.xbrl: dict[str, bytes] = {}       # rcept_no → XBRL zip (없으면 XML 오류 013)
+        self.corps: list[tuple] = []           # corpCode.xml 행: (corp_code, corp_name, stock_code, modify_date)
         self.calls: list[tuple] = []
         self.force_status = None               # 예: "020"이면 모든 호출에 그 상태
 
@@ -47,6 +50,8 @@ class FakeDart:
             if not rows:
                 return self._json({"status": "013", "message": "조회된 데이타가 없습니다."})
             return self._json({"status": "000", "message": "정상", "list": rows})
+        if endpoint == "corpCode.xml":
+            return 200, {"Content-Type": "application/x-msdownload"}, corp_code_zip(self.corps)
         if endpoint == "fnlttXbrl.xml":
             payload = self.xbrl.get(params["rcept_no"])
             if payload is None:
@@ -69,3 +74,17 @@ class FakeDart:
     @staticmethod
     def _json(d):
         return 200, {"Content-Type": "application/json"}, json.dumps(d, ensure_ascii=False).encode("utf-8")
+
+
+def corp_code_zip(corps) -> bytes:
+    """(corp_code, corp_name, stock_code, modify_date) 목록 → 실제와 같은 모양의 zip (CORPCODE.xml 하나)."""
+    xml = ['<?xml version="1.0" encoding="UTF-8"?>', "<result>"]
+    for code, name, stock, mod in corps:
+        xml.append(f"<list><corp_code>{code}</corp_code><corp_name>{name}</corp_name>"
+                   f"<corp_eng_name>X</corp_eng_name><stock_code>{stock or ' '}</stock_code>"
+                   f"<modify_date>{mod}</modify_date></list>")
+    xml.append("</result>")
+    buf = io.BytesIO()
+    with zipfile.ZipFile(buf, "w", zipfile.ZIP_DEFLATED) as z:
+        z.writestr("CORPCODE.xml", "\n".join(xml))
+    return buf.getvalue()
