@@ -1,0 +1,76 @@
+{
+  "code_version": "b25c578b6d1a19234961039ac5ae898b33231664",
+  "contract_id": "opendart_xbrl_v1",
+  "counts": {
+    "added": 18,
+    "reports": 4,
+    "segment_no_segment_table": 2,
+    "segment_ok": 2,
+    "unchanged": 0
+  },
+  "errors": [],
+  "finished_at_utc": "2026-11-10T01:15:53.541794+00:00",
+  "permission": {
+    "approval_status": "approved_for_public_display",
+    "attribution_required": true,
+    "license_url": "https://opendart.fss.or.kr/intro/terms.do",
+    "permission_reference": "OpenDART 이용약관(2020-01-21 시행) 2026-11-09 원문 검토 — DATA_SOURCES.md#opendart"
+  },
+  "requests": [
+    {
+      "bytes": 67623,
+      "endpoint": "fnlttXbrl.xml",
+      "geography": "NO_GEOGRAPHY",
+      "rcept_no": "20261109000022",
+      "reprt_code": "11014",
+      "seconds": 1.0,
+      "segment": "NO_SEGMENT_TABLE",
+      "sha256": "d14fbf5d1709cdf9e17de70e6dd9bebdc68c2268228671e74be350e3c54fefc0",
+      "values": 0
+    },
+    {
+      "bytes": 74078,
+      "endpoint": "fnlttXbrl.xml",
+      "geography": "NO_GEOGRAPHY",
+      "rcept_no": "20261109000074",
+      "reprt_code": "11014",
+      "seconds": 0.9,
+      "segment": "NO_SEGMENT_TABLE",
+      "sha256": "8b543f10822e9f83911ba48e164cbe48d7cb6503f2d8c8b469edd43de0c5cdfa",
+      "values": 0
+    },
+    {
+      "bytes": 486671,
+      "endpoint": "fnlttXbrl.xml",
+      "geography": "NO_GEOGRAPHY",
+      "rcept_no": "20261109000230",
+      "reprt_code": "11012",
+      "seconds": 1.9,
+      "segment": "OK",
+      "sha256": "044cd29fd3ba5492776c8b3eec5329a211e0887a4bd295d9b23928c3a633f1df",
+      "values": 6
+    },
+    {
+      "bytes": 710839,
+      "endpoint": "fnlttXbrl.xml",
+      "geography": "NO_GEOGRAPHY",
+      "rcept_no": "20261109000267",
+      "reprt_code": "11012",
+      "seconds": 2.6,
+      "segment": "OK",
+      "sha256": "98f6b7df2f2d5698bb6a19e34068a8f62f475f7fd50dbab06562db6c1c8ba88c",
+      "values": 8
+    }
+  ],
+  "run_id": "20261110T011516Z",
+  "schema_version": "manifest-1",
+  "source_id": "opendart_xbrl",
+  "started_at_utc": "2026-11-10T01:15:47.073291+00:00",
+  "status": "ok",
+  "target": {
+    "minutes": 25.0,
+    "queued": 4,
+    "remaining": 0
+  },
+  "warnings": []
+}

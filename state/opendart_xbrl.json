@@ -24,6 +24,38 @@
    "geography": "OK",
    "segment": "OK",
    "values": 13
+  },
+  "20261109000022": {
+   "corp_code": "00260392",
+   "corp_name": "대원전선",
+   "done_at_utc": "2026-11-10T01:15:48.106394+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261109000074": {
+   "corp_code": "00142865",
+   "corp_name": "WISCOM",
+   "done_at_utc": "2026-11-10T01:15:49.011728+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261109000230": {
+   "corp_code": "00855093",
+   "corp_name": "선진",
+   "done_at_utc": "2026-11-10T01:15:50.946371+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "OK",
+   "values": 6
+  },
+  "20261109000267": {
+   "corp_code": "00136721",
+   "corp_name": "신영증권",
+   "done_at_utc": "2026-11-10T01:15:53.539911+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "OK",
+   "values": 8
   }
  },
  "gave_up": {}

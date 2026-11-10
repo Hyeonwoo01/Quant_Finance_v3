@@ -46,6 +46,70 @@
    "rcept_dt": "20261106",
    "report_nm": "[기재정정]반기보고서 (2026.06)",
    "reprt_code": "11012"
+  },
+  "20261109000022": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00260392",
+   "corp_name": "대원전선",
+   "done_at_utc": "2026-11-10T01:15:41.095596+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261109",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261109000074": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00142865",
+   "corp_name": "WISCOM",
+   "done_at_utc": "2026-11-10T01:15:42.977452+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261109",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261109000230": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00855093",
+   "corp_name": "선진",
+   "done_at_utc": "2026-11-10T01:15:44.948889+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "반기보고서",
+   "period_end": "2026-06-30",
+   "rcept_dt": "20261109",
+   "report_nm": "[기재정정]반기보고서 (2026.06)",
+   "reprt_code": "11012"
+  },
+  "20261109000267": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00136721",
+   "corp_name": "신영증권",
+   "done_at_utc": "2026-11-10T01:15:47.054923+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "반기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261109",
+   "report_nm": "반기보고서 (2026.09)",
+   "reprt_code": "11012"
   }
  },
  "gave_up": {},
