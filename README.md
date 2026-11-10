@@ -275,7 +275,8 @@ GitHub Actions 설정 (Settings → Secrets and variables → Actions):
 
 ## 10. 다음 단계
 
-1. **가격 과거 채우기:** `krx-daily`의 `backfill` 모드로 과거 구간을 채운다 (한 번에 최대 260거래일).
+1. **가격 과거 채우기:** 최근 3년(2023-11~)을 `krx-daily`의 `backfill` 모드로 채운다 (한 번에 최대 260거래일).
+   **저장 형식 Parquet 전환**은 비공개 저장소가 1GB를 넘거나 2023년 이전을 채우기 전에 한다 (가이드 6-1 구현 노트).
 2. **Sprint 1 마무리:** 수정주가·기업행위(배당·권리일정) 공급원 검토, 첫 PIT Feature Snapshot.
 3. **사업부문 분류 규칙 v0.2:** 3분기 보고서(11/10~16)가 쌓인 뒤 미분류 레이블 반영.
 4. **Sprint 2:** 타깃 사전 정의, Purged Walk-forward, Model A/B/C 비교, 실험 기록과 잠긴 최종 OOS 구간 (가이드 7장).
