@@ -10,7 +10,7 @@ from collectors.macro_sources import (EcosClient, KcsClient, SourceError, observ
                                       parse_kcs)
 from core.pit_schema import PITStore
 from core.source_registry import default_registry
-from orchestration.macro_daily import MacroRun
+from orchestration.macro_daily import MacroRun, _month_windows
 from storage.pit_store import PITFileStore
 
 UTC = timezone.utc
@@ -55,7 +55,7 @@ class Fake:
 
     def __init__(self):
         self.calls = []
-        self.kcs = KCS_OK
+        self.kcs_items = [("8542", "2026.08", 12000), ("8542", "2026.09", 13000)]
         self.ecos_org = {"722Y001": None, "402Y014": "한국은행", "817Y002": "한국은행", "731Y001": "서울외국환중개"}
         self.ecos = {"722Y001/0101000": ecos_rows("722Y001", "0101000", ["202608", "202609"], ["2.5", "2.25"])}
         self.eia = eia_rows("WCESTUS1", ["2026-10-30", "2026-10-23"], [421000, 419500])
@@ -64,8 +64,12 @@ class Fake:
     def __call__(self, url, params, timeout):
         self.calls.append((url, dict(params)))
         u = urlparse(url)
-        if u.netloc == "apis.data.go.kr":
-            return 200, {}, self.kcs
+        if u.netloc == "apis.data.go.kr":                # 실제 API처럼 1년을 넘는 조회는 거절하고, 조회 기간의 행만 준다
+            a, b = params["strtYymm"], params["endYymm"]
+            if (int(b[:4]) - int(a[:4])) * 12 + int(b[4:]) - int(a[4:]) >= 12:
+                return 200, {}, ("<response><header><resultCode>99</resultCode><resultMsg>시작과 종료의 조회기간은 "
+                                 "1년이내 기간만 가능합니다.</resultMsg></header></response>").encode()
+            return 200, {}, kcs_body([i for i in self.kcs_items if a <= i[1].replace(".", "") <= b])
         if u.netloc == "ecos.bok.or.kr":
             parts = u.path.split("/")                 # /api/<서비스>/<키>/json/kr/<시작>/<끝>/<통계표>/...
             service, key, stat = parts[2], parts[3], parts[8]
@@ -84,7 +88,7 @@ class Fake:
         return 404, {}, b""
 
 
-CONFIG = {"kcs": {"months_back": 2, "hs_codes": [{"code": "8542", "label": "반도체"}]},
+CONFIG = {"kcs": {"months_back": 3, "hs_codes": [{"code": "8542", "label": "반도체"}]},
           "ecos": {"series": [{"stat": "722Y001", "cycle": "M", "item": "0101000", "label": "기준금리", "back": 3},
                               {"stat": "731Y001", "cycle": "D", "item": "0000001", "label": "원/달러", "back": 5},
                               {"stat": "402Y014", "cycle": "M", "item": "999", "label": "없는 품목", "back": 3}]},
@@ -191,6 +195,20 @@ def test_observation_revisions_including_flip_flop(registry):
 
 
 # ---------- 전체 실행 ----------
+
+def test_kcs_queries_are_split_into_windows_of_at_most_a_year(tmp_path):
+    """관세청 API는 1년 넘는 기간을 거절한다 (실제 실행에서 확인). 14개월은 두 번에 나눠 받는다."""
+    assert _month_windows(date(2026, 11, 10), 14) == [("202509", "202608"), ("202609", "202611")]
+    assert _month_windows(date(2026, 1, 5), 2) == [("202511", "202601")]
+    assert _month_windows(date(2026, 11, 10), 11) == [("202512", "202611")]
+    fake, clock = Fake(), Clock(datetime(2026, 11, 9, 22, 47, tzinfo=UTC))
+    run = make_run(tmp_path, fake, clock)
+    run.config = {**CONFIG, "kcs": {"months_back": 14, "hs_codes": CONFIG["kcs"]["hs_codes"]}}
+    m = run.run()["kcs"]
+    windows = [(p["strtYymm"], p["endYymm"]) for u, p in fake.calls if "apis.data.go.kr" in u]
+    assert windows == [("202509", "202608"), ("202609", "202611")]
+    assert m.status == "ok" and m.counts["added"] == 8 and not m.errors      # 8월은 첫 구간, 9월은 둘째 구간
+
 
 def test_macro_run_collects_guards_org_and_never_stores_keys(tmp_path):
     fake, clock = Fake(), Clock(datetime(2026, 11, 9, 22, 47, tzinfo=UTC))
