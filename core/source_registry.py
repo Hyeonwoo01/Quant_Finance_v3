@@ -92,7 +92,26 @@ EIA = DataSourceContract(
     permission_reference="EIA Copyrights and Reuse + API Terms of Service, 2026-11-09 원문 확인",
     max_staleness_policy_id="series_release", **_OPEN)
 
-REGISTERED_CONTRACTS = (OPENDART_LIST, OPENDART_FINANCIALS, OPENDART_XBRL, OPENDART_CORPCODE, KCS_ITEMTRADE, BOK_ECOS, EIA)
+# 금융위원회 주식시세정보 (원천: 한국거래소). 공공누리 제4유형 + "상업적 목적 여부와 상관 없이 제3자 무단 제공 및
+# 재배포가 엄격히 금지". 그래서 비공개 저장소에만 두고(storage/visibility.py), 공개 표시·원본 재배포는 막는다.
+# ML 학습·파생 지표는 '변경금지'가 미치는지 원문에 없어 한국거래소 답변을 받기 전까지 막는다 (Fail Closed).
+# 답변을 받으면 이 계약을 고치지 않고 새 contract_id(v2)로 등록한다.
+FSC_KRX_STOCK_PRICE = DataSourceContract(
+    contract_id="fsc_krx_stock_price_v1", provider="FSC", source_id="fsc_krx_stock_price",
+    series_or_endpoint="apis.data.go.kr/1160100/GetStockSecuritiesInfoService_V2/getStockPriceInfo_V2 (일별 주식 시세)",
+    frequency="daily", unit="KRW|shares", currency="KRW", native_timezone="Asia/Seoul",
+    availability_policy_id="provider_next_business_day_1300_then_kr_cutoff",
+    revision_policy="같은 종목·기준일의 값이 바뀌면 새 revision",
+    storage_allowed=True, caching_allowed=True, archival_allowed=True, ml_training_allowed=False,
+    llm_input_allowed=False, public_display_allowed=False, raw_redistribution_allowed=False,
+    derived_data_use_allowed=False, approval_status=ApprovalStatus.APPROVED_FOR_INTERNAL_USE,
+    license_url="https://www.data.go.kr/data/15094808/openapi.do", license_reviewed_at=datetime(2026, 11, 10, tzinfo=timezone.utc),
+    permission_reference="공공데이터포털 데이터셋 15094808 설명 (공공누리 제4유형, 제3자 제공·재배포 금지), 2026-11-10 원문 확인 — "
+                         "DATA_SOURCES.md '한국 주식 가격'. 비공개 저장·개인 비상업 분석만",
+    attribution_required=True, fallback_source_id=None, max_staleness_policy_id="kr_daily_2_sessions")
+
+REGISTERED_CONTRACTS = (OPENDART_LIST, OPENDART_FINANCIALS, OPENDART_XBRL, OPENDART_CORPCODE, KCS_ITEMTRADE, BOK_ECOS, EIA,
+                        FSC_KRX_STOCK_PRICE)
 
 
 def default_registry() -> ContractRegistry:

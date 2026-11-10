@@ -10,8 +10,9 @@ from collectors.base_client import HttpResponse
 from core.data_contracts import PermissionDenied, Purpose
 from core.pit_schema import PITRecord
 from storage.manifests import BatchManifest
-from storage.pit_store import PITFileStore, by_period_month, record_from_json, record_to_json
+from storage.pit_store import PITFileStore, by_period_day, by_period_month, record_from_json, record_to_json
 from storage.raw_store import RawStore, sha256_hex
+from storage.visibility import PRIVATE_MARKER, is_private_store
 from tests.conftest import make_contract
 
 UTC = timezone.utc
@@ -21,6 +22,53 @@ T0 = datetime(2026, 11, 9, 0, 30, tzinfo=UTC)
 def response(body=b'{"status":"000"}', params=None, at=T0):
     return HttpResponse(url="https://api.example.invalid/api/list.json", params=params or {"bgn_de": "20261106"},
                         status=200, body=body, headers={}, attempts=1, requested_at_utc=at, received_at_utc=at)
+
+
+@pytest.fixture(autouse=True)
+def private_store(tmp_path, request):
+    """이 파일의 저장소 테스트는 비공개 저장소에서 돈다 (kr_price 계약은 공개 표시·재배포 권한이 없다).
+    공개·비공개 구분 자체를 보는 테스트는 public 표시를 달아 표식 없이 시작한다."""
+    if "public" not in request.keywords:
+        (tmp_path / PRIVATE_MARKER).write_text("test\n")
+
+
+# ---------- 공개·비공개 저장소 ----------
+
+@pytest.mark.public
+def test_public_store_takes_only_displayable_and_redistributable_data(tmp_path):
+    """한국거래소 원천 시세처럼 재배포가 금지된 데이터는 공개 저장소에 한 줄도 쓰이지 않는다."""
+    from core.data_contracts import ApprovalStatus, ContractRegistry
+    reg = ContractRegistry([
+        make_contract("open_data", status=ApprovalStatus.APPROVED_FOR_REDISTRIBUTION,
+                      allow=(Purpose.STORAGE, Purpose.PUBLIC_DISPLAY, Purpose.RAW_REDISTRIBUTION)),
+        make_contract("display_only", status=ApprovalStatus.APPROVED_FOR_PUBLIC_DISPLAY,
+                      allow=(Purpose.STORAGE, Purpose.PUBLIC_DISPLAY)),
+        make_contract("internal_only", status=ApprovalStatus.APPROVED_FOR_INTERNAL_USE, allow=(Purpose.STORAGE,))])
+    assert not is_private_store(tmp_path)
+    raw, pit = RawStore(tmp_path, reg), PITFileStore(tmp_path, reg)
+    raw.put(contract_id="open_data", source_id="src", response=response())
+    pit.append([rec("a1", contract="open_data"), rec("a2", contract="display_only", metric_id="m2")])
+    with pytest.raises(PermissionDenied, match="공개 저장소"):
+        raw.put(contract_id="internal_only", source_id="priv", response=response(b"secret"))
+    with pytest.raises(PermissionDenied, match="공개 저장소"):          # 값은 공개 표시 가능해도 원본은 재배포 불가
+        raw.put(contract_id="display_only", source_id="disp", response=response(b"zip"))
+    with pytest.raises(PermissionDenied, match="공개 저장소"):          # 배치에 하나라도 섞이면 전체를 쓰지 않는다
+        pit.append([rec("b1", contract="open_data", metric_id="m3"), rec("b2", contract="internal_only", metric_id="m4")])
+    assert not (tmp_path / "raw" / "priv").exists() and not (tmp_path / "raw" / "disp").exists()
+    assert {r.revision_id for r in pit.iter_records()} == {"a1", "a2"}
+    # 표식이 있는 비공개 저장소에는 저장 권한만으로 쓸 수 있다
+    private = tmp_path / "private"
+    private.mkdir()
+    (private / PRIVATE_MARKER).write_text("private\n")
+    assert is_private_store(private)
+    RawStore(private, reg).put(contract_id="internal_only", source_id="priv", response=response(b"secret"))
+    assert PITFileStore(private, reg).append([rec("b2", contract="internal_only")]).added == 1
+
+
+def test_partition_by_day(tmp_path, registry):
+    fs = PITFileStore(tmp_path, registry, partitions={"dart_fin": by_period_day})
+    fs.append([rec("d1"), rec("d2", metric_id="m2", observation_period_start=date(2026, 7, 2))])
+    assert sorted(p.name for p in (tmp_path / "pit_versions" / "dart_fin").iterdir()) == ["2026-07-01.jsonl", "2026-07-02.jsonl"]
 
 
 # ---------- 원본 저장소 ----------

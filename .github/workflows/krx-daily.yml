@@ -1,0 +1,118 @@
+name: krx-daily
+
+# 평일 14:23 KST(05:23 UTC)에 한국 주식 일별 시세(금융위원회 주식시세정보, 원천: 한국거래소)를 받아 **비공개 저장소**에 쌓는다.
+# 이 데이터는 제3자 제공·재배포가 금지돼 있어 공개 data 브랜치에 두지 않는다 (DATA_SOURCES.md '한국 주식 가격').
+# 공급자는 기준일의 값을 다음 영업일 13시 이후에 주므로 그 뒤에 돈다.
+# 필요한 설정: Secrets의 DATA_GO_KR_KEY(주식시세정보 활용신청 필요)와 PRIVATE_DATA_TOKEN(비공개 저장소 Contents 읽기·쓰기).
+#   비공개 저장소 이름은 Variables의 PRIVATE_DATA_REPO(없으면 <소유자>/Quant_Finance_v3_private).
+# 이 워크플로의 로그는 공개다. 시세 값은 출력하지 않는다.
+on:
+  schedule:
+    - cron: "23 5 * * 1-5"
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "collect = 최근 며칠 수집, backfill = start~end 과거 채우기, check = 키·활용신청 확인, probe = 응답 구조 확인 (check·probe는 저장 없음)"
+        type: choice
+        options: [collect, backfill, check, probe]
+        default: collect
+      start:
+        description: "backfill 시작 기준일 (YYYY-MM-DD)"
+        default: ""
+      end:
+        description: "backfill 끝 기준일 (YYYY-MM-DD, 비우면 최근까지. 한 번에 최대 260거래일)"
+        default: ""
+
+permissions:
+  contents: read
+
+concurrency:
+  group: private-data
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      PYTHONUNBUFFERED: "1"
+      MODE: ${{ inputs.mode || 'collect' }}
+      START: ${{ inputs.start }}
+      END: ${{ inputs.end }}
+      PRIVATE_REPO: ${{ vars.PRIVATE_DATA_REPO || format('{0}/Quant_Finance_v3_private', github.repository_owner) }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: 설정 확인 (비공개 저장소가 정말 비공개인지)
+        id: setup
+        env:
+          TOKEN: ${{ secrets.PRIVATE_DATA_TOKEN }}
+          KEY: ${{ secrets.DATA_GO_KR_KEY }}
+        run: |
+          if [ -z "$KEY" ]; then echo "::warning::DATA_GO_KR_KEY가 없어 건너뜀"; echo "ready=no" >> "$GITHUB_OUTPUT"; exit 0; fi
+          if [ "$MODE" = "check" ] || [ "$MODE" = "probe" ]; then echo "ready=nostore" >> "$GITHUB_OUTPUT"; exit 0; fi
+          if [ -z "$TOKEN" ]; then
+            echo "::warning::PRIVATE_DATA_TOKEN이 없어 건너뜀 (비공개 저장소 $PRIVATE_REPO 의 Contents 읽기·쓰기 토큰을 Secrets에 등록)"
+            echo "ready=no" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+          private=$(curl -sS -H "Authorization: Bearer $TOKEN" -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/$PRIVATE_REPO" | python3 -c "import json,sys; print(json.load(sys.stdin).get('private'))")
+          if [ "$private" != "True" ]; then
+            echo "::error::$PRIVATE_REPO 가 비공개 저장소로 확인되지 않음 (private=$private) — 재배포 금지 데이터라 중단"
+            exit 1
+          fi
+          echo "ready=yes" >> "$GITHUB_OUTPUT"
+      - name: 비공개 저장소 가져오기
+        if: steps.setup.outputs.ready == 'yes'
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ env.PRIVATE_REPO }}
+          token: ${{ secrets.PRIVATE_DATA_TOKEN }}
+          path: private_data
+          fetch-depth: 0
+      - name: 비공개 표식
+        if: steps.setup.outputs.ready == 'yes'
+        run: |
+          # 위에서 GitHub에 비공개임을 확인한 저장소에만 표식을 둔다. 표식이 없으면 코드가 저장을 막는다
+          [ -f private_data/PRIVATE_STORE ] || echo "비공개 저장소: 제3자 제공·재배포가 금지된 데이터 보관용. 공개로 바꾸지 말 것." > private_data/PRIVATE_STORE
+      - uses: actions/setup-python@v5
+        if: steps.setup.outputs.ready != 'no'
+        with:
+          python-version: "3.13"
+          cache: pip
+      - run: pip install -r requirements.txt
+        if: steps.setup.outputs.ready != 'no'
+      - name: 수집
+        id: collect
+        if: steps.setup.outputs.ready != 'no'
+        continue-on-error: true
+        env:
+          DATA_GO_KR_KEY: ${{ secrets.DATA_GO_KR_KEY }}
+        run: |
+          case "$START$END" in *[!0-9-]*) echo "start·end는 YYYY-MM-DD"; exit 2;; esac
+          case "$MODE" in
+            check) python -m orchestration.krx_daily --check ;;
+            probe) python -m orchestration.krx_daily --probe ;;
+            backfill)
+              if [ -z "$START" ]; then echo "backfill에는 start가 필요"; exit 2; fi
+              python -m orchestration.krx_daily --data-dir private_data --start "$START" ${END:+--end "$END"} ;;
+            *) python -m orchestration.krx_daily --data-dir private_data ;;
+          esac
+      - name: 비공개 저장소에 저장 (실패해도 받은 만큼과 수집 기록은 남김)
+        if: always() && steps.setup.outputs.ready == 'yes'
+        working-directory: private_data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then echo "변경 없음"; exit 0; fi
+          git commit -q -m "일별 시세 수집 $(date -u +%Y-%m-%dT%H:%MZ) (${{ steps.collect.outcome }})"
+          for i in 1 2 3; do
+            git push -q origin HEAD && exit 0
+            git pull -q --rebase origin "$(git rev-parse --abbrev-ref HEAD)"
+          done
+          exit 1
+      - name: 수집 실패 표시
+        if: steps.collect.outcome == 'failure'
+        run: |
+          echo "수집 단계가 실패했습니다. 위 '수집' 로그를 확인하세요."
+          exit 1
