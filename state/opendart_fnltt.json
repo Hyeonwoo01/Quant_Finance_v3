@@ -110,6 +110,22 @@
    "rcept_dt": "20261109",
    "report_nm": "반기보고서 (2026.09)",
    "reprt_code": "11012"
+  },
+  "20261110000451": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "01885222",
+   "corp_name": "대신밸류리츠",
+   "done_at_utc": "2026-11-11T01:17:45.892981+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "사업보고서",
+   "period_end": "2026-08-31",
+   "rcept_dt": "20261110",
+   "report_nm": "사업보고서 (2026.08)",
+   "reprt_code": "11011"
   }
  },
  "gave_up": {},

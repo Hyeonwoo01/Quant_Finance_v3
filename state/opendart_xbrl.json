@@ -56,6 +56,14 @@
    "geography": "NO_GEOGRAPHY",
    "segment": "OK",
    "values": 8
+  },
+  "20261110000451": {
+   "corp_code": "01885222",
+   "corp_name": "대신밸류리츠",
+   "done_at_utc": "2026-11-11T01:17:47.277494+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
   }
  },
  "gave_up": {}
