@@ -211,3 +211,24 @@ def test_not_applied_stops_run_and_check_probe_print_no_prices(private_dir):
     assert "2건" in text and "KOSPI" in text and "clpr" in text
     for secret in ("71000", "210000", "98765432100", "5919637922", KEY):          # 시세 값·인증키는 로그에 없다
         assert secret not in text
+
+
+def test_redo_rewrites_named_days_only_in_private_store(private_dir, tmp_path_factory):
+    """잘못된 규칙으로 저장된 날을 지우고 다시 받는다. 다른 날은 건드리지 않고, 이유를 수집 기록에 남긴다."""
+    fake, clock = Fake(), Clock(NOW)
+    run = KrxRun(client(fake, clock), private_dir, now=clock, version="test")
+    run.run([date(2026, 11, 6), date(2026, 11, 9)])
+    f06 = private_dir / "pit_versions" / SERIES_PRICE / "2026-11-06.jsonl"
+    f09 = private_dir / "pit_versions" / SERIES_PRICE / "2026-11-09.jsonl"
+    before09 = f09.read_bytes()
+    clock.t = NOW + timedelta(days=1)
+    m = KrxRun(client(fake, clock), private_dir, now=clock, version="test").redo([date(2026, 11, 6)], "캘린더 수정")
+    assert m.counts["added"] == 1 and m.target["removed_days"] == ["2026-11-06"] and "캘린더 수정" in m.warnings[0]
+    assert f09.read_bytes() == before09                                       # 다른 날은 그대로
+    recs = [json.loads(l) for l in f06.read_text().splitlines()]
+    assert len(recs) == 1 and recs[0]["ingested_at_utc"].startswith("2026-11-11")
+    saved = json.loads(next((private_dir / "manifests").rglob(f"{m.run_id}.json")).read_text())
+    assert saved["target"]["redo_reason"] == "캘린더 수정"
+    public = tmp_path_factory.mktemp("public")                               # 공개 저장소에는 아무것도 쓰지 않는다
+    m2 = KrxRun(client(fake, clock), public, now=clock, version="test").redo([date(2026, 11, 6)], "x")
+    assert m2.status == "failed" and list(public.iterdir()) == []

@@ -12,15 +12,21 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: "collect = 최근 며칠 수집, backfill = start~end 과거 채우기, check = 키·활용신청 확인, probe = 응답 구조 확인 (check·probe는 저장 없음)"
+        description: "collect = 최근 며칠 수집, backfill = start~end 과거 채우기, redo = redo_days를 지우고 다시 받기, check = 키·활용신청 확인, probe = 응답 구조 확인 (check·probe는 저장 없음)"
         type: choice
-        options: [collect, backfill, check, probe]
+        options: [collect, backfill, redo, check, probe]
         default: collect
       start:
         description: "backfill 시작 기준일 (YYYY-MM-DD)"
         default: ""
       end:
         description: "backfill 끝 기준일 (YYYY-MM-DD, 비우면 최근까지. 한 번에 최대 260거래일)"
+        default: ""
+      redo_days:
+        description: "redo: 다시 받을 기준일들 (쉼표로 구분, 예: 2026-06-02,2026-07-16)"
+        default: ""
+      redo_reason:
+        description: "redo: 다시 받는 이유 (수집 기록에 남음)"
         default: ""
 
 permissions:
@@ -39,6 +45,8 @@ jobs:
       MODE: ${{ inputs.mode || 'collect' }}
       START: ${{ inputs.start }}
       END: ${{ inputs.end }}
+      REDO_DAYS: ${{ inputs.redo_days }}
+      REDO_REASON: ${{ inputs.redo_reason }}
       PRIVATE_REPO: ${{ vars.PRIVATE_DATA_REPO || format('{0}/Quant_Finance_v3_private', github.repository_owner) }}
     steps:
       - uses: actions/checkout@v4
@@ -89,12 +97,16 @@ jobs:
           DATA_GO_KR_KEY: ${{ secrets.DATA_GO_KR_KEY }}
         run: |
           case "$START$END" in *[!0-9-]*) echo "start·end는 YYYY-MM-DD"; exit 2;; esac
+          case "$REDO_DAYS" in *[!0-9,-]*) echo "redo_days는 YYYY-MM-DD를 쉼표로"; exit 2;; esac
           case "$MODE" in
             check) python -m orchestration.krx_daily --check ;;
             probe) python -m orchestration.krx_daily --probe ;;
             backfill)
               if [ -z "$START" ]; then echo "backfill에는 start가 필요"; exit 2; fi
               python -m orchestration.krx_daily --data-dir private_data --start "$START" ${END:+--end "$END"} ;;
+            redo)
+              if [ -z "$REDO_DAYS" ] || [ -z "$REDO_REASON" ]; then echo "redo에는 redo_days와 redo_reason이 필요"; exit 2; fi
+              python -m orchestration.krx_daily --data-dir private_data --redo "$REDO_DAYS" --redo-reason "$REDO_REASON" ;;
             *) python -m orchestration.krx_daily --data-dir private_data ;;
           esac
       - name: 비공개 저장소에 저장 (실패해도 받은 만큼과 수집 기록은 남김)
