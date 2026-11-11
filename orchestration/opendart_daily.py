@@ -143,11 +143,21 @@ def _request_entry(r: ApiResult, sha: str, **extra) -> dict:
 
 
 def _link(rec, store):
-    """같은 관측값의 저장된 최신 버전이 있고 그것과 다른 버전이면 이전 버전을 가리키게 한다."""
+    """저장된 버전과 이어 붙인다.
+
+    - 최신 버전과 같은 버전을 다시 받으면: 저장된 레코드의 연결(supersedes)을 그대로 쓴다. 그래야 '변화 없음'으로
+      건너뛴다 — 정정된 공시를 다시 받을 때마다 충돌 경고가 나던 문제 (2026-11-10 예약 실행에서 7건).
+    - 최신 버전과 다르면 이전 버전을 가리킨다. 예전 버전으로 되돌아간 경우(A→B→A)는 그 revision이 이미 있으므로
+      받은 시각을 붙인 새 revision으로 남긴다. 그렇지 않으면 최신 버전이 B로 남아 실제 상태와 달라진다.
+    """
     prev = store.latest(rec.observation_key)
-    if prev is not None and prev.revision_id != rec.revision_id:
-        return replace(rec, supersedes_revision_id=prev.revision_id)
-    return rec
+    if prev is None:
+        return rec
+    if prev.revision_id == rec.revision_id:
+        return replace(rec, supersedes_revision_id=prev.supersedes_revision_id)
+    if store.revision(rec.revision_id) is not None:
+        rec = replace(rec, revision_id=f"{rec.revision_id}@{rec.ingested_at_utc:%Y%m%dT%H%M%S}")
+    return replace(rec, supersedes_revision_id=prev.revision_id)
 
 
 class DailyRun:

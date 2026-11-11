@@ -96,11 +96,26 @@ def test_daily_runs_over_several_days(world, tmp_path):
     rm = {r.source_document_id: json.loads(r.value)["rm"] for r in filings.itertuples()}
     assert rm["20261106000100"] == "정" and len(rm) == 4
 
+    # 4일차: 정정된 공시('정')를 그대로 다시 받으면 변화 없음이다 (충돌 경고가 아님)
+    clock.t += timedelta(days=1)
+    res = make_run(fake, tmp_path, clock).run(end=date(2026, 11, 10), lookback_days=5)
+    assert res.list_manifest.counts["added"] == 0 and res.list_manifest.counts["unchanged"] == 4
+    assert not res.list_manifest.warnings
+    # 5일차: 비고가 원래대로('')로 돌아가면(A→B→A) 새 버전으로 남고, 최신 상태가 ''가 된다
+    fake.filing("20261106000100", SAMSUNG, "분기보고서 (2026.09)", rm="")
+    clock.t += timedelta(days=1)
+    res = make_run(fake, tmp_path, clock).run(end=date(2026, 11, 10), lookback_days=5)
+    assert res.list_manifest.counts["added"] == 1 and not res.list_manifest.warnings
+    store = PITFileStore(tmp_path, default_registry()).load()
+    filings = store.query_as_of(clock.t + timedelta(days=2), Purpose.PUBLIC_DISPLAY, series_id="dart_filings")
+    back = filings[filings.source_document_id == "20261106000100"].iloc[0]
+    assert json.loads(back.value)["rm"] == "" and "@" in back.revision_id and back.supersedes_revision_id
+
     # 저장된 어떤 파일에도 인증키가 없다
     for p in tmp_path.rglob("*"):
         if p.is_file() and p.suffix in (".json", ".jsonl"):
             assert TEST_KEY not in p.read_text(encoding="utf-8")
-    assert len(list((tmp_path / "manifests").rglob("*.json"))) == 9      # 3일 × (공시·재무제표·XBRL)
+    assert len(list((tmp_path / "manifests").rglob("*.json"))) == 15     # 5일 × (공시·재무제표·XBRL)
 
 
 def test_done_items_without_cfs_check_are_requeued(world, tmp_path):
