@@ -20,9 +20,32 @@ KR_DECISION_TIME = time(8, 30)          # 한국 장 시작 전 의사결정 컷
 DayLike = Union[date, datetime, pd.Timestamp, str]
 
 
+# 라이브러리(exchange_calendars 4.13.2, 최신)에 아직 없는 KRX 휴장일. 날짜마다 근거를 적는다.
+# 실제 시세 공급자(금융위원회 주식시세정보)가 그날 전 종목 자료를 주지 않는 것으로 확인했다 (2026-11-11 과거 채우기).
+# 라이브러리가 이 날짜들을 넣으면 여기서 지운다 — test_calendar_align이 라이브러리와 겹치면 알려 준다.
+KRX_EXTRA_HOLIDAYS = {
+    date(2026, 6, 3): "제9회 전국동시지방선거일 (선거일은 KRX 휴장)",
+    date(2026, 7, 17): "제헌절 — 시세 자료 없음으로 휴장 확인 (공휴일 지정 근거는 KRX 공지로 확인 필요)",
+}
+
+
+def _xkrx_with_extra_holidays():
+    base = type(xcals.get_calendar(KR_VENUE))
+
+    class XKRXCorrected(base):
+        @classmethod
+        def precomputed_holidays(cls):
+            return sorted(set(base.precomputed_holidays()) | {pd.Timestamp(d) for d in KRX_EXTRA_HOLIDAYS})
+
+    return XKRXCorrected()
+
+
 @lru_cache(maxsize=None)
 def calendar(venue: str):
-    """거래소 캘린더 (라이브러리 버전은 requirements.txt에 고정, 공식 일정과 정기 대조)."""
+    """거래소 캘린더 (라이브러리 버전은 requirements.txt에 고정, 공식 일정과 정기 대조).
+    KRX는 라이브러리에 빠진 휴장일(KRX_EXTRA_HOLIDAYS)을 더한다."""
+    if venue == KR_VENUE:
+        return _xkrx_with_extra_holidays()
     return xcals.get_calendar(venue)
 
 

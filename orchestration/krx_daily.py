@@ -105,6 +105,25 @@ class KrxRun:
                 m.warnings.append(f"{day}: 같은 revision_id인데 내용이 다름 {len(res.conflicts)}건")
         m.count("days")
 
+    def redo(self, days: list[date], reason: str) -> BatchManifest:
+        """잘못된 규칙으로 저장된 날을 다시 받는다 (예: 캘린더에 빠진 휴장일 때문에 가용 시각이 한 세션 이르게
+        기록된 날). 그날 파일을 지우고 처음부터 다시 받는다. 지운 사실과 이유는 수집 기록에 남고, 이전 내용은
+        비공개 저장소의 git 이력에 남는다. 아직 어떤 분석에도 쓰지 않은 데이터를 고칠 때만 쓴다."""
+        removed = []
+        if is_private_store(self.data_dir):
+            for day in days:
+                f = self.data_dir / "pit_versions" / SERIES_PRICE / f"{day:%Y-%m-%d}.jsonl"
+                if f.exists():
+                    f.unlink()
+                    removed.append(str(day))
+        m = self.run(days)
+        if not is_private_store(self.data_dir):          # 공개 저장소에는 아무것도 쓰지 않는다
+            return m
+        m.target.update({"redo": True, "redo_reason": reason, "removed_days": removed})
+        m.warnings.insert(0, f"다시 받음 ({reason}): 지운 날 {removed}")
+        m.write(self.data_dir)                           # 같은 run_id라 run()이 쓴 기록을 덮어 이유를 남긴다
+        return m
+
     def run(self, days: list[date], *, skip_existing: bool = False) -> BatchManifest:
         started = self.now()
         m = BatchManifest.start(run_id=f"{started:%Y%m%dT%H%M%SZ}", contract=FSC_KRX_STOCK_PRICE,
@@ -175,6 +194,8 @@ def main(argv=None) -> int:
     ap.add_argument("--start", help="과거 채우기 시작 기준일 (YYYY-MM-DD). 이미 받은 날은 건너뛴다")
     ap.add_argument("--end", help="과거 채우기 끝 기준일 (기본: 공급자가 이미 준 마지막 기준일)")
     ap.add_argument("--max-calls", type=int, default=2000, help="이번 실행의 호출 상한 (개발계정 하루 10,000건)")
+    ap.add_argument("--redo", help="쉼표로 구분한 기준일들을 지우고 다시 받기 (예: 2026-06-02,2026-07-16)")
+    ap.add_argument("--redo-reason", default="", help="다시 받는 이유 (수집 기록에 남김)")
     ap.add_argument("--check", action="store_true")
     ap.add_argument("--probe", action="store_true")
     args = ap.parse_args(argv)
@@ -194,13 +215,20 @@ def main(argv=None) -> int:
         if args.probe:
             print("\n".join(probe(client, last)))
             return 0
-        if args.start:
+        if args.redo:
+            if not args.redo_reason:
+                print("--redo에는 --redo-reason이 필요", file=sys.stderr)
+                return 2
+            days = [date.fromisoformat(d.strip()) for d in args.redo.split(",") if d.strip()]
+            m = KrxRun(client, args.data_dir).redo(days, args.redo_reason)
+        elif args.start:
             end = min(date.fromisoformat(args.end), last) if args.end else last
             days = sessions_between(date.fromisoformat(args.start), end)[:MAX_DAYS]
             skip = True
         else:
             days, skip = published_sessions(now, args.lookback_sessions), False
-        m = KrxRun(client, args.data_dir).run(days, skip_existing=skip)
+        if not args.redo:
+            m = KrxRun(client, args.data_dir).run(days, skip_existing=skip)
     except (CollectorError, PermissionDenied) as e:
         print(f"실패: {e}", file=sys.stderr)
         return 1

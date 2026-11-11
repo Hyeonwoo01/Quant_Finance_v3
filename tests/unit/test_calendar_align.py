@@ -193,3 +193,17 @@ def test_missing_sessions_counts_trading_sessions_not_calendar_days():
     assert missing_sessions("2026-11-02", "2026-11-09") == 5
     with pytest.raises(ValueError, match="시간 역전"):
         missing_sessions("2026-11-10", "2026-11-09")
+
+
+def test_krx_extra_holidays_missing_from_library():
+    """라이브러리에 빠진 KRX 휴장일은 거래 세션이 아니다. 라이브러리가 넣게 되면 이 목록에서 지운다."""
+    import exchange_calendars as xcals
+    from core.calendar_align import KRX_EXTRA_HOLIDAYS, calendar, next_session_after
+    lib = xcals.get_calendar("XKRX")
+    for d in KRX_EXTRA_HOLIDAYS:
+        assert lib.is_session(pd.Timestamp(d)), f"{d}는 이제 라이브러리에도 휴장일 — KRX_EXTRA_HOLIDAYS에서 지울 것"
+        assert not calendar("XKRX").is_session(pd.Timestamp(d))
+    assert next_session_after("2026-06-02") == pd.Timestamp("2026-06-04")      # 지방선거일을 건너뜀
+    assert next_session_after("2026-07-16") == pd.Timestamp("2026-07-20")      # 금요일 휴장 → 다음 월요일
+    # DART 규칙: 6/2 접수 공시는 6/4 08:30 KST부터
+    assert dart_available_at("2026-06-02") == pd.Timestamp("2026-06-03 23:30", tz="UTC")
