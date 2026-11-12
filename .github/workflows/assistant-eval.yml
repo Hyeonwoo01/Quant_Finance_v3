@@ -1,17 +1,23 @@
 name: assistant-eval
 
 # AI 어시스턴트 평가 세트(assistant/eval/golden.jsonl)를 실제 모델로 돌린다 (가이드 14-4). 수동 실행만.
-# 실제 Claude API를 부르므로 비용이 든다. Secrets의 ANTHROPIC_API_KEY가 필요하다 (없으면 건너뜀).
+# 실제 모델 API를 부르므로 비용이 든다. 공급자에 맞는 Secret이 필요하다 (없으면 건너뜀):
+#   anthropic → ANTHROPIC_API_KEY, openai → OPENAI_API_KEY
 # 공개 data 브랜치의 데이터만 쓰고, 도구는 LLM 입력이 허용된 데이터만 돌려준다. 결과는 실행 요약과 아티팩트로 남는다.
 on:
   workflow_dispatch:
     inputs:
+      provider:
+        description: "모델 공급자"
+        type: choice
+        options: [anthropic, openai]
+        default: anthropic
       only:
         description: "돌릴 질문 id (쉼표로 구분, 비우면 전부)"
         default: ""
       model:
-        description: "모델 ID"
-        default: "claude-opus-5-5"
+        description: "모델 ID (비우면 공급자 기본: claude-opus-5-5 / gpt-5.5)"
+        default: ""
 
 permissions:
   contents: read
@@ -36,16 +42,23 @@ jobs:
       - name: 평가
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          PROVIDER: ${{ inputs.provider }}
           ONLY: ${{ inputs.only }}
           MODEL: ${{ inputs.model }}
         run: |
-          if [ -z "$ANTHROPIC_API_KEY" ]; then echo "::warning::ANTHROPIC_API_KEY가 없어 건너뜀"; exit 0; fi
+          case "$PROVIDER" in
+            anthropic) KEY="$ANTHROPIC_API_KEY"; NAME=ANTHROPIC_API_KEY ;;
+            openai) KEY="$OPENAI_API_KEY"; NAME=OPENAI_API_KEY ;;
+            *) echo "알 수 없는 공급자"; exit 2 ;;
+          esac
+          if [ -z "$KEY" ]; then echo "::warning::$NAME가 없어 건너뜀"; exit 0; fi
           case "$ONLY$MODEL" in *[!a-z0-9,._-]*) echo "only·model에 허용되지 않는 문자"; exit 2;; esac
-          python -m assistant.eval.run_eval --data-dir data --model "$MODEL" ${ONLY:+--only "$ONLY"} \
-            --out eval_report.json --summary "$GITHUB_STEP_SUMMARY"
+          python -m assistant.eval.run_eval --data-dir data --provider "$PROVIDER" ${MODEL:+--model "$MODEL"} \
+            ${ONLY:+--only "$ONLY"} --out eval_report.json --summary "$GITHUB_STEP_SUMMARY"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: assistant-eval
+          name: assistant-eval-${{ inputs.provider }}
           path: eval_report.json
           if-no-files-found: ignore

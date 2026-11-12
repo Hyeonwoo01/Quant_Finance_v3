@@ -1572,6 +1572,7 @@ Golden Question Set을 만들어 다음을 주기적으로 평가한다.
 - **권한:** 도구는 `Purpose.LLM_INPUT`이 승인된 계약의 데이터만 돌려준다. 한국 주식 시세(`fsc_krx_stock_price_v1`)와 XBRL 부문 숫자(`opendart_xbrl_v1`)는 승인되지 않아 AI에 전달되지 않는다.
 - **시점:** 기준 시각(as_of)은 사람이 정한다. Agent가 모든 도구 호출에 강제로 넣고, 모델이 바꾸려 하면 덮어쓰고 기록한다.
 - **검증 (14-2):** `EvidenceClaim`의 축약형을 쓴다. 주장마다 `evidence_id`(PIT revision)·값·단위·지표·기간·분기/누적·연결/별도를 받는다. `assistant/verify.py`가 이번 대화의 도구 결과와 대조해 VERIFIED / WARNING / ABSTAINED를 매긴다. `evidence_spans`(공시 원문 위치)는 원문 문서를 받지 않으므로 아직 없다.
+- **모델 공급자:** Claude(Anthropic)와 GPT(OpenAI)를 고를 수 있다(`assistant/llm_backends.py`). 도구·기준 시각 강제·검증은 공급자와 무관하게 같아서, 같은 평가 세트로 두 모델을 비교한다.
 - **평가 (14-4):** `assistant/eval/golden.jsonl`에 질문 7개가 있다. 답해야 할 것 4개, 보류해야 할 것 3개(막힌 데이터, 수집 전 시점, 미래)다. 질문마다 기준 시각을 고정해 재현할 수 있게 했다. 수동 워크플로 `assistant-eval`로 실제 모델에서 잰다.
 
 ---

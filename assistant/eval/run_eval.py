@@ -1,6 +1,8 @@
 """어시스턴트 평가 세트 실행 (가이드 14-4). 실제 모델을 부르므로 API 비용이 든다.
 
     ANTHROPIC_API_KEY=... python -m assistant.eval.run_eval --data-dir data [--only id1,id2] [--out report.json]
+    OPENAI_API_KEY=...    python -m assistant.eval.run_eval --provider openai --data-dir data
+같은 질문·같은 도구·같은 검증으로 Claude와 GPT를 비교할 수 있다.
 
 질문마다 기준 시각(as_of)이 고정돼 있어, data 브랜치가 계속 자라도 같은 정보로 답한다 (PIT 재현성).
 재는 것:
@@ -17,7 +19,7 @@ import json
 import sys
 from pathlib import Path
 
-from assistant.agent import MODEL, ask
+from assistant.agent import ask
 
 GOLDEN = Path(__file__).with_name("golden.jsonl")
 
@@ -69,14 +71,16 @@ async def main_async(args) -> int:
         cases = [c for c in cases if c["id"] in set(args.only.split(","))]
     rows, transcripts = [], []
     for c in cases:
-        res = await ask(c["question"], data_dir=args.data_dir, as_of=c["as_of"], model=args.model)
+        res = await ask(c["question"], data_dir=args.data_dir, as_of=c["as_of"], provider=args.provider,
+                        model=args.model)
         rows.append(score(c, res))
         transcripts.append({"case": c, "result": res.to_dict()})
         print(f"[{c['id']}] {res.status}\n{res.rendered}\n", flush=True)
-    md = summary_md(rows, args.model)
+    model = next((s["model"] for t in transcripts for s in t["result"]["steps"]), args.model or args.provider)
+    md = summary_md(rows, f"{args.provider} · {model}")
     print(md)
     if args.out:
-        Path(args.out).write_text(json.dumps({"model": args.model, "rows": rows, "transcripts": transcripts},
+        Path(args.out).write_text(json.dumps({"provider": args.provider, "model": model, "rows": rows, "transcripts": transcripts},
                                              ensure_ascii=False, indent=2, default=str), encoding="utf-8")
     if args.summary:
         with open(args.summary, "a", encoding="utf-8") as f:
@@ -87,7 +91,8 @@ async def main_async(args) -> int:
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--data-dir", default="data")
-    ap.add_argument("--model", default=MODEL)
+    ap.add_argument("--provider", choices=["anthropic", "openai"], default="anthropic")
+    ap.add_argument("--model", help="모델 ID (기본: 공급자별 기본 모델)")
     ap.add_argument("--only", help="쉼표로 구분한 질문 id만")
     ap.add_argument("--out", help="전체 기록 JSON 경로")
     ap.add_argument("--summary", help="요약 마크다운을 덧붙일 파일 (예: $GITHUB_STEP_SUMMARY)")

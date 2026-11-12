@@ -1,3 +1,4 @@
 # AI 어시스턴트(assistant/: MCP 서버·Agent)용. 수집 워크플로는 쓰지 않는다. 테스트를 통과한 버전으로 고정.
 anthropic==2.8.0
 mcp==2.3.0
+openai==3.49.0
