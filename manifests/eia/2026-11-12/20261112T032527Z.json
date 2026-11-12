@@ -1,0 +1,65 @@
+{
+  "code_version": "01caffcdaea0728b6136aa80343658533aaf4096",
+  "contract_id": "eia_v1",
+  "counts": {
+    "added": 0,
+    "series": 2,
+    "unchanged": 50
+  },
+  "errors": [],
+  "finished_at_utc": "2026-11-12T03:25:52.028632+00:00",
+  "permission": {
+    "approval_status": "approved_for_redistribution",
+    "attribution_required": true,
+    "license_url": "https://www.eia.gov/about/copyrights_reuse.php",
+    "permission_reference": "EIA Copyrights and Reuse + API Terms of Service, 2026-11-09 원문 확인"
+  },
+  "requests": [
+    {
+      "added": 0,
+      "http_status": 200,
+      "observations": 25,
+      "params": {
+        "api_key": "***",
+        "data[0]": "value",
+        "facets[series][]": "WCESTUS1",
+        "frequency": "weekly",
+        "length": "500",
+        "sort[0][column]": "period",
+        "sort[0][direction]": "desc",
+        "start": "2026-05-14"
+      },
+      "series": "WCESTUS1 미국 원유 재고 (전략비축유 제외)",
+      "sha256": "530101c47915b1d969cdcdaccf5b9aa85c8968d97c16b6da27c8f6d6a08406ea"
+    },
+    {
+      "added": 0,
+      "http_status": 200,
+      "observations": 25,
+      "params": {
+        "api_key": "***",
+        "data[0]": "value",
+        "facets[series][]": "NW2_EPG0_SWO_R48_BCF",
+        "frequency": "weekly",
+        "length": "500",
+        "sort[0][column]": "period",
+        "sort[0][direction]": "desc",
+        "start": "2026-05-14"
+      },
+      "series": "NW2_EPG0_SWO_R48_BCF 미국 천연가스 저장량 (본토 48개 주)",
+      "sha256": "98b478c17e7cf3a0c1e24db6f2127ee38bbd1b0cdb7c6d502de405ef483de3f6"
+    }
+  ],
+  "run_id": "20261112T032527Z",
+  "schema_version": "manifest-1",
+  "source_id": "eia",
+  "started_at_utc": "2026-11-12T03:25:50.744067+00:00",
+  "status": "ok",
+  "target": {
+    "series": [
+      "WCESTUS1",
+      "NW2_EPG0_SWO_R48_BCF"
+    ]
+  },
+  "warnings": []
+}
