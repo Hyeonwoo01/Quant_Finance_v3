@@ -64,6 +64,126 @@
    "geography": "NO_GEOGRAPHY",
    "segment": "NO_SEGMENT_TABLE",
    "values": 0
+  },
+  "20261111000008": {
+   "corp_code": "01210677",
+   "corp_name": "씨케이솔루션",
+   "done_at_utc": "2026-11-12T02:19:52.327878+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261111000038": {
+   "corp_code": "00137207",
+   "corp_name": "유니켐",
+   "done_at_utc": "2026-11-12T02:19:53.414561+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261111000078": {
+   "corp_code": "00120872",
+   "corp_name": "MH머트리얼즈",
+   "done_at_utc": "2026-11-12T02:19:54.474609+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261111000080": {
+   "corp_code": "00226316",
+   "corp_name": "호전실업",
+   "done_at_utc": "2026-11-12T02:19:55.521413+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261111000194": {
+   "corp_code": "00683469",
+   "corp_name": "일진전기",
+   "done_at_utc": "2026-11-12T02:19:57.485702+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 5
+  },
+  "20261111000213": {
+   "corp_code": "00122737",
+   "corp_name": "팬오션",
+   "done_at_utc": "2026-11-12T02:19:59.260466+00:00",
+   "geography": "OK",
+   "segment": "PROFIT_NOT_OPERATING",
+   "values": 12
+  },
+  "20261111000243": {
+   "corp_code": "00398792",
+   "corp_name": "SNT모티브",
+   "done_at_utc": "2026-11-12T02:20:01.571045+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 6
+  },
+  "20261111000247": {
+   "corp_code": "00134477",
+   "corp_name": "SNT다이내믹스",
+   "done_at_utc": "2026-11-12T02:20:03.810878+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 9
+  },
+  "20261111000249": {
+   "corp_code": "00648721",
+   "corp_name": "SNT에너지",
+   "done_at_utc": "2026-11-12T02:20:05.973687+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 6
+  },
+  "20261111000260": {
+   "corp_code": "00225159",
+   "corp_name": "SNT홀딩스",
+   "done_at_utc": "2026-11-12T02:20:08.553241+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 6
+  },
+  "20261111000263": {
+   "corp_code": "00111704",
+   "corp_name": "한화오션",
+   "done_at_utc": "2026-11-12T02:20:11.308481+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 3
+  },
+  "20261111000286": {
+   "corp_code": "00861076",
+   "corp_name": "케이탑리츠",
+   "done_at_utc": "2026-11-12T02:20:12.302910+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261111000309": {
+   "corp_code": "00458234",
+   "corp_name": "아시아나IDT",
+   "done_at_utc": "2026-11-12T02:20:13.334698+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261111000334": {
+   "corp_code": "00260408",
+   "corp_name": "팜스코",
+   "done_at_utc": "2026-11-12T02:20:15.286014+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 12
+  },
+  "20261111000381": {
+   "corp_code": "00169048",
+   "corp_name": "HLB글로벌",
+   "done_at_utc": "2026-11-12T02:20:16.334980+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
   }
  },
  "gave_up": {}

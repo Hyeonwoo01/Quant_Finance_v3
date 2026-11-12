@@ -1,0 +1,653 @@
+{
+  "code_version": "01caffcdaea0728b6136aa80343658533aaf4096",
+  "contract_id": "opendart_fnltt_v1",
+  "counts": {
+    "added": 3561,
+    "older_than_stored": 0,
+    "parse_errors": 0,
+    "reports": 15,
+    "unchanged": 0
+  },
+  "errors": [],
+  "finished_at_utc": "2026-11-12T02:19:51.380822+00:00",
+  "permission": {
+    "approval_status": "approved_for_redistribution",
+    "attribution_required": true,
+    "license_url": "https://opendart.fss.or.kr/intro/terms.do",
+    "permission_reference": "OpenDART 이용약관(2020-01-21 시행) 2026-11-09 원문 검토 — DATA_SOURCES.md#opendart"
+  },
+  "requests": [
+    {
+      "attempts": 1,
+      "endpoint": "fnlttSinglAcntAll.json",
+      "http_status": 200,
+      "matched": true,
+      "params": {
+        "bsns_year": "2026",
+        "corp_code": "01210677",
+        "crtfc_key": "***",
+        "fs_div": "OFS",
+        "reprt_code": "11014"
+      },
+      "rcept_no": "20261111000008",
+      "returned_rcept_no": [
+        "20261111000008"
+      ],
+      "rows": 162,
+      "sha256": "1301db62dbcc0160d3332f9075703922a0c8f13a052c11df2cb295076d475c72",
+      "status": "000"
+    },
+    {
+      "attempts": 1,
+      "endpoint": "fnlttSinglAcntAll.json",
+      "http_status": 200,
+      "matched": true,
+      "params": {
+        "bsns_year": "2026",
+        "corp_code": "01210677",
+        "crtfc_key": "***",
+        "fs_div": "CFS",
+        "reprt_code": "11014"
+      },
+      "rcept_no": "20261111000008",
+      "returned_rcept_no": [
+        "20261111000008"
+      ],
+      "rows": 197,
+      "sha256": "183b745952a7d87651bcd68da9c790ace4e5402bc01136de6710319d69706529",
+      "status": "000"
+    },
+    {
+      "attempts": 1,
+      "endpoint": "fnlttSinglAcntAll.json",
+      "http_status": 200,
+      "matched": true,
+      "params": {
+        "bsns_year": "2026",
+        "corp_code": "00137207",
+        "crtfc_key": "***",
+        "fs_div": "OFS",
+        "reprt_code": "11014"
+      },
+      "rcept_no": "20261111000038",
+      "returned_rcept_no": [
+        "20261111000038"
+      ],
+      "rows": 167,
+      "sha256": "4fd448f4c16c9ecc3a43355bd0d8078bf111f3e0018fc2b304a570ec16e0d049",
+      "status": "000"
+    },
+    {
+      "attempts": 1,
+      "endpoint": "fnlttSinglAcntAll.json",
+      "http_status": 200,
+      "matched": true,
+      "params": {
+        "bsns_year": "2026",
+        "corp_code": "00137207",
+        "crtfc_key": "***",
+        "fs_div": "CFS",
+        "reprt_code": "11014"
+      },
+      "rcept_no": "20261111000038",
+      "returned_rcept_no": [
+        "20261111000038"
+      ],
+      "rows": 233,
+      "sha256": "d2aeb1db0aa678c2c52c0e9c966b9965b103c9063c601d450adb0b4a5a24081f",
+      "status": "000"
+    },
+    {
+      "attempts": 1,
+      "endpoint": "fnlttSinglAcntAll.json",
+      "http_status": 200,
+      "matched": false,
+      "params": {
+        "bsns_year": "2026",
+        "corp_code": "00120872",
+        "crtfc_key": "***",
+        "fs_div": "OFS",
+        "reprt_code": "11014"
+      },
+      "rcept_no": "20261111000078",
+      "returned_rcept_no": [
+        "20260514000007"
+      ],
+      "rows": 114,
+      "sha256": "a21b383f0b87d95971f5026315af04a7e9d9b4d3062fc7d8f1b5cc9dcb9faa3c",
+      "status": "000"
+    },
+    {
+      "attempts": 1,
+      "endpoint": "fnlttSinglAcntAll.json",
+      "http_status": 200,
+      "matched": true,
+      "params": {
+        "bsns_year": "2026",
+        "corp_code": "00120872",
+        "crtfc_key": "***",
+        "fs_div": "OFS",
+        "reprt_code": "11013"
+      },
+      "rcept_no": "20261111000078",
+      "returned_rcept_no": [
+        "20261111000078"
+      ],
+      "rows": 166,
+      "sha256": "277d2f5fe1c9bbdcbd58158fb84c816f9fb3e9d4f2dedce3fdb93436d6bb14a1",
+      "status": "000"
+    },
+    {
+      "attempts": 1,
+      "endpoint": "fnlttSinglAcntAll.json",
+      "http_status": 200,
+      "matched": true,
+      "params": {
+        "bsns_year": "2026",
+        "corp_code": "00120872",
+        "crtfc_key": "***",
+        "fs_div": "CFS",
+        "reprt_code": "11013"
+      },
+      "rcept_no": "20261111000078",
+      "returned_rcept_no": [
+        "20261111000078"
+      ],
+      "rows": 180,
+      "sha256": "bfd06c88d4dea3c8c70f8300f017b2976a49d6738db44e1678870a95ed86e88e",
+      "status": "000"
+    },
+    {
+      "attempts": 1,
+      "endpoint": "fnlttSinglAcntAll.json",
+      "http_status": 200,
+      "matched": true,
+      "params": {
+        "bsns_year": "2026",
+        "corp_code": "00226316",
+        "crtfc_key": "***",
+        "fs_div": "OFS",
+        "reprt_code": "11014"
+      },
+      "rcept_no": "20261111000080",
+      "returned_rcept_no": [
+        "20261111000080"
+      ],
+      "rows": 107,
+      "sha256": "6fa0149003192cb536b4f7667d86c5e967e3d804d17100aa76641ee05274b9ba",
+      "status": "000"
+    },
+    {
+      "attempts": 1,
+      "endpoint": "fnlttSinglAcntAll.json",
+      "http_status": 200,
+      "matched": true,
+      "params": {
+        "bsns_year": "2026",
+        "corp_code": "00226316",
+        "crtfc_key": "***",
+        "fs_div": "CFS",
+        "reprt_code": "11014"
+      },
+      "rcept_no": "20261111000080",
+      "returned_rcept_no": [
+        "20261111000080"
+      ],
+      "rows": 136,
+      "sha256": "f1c1349dc7e7f5e075c4e14f481bb1da53cb0d50e6b725e97daab59f9b7cb1a0",
+      "status": "000"
+    },
+    {
+      "attempts": 1,
+      "endpoint": "fnlttSinglAcntAll.json",
+      "http_status": 200,
+      "matched": true,
+      "params": {
+        "bsns_year": "2026",
+        "corp_code": "00683469",
+        "crtfc_key": "***",
+        "fs_div": "OFS",
+        "reprt_code": "11014"
+      },
+      "rcept_no": "20261111000194",
+      "returned_rcept_no": [
+        "20261111000194"
+      ],
+      "rows": 146,
+      "sha256": "ded0b027a3f658cb7688577655652e4eda6b4febc5481d8234a87f9ddda7f821",
+      "status": "000"
+    },
+    {
+      "attempts": 1,
+      "endpoint": "fnlttSinglAcntAll.json",
+      "http_status": 200,
+      "matched": true,
+      "params": {
+        "bsns_year": "2026",
+        "corp_code": "00683469",
+        "crtfc_key": "***",
+        "fs_div": "CFS",
+        "reprt_code": "11014"
+      },
+      "rcept_no": "20261111000194",
+      "returned_rcept_no": [
+        "20261111000194"
+      ],
+      "rows": 192,
+      "sha256": "b8e4b799c8cea4ed2ddb5eb9de81f4392150867bfb53463129684d2ef229f16f",
+      "status": "000"
+    },
+    {
+      "attempts": 1,
+      "endpoint": "fnlttSinglAcntAll.json",
+      "http_status": 200,
+      "matched": true,
+      "params": {
+        "bsns_year": "2026",
+        "corp_code": "00122737",
+        "crtfc_key": "***",
+        "fs_div": "OFS",
+        "reprt_code": "11014"
+      },
+      "rcept_no": "20261111000213",
+      "returned_rcept_no": [
+        "20261111000213"
+      ],
+      "rows": 116,
+      "sha256": "1b415e30467ba4c4257380833b55d9d73f9bebe5945e14574d799630260ea1dd",
+      "status": "000"
+    },
+    {
+      "attempts": 1,
+      "endpoint": "fnlttSinglAcntAll.json",
+      "http_status": 200,
+      "matched": true,
+      "params": {
+        "bsns_year": "2026",
+        "corp_code": "00122737",
+        "crtfc_key": "***",
+        "fs_div": "CFS",
+        "reprt_code": "11014"
+      },
+      "rcept_no": "20261111000213",
+      "returned_rcept_no": [
+        "20261111000213"
+      ],
+      "rows": 136,
+      "sha256": "99a13b7a17628b9d8e97a46dbed9401af73b478690342e3d53f9009c52133e36",
+      "status": "000"
+    },
+    {
+      "attempts": 1,
+      "endpoint": "fnlttSinglAcntAll.json",
+      "http_status": 200,
+      "matched": true,
+      "params": {
+        "bsns_year": "2026",
+        "corp_code": "00398792",
+        "crtfc_key": "***",
+        "fs_div": "OFS",
+        "reprt_code": "11014"
+      },
+      "rcept_no": "20261111000243",
+      "returned_rcept_no": [
+        "20261111000243"
+      ],
+      "rows": 129,
+      "sha256": "b29599b65c70cecf0e95c1a74518c165f104ed37df37b88d48441961806d6b52",
+      "status": "000"
+    },
+    {
+      "attempts": 1,
+      "endpoint": "fnlttSinglAcntAll.json",
+      "http_status": 200,
+      "matched": true,
+      "params": {
+        "bsns_year": "2026",
+        "corp_code": "00398792",
+        "crtfc_key": "***",
+        "fs_div": "CFS",
+        "reprt_code": "11014"
+      },
+      "rcept_no": "20261111000243",
+      "returned_rcept_no": [
+        "20261111000243"
+      ],
+      "rows": 166,
+      "sha256": "8fdc0d4029544a6ceee8fb68728a0bf851fe1ce6b3cd35cbc858c88a9d1b25d1",
+      "status": "000"
+    },
+    {
+      "attempts": 1,
+      "endpoint": "fnlttSinglAcntAll.json",
+      "http_status": 200,
+      "matched": true,
+      "params": {
+        "bsns_year": "2026",
+        "corp_code": "00134477",
+        "crtfc_key": "***",
+        "fs_div": "OFS",
+        "reprt_code": "11014"
+      },
+      "rcept_no": "20261111000247",
+      "returned_rcept_no": [
+        "20261111000247"
+      ],
+      "rows": 148,
+      "sha256": "4c52ce8cf8f72fbadd8d408efdc32907255a1d581a4ac023d3a4e5667c3b5986",
+      "status": "000"
+    },
+    {
+      "attempts": 1,
+      "endpoint": "fnlttSinglAcntAll.json",
+      "http_status": 200,
+      "matched": true,
+      "params": {
+        "bsns_year": "2026",
+        "corp_code": "00134477",
+        "crtfc_key": "***",
+        "fs_div": "CFS",
+        "reprt_code": "11014"
+      },
+      "rcept_no": "20261111000247",
+      "returned_rcept_no": [
+        "20261111000247"
+      ],
+      "rows": 178,
+      "sha256": "10f3cfe85b6c0b98163a0c21ae235fca8c7c66bb503a5eb586d79dd525a61fab",
+      "status": "000"
+    },
+    {
+      "attempts": 1,
+      "endpoint": "fnlttSinglAcntAll.json",
+      "http_status": 200,
+      "matched": true,
+      "params": {
+        "bsns_year": "2026",
+        "corp_code": "00648721",
+        "crtfc_key": "***",
+        "fs_div": "OFS",
+        "reprt_code": "11014"
+      },
+      "rcept_no": "20261111000249",
+      "returned_rcept_no": [
+        "20261111000249"
+      ],
+      "rows": 120,
+      "sha256": "8bdf3d3ce188e880ee4e0554b0a80d6b2cb2c041616bfb8b99662b085c1400a8",
+      "status": "000"
+    },
+    {
+      "attempts": 1,
+      "endpoint": "fnlttSinglAcntAll.json",
+      "http_status": 200,
+      "matched": true,
+      "params": {
+        "bsns_year": "2026",
+        "corp_code": "00648721",
+        "crtfc_key": "***",
+        "fs_div": "CFS",
+        "reprt_code": "11014"
+      },
+      "rcept_no": "20261111000249",
+      "returned_rcept_no": [
+        "20261111000249"
+      ],
+      "rows": 136,
+      "sha256": "8780cf89ae4e4401b03091d04a3eeb0d0ad0b24d2f91b2eeacc4ac15122b193d",
+      "status": "000"
+    },
+    {
+      "attempts": 1,
+      "endpoint": "fnlttSinglAcntAll.json",
+      "http_status": 200,
+      "matched": true,
+      "params": {
+        "bsns_year": "2026",
+        "corp_code": "00225159",
+        "crtfc_key": "***",
+        "fs_div": "OFS",
+        "reprt_code": "11014"
+      },
+      "rcept_no": "20261111000260",
+      "returned_rcept_no": [
+        "20261111000260"
+      ],
+      "rows": 99,
+      "sha256": "705a2f31d94e0f6faadf3d8fc2de2deaa4226240a8858643d9e879007377fb08",
+      "status": "000"
+    },
+    {
+      "attempts": 1,
+      "endpoint": "fnlttSinglAcntAll.json",
+      "http_status": 200,
+      "matched": true,
+      "params": {
+        "bsns_year": "2026",
+        "corp_code": "00225159",
+        "crtfc_key": "***",
+        "fs_div": "CFS",
+        "reprt_code": "11014"
+      },
+      "rcept_no": "20261111000260",
+      "returned_rcept_no": [
+        "20261111000260"
+      ],
+      "rows": 196,
+      "sha256": "677f487ef21c25e49e36766e29cec91f9f2fced68d5dea23635126b2829ea9d8",
+      "status": "000"
+    },
+    {
+      "attempts": 1,
+      "endpoint": "fnlttSinglAcntAll.json",
+      "http_status": 200,
+      "matched": true,
+      "params": {
+        "bsns_year": "2026",
+        "corp_code": "00111704",
+        "crtfc_key": "***",
+        "fs_div": "OFS",
+        "reprt_code": "11014"
+      },
+      "rcept_no": "20261111000263",
+      "returned_rcept_no": [
+        "20261111000263"
+      ],
+      "rows": 150,
+      "sha256": "eee63f03b65738b860c42014e25c170c94f67fa15da1c6f8bc954b6e752b54bd",
+      "status": "000"
+    },
+    {
+      "attempts": 1,
+      "endpoint": "fnlttSinglAcntAll.json",
+      "http_status": 200,
+      "matched": true,
+      "params": {
+        "bsns_year": "2026",
+        "corp_code": "00111704",
+        "crtfc_key": "***",
+        "fs_div": "CFS",
+        "reprt_code": "11014"
+      },
+      "rcept_no": "20261111000263",
+      "returned_rcept_no": [
+        "20261111000263"
+      ],
+      "rows": 190,
+      "sha256": "815b33a0e820e37de901f3d5c1edbe188797d2e1b38b9dea765b7a8b20df6be3",
+      "status": "000"
+    },
+    {
+      "attempts": 1,
+      "endpoint": "fnlttSinglAcntAll.json",
+      "http_status": 200,
+      "matched": true,
+      "params": {
+        "bsns_year": "2026",
+        "corp_code": "00861076",
+        "crtfc_key": "***",
+        "fs_div": "OFS",
+        "reprt_code": "11014"
+      },
+      "rcept_no": "20261111000286",
+      "returned_rcept_no": [
+        "20261111000286"
+      ],
+      "rows": 123,
+      "sha256": "5b6130de5949e956a023a3ce5c8bec38064071adb971c0c0abb6a0b6330f7fc4",
+      "status": "000"
+    },
+    {
+      "attempts": 1,
+      "endpoint": "fnlttSinglAcntAll.json",
+      "http_status": 200,
+      "matched": true,
+      "params": {
+        "bsns_year": "2026",
+        "corp_code": "00861076",
+        "crtfc_key": "***",
+        "fs_div": "CFS",
+        "reprt_code": "11014"
+      },
+      "rcept_no": "20261111000286",
+      "returned_rcept_no": [
+        "20261111000286"
+      ],
+      "rows": 140,
+      "sha256": "e9ef4bff46e3f020d9402e656d383864076b758e889b36acf37a14377d031789",
+      "status": "000"
+    },
+    {
+      "attempts": 1,
+      "endpoint": "fnlttSinglAcntAll.json",
+      "http_status": 200,
+      "matched": true,
+      "params": {
+        "bsns_year": "2026",
+        "corp_code": "00458234",
+        "crtfc_key": "***",
+        "fs_div": "OFS",
+        "reprt_code": "11014"
+      },
+      "rcept_no": "20261111000309",
+      "returned_rcept_no": [
+        "20261111000309"
+      ],
+      "rows": 109,
+      "sha256": "2706d9ff3acc46821984bce86dda53f663b18de039df4b26f84c0e0ee361b085",
+      "status": "000"
+    },
+    {
+      "attempts": 1,
+      "endpoint": "fnlttSinglAcntAll.json",
+      "http_status": 200,
+      "matched": false,
+      "params": {
+        "bsns_year": "2026",
+        "corp_code": "00458234",
+        "crtfc_key": "***",
+        "fs_div": "CFS",
+        "reprt_code": "11014"
+      },
+      "rcept_no": "20261111000309",
+      "returned_rcept_no": [],
+      "rows": 0,
+      "sha256": "5b9f448765008cd323ab5b94081c873aa00d39974e7ed5aa1964b00a19e8242b",
+      "status": "013"
+    },
+    {
+      "attempts": 1,
+      "endpoint": "fnlttSinglAcntAll.json",
+      "http_status": 200,
+      "matched": true,
+      "params": {
+        "bsns_year": "2026",
+        "corp_code": "00260408",
+        "crtfc_key": "***",
+        "fs_div": "OFS",
+        "reprt_code": "11014"
+      },
+      "rcept_no": "20261111000334",
+      "returned_rcept_no": [
+        "20261111000334"
+      ],
+      "rows": 127,
+      "sha256": "ddb3c7a7981eb6b1ab9670313e0d3bf1cb09f5a7f830449a7350084882f6f7ca",
+      "status": "000"
+    },
+    {
+      "attempts": 1,
+      "endpoint": "fnlttSinglAcntAll.json",
+      "http_status": 200,
+      "matched": true,
+      "params": {
+        "bsns_year": "2026",
+        "corp_code": "00260408",
+        "crtfc_key": "***",
+        "fs_div": "CFS",
+        "reprt_code": "11014"
+      },
+      "rcept_no": "20261111000334",
+      "returned_rcept_no": [
+        "20261111000334"
+      ],
+      "rows": 189,
+      "sha256": "5f7549a864c91e33dfcc9d5576687307c0a614c3a438c044e45a7bf7ee5580d4",
+      "status": "000"
+    },
+    {
+      "attempts": 1,
+      "endpoint": "fnlttSinglAcntAll.json",
+      "http_status": 200,
+      "matched": true,
+      "params": {
+        "bsns_year": "2026",
+        "corp_code": "00169048",
+        "crtfc_key": "***",
+        "fs_div": "OFS",
+        "reprt_code": "11014"
+      },
+      "rcept_no": "20261111000381",
+      "returned_rcept_no": [
+        "20261111000381"
+      ],
+      "rows": 123,
+      "sha256": "8fe92d3c0bac7159f8c1786a65c13eb21cdfbe0292d2b43538c470294f23d9ce",
+      "status": "000"
+    },
+    {
+      "attempts": 1,
+      "endpoint": "fnlttSinglAcntAll.json",
+      "http_status": 200,
+      "matched": true,
+      "params": {
+        "bsns_year": "2026",
+        "corp_code": "00169048",
+        "crtfc_key": "***",
+        "fs_div": "CFS",
+        "reprt_code": "11014"
+      },
+      "rcept_no": "20261111000381",
+      "returned_rcept_no": [
+        "20261111000381"
+      ],
+      "rows": 153,
+      "sha256": "8d41de14dedc8ca59d64c4c6fe44223ba469fd174dac73648e9d942c698982b2",
+      "status": "000"
+    }
+  ],
+  "run_id": "20261112T021855Z",
+  "schema_version": "manifest-1",
+  "source_id": "opendart_fnltt",
+  "started_at_utc": "2026-11-12T02:19:19.150543+00:00",
+  "status": "ok",
+  "target": {
+    "corp_cls": [
+      "Y"
+    ],
+    "newly_queued": 15,
+    "pending_after": 0,
+    "pending_before": 15
+  },
+  "warnings": []
+}

@@ -1,0 +1,489 @@
+{
+  "code_version": "01caffcdaea0728b6136aa80343658533aaf4096",
+  "contract_id": "opendart_list_v1",
+  "counts": {
+    "added": 432,
+    "rows": 2253,
+    "unchanged": 1821
+  },
+  "errors": [],
+  "finished_at_utc": "2026-11-12T02:19:19.147422+00:00",
+  "permission": {
+    "approval_status": "approved_for_redistribution",
+    "attribution_required": true,
+    "license_url": "https://opendart.fss.or.kr/intro/terms.do",
+    "permission_reference": "OpenDART 이용약관(2020-01-21 시행) 2026-11-09 원문 검토 — DATA_SOURCES.md#opendart"
+  },
+  "requests": [
+    {
+      "attempts": 1,
+      "endpoint": "list.json",
+      "http_status": 200,
+      "page_no": 1,
+      "params": {
+        "bgn_de": "20261105",
+        "corp_cls": "Y",
+        "crtfc_key": "***",
+        "end_de": "20261111",
+        "page_count": "100",
+        "page_no": "1",
+        "sort": "date",
+        "sort_mth": "asc"
+      },
+      "rows": 100,
+      "sha256": "7b13becc750b5f1a09a856f1e0ec3751025347222fefb5aeac2c4de6a6df67ae",
+      "status": "000"
+    },
+    {
+      "attempts": 1,
+      "endpoint": "list.json",
+      "http_status": 200,
+      "page_no": 2,
+      "params": {
+        "bgn_de": "20261105",
+        "corp_cls": "Y",
+        "crtfc_key": "***",
+        "end_de": "20261111",
+        "page_count": "100",
+        "page_no": "2",
+        "sort": "date",
+        "sort_mth": "asc"
+      },
+      "rows": 100,
+      "sha256": "c32bc12627c08e279e2a3079571f9fc1c0e84e023c3706832fc0b205bd2c9a3a",
+      "status": "000"
+    },
+    {
+      "attempts": 1,
+      "endpoint": "list.json",
+      "http_status": 200,
+      "page_no": 3,
+      "params": {
+        "bgn_de": "20261105",
+        "corp_cls": "Y",
+        "crtfc_key": "***",
+        "end_de": "20261111",
+        "page_count": "100",
+        "page_no": "3",
+        "sort": "date",
+        "sort_mth": "asc"
+      },
+      "rows": 100,
+      "sha256": "1f91c7b55c2d2c153294317c56f0079a9a868aaaa5ac37bdaf15e7d7dbecdead",
+      "status": "000"
+    },
+    {
+      "attempts": 1,
+      "endpoint": "list.json",
+      "http_status": 200,
+      "page_no": 4,
+      "params": {
+        "bgn_de": "20261105",
+        "corp_cls": "Y",
+        "crtfc_key": "***",
+        "end_de": "20261111",
+        "page_count": "100",
+        "page_no": "4",
+        "sort": "date",
+        "sort_mth": "asc"
+      },
+      "rows": 100,
+      "sha256": "60caf622f399096f26fe0b4cc25d14cbb7b4ecb8b5432d43316489ea090d034c",
+      "status": "000"
+    },
+    {
+      "attempts": 1,
+      "endpoint": "list.json",
+      "http_status": 200,
+      "page_no": 5,
+      "params": {
+        "bgn_de": "20261105",
+        "corp_cls": "Y",
+        "crtfc_key": "***",
+        "end_de": "20261111",
+        "page_count": "100",
+        "page_no": "5",
+        "sort": "date",
+        "sort_mth": "asc"
+      },
+      "rows": 100,
+      "sha256": "0153bbd3bb6603245f518e4a0436a85aa5f3374dc1fab8456b82b73abdc6949b",
+      "status": "000"
+    },
+    {
+      "attempts": 1,
+      "endpoint": "list.json",
+      "http_status": 200,
+      "page_no": 6,
+      "params": {
+        "bgn_de": "20261105",
+        "corp_cls": "Y",
+        "crtfc_key": "***",
+        "end_de": "20261111",
+        "page_count": "100",
+        "page_no": "6",
+        "sort": "date",
+        "sort_mth": "asc"
+      },
+      "rows": 100,
+      "sha256": "de197e37ff10e5733fbe6521e9b45cc000ff8f39f5e0b0ecc72a3fcd2c722b42",
+      "status": "000"
+    },
+    {
+      "attempts": 1,
+      "endpoint": "list.json",
+      "http_status": 200,
+      "page_no": 7,
+      "params": {
+        "bgn_de": "20261105",
+        "corp_cls": "Y",
+        "crtfc_key": "***",
+        "end_de": "20261111",
+        "page_count": "100",
+        "page_no": "7",
+        "sort": "date",
+        "sort_mth": "asc"
+      },
+      "rows": 100,
+      "sha256": "12b4a6c13b757c63d1ccaec76b729b1320f2c13727d33ddf978d0e3113e4e3e4",
+      "status": "000"
+    },
+    {
+      "attempts": 1,
+      "endpoint": "list.json",
+      "http_status": 200,
+      "page_no": 8,
+      "params": {
+        "bgn_de": "20261105",
+        "corp_cls": "Y",
+        "crtfc_key": "***",
+        "end_de": "20261111",
+        "page_count": "100",
+        "page_no": "8",
+        "sort": "date",
+        "sort_mth": "asc"
+      },
+      "rows": 100,
+      "sha256": "cb67f8b5180f53b333e01267f03ee861c63714a8caee2c167122ebcd5cd08512",
+      "status": "000"
+    },
+    {
+      "attempts": 1,
+      "endpoint": "list.json",
+      "http_status": 200,
+      "page_no": 9,
+      "params": {
+        "bgn_de": "20261105",
+        "corp_cls": "Y",
+        "crtfc_key": "***",
+        "end_de": "20261111",
+        "page_count": "100",
+        "page_no": "9",
+        "sort": "date",
+        "sort_mth": "asc"
+      },
+      "rows": 100,
+      "sha256": "1e3f8b12d01394516565b6a3043f501653fe32c574e86dbac3477677f46b0f7f",
+      "status": "000"
+    },
+    {
+      "attempts": 1,
+      "endpoint": "list.json",
+      "http_status": 200,
+      "page_no": 10,
+      "params": {
+        "bgn_de": "20261105",
+        "corp_cls": "Y",
+        "crtfc_key": "***",
+        "end_de": "20261111",
+        "page_count": "100",
+        "page_no": "10",
+        "sort": "date",
+        "sort_mth": "asc"
+      },
+      "rows": 100,
+      "sha256": "bbc9446553fc8006d12ffa364a526e130ab519cae0654b7e2ae8c2f8bc594b46",
+      "status": "000"
+    },
+    {
+      "attempts": 1,
+      "endpoint": "list.json",
+      "http_status": 200,
+      "page_no": 11,
+      "params": {
+        "bgn_de": "20261105",
+        "corp_cls": "Y",
+        "crtfc_key": "***",
+        "end_de": "20261111",
+        "page_count": "100",
+        "page_no": "11",
+        "sort": "date",
+        "sort_mth": "asc"
+      },
+      "rows": 24,
+      "sha256": "5942f0c6981baee3a2cbcdeecbf33d6596aec1cbecb5f2f72849bc1c1a05c46f",
+      "status": "000"
+    },
+    {
+      "attempts": 1,
+      "endpoint": "list.json",
+      "http_status": 200,
+      "page_no": 1,
+      "params": {
+        "bgn_de": "20261105",
+        "corp_cls": "K",
+        "crtfc_key": "***",
+        "end_de": "20261111",
+        "page_count": "100",
+        "page_no": "1",
+        "sort": "date",
+        "sort_mth": "asc"
+      },
+      "rows": 100,
+      "sha256": "77a4339ff679430e5c0c832591df3b75854f92021d9dae6df953c82e02fa8a49",
+      "status": "000"
+    },
+    {
+      "attempts": 1,
+      "endpoint": "list.json",
+      "http_status": 200,
+      "page_no": 2,
+      "params": {
+        "bgn_de": "20261105",
+        "corp_cls": "K",
+        "crtfc_key": "***",
+        "end_de": "20261111",
+        "page_count": "100",
+        "page_no": "2",
+        "sort": "date",
+        "sort_mth": "asc"
+      },
+      "rows": 100,
+      "sha256": "e7d95e52a992170671cffa3ec4295c47f3fd9d610265081d9188395785e80fa7",
+      "status": "000"
+    },
+    {
+      "attempts": 1,
+      "endpoint": "list.json",
+      "http_status": 200,
+      "page_no": 3,
+      "params": {
+        "bgn_de": "20261105",
+        "corp_cls": "K",
+        "crtfc_key": "***",
+        "end_de": "20261111",
+        "page_count": "100",
+        "page_no": "3",
+        "sort": "date",
+        "sort_mth": "asc"
+      },
+      "rows": 100,
+      "sha256": "da72a8c2b281028fd6fcb51faa01d3b589b3a44b7974732f287d05192d7b4011",
+      "status": "000"
+    },
+    {
+      "attempts": 1,
+      "endpoint": "list.json",
+      "http_status": 200,
+      "page_no": 4,
+      "params": {
+        "bgn_de": "20261105",
+        "corp_cls": "K",
+        "crtfc_key": "***",
+        "end_de": "20261111",
+        "page_count": "100",
+        "page_no": "4",
+        "sort": "date",
+        "sort_mth": "asc"
+      },
+      "rows": 100,
+      "sha256": "07b72079aa4e9715fffb4c9c43104961a5a0fce58e36cd3ef0bca06b8a15d282",
+      "status": "000"
+    },
+    {
+      "attempts": 1,
+      "endpoint": "list.json",
+      "http_status": 200,
+      "page_no": 5,
+      "params": {
+        "bgn_de": "20261105",
+        "corp_cls": "K",
+        "crtfc_key": "***",
+        "end_de": "20261111",
+        "page_count": "100",
+        "page_no": "5",
+        "sort": "date",
+        "sort_mth": "asc"
+      },
+      "rows": 100,
+      "sha256": "079b862713fcce3ca5a909cafff092bc2ce0f0c469ab99566a6e3a7b562681f4",
+      "status": "000"
+    },
+    {
+      "attempts": 1,
+      "endpoint": "list.json",
+      "http_status": 200,
+      "page_no": 6,
+      "params": {
+        "bgn_de": "20261105",
+        "corp_cls": "K",
+        "crtfc_key": "***",
+        "end_de": "20261111",
+        "page_count": "100",
+        "page_no": "6",
+        "sort": "date",
+        "sort_mth": "asc"
+      },
+      "rows": 100,
+      "sha256": "1595f51f4a8c6e9b542214c52bef79be90debeae66fb318a0d2d63cfd010b12c",
+      "status": "000"
+    },
+    {
+      "attempts": 1,
+      "endpoint": "list.json",
+      "http_status": 200,
+      "page_no": 7,
+      "params": {
+        "bgn_de": "20261105",
+        "corp_cls": "K",
+        "crtfc_key": "***",
+        "end_de": "20261111",
+        "page_count": "100",
+        "page_no": "7",
+        "sort": "date",
+        "sort_mth": "asc"
+      },
+      "rows": 100,
+      "sha256": "9062419772eb6fd75e1cccf7888e73c48a45ecb4bf97de652a82f7499517409b",
+      "status": "000"
+    },
+    {
+      "attempts": 1,
+      "endpoint": "list.json",
+      "http_status": 200,
+      "page_no": 8,
+      "params": {
+        "bgn_de": "20261105",
+        "corp_cls": "K",
+        "crtfc_key": "***",
+        "end_de": "20261111",
+        "page_count": "100",
+        "page_no": "8",
+        "sort": "date",
+        "sort_mth": "asc"
+      },
+      "rows": 100,
+      "sha256": "274cd8d393121a623eaf64a979d89bbdff166a4a7cbae3a6169f02ab59750e6c",
+      "status": "000"
+    },
+    {
+      "attempts": 1,
+      "endpoint": "list.json",
+      "http_status": 200,
+      "page_no": 9,
+      "params": {
+        "bgn_de": "20261105",
+        "corp_cls": "K",
+        "crtfc_key": "***",
+        "end_de": "20261111",
+        "page_count": "100",
+        "page_no": "9",
+        "sort": "date",
+        "sort_mth": "asc"
+      },
+      "rows": 100,
+      "sha256": "af4e29892c9c1fa8d8ae3c65d00f6349c6170666d7efca6a823ee6763bd99d14",
+      "status": "000"
+    },
+    {
+      "attempts": 1,
+      "endpoint": "list.json",
+      "http_status": 200,
+      "page_no": 10,
+      "params": {
+        "bgn_de": "20261105",
+        "corp_cls": "K",
+        "crtfc_key": "***",
+        "end_de": "20261111",
+        "page_count": "100",
+        "page_no": "10",
+        "sort": "date",
+        "sort_mth": "asc"
+      },
+      "rows": 100,
+      "sha256": "2a5fd969f1d054f5698ada74a861345c4163b2fcb6c01b3d0fa80230b462647d",
+      "status": "000"
+    },
+    {
+      "attempts": 1,
+      "endpoint": "list.json",
+      "http_status": 200,
+      "page_no": 11,
+      "params": {
+        "bgn_de": "20261105",
+        "corp_cls": "K",
+        "crtfc_key": "***",
+        "end_de": "20261111",
+        "page_count": "100",
+        "page_no": "11",
+        "sort": "date",
+        "sort_mth": "asc"
+      },
+      "rows": 100,
+      "sha256": "d0d271e5aef30f45c7b2f482a30922d234fdafcc74d2a29282ac9743f47b433b",
+      "status": "000"
+    },
+    {
+      "attempts": 1,
+      "endpoint": "list.json",
+      "http_status": 200,
+      "page_no": 12,
+      "params": {
+        "bgn_de": "20261105",
+        "corp_cls": "K",
+        "crtfc_key": "***",
+        "end_de": "20261111",
+        "page_count": "100",
+        "page_no": "12",
+        "sort": "date",
+        "sort_mth": "asc"
+      },
+      "rows": 100,
+      "sha256": "e7ebd3355fcbc112ef361c9fdaa9a69dddbfddee60d6175532b7092bcc484585",
+      "status": "000"
+    },
+    {
+      "attempts": 1,
+      "endpoint": "list.json",
+      "http_status": 200,
+      "page_no": 13,
+      "params": {
+        "bgn_de": "20261105",
+        "corp_cls": "K",
+        "crtfc_key": "***",
+        "end_de": "20261111",
+        "page_count": "100",
+        "page_no": "13",
+        "sort": "date",
+        "sort_mth": "asc"
+      },
+      "rows": 29,
+      "sha256": "3f07e58a98b75a8753a24e46dd21fdfbccac8e531c10b357d0cced90facc6b4a",
+      "status": "000"
+    }
+  ],
+  "run_id": "20261112T021855Z",
+  "schema_version": "manifest-1",
+  "source_id": "opendart_list",
+  "started_at_utc": "2026-11-12T02:18:55.113888+00:00",
+  "status": "ok",
+  "target": {
+    "bgn_de": "2026-11-05",
+    "corp_cls": [
+      "Y",
+      "K"
+    ],
+    "end_de": "2026-11-11"
+  },
+  "warnings": []
+}
