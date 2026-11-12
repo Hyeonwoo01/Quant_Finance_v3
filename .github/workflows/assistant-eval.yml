@@ -1,0 +1,51 @@
+name: assistant-eval
+
+# AI 어시스턴트 평가 세트(assistant/eval/golden.jsonl)를 실제 모델로 돌린다 (가이드 14-4). 수동 실행만.
+# 실제 Claude API를 부르므로 비용이 든다. Secrets의 ANTHROPIC_API_KEY가 필요하다 (없으면 건너뜀).
+# 공개 data 브랜치의 데이터만 쓰고, 도구는 LLM 입력이 허용된 데이터만 돌려준다. 결과는 실행 요약과 아티팩트로 남는다.
+on:
+  workflow_dispatch:
+    inputs:
+      only:
+        description: "돌릴 질문 id (쉼표로 구분, 비우면 전부)"
+        default: ""
+      model:
+        description: "모델 ID"
+        default: "claude-opus-5-5"
+
+permissions:
+  contents: read
+
+jobs:
+  eval:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      PYTHONUNBUFFERED: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          ref: data
+          path: data
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+      - run: pip install -r requirements.txt -r requirements-assistant.txt
+      - name: 평가
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          ONLY: ${{ inputs.only }}
+          MODEL: ${{ inputs.model }}
+        run: |
+          if [ -z "$ANTHROPIC_API_KEY" ]; then echo "::warning::ANTHROPIC_API_KEY가 없어 건너뜀"; exit 0; fi
+          case "$ONLY$MODEL" in *[!a-z0-9,._-]*) echo "only·model에 허용되지 않는 문자"; exit 2;; esac
+          python -m assistant.eval.run_eval --data-dir data --model "$MODEL" ${ONLY:+--only "$ONLY"} \
+            --out eval_report.json --summary "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: assistant-eval
+          path: eval_report.json
+          if-no-files-found: ignore

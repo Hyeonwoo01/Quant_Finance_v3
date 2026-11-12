@@ -15,6 +15,9 @@
 > with revisions, exchange-calendar time alignment, a point-in-time security master, and daily GitHub Actions jobs
 > that collect OpenDART filings/financials/segments and public industry & macro series. Data whose licence forbids
 > redistribution (Korean exchange prices) is written only to a separate private repository, enforced in code.
+> On top sits a small evidence-grounded agent: the point-in-time store is exposed as a read-only **MCP server**, and a
+> Claude **function-calling** loop answers questions with an `evidence_id` on every number, which a verifier checks
+> against the source rows (value, unit, period, consolidation, metric) and marks VERIFIED / WARNING / ABSTAINED.
 
 | 문서 | 내용 |
 |---|---|
@@ -31,9 +34,10 @@
 5. [데이터 공급원과 권한](#5-데이터-공급원과-권한)
 6. [매일 자동 수집](#6-매일-자동-수집)
 7. [저장 구조](#7-저장-구조)
-8. [시작하기](#8-시작하기)
-9. [개발 규칙](#9-개발-규칙)
-10. [다음 단계](#10-다음-단계)
+8. [AI 어시스턴트 (DART + MCP + Agent)](#8-ai-어시스턴트-dart--mcp--agent)
+9. [시작하기](#9-시작하기)
+10. [개발 규칙](#10-개발-규칙)
+11. [다음 단계](#11-다음-단계)
 
 ---
 
@@ -68,6 +72,8 @@
 | 거시지표 수정 이력 | 🔶 | 값 변경은 새 버전. 공식 발표 시각은 아직 없음(받은 시각 기준) |
 | 비수정주가 | ✅ | `collectors/fsc_krx.py` — 2023-11-10 기준일부터 비공개 저장소에 수집 중 (728거래일, 약 208만 건) |
 | 수정주가·기업행위 PIT | ⬜ | 배당·권리일정 공급원 검토 필요 |
+
+AI 어시스턴트(가이드 14장, Sprint 5 항목)는 데이터 기초 위에서 먼저 작게 만들었다: 읽기 전용 MCP 서버, Function Calling Agent, 주장별 근거 검증, 평가 세트 ([8절](#8-ai-어시스턴트-dart--mcp--agent)).
 
 **Gate:** 재현 가능한 PIT Feature Snapshot 생성 — 가격 과거 구간과 기업행위가 갖춰진 뒤 판단합니다.
 
@@ -167,6 +173,13 @@ Quant_Finance_v3/
 ├── orchestration/                   # 매일 실행 진입점 (6-4)
 │   ├── opendart_daily.py · macro_daily.py · krx_daily.py
 │
+├── assistant/                       # 근거 기반 AI 어시스턴트 (14장)
+│   ├── tools.py                     # 읽기 전용 PIT 조회 (LLM 입력 허용 데이터만, as_of 필터)
+│   ├── mcp_server.py                # 위 도구를 MCP 서버로 (stdio)
+│   ├── agent.py                     # MCP 클라이언트 + Claude Function Calling 루프
+│   ├── verify.py                    # 주장별 근거 검증 VERIFIED / WARNING / ABSTAINED (14-2)
+│   └── eval/                        # 평가 세트와 실행기 (14-4)
+│
 ├── config/
 │   ├── segment_taxonomy.json        # 부문 레이블 → 산업 규칙
 │   └── macro_series.json            # 받을 품목·통계·시리즈 목록
@@ -177,7 +190,7 @@ Quant_Finance_v3/
 │   ├── property/                    # 고정 시드 무작위 사례로 PIT 불변조건
 │   └── fake_opendart.py · conftest.py · fixtures/
 │
-└── .github/workflows/               # tests · opendart-daily · macro-daily · krx-daily
+└── .github/workflows/               # tests · opendart-daily · macro-daily · krx-daily · assistant-eval
 ```
 
 ## 5. 데이터 공급원과 권한
@@ -202,6 +215,7 @@ FRED/ALFRED는 서면 허가 없이 저장·학습에 쓰지 않습니다 (가�
 | [`opendart-daily`](.github/workflows/opendart-daily.yml) | 매일 06:17 | 종목 식별자 매핑 → 최근 7일 공시 → 정기보고서 재무제표 → 사업부문 XBRL | 공개 `data` 브랜치 | `collect` · `check` · `probe-xbrl` |
 | [`macro-daily`](.github/workflows/macro-daily.yml) | 매일 07:47 | 관세청·ECOS·EIA 지표 | 공개 `data` 브랜치 | `collect` · `check` · `probe` |
 | [`krx-daily`](.github/workflows/krx-daily.yml) | 평일 14:23 | 한국 주식 일별 시세 (전 종목) | **비공개 저장소** | `collect` · `backfill` · `check` · `probe` |
+| [`assistant-eval`](.github/workflows/assistant-eval.yml) | 수동 | AI 어시스턴트 평가 세트를 실제 모델로 실행 | 실행 요약·아티팩트 | — |
 | [`tests`](.github/workflows/tests.yml) | push·PR | `pytest` (Python 3.12·3.13) | — | — |
 
 - `check`·`probe`는 저장하지 않고 인증키·연결·응답 구조만 확인합니다.
@@ -236,7 +250,57 @@ store = PITFileStore("data", default_registry()).load(["bok_ecos"])
 df = store.query_as_of(datetime(2026, 11, 12, tzinfo=timezone.utc), Purpose.ML_TRAINING)   # 그 시점에 알 수 있었던 값만
 ```
 
-## 8. 시작하기
+## 8. AI 어시스턴트 (DART + MCP + Agent)
+
+수집한 PIT 데이터를 **MCP 서버**로 감싸고, Claude가 **Function Calling**으로 그 도구를 골라 부르는 작은 Agent입니다.
+가이드 14장(Evidence-Grounded AI Assistant)을 따릅니다. 목표는 "환각 0"이 아니라 **근거를 달고, 근거와 다른 숫자는 잡아내는 것**입니다.
+
+```text
+질문 + 기준 시각(as_of, 사람이 정함)
+  │
+  ▼
+assistant/agent.py ── Claude API (Function Calling, claude-opus-5-5) ──┐
+  │  MCP 클라이언트 (stdio)                                              │ 도구 선택·호출 반복
+  ▼                                                                      │
+assistant/mcp_server.py  ◄───────────────────────────────────────────────┘
+  │  data_permissions · find_company · search_dart_filings · get_financials · list_macro_series · get_macro_series
+  ▼
+assistant/tools.py → PIT 저장소 (data 브랜치)    query_as_of(as_of, Purpose.LLM_INPUT)
+  │
+  ▼
+submit_answer (답 + 주장별 evidence_id) → assistant/verify.py → VERIFIED / WARNING / ABSTAINED + 출처
+```
+
+| 지키는 것 | 방법 |
+|---|---|
+| 이용 조건 | 계약이 **LLM 입력**을 허용한 데이터만 도구가 돌려준다. 한국 주식 시세(재배포 금지)와 XBRL 부문 숫자는 어떤 도구로도 나가지 않는다 |
+| 미래 정보 차단 | 기준 시각은 사람이 정하고 Agent가 모든 도구 호출에 강제로 넣는다. 모델이 다른 시각을 넣으면 덮어쓰고 기록한다. 도구는 그 시각에 이용 가능했던 버전만 본다 |
+| 근거 연결 | 도구가 돌려주는 모든 값에 `evidence_id`(PIT revision)·출처 URL·가용 시각·계약 ID가 붙는다. 답의 숫자마다 근거를 달아 제출한다 |
+| 숫자 검증 | 값(억원·조원 등 표시 단위 환산)·단위·기간·분기/누적·연결/별도·지표 이름까지 근거 행과 대조한다. 근거 없는 숫자도 찾아낸다 |
+| 권한 최소화 | 도구는 읽기 전용(MCP `readOnlyHint`)이고 정해진 파라미터만 받는다. 코드 실행·웹·쓰기 도구는 없다 |
+| 프롬프트 인젝션 | 공시 제목 같은 외부 텍스트는 데이터로만 다루라고 지시하고(`untrusted_text` 표시), 그 텍스트를 따라 만든 숫자는 검증에서 걸린다 |
+| 감사 기록 | 단계마다 도구 이름·입력·오류·기준 시각 덮어쓰기·토큰을 남긴다 |
+
+실행:
+
+```bash
+pip install -r requirements.txt -r requirements-assistant.txt
+git clone -b data --depth 1 https://github.com/Hyeonwoo01/Quant_Finance_v3.git data     # 공개 PIT 데이터
+
+# Agent (ANTHROPIC_API_KEY 필요)
+python -m assistant.agent --data-dir data --as-of 2026-11-12T08:30:00+09:00 "에스엘의 최근 연결 영업이익은?"
+
+# MCP 서버만 (Claude Desktop·Claude Code 같은 MCP 클라이언트에서 쓰기)
+QF_DATA_DIR=data python -m assistant.mcp_server
+```
+
+Claude Code에 붙이려면 저장소 루트에서: `claude mcp add --transport stdio --env QF_DATA_DIR=$PWD/data quant-pit-data -- python -m assistant.mcp_server`
+
+평가 (가이드 14-4): [`assistant/eval/golden.jsonl`](assistant/eval/golden.jsonl)의 질문 7개를 실제 모델로 돌려 답·보류 판단, 도구 선택, 근거 연결, 주장 VERIFIED 비율, 근거 없는 숫자 수를 잽니다.
+보류해야 맞는 질문(시세처럼 이용 조건상 막힌 데이터, 수집 시작 전 시점, 미래)도 들어 있습니다.
+질문마다 기준 시각이 고정돼 있어 데이터가 계속 쌓여도 결과가 재현됩니다. GitHub Actions [`assistant-eval`](.github/workflows/assistant-eval.yml)을 수동으로 실행합니다(API 비용 발생).
+
+## 9. 시작하기
 
 ```bash
 python -m venv .venv && source .venv/bin/activate
@@ -259,10 +323,11 @@ GitHub Actions 설정 (Settings → Secrets and variables → Actions):
 | `DART_API_KEY` | Secret | opendart-daily |
 | `DATA_GO_KR_KEY` | Secret | macro-daily(관세청), krx-daily — 공공데이터포털 인증키. API마다 활용신청 필요 |
 | `ECOS_API_KEY` · `EIA_API_KEY` | Secret | macro-daily |
+| `ANTHROPIC_API_KEY` | Secret | assistant-eval (수동 실행, API 비용 발생) |
 | `PRIVATE_DATA_TOKEN` | Secret | krx-daily — 비공개 저장소 Contents 읽기·쓰기 토큰 |
 | `PRIVATE_DATA_REPO` | Variable (선택) | krx-daily — 비공개 저장소 이름. 없으면 `<소유자>/Quant_Finance_v3_private` |
 
-## 9. 개발 규칙
+## 10. 개발 규칙
 
 가이드 0-3의 원칙 가운데 코드에서 강제하는 것들입니다.
 
@@ -273,7 +338,7 @@ GitHub Actions 설정 (Settings → Secrets and variables → Actions):
 - **실패는 드러낸다:** 마지막 값을 최신처럼 쓰지 않는다. 페이지가 모자라거나 파일이 잘렸으면 저장하지 않고 오류로 남긴다.
 - **테스트:** 새 규칙에는 테스트를 붙인다. 네트워크 없이 가짜 전송으로 돌린다.
 
-## 10. 다음 단계
+## 11. 다음 단계
 
 1. **저장 형식 Parquet 전환:** 비공개 저장소가 1GB를 넘거나 2023년 이전을 채우기 전에 한다 (가이드 6-1 구현 노트).
    최근 3년 시세는 채웠다 (2023-11-10 ~).
