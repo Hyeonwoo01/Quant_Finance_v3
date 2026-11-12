@@ -1566,6 +1566,14 @@ Golden Question Set을 만들어 다음을 주기적으로 평가한다.
 
 `Zero-Hallucination`을 품질 목표로 표방하지 않는다. `Evidence-Grounded AI with Measurable Error Control`을 목표로 하며, 평가 결과와 오류 유형을 기록한다.
 
+**구현 노트 (2026-11-12, `assistant/`).** 14장의 최소 구현을 Sprint 5보다 먼저 만들었다. 지금 있는 데이터(공시·재무·종목 식별자·거시)만 다룬다.
+
+- **도구 (14-1):** `find_company`, `search_dart_filings`, `get_financials`(= `query_pit_financials`), `list_macro_series`, `get_macro_series`, `data_permissions`. 모두 읽기 전용이고 MCP 서버(`assistant/mcp_server.py`)로 내보낸다. `run_quant_analysis`·`run_valuation` 등은 해당 엔진이 생긴 뒤 추가한다.
+- **권한:** 도구는 `Purpose.LLM_INPUT`이 승인된 계약의 데이터만 돌려준다. 한국 주식 시세(`fsc_krx_stock_price_v1`)와 XBRL 부문 숫자(`opendart_xbrl_v1`)는 승인되지 않아 AI에 전달되지 않는다.
+- **시점:** 기준 시각(as_of)은 사람이 정한다. Agent가 모든 도구 호출에 강제로 넣고, 모델이 바꾸려 하면 덮어쓰고 기록한다.
+- **검증 (14-2):** `EvidenceClaim`의 축약형을 쓴다. 주장마다 `evidence_id`(PIT revision)·값·단위·지표·기간·분기/누적·연결/별도를 받는다. `assistant/verify.py`가 이번 대화의 도구 결과와 대조해 VERIFIED / WARNING / ABSTAINED를 매긴다. `evidence_spans`(공시 원문 위치)는 원문 문서를 받지 않으므로 아직 없다.
+- **평가 (14-4):** `assistant/eval/golden.jsonl`에 질문 7개가 있다. 답해야 할 것 4개, 보류해야 할 것 3개(막힌 데이터, 수집 전 시점, 미래)다. 질문마다 기준 시각을 고정해 재현할 수 있게 했다. 수동 워크플로 `assistant-eval`로 실제 모델에서 잰다.
+
 ---
 
 # 15. 규제·보안·개인정보·운영 통제
