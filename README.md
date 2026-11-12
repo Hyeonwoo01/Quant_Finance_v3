@@ -16,7 +16,7 @@
 > that collect OpenDART filings/financials/segments and public industry & macro series. Data whose licence forbids
 > redistribution (Korean exchange prices) is written only to a separate private repository, enforced in code.
 > On top sits a small evidence-grounded agent: the point-in-time store is exposed as a read-only **MCP server**, and a
-> Claude **function-calling** loop answers questions with an `evidence_id` on every number, which a verifier checks
+> function-calling loop (Claude or GPT, behind a small provider adapter) answers questions with an `evidence_id` on every number, which a verifier checks
 > against the source rows (value, unit, period, consolidation, metric) and marks VERIFIED / WARNING / ABSTAINED.
 
 | 문서 | 내용 |
@@ -176,7 +176,8 @@ Quant_Finance_v3/
 ├── assistant/                       # 근거 기반 AI 어시스턴트 (14장)
 │   ├── tools.py                     # 읽기 전용 PIT 조회 (LLM 입력 허용 데이터만, as_of 필터)
 │   ├── mcp_server.py                # 위 도구를 MCP 서버로 (stdio)
-│   ├── agent.py                     # MCP 클라이언트 + Claude Function Calling 루프
+│   ├── agent.py                     # MCP 클라이언트 + Function Calling 루프 (공급자 무관)
+│   ├── llm_backends.py              # Claude·GPT 어댑터 (도구 형식·요청·응답 변환)
 │   ├── verify.py                    # 주장별 근거 검증 VERIFIED / WARNING / ABSTAINED (14-2)
 │   └── eval/                        # 평가 세트와 실행기 (14-4)
 │
@@ -252,14 +253,16 @@ df = store.query_as_of(datetime(2026, 11, 12, tzinfo=timezone.utc), Purpose.ML_T
 
 ## 8. AI 어시스턴트 (DART + MCP + Agent)
 
-수집한 PIT 데이터를 **MCP 서버**로 감싸고, Claude가 **Function Calling**으로 그 도구를 골라 부르는 작은 Agent입니다.
+수집한 PIT 데이터를 **MCP 서버**로 감싸고, 모델이 **Function Calling**으로 그 도구를 골라 부르는 작은 Agent입니다.
+모델은 **Claude**(Anthropic)와 **GPT**(OpenAI) 중에서 고릅니다. 도구·기준 시각 강제·근거 검증은 공급자와 무관하게 같아서, 같은 평가 세트로 두 모델을 비교할 수 있습니다.
 가이드 14장(Evidence-Grounded AI Assistant)을 따릅니다. 목표는 "환각 0"이 아니라 **근거를 달고, 근거와 다른 숫자는 잡아내는 것**입니다.
 
 ```text
 질문 + 기준 시각(as_of, 사람이 정함)
   │
   ▼
-assistant/agent.py ── Claude API (Function Calling, claude-opus-5-5) ──┐
+assistant/agent.py ── Claude 또는 GPT (Function Calling) ─────────────┐
+  │  assistant/llm_backends.py: 공급자별 도구 형식·요청·응답 변환        │
   │  MCP 클라이언트 (stdio)                                              │ 도구 선택·호출 반복
   ▼                                                                      │
 assistant/mcp_server.py  ◄───────────────────────────────────────────────┘
@@ -287,8 +290,11 @@ submit_answer (답 + 주장별 evidence_id) → assistant/verify.py → VERIFIED
 pip install -r requirements.txt -r requirements-assistant.txt
 git clone -b data --depth 1 https://github.com/Hyeonwoo01/Quant_Finance_v3.git data     # 공개 PIT 데이터
 
-# Agent (ANTHROPIC_API_KEY 필요)
+# Agent — Claude (ANTHROPIC_API_KEY 필요, 기본 모델 claude-opus-5-5)
 python -m assistant.agent --data-dir data --as-of 2026-11-12T08:30:00+09:00 "에스엘의 최근 연결 영업이익은?"
+
+# Agent — GPT (OPENAI_API_KEY 필요, 기본 모델 gpt-5.5 · --model 또는 OPENAI_MODEL로 변경)
+python -m assistant.agent --provider openai --data-dir data --as-of 2026-11-12T08:30:00+09:00 "에스엘의 최근 연결 영업이익은?"
 
 # MCP 서버만 (Claude Desktop·Claude Code 같은 MCP 클라이언트에서 쓰기)
 QF_DATA_DIR=data python -m assistant.mcp_server
@@ -298,7 +304,7 @@ Claude Code에 붙이려면 저장소 루트에서: `claude mcp add --transport 
 
 평가 (가이드 14-4): [`assistant/eval/golden.jsonl`](assistant/eval/golden.jsonl)의 질문 7개를 실제 모델로 돌려 답·보류 판단, 도구 선택, 근거 연결, 주장 VERIFIED 비율, 근거 없는 숫자 수를 잽니다.
 보류해야 맞는 질문(시세처럼 이용 조건상 막힌 데이터, 수집 시작 전 시점, 미래)도 들어 있습니다.
-질문마다 기준 시각이 고정돼 있어 데이터가 계속 쌓여도 결과가 재현됩니다. GitHub Actions [`assistant-eval`](.github/workflows/assistant-eval.yml)을 수동으로 실행합니다(API 비용 발생).
+질문마다 기준 시각이 고정돼 있어 데이터가 계속 쌓여도 결과가 재현됩니다. GitHub Actions [`assistant-eval`](.github/workflows/assistant-eval.yml)을 수동으로 실행하고, 공급자(anthropic·openai)를 고를 수 있습니다(API 비용 발생).
 
 ## 9. 시작하기
 
@@ -323,7 +329,7 @@ GitHub Actions 설정 (Settings → Secrets and variables → Actions):
 | `DART_API_KEY` | Secret | opendart-daily |
 | `DATA_GO_KR_KEY` | Secret | macro-daily(관세청), krx-daily — 공공데이터포털 인증키. API마다 활용신청 필요 |
 | `ECOS_API_KEY` · `EIA_API_KEY` | Secret | macro-daily |
-| `ANTHROPIC_API_KEY` | Secret | assistant-eval (수동 실행, API 비용 발생) |
+| `ANTHROPIC_API_KEY` · `OPENAI_API_KEY` | Secret | assistant-eval (수동 실행, 고른 공급자의 키만 필요, API 비용 발생) |
 | `PRIVATE_DATA_TOKEN` | Secret | krx-daily — 비공개 저장소 Contents 읽기·쓰기 토큰 |
 | `PRIVATE_DATA_REPO` | Variable (선택) | krx-daily — 비공개 저장소 이름. 없으면 `<소유자>/Quant_Finance_v3_private` |
 

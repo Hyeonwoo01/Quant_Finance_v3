@@ -197,7 +197,8 @@ def test_agent_answers_with_verified_evidence(data_dir):
     assert first["model"] == "claude-opus-5-5" and first["output_config"] == {"effort": "medium"}
     assert first["fallbacks"] == "default" and first["betas"] == ["server-side-fallback-2026-07-01"]
     assert first["system"] == SYSTEM_PROMPT and AS_OF in first["messages"][0]["content"]   # 기준 시각은 사용자 메시지에
-    assert [t["name"] for t in first["tools"]][-1] == "submit_answer" and SUBMIT_TOOL["strict"]
+    assert first["tools"][-1]["name"] == "submit_answer" and first["tools"][-1]["strict"] is True
+    assert first["tools"][-1]["input_schema"] == SUBMIT_TOOL["parameters"]
     # 받은 assistant 블록을 그대로 다시 보내고, 도구 결과는 한 user 메시지로
     second = llm.calls[1]["messages"]
     assert second[1]["role"] == "assistant" and second[1]["content"][0]["text"] == "회사를 찾겠습니다."
@@ -273,3 +274,101 @@ def test_golden_set_is_well_formed_and_scoring_works(data_dir):
     row = score(case, res)
     assert row["status_ok"] and row["tools_ok"] and row["evidence_ok"] and row["verified_rate"] == 1.0
     assert "macro-rate" in summary_md([row], "test")
+
+
+# ---------- OpenAI (GPT) 공급자 ----------
+
+from assistant.llm_backends import OpenAIBackend, make_backend  # noqa: E402
+
+
+def fn_call(id_, name, args):
+    raw = args if isinstance(args, str) else json.dumps(args, ensure_ascii=False)
+    return NS(id=id_, type="function", function=NS(name=name, arguments=raw))
+
+
+class ScriptedOpenAI:
+    """대본대로 답하는 가짜 OpenAI 클라이언트 (chat.completions.create). 각 차례는 (message, finish_reason)을 돌려준다."""
+
+    def __init__(self, turns):
+        self.turns, self.calls = list(turns), []
+        self.chat = NS(completions=NS(create=self._create))
+
+    async def _create(self, **kw):
+        self.calls.append(json.loads(json.dumps(kw, default=lambda o: o.__dict__)))
+        msg, finish = self.turns.pop(0)(kw["messages"])
+        return NS(model=kw["model"], choices=[NS(message=msg, finish_reason=finish)],
+                  usage=NS(prompt_tokens=120, completion_tokens=30))
+
+
+def gpt_msg(content=None, calls=None, refusal=None):
+    return NS(content=content, tool_calls=calls, refusal=refusal, role="assistant")
+
+
+def tool_msgs(messages):
+    return {m["tool_call_id"]: m for m in messages if m["role"] == "tool"}
+
+
+def gpt_run(data_dir, turns, as_of=AS_OF, **kw):
+    async def go():
+        async with Client(build_server(str(data_dir))) as c:
+            client = ScriptedOpenAI(turns)
+            backend = make_backend("openai", model="gpt-test", system=SYSTEM_PROMPT, client=client)
+            return await Agent(backend, c, as_of_utc=parse_as_of(as_of), **kw).ask("질문"), client
+    return run(go())
+
+
+def test_openai_backend_same_tools_and_verification(data_dir):
+    def submit(m):
+        rows = json.loads(tool_msgs(m)["c2"]["content"])["rows"]
+        op = next(r for r in rows if r["basis"] == "당기누적")
+        args = {"status": "ANSWERED", "answer": "에스엘의 3분기 누적 연결 영업이익은 538억 원입니다.", "abstain_reason": None,
+                "counter_evidence": None,
+                "claims": [claim("누적 영업이익 538억 원", op["evidence_id"], 538, "억원", basis="당기누적",
+                                 consolidation="CFS", metric="영업이익", period_end="2026-09-30")]}
+        return gpt_msg(calls=[fn_call("c3", "submit_answer", args)]), "tool_calls"
+    turns = [lambda m: (gpt_msg(calls=[fn_call("c1", "find_company", {"query": "에스엘", "as_of": "2099-01-01T00:00:00Z"})]), "tool_calls"),
+             lambda m: (gpt_msg(calls=[fn_call("c2", "get_financials", {"corp_code": SL, "account_query": "영업이익"})]), "tool_calls"),
+             submit]
+    res, client = gpt_run(data_dir, turns)
+    assert res.status == VERIFIED and res.provider == "openai"
+    assert res.steps[0]["tool_calls"][0]["overrides"]["as_of"]["model"] == "2099-01-01T00:00:00Z"   # 공급자와 무관하게 강제
+    first = client.calls[0]
+    assert first["model"] == "gpt-test" and first["reasoning_effort"] == "medium" and first["parallel_tool_calls"]
+    assert first["messages"][0] == {"role": "system", "content": SYSTEM_PROMPT} and AS_OF in first["messages"][1]["content"]
+    fns = {t["function"]["name"]: t["function"] for t in first["tools"]}
+    assert all(t["type"] == "function" for t in first["tools"])
+    assert fns["submit_answer"]["strict"] is True and fns["submit_answer"]["parameters"] == SUBMIT_TOOL["parameters"]
+    assert fns["get_financials"]["strict"] is False and "corp_code" in fns["get_financials"]["parameters"]["properties"]
+    # 대화 기록: assistant의 tool_calls 뒤에 호출마다 role=tool 메시지
+    second = client.calls[1]["messages"]
+    assert second[2]["role"] == "assistant" and second[2]["tool_calls"][0]["id"] == "c1"
+    assert second[3]["role"] == "tool" and second[3]["tool_call_id"] == "c1"
+    assert json.loads(second[3]["content"])["matches"][0]["corp_code"] == SL
+
+
+def test_openai_parallel_calls_bad_json_and_refusal(data_dir):
+    def turn2(m):
+        t = tool_msgs(m)
+        assert set(t) == {"a", "b", "bad"}                                     # 호출마다 결과 하나씩
+        assert t["bad"]["content"].startswith("[오류] 인자 JSON")
+        return gpt_msg(calls=[fn_call("s", "submit_answer", {"status": "ABSTAINED", "answer": "보류", "abstain_reason": "x",
+                                                            "counter_evidence": None, "claims": []})]), "tool_calls"
+    turns = [lambda m: (gpt_msg(calls=[fn_call("a", "list_macro_series", {}),
+                                       fn_call("b", "data_permissions", {}),
+                                       fn_call("bad", "find_company", "{not json")]), "tool_calls"),
+             turn2]
+    res, _ = gpt_run(data_dir, turns)
+    assert res.status == ABSTAINED and res.steps[0]["tool_calls"][2]["is_error"]
+    res, _ = gpt_run(data_dir, [lambda m: (gpt_msg(refusal="도울 수 없습니다"), "stop")])
+    assert res.status == "FAILED" and "refusal" in res.error
+    res, _ = gpt_run(data_dir, [lambda m: (gpt_msg(content="..."), "length")])
+    assert res.status == "FAILED" and "잘림" in res.error
+    text = lambda m: (gpt_msg(content="답은 3%입니다."), "stop")
+    res, client = gpt_run(data_dir, [text, text])
+    assert res.status == "FAILED" and client.calls[1]["messages"][-1]["role"] == "user"
+
+
+def test_make_backend_rejects_unknown_provider():
+    with pytest.raises(ValueError):
+        make_backend("other", model=None, system="x", client=object())
+    assert isinstance(make_backend("openai", model=None, system="x", client=object()), OpenAIBackend)
