@@ -1,0 +1,110 @@
+{
+  "code_version": "01caffcdaea0728b6136aa80343658533aaf4096",
+  "contract_id": "bok_ecos_v1",
+  "counts": {
+    "added": 1,
+    "series": 9,
+    "unchanged": 222
+  },
+  "errors": [],
+  "finished_at_utc": "2026-11-14T02:43:11.699171+00:00",
+  "permission": {
+    "approval_status": "approved_for_redistribution",
+    "attribution_required": true,
+    "license_url": "https://ecos.bok.or.kr/api/",
+    "permission_reference": "한국은행 경제통계 Open API 이용약관(2020-11-05 시행) 제5조·제7조, 2026-11-09 원문 확인"
+  },
+  "requests": [
+    {
+      "added": 0,
+      "http_status": 200,
+      "observations": 24,
+      "params": {},
+      "series": "722Y001/0101000 한국은행 기준금리",
+      "sha256": "223656d7abb8e78d0c6c8b75a1014e374fcbad0847a17bef5285ccafe332ffd8"
+    },
+    {
+      "added": 1,
+      "http_status": 200,
+      "observations": 31,
+      "params": {},
+      "series": "817Y002/010200000 국고채 3년 금리",
+      "sha256": "10f0fbe354fbab0b0a28d72686e62950bafb4371a680732df7c121cd1b588851"
+    },
+    {
+      "added": 0,
+      "http_status": 200,
+      "observations": 72,
+      "params": {},
+      "series": "402Y014/*AA 수출물가지수 총지수",
+      "sha256": "dd25ba607442ba801c81bde35dd72e1b5ed082786f3588bca8ef488169ce2a91"
+    },
+    {
+      "added": 0,
+      "http_status": 200,
+      "observations": 72,
+      "params": {},
+      "series": "402Y014/3091AA 수출물가지수 반도체",
+      "sha256": "d5e8a831d176ed80595d79dcedc0f641ea2598c4118ac6dc381dc61ab23b46dd"
+    },
+    {
+      "added": 0,
+      "http_status": 200,
+      "observations": 72,
+      "params": {},
+      "series": "402Y014/31211AA 수출물가지수 자동차",
+      "sha256": "60af420fade4d3c7c15f41cc7543f620115866a96b71057b2e5a5ccdb4810bc3"
+    },
+    {
+      "added": 0,
+      "http_status": 200,
+      "observations": 72,
+      "params": {},
+      "series": "402Y014/31013AA 수출물가지수 전지",
+      "sha256": "cfadc01d3523b6b6fa1911366a6c5a604892db059f3dcd9f9985a877c65ee0d1"
+    },
+    {
+      "added": 0,
+      "http_status": 200,
+      "observations": 72,
+      "params": {},
+      "series": "402Y014/304AA 수출물가지수 석탄및석유제품",
+      "sha256": "2f527c27f7ba4856bea6fd29560577ebcd21e6a526cf7c7ce87b72ded9c13188"
+    },
+    {
+      "added": 0,
+      "http_status": 200,
+      "observations": 72,
+      "params": {},
+      "series": "402Y014/305AA 수출물가지수 화학제품",
+      "sha256": "123d7dd404406ec29ecefbc053f4f22b04e350de98f1a3dafc0e31aa8450579b"
+    },
+    {
+      "added": 0,
+      "http_status": 200,
+      "observations": 72,
+      "params": {},
+      "series": "402Y014/307AA 수출물가지수 1차금속제품",
+      "sha256": "ef69c8aec0f9ef6856b561985ac07773c0c79402812d2a47b935fdd350cd6b56"
+    }
+  ],
+  "run_id": "20261114T024247Z",
+  "schema_version": "manifest-1",
+  "source_id": "bok_ecos",
+  "started_at_utc": "2026-11-14T02:42:59.201709+00:00",
+  "status": "ok",
+  "target": {
+    "series": [
+      "722Y001/0101000",
+      "817Y002/010200000",
+      "402Y014/*AA",
+      "402Y014/3091AA",
+      "402Y014/31211AA",
+      "402Y014/31013AA",
+      "402Y014/304AA",
+      "402Y014/305AA",
+      "402Y014/307AA"
+    ]
+  },
+  "warnings": []
+}
