@@ -20,9 +20,9 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: "collect = 최근 며칠 수집, backfill = start~end 과거 채우기, redo = redo_days를 지우고 다시 받기, check = 키·활용신청 확인, probe = 응답 구조 확인, compare = 공급원끼리 값 대조 (check·probe·compare는 저장 없음), migrate = 저장된 JSON Lines를 Parquet로 옮기기 (호출 없음), derive = krx 원본으로 기준가 시리즈 다시 만들기 (호출 없음), pubcheck = krx 최근 세션 자료가 지금 있는지 관측"
+        description: "collect = 최근 며칠 수집, backfill = start~end 과거 채우기, redo = redo_days를 지우고 다시 받기, check = 키·활용신청 확인, probe = 응답 구조 확인, compare = 공급원끼리 값 대조 (check·probe·compare는 저장 없음), migrate = 저장된 JSON Lines를 Parquet로 옮기기 (호출 없음), derive = krx 원본으로 기준가 시리즈 다시 만들기 (호출 없음), pubcheck = krx 최근 세션 자료가 지금 있는지 관측, rulecheck = 가격제한폭 계산 방식을 실제 시세로 검증 (값 없이 건수만)"
         type: choice
-        options: [collect, backfill, redo, check, probe, compare, migrate, derive, pubcheck]
+        options: [collect, backfill, redo, check, probe, compare, migrate, derive, pubcheck, rulecheck]
         default: collect
       source:
         description: "공급원 (all = 키가 있는 공급원 모두)"
@@ -74,7 +74,7 @@ jobs:
           have=""
           { [ "$SOURCE" = all ] || [ "$SOURCE" = fsc ]; } && [ -n "$FSC_KEY" ] && have="$have fsc"
           { [ "$SOURCE" = all ] || [ "$SOURCE" = krx ]; } && [ -n "$KRX_KEY" ] && have="$have krx"
-          if [ -z "$have" ] && [ "$MODE" != compare ]; then echo "::warning::고른 공급원($SOURCE)의 인증키가 없어 건너뜀"; echo "ready=no" >> "$GITHUB_OUTPUT"; exit 0; fi
+          if [ -z "$have" ] && [ "$MODE" != compare ] && [ "$MODE" != rulecheck ]; then echo "::warning::고른 공급원($SOURCE)의 인증키가 없어 건너뜀"; echo "ready=no" >> "$GITHUB_OUTPUT"; exit 0; fi
           echo "공급원:$have"
           if [ "$MODE" = "check" ] || [ "$MODE" = "probe" ]; then echo "ready=nostore" >> "$GITHUB_OUTPUT"; exit 0; fi
           if [ -z "$TOKEN" ]; then
@@ -120,6 +120,7 @@ jobs:
           case "$START$END" in *[!0-9-]*) echo "start·end는 YYYY-MM-DD"; exit 2;; esac
           case "$REDO_DAYS" in *[!0-9,-]*) echo "redo_days는 YYYY-MM-DD를 쉼표로"; exit 2;; esac
           if [ "$MODE" = compare ]; then python -m orchestration.compare_prices --data-dir private_data --last 0; exit $?; fi
+          if [ "$MODE" = rulecheck ]; then python -m evaluation.kr_market_rules --data-dir private_data; exit $?; fi
           run_source() {
             src=$1
             case "$MODE" in

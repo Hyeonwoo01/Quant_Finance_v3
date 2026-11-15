@@ -124,7 +124,10 @@ AI 어시스턴트(가이드 14장, Sprint 5 항목)는 데이터 기초 위에�
  feature_store/price_panel.py        학습용 시세 패널 (수정주가 계수, 백테스트용 가용 시각)
    │
    ▼
- (다음: engines/ · evaluation/ — Sprint 2 이후)
+ evaluation/targets.py · forecast_audit.py   예측 타깃·예측 기록 정산 (Sprint 2)
+   │
+   ▼
+ (다음: engines/prediction_engine.py — 워크포워드·Model A)
 
  orchestration/*_daily.py  ①~③을 묶어 GitHub Actions에서 매일 실행
 ```
@@ -140,7 +143,7 @@ AI 어시스턴트(가이드 14장, Sprint 5 항목)는 데이터 기초 위에�
 
 ## 4. 디렉터리 구조
 
-가이드 16장의 권장 구조를 따릅니다. 아직 없는 디렉터리(`engines/`, `evaluation/` 등)는 해당 Sprint에서 만듭니다.
+가이드 16장의 권장 구조를 따릅니다. 아직 없는 디렉터리(`engines/` 등)는 해당 Sprint에서 만듭니다.
 
 ```text
 Quant_Finance_v3/
@@ -175,6 +178,11 @@ Quant_Finance_v3/
 ├── feature_store/
 │   ├── segment_exposure.py          # 사업부문 → 산업·지역 노출도 (5-3)
 │   └── price_panel.py               # 학습용 시세 패널: 수정주가 계수·백테스트용 가용 시각 (8-1, 4-4)
+│
+├── evaluation/                      # 모델 평가 (7장·8장)
+│   ├── targets.py                   # 예측 타깃 사전 정의 v1: 시가 진입·시가 청산, 체결 가능성 (7-3)
+│   ├── kr_market_rules.py           # 호가단위·가격제한폭 (8-2)
+│   └── forecast_audit.py            # 예측 기록·정산·회고, 소급 금지 (7-10)
 │
 ├── orchestration/                   # 매일 실행 진입점 (6-4)
 │   ├── opendart_daily.py · macro_daily.py · krx_daily.py
@@ -222,7 +230,7 @@ FRED/ALFRED는 서면 허가 없이 저장·학습에 쓰지 않습니다 (가�
 |---|---|---|---|---|
 | [`opendart-daily`](.github/workflows/opendart-daily.yml) | 매일 06:17 | 종목 식별자 매핑 → 최근 7일 공시 → 정기보고서 재무제표 → 사업부문 XBRL | 공개 `data` 브랜치 | `collect` · `check` · `probe-xbrl` |
 | [`macro-daily`](.github/workflows/macro-daily.yml) | 매일 07:47 | 관세청·ECOS·EIA 지표 | 공개 `data` 브랜치 | `collect` · `check` · `probe` |
-| [`krx-daily`](.github/workflows/krx-daily.yml) | 평일 14:23 (+ 저녁·이른 아침 공개 관측) | 한국 주식 일별 시세 (전 종목, 공급원: 금융위원회·KRX Open API) | **비공개 저장소** | `collect` · `backfill` · `redo` · `check` · `probe` · `compare` · `migrate` · `derive` · `pubcheck` (공급원 `all`·`fsc`·`krx`) |
+| [`krx-daily`](.github/workflows/krx-daily.yml) | 평일 14:23 (+ 저녁·이른 아침 공개 관측) | 한국 주식 일별 시세 (전 종목, 공급원: 금융위원회·KRX Open API) | **비공개 저장소** | `collect` · `backfill` · `redo` · `check` · `probe` · `compare` · `migrate` · `derive` · `pubcheck` · `rulecheck` (공급원 `all`·`fsc`·`krx`) |
 | [`assistant-eval`](.github/workflows/assistant-eval.yml) | 수동 | AI 어시스턴트 평가 세트를 실제 모델로 실행 | 실행 요약·아티팩트 | — |
 | [`tests`](.github/workflows/tests.yml) | push·PR | `pytest` (Python 3.12·3.13) | — | — |
 
@@ -361,8 +369,8 @@ GitHub Actions 설정 (Settings → Secrets and variables → Actions):
    **KRX 공개 시각:** 지금은 보수적 규칙(다음 세션 13:00)이라 08:30 판단이 이틀 전 종가까지만 본다. `pubcheck` 관측이 쌓이면 근거와 함께 앞당긴다.
    **예약 실행 지연:** GitHub 예약 실행이 5~8시간 늦게 돈다. 실전 08:30 판단에 쓰기 전에 정시 실행 수단을 정한다.
 2. **Sprint 2 (진행 중, 가이드 7장):**
-   - 2-1 (이번): 백테스트용 가용 시각, 수정주가 계수, 학습용 시세 패널([`feature_store/price_panel.py`](feature_store/price_panel.py))
-   - 2-2: 예측 타깃(08:30 신호 → 당일 시가 진입), 체결 가능성(거래정지·상한가), 예측 기록 정산과 크게 틀린 예측의 원인 기록
+   - 2-1 ✅: 백테스트용 가용 시각, 수정주가 계수, 학습용 시세 패널([`feature_store/price_panel.py`](feature_store/price_panel.py))
+   - 2-2 (이번): 예측 타깃 v1([`evaluation/targets.py`](evaluation/targets.py), 08:30 신호 → 당일 KRX 시가 진입 → h세션 뒤 시가 청산), 체결 가능성(거래정지·상·하한가, [`evaluation/kr_market_rules.py`](evaluation/kr_market_rules.py) — 계산 방식은 `rulecheck`로 실제 시세 검증), 예측 기록·정산·회고([`evaluation/forecast_audit.py`](evaluation/forecast_audit.py))
    - 2-3: Purged Walk-forward, 단순 기준선, Model A, 실험 기록과 잠긴 최종 OOS 구간
    - 남은 Sprint 1 항목: 현금배당·권리일정 공급원(총수익률용), 첫 PIT Feature Snapshot
 3. **사업부문 분류 규칙 v0.2:** 3분기 보고서(11/10~16)가 쌓인 뒤 미분류 레이블 반영.
