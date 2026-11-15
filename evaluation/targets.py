@@ -21,7 +21,7 @@ from dataclasses import dataclass
 import numpy as np
 import pandas as pd
 
-from evaluation.kr_market_rules import DEFAULT_METHOD, limit_prices
+from evaluation.kr_market_rules import DEFAULT_METHOD, limit_prices_arr
 
 
 @dataclass(frozen=True)
@@ -44,9 +44,8 @@ TARGETS = {t.target_id: t for t in (
 
 
 def _limits(df: pd.DataFrame, method: str) -> pd.DataFrame:
-    lims = [limit_prices(b, d.date(), m or "KOSPI", method) or (np.nan, np.nan)
-            for b, d, m in zip(df["base"], df["date"], df["market"])]
-    return pd.DataFrame(lims, index=df.index, columns=["limit_down", "limit_up"])
+    lo, up = limit_prices_arr(df["base"], df["date"], df["market"], method)
+    return pd.DataFrame({"limit_down": lo, "limit_up": up}, index=df.index)
 
 
 def build_targets(panel: pd.DataFrame, horizons=(1, 5, 21), *, limit_method: str = DEFAULT_METHOD) -> pd.DataFrame:

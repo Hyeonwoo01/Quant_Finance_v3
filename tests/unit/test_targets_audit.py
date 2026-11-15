@@ -145,3 +145,18 @@ def test_attribute_market_vs_idiosyncratic():
     b = attribute(f, -0.08, 0.01, row)
     assert "종목 고유 움직임 (시장 대비)" in b["candidates"] and "시장 전체 움직임" not in b["candidates"]
     assert attribute(f, -0.001, 0.0, row) is None                    # 작게 틀린 것은 회고하지 않음
+
+
+def test_vectorized_limits_match_scalar():
+    from evaluation.kr_market_rules import limit_prices_arr
+    rng = np.random.default_rng(0)
+    n = 5000
+    base = rng.integers(50, 900_000, n).astype(float)
+    dates = pd.to_datetime(rng.choice(pd.date_range("2010-01-01", "2026-11-01").values, n))
+    mk = rng.choice(["KOSPI", "KOSDAQ"], n)
+    for m in (BASE_TICK, LIMIT_TICK, DOUBLE):
+        lo, up = limit_prices_arr(base, dates, mk, m)
+        ref = [limit_prices(b, d.date(), k, m) for b, d, k in zip(base, dates, mk)]
+        assert np.array_equal(lo, [r[0] for r in ref]) and np.array_equal(up, [r[1] for r in ref])
+    lo, up = limit_prices_arr([np.nan, 0, 10_000], [date(2020, 1, 2)] * 3, ["KOSPI"] * 3)
+    assert np.isnan(lo[0]) and np.isnan(up[1]) and up[2] == 13_000
