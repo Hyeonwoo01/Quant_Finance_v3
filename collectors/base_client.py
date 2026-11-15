@@ -73,10 +73,11 @@ class HttpResponse:
         return json.loads(self.body.decode("utf-8"))
 
 
-def urllib_transport(url: str, params: Mapping[str, str], timeout: float):
-    """표준 라이브러리 전송. HTTPS_PROXY 같은 환경 설정을 따른다. 반환: (status, headers, body)."""
+def urllib_transport(url: str, params: Mapping[str, str], timeout: float, headers: Optional[Mapping[str, str]] = None):
+    """표준 라이브러리 전송. HTTPS_PROXY 같은 환경 설정을 따른다. 반환: (status, headers, body).
+    headers: 요청 헤더 (예: 헤더로 인증키를 받는 KRX Open API의 AUTH_KEY)."""
     full = f"{url}?{urllib.parse.urlencode(params)}" if params else url
-    req = urllib.request.Request(full, headers={"User-Agent": "quant-finance-v3-collector"})
+    req = urllib.request.Request(full, headers={"User-Agent": "quant-finance-v3-collector", **dict(headers or {})})
     try:
         with urllib.request.urlopen(req, timeout=timeout) as r:
             return r.status, dict(r.headers), r.read()
@@ -140,7 +141,7 @@ def parse_retry_after(value: Optional[str], now: datetime) -> Optional[float]:
 
 class BaseClient:
     def __init__(self, base_url: str, *, secret_params: Iterable[str] = (), secret_values: Iterable[str] = (),
-                 rate: Optional[TokenBucket] = None,
+                 headers: Optional[Mapping[str, str]] = None, rate: Optional[TokenBucket] = None,
                  budget: Optional[CallBudget] = None, max_retries: int = 4, backoff_base: float = 1.0,
                  backoff_cap: float = 60.0, max_retry_after: float = 300.0, timeout: float = 30.0,
                  transport: Transport = urllib_transport, sleep=time.sleep, rng: Optional[random.Random] = None,
@@ -148,7 +149,9 @@ class BaseClient:
         self.base_url = base_url.rstrip("/")
         self.secret_params = SECRET_PARAM_NAMES | {s.lower() for s in secret_params}
         # 주소 경로에 들어가는 키(예: ECOS)처럼 이름이 없는 비밀 값. 주소·오류·로그에서 지운다
-        self.secret_values = tuple(v for v in secret_values if v)
+        # 요청 헤더는 기록하지 않는다. 헤더 값(인증키)도 비밀 값으로 보고 주소·오류·로그에서 지운다
+        self.headers = dict(headers or {})
+        self.secret_values = tuple(v for v in (*secret_values, *self.headers.values()) if v)
         self.rate, self.budget = rate, budget
         self.max_retries, self.backoff_base, self.backoff_cap = max_retries, backoff_base, backoff_cap
         self.max_retry_after, self.timeout = max_retry_after, timeout
@@ -176,7 +179,10 @@ class BaseClient:
                 self.budget.take()
             headers: dict = {}
             try:
-                status, headers, body = self.transport(url, send, self.timeout)
+                if self.headers:                 # 헤더가 있을 때만 넘긴다 (헤더를 모르는 테스트용 전송과도 호환)
+                    status, headers, body = self.transport(url, send, self.timeout, headers=self.headers)
+                else:
+                    status, headers, body = self.transport(url, send, self.timeout)
             except OSError as e:   # 연결 실패·시간 초과 (URLError 포함). 메시지에 주소가 섞일 수 있어 종류만 남긴다
                 status, reason = None, f"네트워크 오류 {type(e).__name__}"
             else:
