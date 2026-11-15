@@ -1,0 +1,89 @@
+name: research
+
+# Sprint 2 실험: Model A(가격·거래량 v1)와 기준선의 Purged Walk-forward (가이드 7장).
+# KRX Open API 시세는 비공개 저장소에만 있으므로 그 저장소를 가져와 돌리고, 실험 기록(experiments/)만 다시 저장한다.
+# 로그에는 모델 성능 요약만 남는다 (시세·종목별 값 없음). Vault 구간(vault_start~)의 시세는 읽지 않는다.
+# 필요한 설정: Secrets PRIVATE_DATA_TOKEN, Variables KRX_KEY_VALID_UNTIL (수집 실행이 비공개 저장소에 이용기간을 기록해 둠)
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: "예측 타깃 (evaluation/targets.py)"
+        type: choice
+        options: [RET_5D, RET_21D, RET_1D, DIR_5D, DIR_21D, DIR_1D]
+        default: RET_5D
+      every:
+        description: "판단 간격 (세션)"
+        default: "5"
+      first_test:
+        description: "첫 검증 구간 시작일"
+        default: "2016-01-01"
+      vault_start:
+        description: "잠긴 최종 OOS 구간 시작일 (이후 시세는 읽지 않음)"
+        default: "2024-11-01"
+      models:
+        description: "모델 (쉼표로 구분)"
+        default: "uncond,momentum,reversal,ridge,gbm"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: private-data
+  cancel-in-progress: false
+
+jobs:
+  experiment:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    env:
+      PYTHONUNBUFFERED: "1"
+      PRIVATE_REPO: ${{ vars.PRIVATE_DATA_REPO || format('{0}/Quant_Finance_v3_private', github.repository_owner) }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: 비공개 저장소 확인
+        env:
+          TOKEN: ${{ secrets.PRIVATE_DATA_TOKEN }}
+        run: |
+          if [ -z "$TOKEN" ]; then echo "::error::PRIVATE_DATA_TOKEN이 없음"; exit 1; fi
+          private=$(curl -sS -H "Authorization: Bearer $TOKEN" -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/$PRIVATE_REPO" | python3 -c "import json,sys; print(json.load(sys.stdin).get('private'))")
+          if [ "$private" != "True" ]; then echo "::error::$PRIVATE_REPO 가 비공개 저장소로 확인되지 않음"; exit 1; fi
+      - uses: actions/checkout@v4
+        with:
+          repository: ${{ env.PRIVATE_REPO }}
+          token: ${{ secrets.PRIVATE_DATA_TOKEN }}
+          path: private_data
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: 실험
+        env:
+          TARGET: ${{ inputs.target }}
+          EVERY: ${{ inputs.every }}
+          FIRST_TEST: ${{ inputs.first_test }}
+          VAULT_START: ${{ inputs.vault_start }}
+          MODELS: ${{ inputs.models }}
+        run: |
+          case "$EVERY$FIRST_TEST$VAULT_START" in *[!0-9-]*) echo "every·날짜 형식 오류"; exit 2;; esac
+          case "$MODELS" in *[!a-z,_]*) echo "models 형식 오류"; exit 2;; esac
+          python -m evaluation.run_experiment --data-dir private_data --target "$TARGET" --every "$EVERY" \
+            --first-test "$FIRST_TEST" --vault-start "$VAULT_START" --models "$MODELS"
+      - name: 실험 기록 저장 (비공개 저장소)
+        if: always()
+        working-directory: private_data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if [ ! -d experiments ]; then echo "실험 기록 없음"; exit 0; fi
+          git add experiments
+          if git diff --cached --quiet; then echo "변경 없음"; exit 0; fi
+          git commit -q -m "실험 기록 $(date -u +%Y-%m-%dT%H:%MZ)"
+          for i in 1 2 3; do
+            git push -q origin HEAD && exit 0
+            git pull -q --rebase origin "$(git rev-parse --abbrev-ref HEAD)"
+          done
+          exit 1
