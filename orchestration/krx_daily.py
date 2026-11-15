@@ -1,4 +1,8 @@
-"""한국 주식 일별 시세 수집 (금융위원회 주식시세정보, 원천: 한국거래소). 비공개 저장소에만 저장한다.
+"""한국 주식 일별 시세 수집. 비공개 저장소에만 저장한다.
+
+공급원 (--source):
+- fsc: 금융위원회 주식시세정보 (공공데이터포털, 원천: 한국거래소). 계약상 저장만 허용 (학습 불가).
+- krx: 한국거래소 KRX Open API 일별매매정보. 비상업 연구용 저장·학습 허용, 인증키 이용기간(KRX_KEY_VALID_UNTIL) 안에서만.
 
 - 계약상 제3자 제공·재배포가 금지된 데이터다. --data-dir이 비공개 저장소(PRIVATE_STORE 표식)가 아니면 저장 단계가
   PermissionDenied로 멈추고 아무것도 쓰지 않는다 (storage/visibility.py).
@@ -9,7 +13,8 @@
 사용: python -m orchestration.krx_daily --data-dir private_data [--lookback-sessions 5]
       python -m orchestration.krx_daily --data-dir private_data --start 2024-01-02 --end 2024-12-30   (과거 채우기)
       python -m orchestration.krx_daily --check | --probe                                          (저장 없음)
-인증키는 환경변수 DATA_GO_KR_KEY에서만 읽고 출력하지 않는다.
+      python -m orchestration.krx_daily --source krx ...                                           (KRX Open API)
+인증키는 환경변수(fsc: DATA_GO_KR_KEY, krx: KRX_API_KEY)에서만 읽고 출력하지 않는다.
 """
 import argparse
 import logging
@@ -23,13 +28,18 @@ from zoneinfo import ZoneInfo
 
 import pandas as pd
 
+from dataclasses import dataclass
+from typing import Callable
+
+from collectors import krx_openapi
 from collectors.base_client import BudgetExhausted, CallBudget, CollectorError
 from collectors.fsc_krx import (PRICE_PATH, PROVIDER_READY, SERIES_PRICE, VALUE_FIELDS, FscClient, FscError,
                                 price_records, schema_problems)
+from collectors.krx_openapi import SERIES_KRX_PRICE, KrxApiError, KrxOpenApiClient
 from core.calendar_align import KR_VENUE, calendar
 from core.data_contracts import ContractRegistry, PermissionDenied
 from core.repro import code_version
-from core.source_registry import FSC_KRX_STOCK_PRICE, default_registry
+from core.source_registry import FSC_KRX_STOCK_PRICE, KRX_OPENAPI_STOCK, default_registry
 from storage.manifests import BatchManifest
 from storage.pit_store import PITFileStore, by_period_day
 from storage.raw_store import RawStore
@@ -61,39 +71,65 @@ def sessions_between(start: Optional[date], end: date) -> list[date]:
     return [s.date() for s in cal.sessions_in_range(pd.Timestamp(start), pd.Timestamp(end))]
 
 
+@dataclass
+class PriceSource:
+    """공급원마다 다른 것: 계약·시리즈·클라이언트·응답 → 레코드 변환·필수 필드 검사·오류 종류."""
+    name: str
+    client: object
+    contract: object
+    series_id: str
+    to_records: Callable
+    schema: Callable
+    error_cls: type
+
+
+def fsc_source(client: FscClient) -> PriceSource:
+    return PriceSource("fsc", client, FSC_KRX_STOCK_PRICE, SERIES_PRICE, price_records, schema_problems, FscError)
+
+
+def krx_source(client: KrxOpenApiClient) -> PriceSource:
+    return PriceSource("krx", client, KRX_OPENAPI_STOCK, SERIES_KRX_PRICE, krx_openapi.price_records,
+                       krx_openapi.schema_problems, KrxApiError)
+
+
 class KrxRun:
-    def __init__(self, client: FscClient, data_dir, registry: Optional[ContractRegistry] = None, *,
+    def __init__(self, source, data_dir, registry: Optional[ContractRegistry] = None, *,
                  now=lambda: datetime.now(timezone.utc), version: Optional[str] = None):
-        self.client, self.data_dir = client, Path(data_dir)
+        self.source = source if isinstance(source, PriceSource) else fsc_source(source)
+        self.client, self.data_dir = self.source.client, Path(data_dir)
         self.registry = registry or default_registry()
         self.now, self.version = now, version or code_version()
         self.raw = RawStore(self.data_dir, self.registry)
-        self.pit = PITFileStore(self.data_dir, self.registry, partitions={SERIES_PRICE: by_period_day})
+        self.pit = PITFileStore(self.data_dir, self.registry, partitions={self.source.series_id: by_period_day})
+
+    def _day_file(self, day: date) -> Path:
+        return self.data_dir / "pit_versions" / self.source.series_id / f"{day:%Y-%m-%d}.jsonl"
 
     def has_day(self, day: date) -> bool:
-        return (self.data_dir / "pit_versions" / SERIES_PRICE / f"{day:%Y-%m-%d}.jsonl").exists()
+        return self._day_file(day).exists()
 
     def collect_day(self, day: date, m: BatchManifest) -> None:
+        src = self.source
         pages = self.client.prices(day)
         if not any(p.rows for p in pages):
             m.count("not_yet")
             m.warnings.append(f"{day}: 아직 자료 없음 (다음 실행에서 다시 물음)")
             return
-        missing, unexpected = schema_problems([r for p in pages for r in p.rows])
+        missing, unexpected = src.schema([r for p in pages if p.rows for r in p.rows])
         if missing:
             m.errors.append(f"{day}: 필수 필드 없음 {list(missing)}")
             return
         if unexpected:
             m.warnings.append(f"{day}: 새 필드 {list(unexpected)}")
-        store = self.pit.load(parts=[(SERIES_PRICE, f"{day:%Y-%m-%d}")])
+        store = self.pit.load(parts=[(src.series_id, f"{day:%Y-%m-%d}")])
         for p in pages:                               # 페이지마다 그 페이지의 원본 해시로 레코드를 만든다
-            ref = self.raw.put(contract_id=FSC_KRX_STOCK_PRICE.contract_id, source_id=FSC_KRX_STOCK_PRICE.source_id,
+            ref = self.raw.put(contract_id=src.contract.contract_id, source_id=src.contract.source_id,
                                response=p.response, request_id=m.run_id)
             m.requests.append({"basDt": f"{day:%Y%m%d}", "page_no": p.page_no, "params": p.response.params,
                                "http_status": p.response.status, "attempts": p.response.attempts,
                                "sha256": ref.sha256, "rows": len(p.rows), "total": p.total})
-            recs, counts = price_records(p.rows, day, contract_id=FSC_KRX_STOCK_PRICE.contract_id, raw_sha=ref.sha256,
-                                         ingested_at_utc=self.now(), latest=store.latest)
+            recs, counts = src.to_records(p.rows, day, contract_id=src.contract.contract_id, raw_sha=ref.sha256,
+                                          ingested_at_utc=self.now(), latest=store.latest)
             res = self.pit.append(recs, store=store)
             m.count("added", res.added)
             for k in ("rows", "unchanged", "revised", "bad_rows", "duplicates"):
@@ -112,7 +148,7 @@ class KrxRun:
         removed = []
         if is_private_store(self.data_dir):
             for day in days:
-                f = self.data_dir / "pit_versions" / SERIES_PRICE / f"{day:%Y-%m-%d}.jsonl"
+                f = self._day_file(day)
                 if f.exists():
                     f.unlink()
                     removed.append(str(day))
@@ -126,10 +162,11 @@ class KrxRun:
 
     def run(self, days: list[date], *, skip_existing: bool = False) -> BatchManifest:
         started = self.now()
-        m = BatchManifest.start(run_id=f"{started:%Y%m%dT%H%M%SZ}", contract=FSC_KRX_STOCK_PRICE,
+        m = BatchManifest.start(run_id=f"{started:%Y%m%dT%H%M%SZ}", contract=self.source.contract,
                                 code_version=self.version, now=started,
                                 target={"first": str(days[0]) if days else None, "last": str(days[-1]) if days else None,
-                                        "days": len(days), "skip_existing": skip_existing})
+                                        "days": len(days), "skip_existing": skip_existing,
+                                        "source": self.source.name})
         if not is_private_store(self.data_dir):      # 한 줄도 받기 전에 확인 (저장 단계도 다시 막는다)
             m.errors.append(f"{self.data_dir}: 비공개 저장소 표식({PRIVATE_MARKER})이 없음 — 재배포 금지 데이터라 받지 않음")
             m.finish(self.now())
@@ -143,9 +180,9 @@ class KrxRun:
             except BudgetExhausted as e:
                 m.warnings.append(f"{day}: {e} — 나머지는 다음 실행으로")
                 break
-            except FscError as e:
+            except self.source.error_cls as e:
                 m.errors.append(f"{day}: {e}")
-                if e.auth:
+                if getattr(e, "auth", False):
                     break
             except PermissionDenied:
                 raise
@@ -187,8 +224,51 @@ def probe(client: FscClient, day: date) -> list[str]:
     return lines
 
 
+def krx_check(client: KrxOpenApiClient, day: date) -> str:
+    """저장 없이 인증키·이용신청·연결 확인 (시장마다 한 번). 값은 출력하지 않는다."""
+    parts = []
+    for market in krx_openapi.MARKETS:
+        try:
+            parts.append(f"{market} {len(client.market_day(market, day).rows)}건")
+        except KrxApiError as e:
+            parts.append(f"{market} 실패({e.code})")
+    return f"KRX Open API ({day}): " + ", ".join(parts)
+
+
+def krx_probe(client: KrxOpenApiClient, day: date) -> list[str]:
+    """응답 구조 확인 (저장 없음). 필드 이름·건수·형식만 보고 시세 값은 출력하지 않는다.
+    가정한 주소·파라미터·필드 이름(collectors/krx_openapi.py)이 맞는지 여기서 확인한다."""
+    lines = [f"주소 {krx_openapi.BASE_URL}/<API ID>, 기준일 파라미터 {krx_openapi.DATE_PARAM}, 행 목록 키 {krx_openapi.ROWS_KEY}"]
+    rows = []
+    for market in krx_openapi.MARKETS:
+        try:
+            page = client.market_day(market, day)
+            rows += page.rows
+            lines.append(f"{market}: 행 {len(page.rows)}개")
+        except KrxApiError as e:
+            lines.append(f"{market}: 실패 — {e}")
+    if not rows:
+        return lines
+    missing, unexpected = krx_openapi.schema_problems(rows)
+    lines.append(f"필드: {sorted(k for k in rows[0] if k != '_market')}")
+    lines.append(f"빠진 필수 필드 {list(missing)}, 처음 보는 필드 {list(unexpected)}")
+    lines.append(f"시장 이름: {dict(Counter(r.get('MKT_NM') for r in rows))}, "
+                 f"종목코드 길이: {dict(Counter(len(str(r.get('ISU_CD', ''))) for r in rows))}, "
+                 f"종목코드 중복 {len(rows) - len({r.get('ISU_CD') for r in rows})}건")
+    not_int = Counter()
+    for r in rows:
+        for f in krx_openapi.FIELDS:
+            try:
+                float(str(r.get(f, "")).replace(",", "").strip())
+            except ValueError:
+                not_int[f] += 1
+    lines.append(f"숫자로 읽히지 않는 값 {dict(not_int)}")
+    return lines
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    ap.add_argument("--source", choices=["fsc", "krx"], default=os.environ.get("QF_PRICE_SOURCE", "fsc"))
     ap.add_argument("--data-dir", default=os.environ.get("QF_PRIVATE_DATA_DIR", "private_data"))
     ap.add_argument("--lookback-sessions", type=int, default=5)
     ap.add_argument("--start", help="과거 채우기 시작 기준일 (YYYY-MM-DD). 이미 받은 날은 건너뛴다")
@@ -201,26 +281,37 @@ def main(argv=None) -> int:
     args = ap.parse_args(argv)
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
 
-    key = os.environ.get("DATA_GO_KR_KEY", "").strip()
+    key_env = "DATA_GO_KR_KEY" if args.source == "fsc" else "KRX_API_KEY"
+    key = os.environ.get(key_env, "").strip()
     if not key:
-        print("DATA_GO_KR_KEY 환경변수가 없음 (GitHub Actions에서는 레포 Secrets에 등록)", file=sys.stderr)
+        print(f"{key_env} 환경변수가 없음 (GitHub Actions에서는 레포 Secrets에 등록)", file=sys.stderr)
         return 2
-    client = FscClient(key, budget=CallBudget(args.max_calls))
     now = datetime.now(timezone.utc)
     last = last_published(now)
+    if args.source == "fsc":
+        client = FscClient(key, budget=CallBudget(args.max_calls))
+        source = fsc_source(client)
+    else:
+        client = KrxOpenApiClient(key, budget=CallBudget(args.max_calls))
+        source = krx_source(client)
     try:
         if args.check:
-            print(check(client, last))
+            print(check(client, last) if args.source == "fsc" else krx_check(client, last))
             return 0
         if args.probe:
-            print("\n".join(probe(client, last)))
+            print("\n".join(probe(client, last) if args.source == "fsc" else krx_probe(client, last)))
             return 0
+        if args.source == "krx":                 # 약관 제11조 ③: 이용기간 밖에서는 받지도 쓰지도 않는다
+            valid_until = krx_openapi.parse_valid_until(os.environ.get("KRX_KEY_VALID_UNTIL"))
+            krx_openapi.check_license(valid_until, now.astimezone(KST).date())
+            if is_private_store(args.data_dir):
+                krx_openapi.record_license(args.data_dir, valid_until, now)
         if args.redo:
             if not args.redo_reason:
                 print("--redo에는 --redo-reason이 필요", file=sys.stderr)
                 return 2
             days = [date.fromisoformat(d.strip()) for d in args.redo.split(",") if d.strip()]
-            m = KrxRun(client, args.data_dir).redo(days, args.redo_reason)
+            m = KrxRun(source, args.data_dir).redo(days, args.redo_reason)
         elif args.start:
             end = min(date.fromisoformat(args.end), last) if args.end else last
             days = sessions_between(date.fromisoformat(args.start), end)[:MAX_DAYS]
@@ -228,11 +319,11 @@ def main(argv=None) -> int:
         else:
             days, skip = published_sessions(now, args.lookback_sessions), False
         if not args.redo:
-            m = KrxRun(client, args.data_dir).run(days, skip_existing=skip)
+            m = KrxRun(source, args.data_dir).run(days, skip_existing=skip)
     except (CollectorError, PermissionDenied) as e:
         print(f"실패: {e}", file=sys.stderr)
         return 1
-    print(f"일별 시세: {m.status} {m.counts} (기준일 {m.target['first']} ~ {m.target['last']})")
+    print(f"일별 시세 [{args.source}]: {m.status} {m.counts} (기준일 {m.target['first']} ~ {m.target['last']})")
     for w in m.warnings[:20]:
         print(f"  경고: {w}")
     for e in m.errors[:20]:

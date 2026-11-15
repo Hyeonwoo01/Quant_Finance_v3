@@ -110,8 +110,28 @@ FSC_KRX_STOCK_PRICE = DataSourceContract(
                          "DATA_SOURCES.md '한국 주식 가격'. 비공개 저장·개인 비상업 분석만",
     attribution_required=True, fallback_source_id=None, max_staleness_policy_id="kr_daily_2_sessions")
 
+# 한국거래소 KRX Open API 일별매매정보 (이용약관 2025-12-26 시행, 2026-11-15 원문 확인).
+# 제6조 ② 비상업적 목적으로만 이용 / 제12조 ③ 통계정보를 편집해 새 부가정보를 생산하는 경우를 전제 / 제11조 ② 제3자 제공 금지 /
+# 제11조 ③ 이용계약 종료 뒤 이용 금지 / 제10조 ③ 결과 화면에 "한국거래소 통계정보" 표시.
+# → 비공개 저장소 안에서 비상업 연구용 저장·학습·파생 지표를 허용한다. 원본 공개·재배포·AI 어시스턴트 입력(제3자 서비스로
+#   보내는 것)은 막는다. 장기 보관(archival)은 이용기간이 끝나면 지워야 하므로 막는다. AI·머신러닝을 직접 언급한 조항은 없다.
+KRX_OPENAPI_STOCK = DataSourceContract(
+    contract_id="krx_openapi_stock_v1", provider="KRX", source_id="krx_openapi_stock",
+    series_or_endpoint="openapi.krx.co.kr 유가증권·코스닥·코넥스 일별매매정보 (stk_bydd_trd · ksq_bydd_trd · knx_bydd_trd)",
+    frequency="daily", unit="KRW|shares", currency="KRW", native_timezone="Asia/Seoul",
+    availability_policy_id="provider_next_business_day_1300_then_kr_cutoff_until_measured",
+    revision_policy="같은 종목·기준일의 값이 바뀌면 새 revision",
+    storage_allowed=True, caching_allowed=True, archival_allowed=False, ml_training_allowed=True,
+    llm_input_allowed=False, public_display_allowed=False, raw_redistribution_allowed=False,
+    derived_data_use_allowed=True, approval_status=ApprovalStatus.APPROVED_FOR_TRAINING,
+    license_url="https://openapi.krx.co.kr/contents/OPP/INFO/OPPINFO002.jsp",
+    license_reviewed_at=datetime(2026, 11, 15, tzinfo=timezone.utc),
+    permission_reference="KRX Open API 이용약관(2025-12-26 시행) 제6조 ②·제10조 ③·제11조 ②③·제12조 ③, 2026-11-15 원문 확인 — "
+                         "DATA_SOURCES.md 'KRX Open API'. 비상업·비공개 저장소 안에서만, 이용기간(인증키 1년) 안에서만",
+    attribution_required=True, fallback_source_id="fsc_krx_stock_price", max_staleness_policy_id="kr_daily_2_sessions")
+
 REGISTERED_CONTRACTS = (OPENDART_LIST, OPENDART_FINANCIALS, OPENDART_XBRL, OPENDART_CORPCODE, KCS_ITEMTRADE, BOK_ECOS, EIA,
-                        FSC_KRX_STOCK_PRICE)
+                        FSC_KRX_STOCK_PRICE, KRX_OPENAPI_STOCK)
 
 
 def default_registry() -> ContractRegistry:

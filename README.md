@@ -70,7 +70,8 @@
 | 한국 연휴 중 미국 누적수익률 | ✅ | `core/calendar_align.py` |
 | 종목 식별자 시점별 매핑 (4-8) | ✅ | `core/security_master.py` — 수집 시작(2026-11-11) 이후만 |
 | 거시지표 수정 이력 | 🔶 | 값 변경은 새 버전. 공식 발표 시각은 아직 없음(받은 시각 기준) |
-| 비수정주가 | ✅ | `collectors/fsc_krx.py` — 2023-11-10 기준일부터 비공개 저장소에 수집 중 (728거래일, 약 208만 건) |
+| 비수정주가 (저장) | ✅ | `collectors/fsc_krx.py` — 금융위원회 시세, 2023-11-10 기준일부터 비공개 저장소에 수집 중 (약 208만 건). 계약상 학습 불가 |
+| 비수정주가 (학습용) | ⏳ | `collectors/krx_openapi.py` — 한국거래소 KRX Open API(2010년부터, 비상업 학습 허용). 인증키 승인 후 응답 형식 확인·과거 채우기 |
 | 수정주가·기업행위 PIT | ⬜ | 배당·권리일정 공급원 검토 필요 |
 
 AI 어시스턴트(가이드 14장, Sprint 5 항목)는 데이터 기초 위에서 먼저 작게 만들었다: 읽기 전용 MCP 서버, Function Calling Agent, 주장별 근거 검증, 평가 세트 ([8절](#8-ai-어시스턴트-dart--mcp--agent)).
@@ -161,7 +162,8 @@ Quant_Finance_v3/
 │   ├── opendart_segments.py         # 영업부문·지역 숫자 추출 (5-3)
 │   ├── opendart_corpcode.py         # 고유번호 ↔ 종목코드 (4-8)
 │   ├── macro_sources.py             # 관세청·ECOS·EIA (5-2)
-│   └── fsc_krx.py                   # 금융위원회 주식시세 — 비공개 저장 전용 (8-1)
+│   ├── fsc_krx.py                   # 금융위원회 주식시세 — 비공개 저장 전용, 학습 불가 (8-1)
+│   └── krx_openapi.py               # 한국거래소 KRX Open API 일별매매 — 비공개, 학습 허용, 이용기간 가드 (8-1)
 │
 ├── storage/                         # 파일 저장 (6-1, 6-2)
 │   ├── raw_store.py · pit_store.py · manifests.py
@@ -205,7 +207,8 @@ Quant_Finance_v3/
 | 관세청 품목별 수출입 | `kcs_itemtrade_v1` | ✅ | ✅ | ✅ | ✅ | 공개 |
 | 한국은행 ECOS (한국은행 작성 통계만) | `bok_ecos_v1` | ✅ | ✅ | ✅ | ✅ | 공개 |
 | 미국 EIA (EIA 작성 시리즈만) | `eia_v1` | ✅ | ✅ | ✅ | ✅ | 공개 |
-| 금융위원회 주식시세 (원천: 한국거래소) | `fsc_krx_stock_price_v1` | ✅ | ❌ (문의 중) | ❌ | ❌ | **비공개만** |
+| 금융위원회 주식시세 (원천: 한국거래소) | `fsc_krx_stock_price_v1` | ✅ | ❌ | ❌ | ❌ | **비공개만** |
+| 한국거래소 KRX Open API 일별매매정보 | `krx_openapi_stock_v1` | ✅ | ✅ (비상업 연구) | ❌ | ❌ | **비공개만**, 인증키 이용기간 안에서만 |
 
 FRED/ALFRED는 서면 허가 없이 저장·학습에 쓰지 않습니다 (가이드 3-2). 계약이 바뀌면 기존 계약을 고치지 않고 새 ID로 등록합니다.
 
@@ -215,7 +218,7 @@ FRED/ALFRED는 서면 허가 없이 저장·학습에 쓰지 않습니다 (가�
 |---|---|---|---|---|
 | [`opendart-daily`](.github/workflows/opendart-daily.yml) | 매일 06:17 | 종목 식별자 매핑 → 최근 7일 공시 → 정기보고서 재무제표 → 사업부문 XBRL | 공개 `data` 브랜치 | `collect` · `check` · `probe-xbrl` |
 | [`macro-daily`](.github/workflows/macro-daily.yml) | 매일 07:47 | 관세청·ECOS·EIA 지표 | 공개 `data` 브랜치 | `collect` · `check` · `probe` |
-| [`krx-daily`](.github/workflows/krx-daily.yml) | 평일 14:23 | 한국 주식 일별 시세 (전 종목) | **비공개 저장소** | `collect` · `backfill` · `check` · `probe` |
+| [`krx-daily`](.github/workflows/krx-daily.yml) | 평일 14:23 | 한국 주식 일별 시세 (전 종목, 공급원: 금융위원회·KRX Open API) | **비공개 저장소** | `collect` · `backfill` · `redo` · `check` · `probe` · `compare` (공급원 `all`·`fsc`·`krx`) |
 | [`assistant-eval`](.github/workflows/assistant-eval.yml) | 수동 | AI 어시스턴트 평가 세트를 실제 모델로 실행 | 실행 요약·아티팩트 | — |
 | [`tests`](.github/workflows/tests.yml) | push·PR | `pytest` (Python 3.12·3.13) | — | — |
 
@@ -331,6 +334,8 @@ GitHub Actions 설정 (Settings → Secrets and variables → Actions):
 | `ECOS_API_KEY` · `EIA_API_KEY` | Secret | macro-daily |
 | `ANTHROPIC_API_KEY` · `OPENAI_API_KEY` | Secret | assistant-eval (수동 실행, 고른 공급자의 키만 필요, API 비용 발생) |
 | `PRIVATE_DATA_TOKEN` | Secret | krx-daily — 비공개 저장소 Contents 읽기·쓰기 토큰 |
+| `KRX_API_KEY` | Secret | krx-daily (KRX Open API) — 한국거래소 Open API 인증키. 유가증권·코스닥 일별매매정보 활용신청 필요 |
+| `KRX_KEY_VALID_UNTIL` | Variable | krx-daily — KRX 인증키 이용기간 마지막 날 (YYYY-MM-DD). 없거나 지나면 KRX 데이터를 받지 않는다 (약관 제11조 ③) |
 | `PRIVATE_DATA_REPO` | Variable (선택) | krx-daily — 비공개 저장소 이름. 없으면 `<소유자>/Quant_Finance_v3_private` |
 
 ## 10. 개발 규칙
@@ -346,7 +351,8 @@ GitHub Actions 설정 (Settings → Secrets and variables → Actions):
 
 ## 11. 다음 단계
 
-1. **저장 형식 Parquet 전환:** 비공개 저장소가 1GB를 넘거나 2023년 이전을 채우기 전에 한다 (가이드 6-1 구현 노트).
+1. **KRX Open API로 학습용 주가 확보:** 인증키 승인 → `krx-daily` `probe`로 응답 형식 확인 → 2010년부터 과거 채우기 → `compare`로 금융위원회 시세와 대조 → Sprint 2(주가 예측 모델 A/B/C)의 가격 공급원으로 사용.
+   **저장 형식 Parquet 전환:** 비공개 저장소가 1GB를 넘거나 2023년 이전을 채우기 전에 한다 (가이드 6-1 구현 노트).
    최근 3년 시세는 채웠다 (2023-11-10 ~).
    **예약 실행 지연:** GitHub 예약 실행이 5~8시간 늦게 돈다. 실전 08:30 판단에 쓰기 전에 정시 실행 수단을 정한다.
 2. **Sprint 1 마무리:** 수정주가·기업행위(배당·권리일정) 공급원 검토, 첫 PIT Feature Snapshot.
