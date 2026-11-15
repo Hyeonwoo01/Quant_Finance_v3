@@ -5,10 +5,12 @@
 키당 하루 10,000회(제8조 ④). 그래서 비공개 저장소에만 두고, 키 만료일(KRX_KEY_VALID_UNTIL)이 지나면 받지 않는다.
 
 공개 페이지에서 확인한 것: API ID(stk_bydd_trd · ksq_bydd_trd · knx_bydd_trd), 인증키는 요청 헤더 AUTH_KEY,
-공개 샘플 주소 https://data-dbg.krx.co.kr/svc/sample/apis/sto/<API ID>, 유가증권·코스닥 2010-01-04부터.
-**아직 확인하지 못한 것** (출력 필드표·개발 명세서는 로그인해야 보인다): 실제 주소(샘플 주소에서 /sample을 뺀 것으로
-가정), 기준일 파라미터 이름(basDd로 가정), 응답 필드 이름(아래 FIELDS로 가정), T일 자료의 공개 시각.
-키를 받으면 --probe로 확인하고 여기를 고친다. 필드 이름이 다르면 필수 필드 검사에서 멈추고 저장하지 않는다.
+유가증권·코스닥 2010-01-04부터.
+실제 키로 확인한 것 (2026-11-15 probe): 주소 https://data-dbg.krx.co.kr/svc/apis/sto/<API ID>, 기준일 파라미터 basDd,
+행 목록 키 OutBlock_1, 응답 필드 15개(아래 FIELDS·ID_FIELDS·KNOWN 전부, 빠진 것·새 것 없음), 종목코드 6자리, 숫자 값.
+코스피 936·코스닥 1,834종목. 코넥스는 이용신청하지 않아 401 → 기본 대상에서 뺐다(KRX_MARKETS로 켤 수 있다).
+아직 모르는 것: T일 자료의 공개 시각. 그래서 가용 시각은 보수적 규칙을 쓴다 (available_at).
+필드 이름이 바뀌면 필수 필드 검사에서 멈추고 저장하지 않는다.
 
 이 모듈과 실행 코드는 시세 값을 출력하지 않는다 (공개 저장소의 Actions 로그는 공개).
 """
@@ -30,11 +32,13 @@ SERIES_KRX_PRICE = "krx_openapi_daily"
 PROVIDER = "KRX"
 SOURCE_URL = "https://openapi.krx.co.kr/contents/OPP/INFO/service/OPPINFO004.cmd"
 ATTRIBUTION = "한국거래소 통계정보"
-BASE_URL = "https://data-dbg.krx.co.kr/svc/apis/sto"          # 가정: 공개 샘플 주소에서 /sample 을 뺀 것
-DATE_PARAM = "basDd"                                           # 가정
-ROWS_KEY = "OutBlock_1"                                        # 가정
-MARKETS = {"KOSPI": "stk_bydd_trd", "KOSDAQ": "ksq_bydd_trd", "KONEX": "knx_bydd_trd"}   # 공개 페이지에서 확인
-# 응답 필드 → 저장 이름 (가정, probe로 확인). FSC 시세와 같은 저장 이름을 써서 두 공급원을 바로 대조할 수 있게 한다
+BASE_URL = "https://data-dbg.krx.co.kr/svc/apis/sto"          # 실제 키로 확인
+DATE_PARAM = "basDd"                                           # 실제 키로 확인
+ROWS_KEY = "OutBlock_1"                                        # 실제 키로 확인
+ALL_MARKETS = {"KOSPI": "stk_bydd_trd", "KOSDAQ": "ksq_bydd_trd", "KONEX": "knx_bydd_trd"}   # 공개 페이지에서 확인
+DEFAULT_MARKETS = ("KOSPI", "KOSDAQ")                          # 이용신청·승인한 서비스만 (코넥스는 신청 안 함)
+MARKETS = {m: ALL_MARKETS[m] for m in DEFAULT_MARKETS}
+# 응답 필드 → 저장 이름 (실제 키로 확인). FSC 시세와 같은 저장 이름을 써서 두 공급원을 바로 대조할 수 있게 한다
 FIELDS = {"TDD_OPNPRC": "open", "TDD_HGPRC": "high", "TDD_LWPRC": "low", "TDD_CLSPRC": "close",
           "ACC_TRDVOL": "volume", "ACC_TRDVAL": "value", "LIST_SHRS": "shares", "MKTCAP": "mktcap"}
 ID_FIELDS = ("BAS_DD", "ISU_CD", "ISU_NM", "MKT_NM")
@@ -65,16 +69,21 @@ def parse_rows(body: bytes) -> list:
 
 
 class KrxOpenApiClient:
-    def __init__(self, key: str, *, budget: CallBudget, rate: Optional[TokenBucket] = None, **http_kw):
+    def __init__(self, key: str, *, budget: CallBudget, rate: Optional[TokenBucket] = None,
+                 markets: Optional[tuple] = None, **http_kw):
         if not key:
             raise ValueError("KRX Open API 인증키(KRX_API_KEY)가 없음")
+        unknown = set(markets or ()) - set(ALL_MARKETS)
+        if unknown:
+            raise ValueError(f"알 수 없는 시장 {sorted(unknown)} (KOSPI·KOSDAQ·KONEX)")
+        self.markets = tuple(markets or DEFAULT_MARKETS)
         self.budget = budget
         self.http = BaseClient(BASE_URL, headers={"AUTH_KEY": key}, budget=budget,
                                rate=rate if rate is not None else TokenBucket(2.0), **http_kw)
 
     def market_day(self, market: str, day: date) -> Page:
         try:
-            r = self.http.get(MARKETS[market], {DATE_PARAM: f"{day:%Y%m%d}"})
+            r = self.http.get(ALL_MARKETS[market], {DATE_PARAM: f"{day:%Y%m%d}"})
         except RequestFailed as e:
             if e.status in (401, 403):
                 raise KrxApiError(str(e.status), "인증키가 유효하지 않거나 이 API의 이용신청·승인이 없음", auth=True) from None
@@ -83,8 +92,8 @@ class KrxOpenApiClient:
         return Page(r, rows, len(rows), 1)
 
     def prices(self, day: date) -> list:
-        """기준일 하루의 세 시장 전 종목 (시장마다 응답 하나)."""
-        return [self.market_day(m, day) for m in MARKETS]
+        """기준일 하루의 대상 시장 전 종목 (시장마다 응답 하나). 한 시장이라도 실패하면 그날을 저장하지 않는다."""
+        return [self.market_day(m, day) for m in self.markets]
 
 
 def _int(s) -> Optional[int]:
