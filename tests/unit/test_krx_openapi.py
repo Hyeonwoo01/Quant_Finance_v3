@@ -102,10 +102,10 @@ def test_run_stores_records_and_detects_schema_change(private_dir):
     fake, clock = FakeKrx(), Clock(NOW)
     m = KrxRun(krx_source(kclient(fake, clock)), private_dir, now=clock, version="t").run([date(2026, 11, 9)])
     assert m.status == "ok" and m.counts["added"] == 2 and m.target["source"] == "krx"
-    lines = (private_dir / "pit_versions" / SERIES_KRX_PRICE / "2026-11-09.jsonl").read_text().splitlines()
-    rec = json.loads(lines[0])
-    assert rec["entity_id"] == "KRX:005930" and rec["license_contract_id"] == "krx_openapi_stock_v1"
-    assert json.loads(rec["value"])["close"] == 71000 and rec["available_at_utc"].startswith("2026-11-10T23:30")
+    from storage.pit_store import read_parquet
+    rec = read_parquet(private_dir / "pit_versions" / SERIES_KRX_PRICE / "2026-11-09.parquet")[0]
+    assert rec.entity_id == "KRX:005930" and rec.license_contract_id == "krx_openapi_stock_v1"
+    assert json.loads(rec.value)["close"] == 71000 and rec.available_at_utc.isoformat().startswith("2026-11-10T23:30")
     for p in private_dir.rglob("*"):
         if p.is_file():
             assert KEY.encode() not in p.read_bytes()
@@ -113,7 +113,7 @@ def test_run_stores_records_and_detects_schema_change(private_dir):
     fake.data[("stk_bydd_trd", "20261110")] = [{"BAS_DD": "20261110", "ISU_CD": "005930", "CLOSE": "1"}]
     m2 = KrxRun(krx_source(kclient(fake, clock)), private_dir, now=clock, version="t").run([date(2026, 11, 10)])
     assert m2.status == "failed" and "필수 필드 없음" in m2.errors[0]
-    assert not (private_dir / "pit_versions" / SERIES_KRX_PRICE / "2026-11-10.jsonl").exists()
+    assert not list((private_dir / "pit_versions" / SERIES_KRX_PRICE).glob("2026-11-10.*"))
 
 
 def test_public_store_gets_nothing(tmp_path):

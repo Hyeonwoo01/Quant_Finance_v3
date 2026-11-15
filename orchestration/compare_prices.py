@@ -14,6 +14,8 @@ from pathlib import Path
 
 from collectors.fsc_krx import SERIES_PRICE
 from collectors.krx_openapi import SERIES_KRX_PRICE
+from core.source_registry import default_registry
+from storage.pit_store import PITFileStore
 
 SERIES = {"fsc": SERIES_PRICE, "krx": SERIES_KRX_PRICE}
 FIELDS = ("open", "high", "low", "close", "volume", "value", "shares", "mktcap")
@@ -27,25 +29,29 @@ def short_code(code: str) -> str:
     return c[-6:] if len(c) > 6 else c
 
 
+def _store(data_dir: Path) -> PITFileStore:
+    return PITFileStore(data_dir, default_registry(), parquet_series=set(SERIES.values()))
+
+
 def load_day(data_dir: Path, series: str, day: str) -> dict:
     """그날 파일의 종목별 최신 값 {단축코드: {field: value}} (같은 관측값의 여러 버전 중 마지막에 받은 것)."""
-    p = data_dir / "pit_versions" / series / f"{day}.jsonl"
     out, when = {}, {}
-    if not p.exists():
-        return out
-    for line in p.read_text(encoding="utf-8").splitlines():
-        r = json.loads(line)
-        attrs = json.loads(r.get("attributes") or "{}")
-        code = short_code(attrs.get("srtnCd") or attrs.get("code") or r["entity_id"].split(":")[-1])
-        if code not in when or r["ingested_at_utc"] >= when[code]:
-            out[code], when[code] = json.loads(r["value"]), r["ingested_at_utc"]
+    for r in _store(data_dir).iter_records(parts=[(series, day)]):
+        attrs = json.loads(r.attributes or "{}")
+        code = short_code(attrs.get("srtnCd") or attrs.get("code") or r.entity_id.split(":")[-1])
+        if code not in when or r.ingested_at_utc >= when[code]:
+            out[code], when[code] = json.loads(r.value), r.ingested_at_utc
     return out
+
+
+def _days(data_dir: Path, series: str) -> set:
+    d = data_dir / "pit_versions" / series
+    return {p.stem for p in d.glob("*.jsonl")} | {p.stem for p in d.glob("*.parquet")}
 
 
 def compare(data_dir, a: str = "fsc", b: str = "krx", last: int = 20) -> dict:
     data_dir = Path(data_dir)
-    days_a = {p.stem for p in (data_dir / "pit_versions" / SERIES[a]).glob("*.jsonl")}
-    days_b = {p.stem for p in (data_dir / "pit_versions" / SERIES[b]).glob("*.jsonl")}
+    days_a, days_b = _days(data_dir, SERIES[a]), _days(data_dir, SERIES[b])
     days = sorted(days_a & days_b)[-last:] if last else sorted(days_a & days_b)
     match, total, only_a, only_b, both = Counter(), Counter(), 0, 0, 0
     worst = Counter()

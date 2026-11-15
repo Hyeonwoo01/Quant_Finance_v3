@@ -169,7 +169,7 @@ def test_run_stores_only_in_private_store_and_is_idempotent(private_dir):
     assert m.status == "ok" and m.counts["added"] == 3 and m.counts["days"] == 2 and m.counts["not_yet"] == 1
     assert "2026-11-05: 아직 자료 없음" in m.warnings[0]
     files = sorted(p.name for p in (private_dir / "pit_versions" / SERIES_PRICE).iterdir())
-    assert files == ["2026-11-06.jsonl", "2026-11-09.jsonl"]
+    assert files == ["2026-11-06.parquet", "2026-11-09.parquet"]               # 일별 시세는 Parquet
     for p in private_dir.rglob("*"):                                           # 인증키는 어디에도 남지 않는다
         if p.is_file():
             data = p.read_bytes()
@@ -182,7 +182,8 @@ def test_run_stores_only_in_private_store_and_is_idempotent(private_dir):
     m3 = KrxRun(client(fake, clock), private_dir, now=clock, version="test").run(days, skip_existing=True)
     assert m3.counts["skipped_existing"] == 2 and len(fake.calls) == n + 1
     # as-of: 11/10 14:23 KST에 받았으므로 둘 다 11/11 08:30 KST 전에는 보이지 않는다 (받은 뒤 첫 컷오프)
-    store = PITFileStore(private_dir, default_registry(), partitions={SERIES_PRICE: by_period_day}).load([SERIES_PRICE])
+    store = PITFileStore(private_dir, default_registry(), partitions={SERIES_PRICE: by_period_day},
+                         parquet_series={SERIES_PRICE}).load([SERIES_PRICE])
     assert store.query_as_of(datetime(2026, 11, 10, 23, 29, tzinfo=UTC), Purpose.STORAGE).empty
     assert len(store.query_as_of(datetime(2026, 11, 10, 23, 30, tzinfo=UTC), Purpose.STORAGE)) == 3
     assert store.query_as_of(datetime(2026, 11, 12, tzinfo=UTC), Purpose.ML_TRAINING).empty   # 학습 목적으로는 안 나온다
@@ -218,15 +219,16 @@ def test_redo_rewrites_named_days_only_in_private_store(private_dir, tmp_path_fa
     fake, clock = Fake(), Clock(NOW)
     run = KrxRun(client(fake, clock), private_dir, now=clock, version="test")
     run.run([date(2026, 11, 6), date(2026, 11, 9)])
-    f06 = private_dir / "pit_versions" / SERIES_PRICE / "2026-11-06.jsonl"
-    f09 = private_dir / "pit_versions" / SERIES_PRICE / "2026-11-09.jsonl"
+    f06 = private_dir / "pit_versions" / SERIES_PRICE / "2026-11-06.parquet"
+    f09 = private_dir / "pit_versions" / SERIES_PRICE / "2026-11-09.parquet"
     before09 = f09.read_bytes()
     clock.t = NOW + timedelta(days=1)
     m = KrxRun(client(fake, clock), private_dir, now=clock, version="test").redo([date(2026, 11, 6)], "캘린더 수정")
     assert m.counts["added"] == 1 and m.target["removed_days"] == ["2026-11-06"] and "캘린더 수정" in m.warnings[0]
     assert f09.read_bytes() == before09                                       # 다른 날은 그대로
-    recs = [json.loads(l) for l in f06.read_text().splitlines()]
-    assert len(recs) == 1 and recs[0]["ingested_at_utc"].startswith("2026-11-11")
+    from storage.pit_store import read_parquet
+    recs = read_parquet(f06)
+    assert len(recs) == 1 and recs[0].ingested_at_utc.isoformat().startswith("2026-11-11")
     saved = json.loads(next((private_dir / "manifests").rglob(f"{m.run_id}.json")).read_text())
     assert saved["target"]["redo_reason"] == "캘린더 수정"
     public = tmp_path_factory.mktemp("public")                               # 공개 저장소에는 아무것도 쓰지 않는다
