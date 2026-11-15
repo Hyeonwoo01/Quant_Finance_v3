@@ -11,16 +11,17 @@
   (예: 조정 일간 수익률 = close / base − 1). 현금배당은 기준가에 반영되지 않으므로 가격 수익률이다.
 - 시세 값은 출력하지 않는다 (공개 Actions 로그). 반환한 표는 비공개 저장소 밖으로 내보내지 않는다.
 
-열: date, code, name, market, open, high, low, close, volume, value, shares, mktcap, base, chg, factor, ret_cc,
-    bt_available_at
+열: date, code, (name: include_names=True일 때만), market, open, high, low, close, volume, value, shares, mktcap,
+    base, chg, factor, ret_cc, bt_available_at
+메모리: 하루 파일씩 읽어 숫자 열만 남긴다. 16년치(약 940만 행)를 문자열째 한꺼번에 올리면 실행기(16GB)가 멈춘다.
 """
-import io
 import json
 from datetime import date, datetime, timezone
 from pathlib import Path
 from typing import Optional
 from zoneinfo import ZoneInfo
 
+import numpy as np
 import pandas as pd
 
 from collectors import krx_openapi
@@ -42,48 +43,75 @@ def _day_files(data_dir: Path, series_id: str) -> dict:
     return {date.fromisoformat(p.stem): p for p in d.glob("*.parquet")} if d.exists() else {}
 
 
-def _read(files: list) -> pd.DataFrame:
-    import pyarrow as pa
+_CUTOFF_CACHE: dict = {}
+
+
+def _cutoff(t) -> pd.Timestamp:
+    if t not in _CUTOFF_CACHE:
+        _CUTOFF_CACHE[t] = first_kr_cutoff_at_or_after(t)
+    return _CUTOFF_CACHE[t]
+
+
+def _day_latest(path: Path, series_id: str, as_of: Optional[pd.Timestamp]) -> tuple[dict, dict]:
+    """하루 파일 → (열 사전, {entity_id: (백테스트용 가용 시각, 행 번호)}). 같은 종목의 여러 버전 중 as_of에
+    쓸 수 있었던 최신 버전만 고른다. 백테스트용 가용 시각은 core.availability.backtest_available_at과 같은 규칙."""
     import pyarrow.parquet as pq
-    if not files:
-        return pd.DataFrame(columns=_COLS)
-    return pa.concat_tables([pq.read_table(f, columns=_COLS) for f in files]).to_pandas()
+    t = pq.read_table(path, columns=_COLS).to_pydict()
+    immutable = series_id in IMMUTABLE_MARKET_SERIES
+    best = {}
+    for i, ent in enumerate(t["entity_id"]):
+        if t["quality_status"][i] != "valid":
+            continue
+        if t["license_contract_id"][i] != KRX_OPENAPI_STOCK.contract_id:
+            raise PermissionDenied(f"예상하지 못한 계약의 레코드: {t['license_contract_id'][i]}")
+        prov = t["provider_available_at_utc"][i]
+        if immutable and t["supersedes_revision_id"][i] is None and prov is not None:
+            bt = _cutoff(prov)
+        else:
+            bt = pd.Timestamp(t["available_at_utc"][i])
+        if as_of is not None and bt > as_of:
+            continue
+        key = (bt, t["ingested_at_utc"][i])
+        if ent not in best or key >= best[ent][0]:
+            best[ent] = (key, i)
+    return t, {e: (k[0], i) for e, (k, i) in best.items()}
 
 
-def _bt_available(df: pd.DataFrame, series_id: str) -> pd.Series:
-    """core.availability.backtest_available_at을 표 전체에 적용 (공급자 가용 시각은 기준일마다 같아 한 번씩만 계산)."""
-    avail = pd.to_datetime(df["available_at_utc"], utc=True)
-    if series_id not in IMMUTABLE_MARKET_SERIES:
-        return avail
-    prov = pd.to_datetime(df["provider_available_at_utc"], utc=True)
-    cut = {t: first_kr_cutoff_at_or_after(t) for t in prov.dropna().unique()}
-    rule = prov.map(cut)
-    original = df["supersedes_revision_id"].isna() & prov.notna()
-    return rule.where(original, avail)
-
-
-def _latest(df: pd.DataFrame, series_id: str, as_of: Optional[pd.Timestamp]) -> pd.DataFrame:
-    df = df[df["quality_status"] == "valid"].copy()
-    df["bt_available_at"] = _bt_available(df, series_id)
-    if as_of is not None:
-        df = df[df["bt_available_at"] <= as_of]
-    df["ingested_at_utc"] = pd.to_datetime(df["ingested_at_utc"], utc=True)
-    df = df.sort_values(["entity_id", "observation_period_start", "bt_available_at", "ingested_at_utc"])
-    return df.drop_duplicates(["entity_id", "observation_period_start"], keep="last")
-
-
-def _json_frame(col: pd.Series, *, wrapped: bool = False) -> pd.DataFrame:
-    """JSON 문자열 열 → 표. wrapped: Parquet의 value_json처럼 값(JSON 문자열)을 한 번 더 JSON으로 감싼 열."""
-    if col.empty:
-        return pd.DataFrame(index=col.index)
-    texts = col.map(json.loads) if wrapped else col
-    out = pd.read_json(io.StringIO("\n".join(texts.tolist())), lines=True, dtype=False)
-    out.index = col.index
-    return out
+def _day_frame(price_path: Path, base_path: Optional[Path], as_of, include_names: bool) -> pd.DataFrame:
+    """하루치 시세 + 기준가 → 숫자 열만 남긴 작은 표 (16년치를 한꺼번에 문자열로 올리지 않기 위해 하루씩 줄인다)."""
+    pt, pbest = _day_latest(price_path, SERIES_KRX_PRICE, as_of)
+    bt_, bbest = _day_latest(base_path, SERIES_KRX_BASE, as_of) if base_path is not None else ({}, {})
+    ents = list(pbest)
+    rows = {c: np.full(len(ents), np.nan) for c in PRICE_COLS + ["base", "chg"]}
+    avail, market, name = [], [], []
+    for j, ent in enumerate(ents):
+        a, i = pbest[ent]
+        v = json.loads(json.loads(pt["value_json"][i]))
+        for c in PRICE_COLS:
+            x = v.get(c)
+            if x is not None:
+                rows[c][j] = x
+        attrs = json.loads(pt["attributes"][i] or "{}")
+        market.append(attrs.get("market"))
+        if include_names:
+            name.append(attrs.get("name"))
+        if ent in bbest:                                  # 기준가가 아직 쓸 수 없으면 계수도 쓰지 않는다
+            ba, bi = bbest[ent]
+            bv = json.loads(json.loads(bt_["value_json"][bi]))
+            rows["base"][j], rows["chg"][j] = bv.get("base", np.nan), bv.get("chg", np.nan)
+            a = max(a, ba)
+        avail.append(a)
+    day = pd.Timestamp(pt["observation_period_start"][0]) if ents else None
+    df = pd.DataFrame({"date": day, "code": [e.split(":")[-1] for e in ents], "market": market, **rows,
+                       "bt_available_at": pd.to_datetime(avail, utc=True) if avail else pd.Series(dtype="datetime64[ns, UTC]")})
+    if include_names:
+        df["name"] = name
+    return df
 
 
 def load_price_panel(data_dir, start: date, end: date, *, as_of_utc: Optional[datetime] = None,
-                     today: Optional[date] = None, registry: Optional[ContractRegistry] = None) -> pd.DataFrame:
+                     today: Optional[date] = None, registry: Optional[ContractRegistry] = None,
+                     include_names: bool = False) -> pd.DataFrame:
     data_dir = Path(data_dir)
     registry = registry or default_registry()
     registry.require(KRX_OPENAPI_STOCK.contract_id, Purpose.ML_TRAINING)
@@ -97,33 +125,20 @@ def load_price_panel(data_dir, start: date, end: date, *, as_of_utc: Optional[da
     before = [d for d in prices if d < start]
     if before:
         days.insert(0, max(before))                      # 첫날의 조정 계수에 필요한 전 거래일 종가
-    p = _latest(_read([prices[d] for d in days]), SERIES_KRX_PRICE, as_of)
-    b = _latest(_read([bases[d] for d in days if d in bases]), SERIES_KRX_BASE, as_of)
-    for df in (p, b):
-        bad = set(df["license_contract_id"]) - {KRX_OPENAPI_STOCK.contract_id}
-        if bad:
-            raise PermissionDenied(f"예상하지 못한 계약의 레코드: {sorted(bad)}")
-
-    out = pd.concat([p[["entity_id", "observation_period_start", "bt_available_at"]],
-                     _json_frame(p["value_json"], wrapped=True)[PRICE_COLS] if len(p) else pd.DataFrame(columns=PRICE_COLS),
-                     _json_frame(p["attributes"]).reindex(columns=["name", "market"])], axis=1)
-    bv = _json_frame(b["value_json"], wrapped=True).reindex(columns=["base", "chg"])
-    bv["entity_id"], bv["observation_period_start"] = b["entity_id"], b["observation_period_start"]
-    bv["base_available_at"] = b["bt_available_at"]
-    out = out.merge(bv, on=["entity_id", "observation_period_start"], how="left")
-    # 기준가가 아직 쓸 수 없는 시각이면 계수도 쓰지 않는다 (as_of 기준 둘 중 늦은 쪽)
-    out["bt_available_at"] = out[["bt_available_at", "base_available_at"]].max(axis=1)
-    out = out.drop(columns="base_available_at")
-    out["code"] = out["entity_id"].str.split(":").str[-1]
-    out["date"] = pd.to_datetime(out["observation_period_start"])
+    frames = [_day_frame(prices[d], bases.get(d), as_of, include_names) for d in days]
+    frames = [f for f in frames if len(f)]
+    cols = ["date", "code", *(["name"] if include_names else []), "market", *PRICE_COLS, "base", "chg", "factor",
+            "ret_cc", "bt_available_at"]
+    if not frames:
+        return pd.DataFrame(columns=cols)
+    out = pd.concat(frames, ignore_index=True)
+    del frames
+    out["market"] = out["market"].astype("category")
     out = out.sort_values(["code", "date"], ignore_index=True)
-    for c in PRICE_COLS + ["base", "chg"]:
-        out[c] = pd.to_numeric(out[c], errors="coerce")
     prev_close = out.groupby("code")["close"].shift(1)
     out["factor"] = out["base"] / prev_close
     out["ret_cc"] = out["close"] / out["base"] - 1
     out = out[out["date"] >= pd.Timestamp(start)]
-    cols = ["date", "code", "name", "market", *PRICE_COLS, "base", "chg", "factor", "ret_cc", "bt_available_at"]
     return out[cols].reset_index(drop=True)
 
 

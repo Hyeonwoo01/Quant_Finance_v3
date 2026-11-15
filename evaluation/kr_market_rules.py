@@ -70,6 +70,47 @@ def limit_prices(base: Optional[float], day: date, market: str, method: str = DE
     raise ValueError(f"알 수 없는 방식: {method}")
 
 
+def _tick_arr(price, day, kosdaq):
+    """tick_size의 벡터판 (numpy 배열). day: datetime64[D] 배열, kosdaq: bool 배열."""
+    import numpy as np
+    price = np.asarray(price, dtype=float)
+    out = np.empty(len(price), dtype=float)
+    new = day >= np.datetime64(TICK_REFORM)
+    for mask, table in ((new, _TICKS_UNIFIED), (~new & kosdaq, _TICKS_KOSDAQ_OLD), (~new & ~kosdaq, _TICKS_KOSPI_OLD)):
+        uppers = np.array([u for u, _ in table])
+        ticks = np.array([t for _, t in table], dtype=float)
+        idx = np.searchsorted(uppers, price[mask], side="right")
+        out[mask] = ticks[np.minimum(idx, len(ticks) - 1)]
+    return out
+
+
+def limit_prices_arr(base, dates, markets, method: str = DEFAULT_METHOD):
+    """limit_prices의 벡터판 → (하한가, 상한가) 배열. 기준가격이 없거나 0 이하면 NaN."""
+    import numpy as np
+    import pandas as pd
+    base = np.floor(np.asarray(base, dtype=float))
+    day = pd.to_datetime(pd.Series(dates)).to_numpy().astype("datetime64[D]")
+    kosdaq = np.asarray(pd.Series(markets).astype(str).str.upper() == "KOSDAQ")
+    ok = np.isfinite(base) & (base > 0)
+    b = np.where(ok, base, 1.0)
+    rate = np.where(day >= np.datetime64(LIMIT_30), 0.30, 0.15)
+    raw = b * rate
+    if method in (BASE_TICK, DOUBLE):
+        t = _tick_arr(b, day, kosdaq)
+        width = np.floor(raw / t) * t
+        lo, up = b - width, b + width
+        if method == DOUBLE:
+            tu, tl = _tick_arr(up, day, kosdaq), _tick_arr(lo, day, kosdaq)
+            lo, up = np.ceil(lo / tl) * tl, np.floor(up / tu) * tu
+    elif method == LIMIT_TICK:
+        up, lo = np.floor(b + raw), np.ceil(b - raw)
+        tu, tl = _tick_arr(up, day, kosdaq), _tick_arr(lo, day, kosdaq)
+        lo, up = np.ceil(lo / tl) * tl, np.floor(up / tu) * tu
+    else:
+        raise ValueError(f"알 수 없는 방식: {method}")
+    return np.where(ok, lo, np.nan), np.where(ok, up, np.nan)
+
+
 def check_against_data(panel, methods=(BASE_TICK, LIMIT_TICK, DOUBLE)) -> dict:
     """실제 시세로 두 방식을 검증한다 (값 없이 건수만).
 
@@ -78,20 +119,23 @@ def check_against_data(panel, methods=(BASE_TICK, LIMIT_TICK, DOUBLE)) -> dict:
     - limit_close: 종가가 기준가 대비 (제한폭 − 1%p) 이상 오르거나 내린 행 중 종가가 계산한 상·하한가와 정확히 같은 비율
     신규상장 첫날(전 거래일 종가 없음)과 거래가 없는 행은 뺀다."""
     import pandas as pd
-    df = panel[(panel["volume"] > 0) & panel["factor"].notna() & (panel["base"] > 0)].copy()
+    import numpy as np
+    df = panel[(panel["volume"] > 0) & panel["factor"].notna() & (panel["base"] > 0)]
+    day = pd.to_datetime(df["date"]).to_numpy().astype("datetime64[D]")
+    kosdaq = np.asarray(df["market"].astype(str).str.upper() == "KOSDAQ")
+    close = df["close"].to_numpy(dtype=float)
     # 호가단위 표 검증: 거래가 있었던 날의 종가는 그날 표의 호가단위 배수여야 한다
-    off = [int(c) % tick_size(c, d.date(), mk or "KOSPI") != 0 for c, d, mk in zip(df["close"], df["date"], df["market"])]
-    out = {"rows": int(len(df)), "close_off_tick": int(sum(off))}
+    out = {"rows": int(len(df)), "close_off_tick": int((np.mod(close, _tick_arr(close, day, kosdaq)) != 0).sum())}
+    base = df["base"].to_numpy(dtype=float)
+    rate = np.where(day >= np.datetime64(LIMIT_30), 0.30, 0.15)
+    near_up = close / base - 1 >= rate - 0.01
+    near_dn = close / base - 1 <= -(rate - 0.01)
+    high, low = df["high"].to_numpy(dtype=float), df["low"].to_numpy(dtype=float)
     for m in methods:
-        lims = [limit_prices(b, d.date(), mk or "KOSPI", m) for b, d, mk in zip(df["base"], df["date"], df["market"])]
-        lo = pd.Series([x[0] for x in lims], index=df.index)
-        up = pd.Series([x[1] for x in lims], index=df.index)
-        rate = df["date"].dt.date.map(limit_rate)
-        near_up = df["close"] / df["base"] - 1 >= rate - 0.01
-        near_dn = df["close"] / df["base"] - 1 <= -(rate - 0.01)
-        out[m] = {"over": int((df["high"] > up).sum()), "under": int((df["low"] < lo).sum()),
+        lo, up = limit_prices_arr(base, df["date"], df["market"], m)
+        out[m] = {"over": int((high > up).sum()), "under": int((low < lo).sum()),
                   "near_limit_close": int(near_up.sum() + near_dn.sum()),
-                  "exact_limit_close": int((near_up & (df["close"] == up)).sum() + (near_dn & (df["close"] == lo)).sum())}
+                  "exact_limit_close": int((near_up & (close == up)).sum() + (near_dn & (close == lo)).sum())}
     return out
 
 
