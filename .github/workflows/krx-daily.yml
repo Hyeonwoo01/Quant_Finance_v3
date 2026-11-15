@@ -15,9 +15,9 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: "collect = 최근 며칠 수집, backfill = start~end 과거 채우기, redo = redo_days를 지우고 다시 받기, check = 키·활용신청 확인, probe = 응답 구조 확인, compare = 공급원끼리 값 대조 (check·probe·compare는 저장 없음)"
+        description: "collect = 최근 며칠 수집, backfill = start~end 과거 채우기, redo = redo_days를 지우고 다시 받기, check = 키·활용신청 확인, probe = 응답 구조 확인, compare = 공급원끼리 값 대조 (check·probe·compare는 저장 없음), migrate = 저장된 JSON Lines를 Parquet로 옮기기 (호출 없음)"
         type: choice
-        options: [collect, backfill, redo, check, probe, compare]
+        options: [collect, backfill, redo, check, probe, compare, migrate]
         default: collect
       source:
         description: "공급원 (all = 키가 있는 공급원 모두)"
@@ -120,6 +120,7 @@ jobs:
             case "$MODE" in
               check) python -m orchestration.krx_daily --source "$src" --check ;;
               probe) python -m orchestration.krx_daily --source "$src" --probe ;;
+              migrate) python -m orchestration.krx_daily --source "$src" --data-dir private_data --migrate-parquet ;;
               backfill)
                 if [ -z "$START" ]; then echo "backfill에는 start가 필요"; return 2; fi
                 python -m orchestration.krx_daily --source "$src" --data-dir private_data --start "$START" ${END:+--end "$END"} ;;

@@ -197,3 +197,69 @@ def test_manifest_status_and_file(tmp_path):
     m2.count("unchanged")
     m2.finish()
     assert m2.status == "partial"
+
+
+# ---------- Parquet (일별 시세처럼 큰 시리즈) ----------
+
+def test_parquet_roundtrip_keeps_every_field_and_value_type(tmp_path, registry):
+    from core.pit_schema import QualityStatus
+    from storage.pit_store import read_parquet, write_parquet
+    recs = [rec("a", 100.0), rec("b", 7, metric_id="i"), rec("c", '{"close": 71000}', metric_id="s", unit="json"),
+            rec("d", True, metric_id="b"), rec("e", None, metric_id="n", quality_status=QualityStatus.SUSPECT),
+            rec("f", 1.5, metric_id="x", supersedes_revision_id=None, event_time_utc=T0 + timedelta(hours=6),
+                provider_available_at_utc=T0, vintage_date=date(2026, 11, 9), attributes='{"name": "삼성전자"}')]
+    p = tmp_path / "x.parquet"
+    write_parquet(p, recs)
+    back = read_parquet(p)
+    assert back == recs and [type(r.value) for r in back] == [float, int, str, bool, type(None), float]
+    assert back[0].available_at_utc.tzinfo is not None and back[4].quality_status is QualityStatus.SUSPECT
+    write_parquet(tmp_path / "y.parquet", recs)                                 # 같은 내용이면 같은 파일 (git에 불필요한 변경 없음)
+    assert (tmp_path / "y.parquet").read_bytes() == p.read_bytes()
+
+
+def test_parquet_series_appends_migrates_and_stays_idempotent(tmp_path, registry):
+    parts = {"dart_fin": by_period_day}
+    old = PITFileStore(tmp_path, registry, partitions=parts)                     # 예전처럼 JSON Lines로 쓴 날
+    old.append([rec("r1", 100.0), rec("r2", 5.0, metric_id="m2")])
+    legacy = tmp_path / "pit_versions" / "dart_fin" / "2026-07-01.jsonl"
+    assert legacy.exists()
+    fs = PITFileStore(tmp_path, registry, partitions=parts, parquet_series={"dart_fin"})
+    assert {r.revision_id for r in fs.iter_records()} == {"r1", "r2"}           # 옮기기 전에도 읽힌다
+    res = fs.append([rec("r3", 1.0, metric_id="m3"), rec("r1", 100.0, ingested_at_utc=T0 + timedelta(days=1))])
+    assert (res.added, res.unchanged) == (1, 1)
+    pq_file = legacy.with_suffix(".parquet")
+    assert pq_file.exists() and not legacy.exists()                             # 처음 쓸 때 Parquet로 옮기고 원래 파일 삭제
+    assert [r.revision_id for r in fs.iter_records()] == ["r1", "r2", "r3"]     # 순서 보존
+    fix = fs.append([rec("r1b", 120.0, supersedes_revision_id="r1")])            # 정정도 같은 규칙
+    assert fix.added == 1 and fs.load(["dart_fin"]).revision("r1b").supersedes_revision_id == "r1"
+    before = pq_file.read_bytes()
+    assert fs.append([rec("r3", 1.0, metric_id="m3")]).added == 0 and pq_file.read_bytes() == before
+    other = PITFileStore(tmp_path, registry, partitions={"dart_fin": by_period_day, "macro": by_entity_name},
+                         parquet_series={"dart_fin"})
+    other.append([rec("m1", 2.0, series_id="macro")])                           # 다른 시리즈는 그대로 JSON Lines
+    assert list((tmp_path / "pit_versions" / "macro").glob("*.jsonl"))
+
+
+def by_entity_name(r):
+    return r.entity_id
+
+
+def test_migrate_to_parquet_verifies_and_respects_store_visibility(tmp_path, registry):
+    parts = {"dart_fin": by_period_day}
+    old = PITFileStore(tmp_path, registry, partitions=parts)
+    old.append([rec("r1", 100.0), rec("r2", 1.0, observation_period_start=date(2026, 7, 2), metric_id="m")])
+    fs = PITFileStore(tmp_path, registry, partitions=parts, parquet_series={"dart_fin"})
+    assert fs.migrate_to_parquet("dart_fin") == {"files": 2, "records": 2}
+    d = tmp_path / "pit_versions" / "dart_fin"
+    assert sorted(p.name for p in d.iterdir()) == ["2026-07-01.parquet", "2026-07-02.parquet"]
+    assert {r.revision_id for r in fs.iter_records()} == {"r1", "r2"}
+    with pytest.raises(ValueError, match="parquet_series"):
+        PITFileStore(tmp_path, registry).migrate_to_parquet("dart_fin")
+
+
+@pytest.mark.public
+def test_parquet_store_keeps_public_store_guard(tmp_path, registry):
+    fs = PITFileStore(tmp_path, registry, partitions={"dart_fin": by_period_day}, parquet_series={"dart_fin"})
+    with pytest.raises(PermissionDenied, match="공개 저장소"):
+        fs.append([rec("r1", 100.0)])                                           # kr_price는 공개 표시 권한 없음
+    assert not (tmp_path / "pit_versions").exists()

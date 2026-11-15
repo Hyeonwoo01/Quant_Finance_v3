@@ -235,6 +235,7 @@ FRED/ALFRED는 서면 허가 없이 저장·학습에 쓰지 않습니다 (가�
 raw/<source_id>/objects/<sha[:2]>/<sha>.gz       원본 응답 (같은 내용은 한 번만, 인증키 가림)
 raw/<source_id>/index/<YYYY-MM-DD>.jsonl         받을 때마다 한 줄 (주소·파라미터·상태·해시)
 pit_versions/<series_id>/<partition>.jsonl       PIT 레코드 (추가 전용, 원본이 정정본보다 앞)
+pit_versions/<series_id>/<YYYY-MM-DD>.parquet    일별 시세만 Parquet (zstd 압축, 레코드 필드·정정 규칙은 같음)
 manifests/<source_id>/<YYYY-MM-DD>/<run_id>.json 실행별 수집 기록 (건수·경고·오류·권한 상태)
 state/                                           대기열 (재무제표·XBRL 처리 상태)
 PRIVATE_STORE                                    비공개 저장소 표식 (비공개 저장소에만)
@@ -352,7 +353,7 @@ GitHub Actions 설정 (Settings → Secrets and variables → Actions):
 ## 11. 다음 단계
 
 1. **KRX Open API로 학습용 주가 확보:** 인증키 승인 → `krx-daily` `probe`로 응답 형식 확인 → 2010년부터 과거 채우기 → `compare`로 금융위원회 시세와 대조 → Sprint 2(주가 예측 모델 A/B/C)의 가격 공급원으로 사용.
-   **저장 형식 Parquet 전환:** 비공개 저장소가 1GB를 넘거나 2023년 이전을 채우기 전에 한다 (가이드 6-1 구현 노트).
+   **저장 형식:** 일별 시세는 Parquet로 저장한다 (같은 하루치가 JSON Lines보다 16.6배 작음, 16년치 약 0.8GB). 기존 JSON Lines는 `krx-daily` `migrate`로 옮긴다.
    최근 3년 시세는 채웠다 (2023-11-10 ~).
    **예약 실행 지연:** GitHub 예약 실행이 5~8시간 늦게 돈다. 실전 08:30 판단에 쓰기 전에 정시 실행 수단을 정한다.
 2. **Sprint 1 마무리:** 수정주가·기업행위(배당·권리일정) 공급원 검토, 첫 PIT Feature Snapshot.

@@ -46,6 +46,7 @@ from storage.raw_store import RawStore
 from storage.visibility import PRIVATE_MARKER, is_private_store
 
 KST = ZoneInfo("Asia/Seoul")
+PRICE_SERIES = frozenset({SERIES_PRICE, SERIES_KRX_PRICE})     # Parquet로 저장하는 일별 시세 시리즈
 MAX_DAYS = 260                   # 한 번 실행에 받는 기준일 수 상한 (과거 채우기를 여러 번에 나눔)
 
 
@@ -100,13 +101,21 @@ class KrxRun:
         self.registry = registry or default_registry()
         self.now, self.version = now, version or code_version()
         self.raw = RawStore(self.data_dir, self.registry)
-        self.pit = PITFileStore(self.data_dir, self.registry, partitions={self.source.series_id: by_period_day})
+        # 일별 시세는 하루 수천 행이라 Parquet로 쓴다 (JSON Lines 대비 약 1/16). 남은 JSON Lines는 처음 쓸 때 옮겨진다
+        self.pit = PITFileStore(self.data_dir, self.registry, partitions={self.source.series_id: by_period_day},
+                                parquet_series=PRICE_SERIES)
 
-    def _day_file(self, day: date) -> Path:
-        return self.data_dir / "pit_versions" / self.source.series_id / f"{day:%Y-%m-%d}.jsonl"
+    def _day_file(self, day: date) -> Optional[Path]:
+        return self.pit._existing(self.source.series_id, f"{day:%Y-%m-%d}")
 
     def has_day(self, day: date) -> bool:
-        return self._day_file(day).exists()
+        return self._day_file(day) is not None
+
+    def migrate(self) -> dict:
+        """이 공급원 시리즈의 JSON Lines 파일을 모두 Parquet로 옮긴다 (비공개 저장소에서만)."""
+        if not is_private_store(self.data_dir):
+            raise PermissionDenied(f"{self.data_dir}: 비공개 저장소가 아님")
+        return self.pit.migrate_to_parquet(self.source.series_id)
 
     def collect_day(self, day: date, m: BatchManifest) -> None:
         src = self.source
@@ -149,7 +158,7 @@ class KrxRun:
         if is_private_store(self.data_dir):
             for day in days:
                 f = self._day_file(day)
-                if f.exists():
+                if f is not None:
                     f.unlink()
                     removed.append(str(day))
         m = self.run(days)
@@ -276,6 +285,7 @@ def main(argv=None) -> int:
     ap.add_argument("--max-calls", type=int, default=2000, help="이번 실행의 호출 상한 (개발계정 하루 10,000건)")
     ap.add_argument("--redo", help="쉼표로 구분한 기준일들을 지우고 다시 받기 (예: 2026-06-02,2026-07-16)")
     ap.add_argument("--redo-reason", default="", help="다시 받는 이유 (수집 기록에 남김)")
+    ap.add_argument("--migrate-parquet", action="store_true", help="이 공급원의 저장된 JSON Lines를 Parquet로 옮기기 (호출 없음)")
     ap.add_argument("--check", action="store_true")
     ap.add_argument("--probe", action="store_true")
     args = ap.parse_args(argv)
@@ -296,6 +306,10 @@ def main(argv=None) -> int:
         client = KrxOpenApiClient(key, budget=CallBudget(args.max_calls), markets=markets)
         source = krx_source(client)
     try:
+        if args.migrate_parquet:
+            res = KrxRun(source, args.data_dir).migrate()
+            print(f"Parquet로 옮김 [{args.source}]: 파일 {res['files']}개, 레코드 {res['records']:,}건")
+            return 0
         if args.check:
             print(check(client, last) if args.source == "fsc" else krx_check(client, last))
             return 0
