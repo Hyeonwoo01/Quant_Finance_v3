@@ -3,3 +3,8 @@ numpy==2.5.4
 pandas==3.1.1
 exchange_calendars==4.13.2
 pyarrow==26.0.1
+# Sprint 2 모델 (가이드 7장): 선형 기준선·HistGradientBoosting. 의존 패키지도 고정
+scikit-learn==1.9.0
+scipy==1.18.1
+joblib==1.6.0
+threadpoolctl==3.8.0
