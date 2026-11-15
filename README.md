@@ -71,8 +71,10 @@
 | 종목 식별자 시점별 매핑 (4-8) | ✅ | `core/security_master.py` — 수집 시작(2026-11-11) 이후만 |
 | 거시지표 수정 이력 | 🔶 | 값 변경은 새 버전. 공식 발표 시각은 아직 없음(받은 시각 기준) |
 | 비수정주가 (저장) | ✅ | `collectors/fsc_krx.py` — 금융위원회 시세, 2023-11-10 기준일부터 비공개 저장소에 수집 중 (약 208만 건). 계약상 학습 불가 |
-| 비수정주가 (학습용) | ⏳ | `collectors/krx_openapi.py` — 한국거래소 KRX Open API(2010년부터, 비상업 학습 허용). 인증키 승인 후 응답 형식 확인·과거 채우기 |
-| 수정주가·기업행위 PIT | ⬜ | 배당·권리일정 공급원 검토 필요 |
+| 비수정주가 (학습용) | ✅ | `collectors/krx_openapi.py` — 한국거래소 KRX Open API, 2010-01-04부터 비공개 저장소에 (비상업 학습 허용, 이용기간 가드) |
+| 수정주가 (분할·무상증자 등) | ✅ | `feature_store/price_panel.py` — 거래소 기준가로 만든 날마다의 조정 계수 (가격 수익률) |
+| 백테스트용 가용 시각 | ✅ | `core/availability.py` — 정정되지 않는 시장 확정값의 원본만 공급자 규칙 시각 |
+| 현금배당·권리일정 PIT (총수익률) | ⬜ | 배당 공급원 검토 필요 |
 
 AI 어시스턴트(가이드 14장, Sprint 5 항목)는 데이터 기초 위에서 먼저 작게 만들었다: 읽기 전용 MCP 서버, Function Calling Agent, 주장별 근거 검증, 평가 세트 ([8절](#8-ai-어시스턴트-dart--mcp--agent)).
 
@@ -119,6 +121,7 @@ AI 어시스턴트(가이드 14장, Sprint 5 항목)는 데이터 기초 위에�
    │
    ▼
  feature_store/segment_exposure.py   사업부문 → 산업 노출도
+ feature_store/price_panel.py        학습용 시세 패널 (수정주가 계수, 백테스트용 가용 시각)
    │
    ▼
  (다음: engines/ · evaluation/ — Sprint 2 이후)
@@ -170,7 +173,8 @@ Quant_Finance_v3/
 │   └── visibility.py                # 공개 저장소에는 재배포 허용 데이터만
 │
 ├── feature_store/
-│   └── segment_exposure.py          # 사업부문 → 산업·지역 노출도 (5-3)
+│   ├── segment_exposure.py          # 사업부문 → 산업·지역 노출도 (5-3)
+│   └── price_panel.py               # 학습용 시세 패널: 수정주가 계수·백테스트용 가용 시각 (8-1, 4-4)
 │
 ├── orchestration/                   # 매일 실행 진입점 (6-4)
 │   ├── opendart_daily.py · macro_daily.py · krx_daily.py
@@ -218,7 +222,7 @@ FRED/ALFRED는 서면 허가 없이 저장·학습에 쓰지 않습니다 (가�
 |---|---|---|---|---|
 | [`opendart-daily`](.github/workflows/opendart-daily.yml) | 매일 06:17 | 종목 식별자 매핑 → 최근 7일 공시 → 정기보고서 재무제표 → 사업부문 XBRL | 공개 `data` 브랜치 | `collect` · `check` · `probe-xbrl` |
 | [`macro-daily`](.github/workflows/macro-daily.yml) | 매일 07:47 | 관세청·ECOS·EIA 지표 | 공개 `data` 브랜치 | `collect` · `check` · `probe` |
-| [`krx-daily`](.github/workflows/krx-daily.yml) | 평일 14:23 | 한국 주식 일별 시세 (전 종목, 공급원: 금융위원회·KRX Open API) | **비공개 저장소** | `collect` · `backfill` · `redo` · `check` · `probe` · `compare` (공급원 `all`·`fsc`·`krx`) |
+| [`krx-daily`](.github/workflows/krx-daily.yml) | 평일 14:23 (+ 저녁·이른 아침 공개 관측) | 한국 주식 일별 시세 (전 종목, 공급원: 금융위원회·KRX Open API) | **비공개 저장소** | `collect` · `backfill` · `redo` · `check` · `probe` · `compare` · `migrate` · `derive` · `pubcheck` (공급원 `all`·`fsc`·`krx`) |
 | [`assistant-eval`](.github/workflows/assistant-eval.yml) | 수동 | AI 어시스턴트 평가 세트를 실제 모델로 실행 | 실행 요약·아티팩트 | — |
 | [`tests`](.github/workflows/tests.yml) | push·PR | `pytest` (Python 3.12·3.13) | — | — |
 
@@ -241,7 +245,7 @@ state/                                           대기열 (재무제표·XBRL �
 PRIVATE_STORE                                    비공개 저장소 표식 (비공개 저장소에만)
 ```
 
-주요 시리즈 (`series_id`): `dart_filings` · `dart_fs` · `dart_segments` · `dart_corp_master` · `kcs_itemtrade` · `bok_ecos` · `eia` · `krx_daily_price`(비공개)
+주요 시리즈 (`series_id`): `dart_filings` · `dart_fs` · `dart_segments` · `dart_corp_master` · `kcs_itemtrade` · `bok_ecos` · `eia` · `krx_daily_price`·`krx_openapi_daily`·`krx_openapi_base`(비공개)
 
 저장된 데이터를 읽는 예:
 
@@ -352,10 +356,14 @@ GitHub Actions 설정 (Settings → Secrets and variables → Actions):
 
 ## 11. 다음 단계
 
-1. **KRX Open API로 학습용 주가 확보:** 인증키 승인 → `krx-daily` `probe`로 응답 형식 확인 → 2010년부터 과거 채우기 → `compare`로 금융위원회 시세와 대조 → Sprint 2(주가 예측 모델 A/B/C)의 가격 공급원으로 사용.
-   **저장 형식:** 일별 시세는 Parquet로 저장한다 (같은 하루치가 JSON Lines보다 16.6배 작음, 16년치 약 0.8GB). 기존 JSON Lines는 `krx-daily` `migrate`로 옮긴다.
-   최근 3년 시세는 채웠다 (2023-11-10 ~).
+1. **KRX Open API 학습용 주가:** 2010-01-04부터 채웠다. 일별 시세는 Parquet로 저장한다 (JSON Lines보다 16.6배 작음, 16년치 약 0.8GB).
+   **수정주가:** 거래소 기준가(종가 − 전일대비)로 날마다 조정 계수를 만든다 (가이드 8-1 구현 노트). 과거분은 `krx-daily` `derive`로 원본에서 다시 만든다.
+   **KRX 공개 시각:** 지금은 보수적 규칙(다음 세션 13:00)이라 08:30 판단이 이틀 전 종가까지만 본다. `pubcheck` 관측이 쌓이면 근거와 함께 앞당긴다.
    **예약 실행 지연:** GitHub 예약 실행이 5~8시간 늦게 돈다. 실전 08:30 판단에 쓰기 전에 정시 실행 수단을 정한다.
-2. **Sprint 1 마무리:** 수정주가·기업행위(배당·권리일정) 공급원 검토, 첫 PIT Feature Snapshot.
+2. **Sprint 2 (진행 중, 가이드 7장):**
+   - 2-1 (이번): 백테스트용 가용 시각, 수정주가 계수, 학습용 시세 패널([`feature_store/price_panel.py`](feature_store/price_panel.py))
+   - 2-2: 예측 타깃(08:30 신호 → 당일 시가 진입), 체결 가능성(거래정지·상한가), 예측 기록 정산과 크게 틀린 예측의 원인 기록
+   - 2-3: Purged Walk-forward, 단순 기준선, Model A, 실험 기록과 잠긴 최종 OOS 구간
+   - 남은 Sprint 1 항목: 현금배당·권리일정 공급원(총수익률용), 첫 PIT Feature Snapshot
 3. **사업부문 분류 규칙 v0.2:** 3분기 보고서(11/10~16)가 쌓인 뒤 미분류 레이블 반영.
-4. **Sprint 2:** 타깃 사전 정의, Purged Walk-forward, Model A/B/C 비교, 실험 기록과 잠긴 최종 OOS 구간 (가이드 7장).
+4. **Model B/C:** 미국 시장·거시 데이터 공급원 확보 뒤 Model A와 같은 표본에서 비교 (가이드 7-2).
