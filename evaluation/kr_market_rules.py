@@ -24,7 +24,7 @@ from typing import Optional
 TICK_REFORM = date(2023, 1, 25)
 LIMIT_30 = date(2015, 6, 15)
 BASE_TICK, LIMIT_TICK, DOUBLE = "BASE_TICK", "LIMIT_TICK", "DOUBLE"
-DEFAULT_METHOD = DOUBLE          # 실제 시세 검증 결과로 정한다 (MASTER_GUIDE 8-2 구현 노트)
+DEFAULT_METHOD = DOUBLE  # 2026-11-15 rulecheck: 세 시기 모두 가장 잘 맞음 (MASTER_GUIDE 8-2 구현 노트)
 
 # (상한 미만 가격, 호가단위) — 마지막 구간은 그 이상 전부
 _TICKS_KOSPI_OLD = ((1_000, 1), (5_000, 5), (10_000, 10), (50_000, 50), (100_000, 100), (500_000, 500), (math.inf, 1_000))
