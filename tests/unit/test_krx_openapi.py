@@ -82,7 +82,12 @@ def test_contract_allows_training_but_not_display_redistribution_or_llm():
 def test_client_sends_key_in_header_and_hides_it(private_dir):
     fake, clock = FakeKrx(), Clock(NOW)
     pages = kclient(fake, clock).prices(date(2026, 11, 9))
-    assert [len(p.rows) for p in pages] == [1, 1, 0]
+    assert [len(p.rows) for p in pages] == [1, 1]                               # 기본: 코스피·코스닥 (승인한 서비스)
+    allm = KrxOpenApiClient(KEY, budget=CallBudget(9), rate=TokenBucket(1e9), transport=fake, sleep=lambda s: None,
+                            now=clock, markets=("KOSPI", "KOSDAQ", "KONEX"))
+    assert [len(p.rows) for p in allm.prices(date(2026, 11, 9))] == [1, 1, 0]
+    with pytest.raises(ValueError, match="알 수 없는 시장"):
+        KrxOpenApiClient(KEY, budget=CallBudget(1), markets=("NYSE",))
     path, params, headers = fake.calls[0]
     assert path.endswith("/svc/apis/sto/stk_bydd_trd") and params == {"basDd": "20261109"}
     assert headers["AUTH_KEY"] == KEY and KEY not in json.dumps(pages[0].response.params)

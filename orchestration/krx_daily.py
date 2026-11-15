@@ -227,7 +227,7 @@ def probe(client: FscClient, day: date) -> list[str]:
 def krx_check(client: KrxOpenApiClient, day: date) -> str:
     """저장 없이 인증키·이용신청·연결 확인 (시장마다 한 번). 값은 출력하지 않는다."""
     parts = []
-    for market in krx_openapi.MARKETS:
+    for market in client.markets:
         try:
             parts.append(f"{market} {len(client.market_day(market, day).rows)}건")
         except KrxApiError as e:
@@ -240,7 +240,7 @@ def krx_probe(client: KrxOpenApiClient, day: date) -> list[str]:
     가정한 주소·파라미터·필드 이름(collectors/krx_openapi.py)이 맞는지 여기서 확인한다."""
     lines = [f"주소 {krx_openapi.BASE_URL}/<API ID>, 기준일 파라미터 {krx_openapi.DATE_PARAM}, 행 목록 키 {krx_openapi.ROWS_KEY}"]
     rows = []
-    for market in krx_openapi.MARKETS:
+    for market in krx_openapi.ALL_MARKETS:          # 신청하지 않은 시장도 물어 승인 상태를 보여 준다
         try:
             page = client.market_day(market, day)
             rows += page.rows
@@ -292,7 +292,8 @@ def main(argv=None) -> int:
         client = FscClient(key, budget=CallBudget(args.max_calls))
         source = fsc_source(client)
     else:
-        client = KrxOpenApiClient(key, budget=CallBudget(args.max_calls))
+        markets = tuple(m.strip().upper() for m in os.environ.get("KRX_MARKETS", "").split(",") if m.strip()) or None
+        client = KrxOpenApiClient(key, budget=CallBudget(args.max_calls), markets=markets)
         source = krx_source(client)
     try:
         if args.check:
