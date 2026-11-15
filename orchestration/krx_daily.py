@@ -17,11 +17,12 @@
 인증키는 환경변수(fsc: DATA_GO_KR_KEY, krx: KRX_API_KEY)에서만 읽고 출력하지 않는다.
 """
 import argparse
+import json
 import logging
 import os
 import sys
 from collections import Counter
-from datetime import date, datetime, timedelta, timezone
+from datetime import date, datetime, time, timedelta, timezone
 from pathlib import Path
 from typing import Optional
 from zoneinfo import ZoneInfo
@@ -35,7 +36,7 @@ from collectors import krx_openapi
 from collectors.base_client import BudgetExhausted, CallBudget, CollectorError
 from collectors.fsc_krx import (PRICE_PATH, PROVIDER_READY, SERIES_PRICE, VALUE_FIELDS, FscClient, FscError,
                                 price_records, schema_problems)
-from collectors.krx_openapi import SERIES_KRX_PRICE, KrxApiError, KrxOpenApiClient
+from collectors.krx_openapi import SERIES_KRX_BASE, SERIES_KRX_PRICE, KrxApiError, KrxOpenApiClient
 from core.calendar_align import KR_VENUE, calendar
 from core.data_contracts import ContractRegistry, PermissionDenied
 from core.repro import code_version
@@ -46,7 +47,9 @@ from storage.raw_store import RawStore
 from storage.visibility import PRIVATE_MARKER, is_private_store
 
 KST = ZoneInfo("Asia/Seoul")
-PRICE_SERIES = frozenset({SERIES_PRICE, SERIES_KRX_PRICE})     # Parquet로 저장하는 일별 시세 시리즈
+PRICE_SERIES = frozenset({SERIES_PRICE, SERIES_KRX_PRICE, SERIES_KRX_BASE})     # Parquet로 저장하는 일별 시세 시리즈
+PUBLICATION_LOG = Path("state") / "krx_publication_log.jsonl"   # KRX 자료가 언제부터 있었는지 관측한 기록
+MARKET_DONE = time(15, 45)       # 정규장 마감(15:30) 뒤 여유
 MAX_DAYS = 260                   # 한 번 실행에 받는 기준일 수 상한 (과거 채우기를 여러 번에 나눔)
 
 
@@ -66,6 +69,17 @@ def last_published(now_utc: datetime) -> date:
     return cal.previous_session(ready).date()
 
 
+def last_closed_session(now_utc: datetime) -> date:
+    """장이 끝난(15:45 KST 이후) 가장 최근 KRX 세션."""
+    cal = calendar(KR_VENUE)
+    local = now_utc.astimezone(KST)
+    day = pd.Timestamp(local.date())
+    s = cal.date_to_session(day, direction="previous")
+    if s == day and local.time() < MARKET_DONE:
+        s = cal.previous_session(s)
+    return s.date()
+
+
 def sessions_between(start: Optional[date], end: date) -> list[date]:
     cal = calendar(KR_VENUE)
     start = start or (end - timedelta(days=60))
@@ -82,6 +96,7 @@ class PriceSource:
     to_records: Callable
     schema: Callable
     error_cls: type
+    extra: tuple = ()          # 같은 응답에서 함께 만드는 시리즈 ((series_id, to_records), ...)
 
 
 def fsc_source(client: FscClient) -> PriceSource:
@@ -90,7 +105,8 @@ def fsc_source(client: FscClient) -> PriceSource:
 
 def krx_source(client: KrxOpenApiClient) -> PriceSource:
     return PriceSource("krx", client, KRX_OPENAPI_STOCK, SERIES_KRX_PRICE, krx_openapi.price_records,
-                       krx_openapi.schema_problems, KrxApiError)
+                       krx_openapi.schema_problems, KrxApiError,
+                       extra=((SERIES_KRX_BASE, krx_openapi.base_records),))
 
 
 class KrxRun:
@@ -102,7 +118,8 @@ class KrxRun:
         self.now, self.version = now, version or code_version()
         self.raw = RawStore(self.data_dir, self.registry)
         # 일별 시세는 하루 수천 행이라 Parquet로 쓴다 (JSON Lines 대비 약 1/16). 남은 JSON Lines는 처음 쓸 때 옮겨진다
-        self.pit = PITFileStore(self.data_dir, self.registry, partitions={self.source.series_id: by_period_day},
+        series = [self.source.series_id, *(sid for sid, _ in self.source.extra)]
+        self.pit = PITFileStore(self.data_dir, self.registry, partitions={sid: by_period_day for sid in series},
                                 parquet_series=PRICE_SERIES)
 
     def _day_file(self, day: date) -> Optional[Path]:
@@ -130,7 +147,7 @@ class KrxRun:
             return
         if unexpected:
             m.warnings.append(f"{day}: 새 필드 {list(unexpected)}")
-        store = self.pit.load(parts=[(src.series_id, f"{day:%Y-%m-%d}")])
+        store = self.pit.load(parts=[(sid, f"{day:%Y-%m-%d}") for sid in (src.series_id, *(x for x, _ in src.extra))])
         for p in pages:                               # 페이지마다 그 페이지의 원본 해시로 레코드를 만든다
             ref = self.raw.put(contract_id=src.contract.contract_id, source_id=src.contract.source_id,
                                response=p.response, request_id=m.run_id)
@@ -148,7 +165,76 @@ class KrxRun:
                 m.warnings.append(f"{day}: 해석 못 한 행 {counts['bad_rows']}개")
             if res.conflicts:
                 m.warnings.append(f"{day}: 같은 revision_id인데 내용이 다름 {len(res.conflicts)}건")
+            for sid, to_records in src.extra:
+                self._append_extra(sid, to_records, p.rows, day, ref.sha256, self.now(), store, m)
         m.count("days")
+
+    def _append_extra(self, sid, to_records, rows, day, raw_sha, ingested_at, store, m) -> None:
+        recs, counts = to_records(rows, day, contract_id=self.source.contract.contract_id, raw_sha=raw_sha,
+                                  ingested_at_utc=ingested_at, latest=store.latest)
+        res = self.pit.append(recs, store=store)
+        m.count(f"{sid}_added", res.added)
+        if counts["bad_rows"]:
+            m.warnings.append(f"{day}: {sid} 해석 못 한 행 {counts['bad_rows']}개")
+        if res.conflicts:
+            m.warnings.append(f"{day}: {sid} 같은 revision_id인데 내용이 다름 {len(res.conflicts)}건")
+
+    def derive_from_raw(self) -> BatchManifest:
+        """저장된 원본 응답으로 함께 만드는 시리즈(extra)를 다시 만든다 (호출 없음). 나중에 추가한 시리즈의 과거분을
+        채울 때 쓴다. 받은 시각은 원본을 실제로 받은 시각을 그대로 쓰므로 가용 시각도 그때 기준이다."""
+        started = self.now()
+        m = BatchManifest.start(run_id=f"{started:%Y%m%dT%H%M%SZ}-derive", contract=self.source.contract,
+                                code_version=self.version, now=started,
+                                target={"source": self.source.name, "derive": [sid for sid, _ in self.source.extra]})
+        if not is_private_store(self.data_dir):
+            m.errors.append(f"{self.data_dir}: 비공개 저장소 표식({PRIVATE_MARKER})이 없음")
+            m.finish(self.now())
+            return m
+        apis = {v: k for k, v in krx_openapi.ALL_MARKETS.items()}
+        by_day: dict[str, list] = {}
+        for e in self.raw.index_entries(self.source.contract.source_id):
+            api = (e.get("url") or "").rstrip("/").rsplit("/", 1)[-1]
+            day = (e.get("params") or {}).get(krx_openapi.DATE_PARAM)
+            if e.get("http_status") == 200 and api in apis and day:
+                by_day.setdefault(day, []).append(e)
+        for day_s in sorted(by_day):
+            day = datetime.strptime(day_s, "%Y%m%d").date()
+            store = self.pit.load(parts=[(sid, f"{day:%Y-%m-%d}") for sid, _ in self.source.extra])
+            for e in sorted(by_day[day_s], key=lambda x: x["received_at_utc"]):    # 받은 순서대로 (정정 이력 유지)
+                try:
+                    rows = krx_openapi.parse_rows(self.raw.get(self.source.contract.source_id, e["sha256"]))
+                except (KrxApiError, ValueError, OSError) as err:
+                    m.errors.append(f"{day}: 원본 {e['sha256'][:12]} 읽기 실패 {type(err).__name__}")
+                    continue
+                if not rows:
+                    continue
+                got = datetime.fromisoformat(e["received_at_utc"])
+                for sid, to_records in self.source.extra:
+                    self._append_extra(sid, to_records, rows, day, e["sha256"], got, store, m)
+            m.count("days")
+        m.finish(self.now())
+        m.write(self.data_dir)
+        return m
+
+    def observe_publication(self, day: date) -> dict:
+        """기준일 자료가 지금 있는지 묻고 (시장마다 한 번) 비공개 저장소에 관측 기록을 남긴다. 저장은 하지 않는다.
+        '있음' 관측은 그 시각까지 공개됐다는 증거라, 쌓이면 보수적인 가용 시각 규칙(다음 세션 13:00)을 앞당길 근거가 된다."""
+        checked = self.now()
+        rows = {}
+        for market in self.client.markets:
+            try:
+                rows[market] = len(self.client.market_day(market, day).rows)
+            except KrxApiError as e:
+                rows[market] = f"실패({e.code})"
+        rec = {"bas_dd": day.isoformat(), "checked_at_utc": checked.isoformat(),
+               "checked_at_kst": checked.astimezone(KST).isoformat(), "rows": rows,
+               "available": all(isinstance(v, int) and v > 0 for v in rows.values())}
+        if is_private_store(self.data_dir):
+            p = self.data_dir / PUBLICATION_LOG
+            p.parent.mkdir(parents=True, exist_ok=True)
+            with p.open("a", encoding="utf-8") as f:
+                f.write(json.dumps(rec, ensure_ascii=False, sort_keys=True) + "\n")
+        return rec
 
     def redo(self, days: list[date], reason: str) -> BatchManifest:
         """잘못된 규칙으로 저장된 날을 다시 받는다 (예: 캘린더에 빠진 휴장일 때문에 가용 시각이 한 세션 이르게
@@ -288,6 +374,10 @@ def main(argv=None) -> int:
     ap.add_argument("--migrate-parquet", action="store_true", help="이 공급원의 저장된 JSON Lines를 Parquet로 옮기기 (호출 없음)")
     ap.add_argument("--check", action="store_true")
     ap.add_argument("--probe", action="store_true")
+    ap.add_argument("--derive-from-raw", action="store_true",
+                    help="krx: 저장된 원본 응답으로 기준가 시리즈를 다시 만들기 (호출 없음)")
+    ap.add_argument("--observe-publication", action="store_true",
+                    help="krx: 장이 끝난 가장 최근 세션의 자료가 지금 있는지 관측해 기록 (저장 없음)")
     args = ap.parse_args(argv)
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
 
@@ -321,6 +411,20 @@ def main(argv=None) -> int:
             krx_openapi.check_license(valid_until, now.astimezone(KST).date())
             if is_private_store(args.data_dir):
                 krx_openapi.record_license(args.data_dir, valid_until, now)
+            if args.derive_from_raw:
+                m = KrxRun(source, args.data_dir).derive_from_raw()
+                print(f"원본에서 다시 만듦 [krx]: {m.status} {dict(m.counts)}")
+                for w in m.errors[:5]:
+                    print("오류:", w)
+                return 0 if m.status != "failed" else 1
+            if args.observe_publication:
+                day = last_closed_session(now)
+                rec = KrxRun(source, args.data_dir).observe_publication(day)
+                print(f"공개 관측: 기준일 {day}, {rec['checked_at_kst'][:16]} KST, 건수 {rec['rows']}, 있음={rec['available']}")
+                return 0
+        elif args.derive_from_raw or args.observe_publication:
+            print("--derive-from-raw·--observe-publication은 --source krx에서만", file=sys.stderr)
+            return 2
         if args.redo:
             if not args.redo_reason:
                 print("--redo에는 --redo-reason이 필요", file=sys.stderr)

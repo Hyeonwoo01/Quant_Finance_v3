@@ -8,16 +8,21 @@ name: krx-daily
 #   Secrets: PRIVATE_DATA_TOKEN(비공개 저장소 Contents 읽기·쓰기), DATA_GO_KR_KEY(fsc), KRX_API_KEY(krx)
 #   Variables: KRX_KEY_VALID_UNTIL(krx 인증키 이용기간 마지막 날, YYYY-MM-DD — 없거나 지나면 krx는 받지 않음),
 #              PRIVATE_DATA_REPO(선택, 없으면 <소유자>/Quant_Finance_v3_private)
+# 그 밖의 예약 실행(평일 저녁·이른 아침)은 KRX 자료가 언제부터 있는지 관측만 한다 (pubcheck, 호출 2회, 저장 없음).
+# 관측 기록이 쌓이면 보수적인 가용 시각 규칙(다음 세션 13:00)을 앞당길 근거로 쓴다.
 # 이 워크플로의 로그는 공개다. 시세 값은 출력하지 않는다.
 on:
   schedule:
-    - cron: "23 5 * * 1-5"
+    - cron: "23 5 * * 1-5"      # 14:23 KST 수집
+    - cron: "17 9 * * 1-5"      # 18:17 KST 공개 관측
+    - cron: "47 12 * * 1-5"     # 21:47 KST 공개 관측
+    - cron: "13 21 * * 0-4"     # 다음 날 06:13 KST 공개 관측
   workflow_dispatch:
     inputs:
       mode:
-        description: "collect = 최근 며칠 수집, backfill = start~end 과거 채우기, redo = redo_days를 지우고 다시 받기, check = 키·활용신청 확인, probe = 응답 구조 확인, compare = 공급원끼리 값 대조 (check·probe·compare는 저장 없음), migrate = 저장된 JSON Lines를 Parquet로 옮기기 (호출 없음)"
+        description: "collect = 최근 며칠 수집, backfill = start~end 과거 채우기, redo = redo_days를 지우고 다시 받기, check = 키·활용신청 확인, probe = 응답 구조 확인, compare = 공급원끼리 값 대조 (check·probe·compare는 저장 없음), migrate = 저장된 JSON Lines를 Parquet로 옮기기 (호출 없음), derive = krx 원본으로 기준가 시리즈 다시 만들기 (호출 없음), pubcheck = krx 최근 세션 자료가 지금 있는지 관측"
         type: choice
-        options: [collect, backfill, redo, check, probe, compare, migrate]
+        options: [collect, backfill, redo, check, probe, compare, migrate, derive, pubcheck]
         default: collect
       source:
         description: "공급원 (all = 키가 있는 공급원 모두)"
@@ -47,15 +52,15 @@ concurrency:
 jobs:
   collect:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 120
     env:
       PYTHONUNBUFFERED: "1"
-      MODE: ${{ inputs.mode || 'collect' }}
+      MODE: ${{ inputs.mode || (github.event.schedule == '23 5 * * 1-5' && 'collect' || 'pubcheck') }}
       START: ${{ inputs.start }}
       END: ${{ inputs.end }}
       REDO_DAYS: ${{ inputs.redo_days }}
       REDO_REASON: ${{ inputs.redo_reason }}
-      SOURCE: ${{ inputs.source || 'all' }}
+      SOURCE: ${{ inputs.source || (github.event.schedule == '23 5 * * 1-5' && 'all' || 'krx') }}
       PRIVATE_REPO: ${{ vars.PRIVATE_DATA_REPO || format('{0}/Quant_Finance_v3_private', github.repository_owner) }}
     steps:
       - uses: actions/checkout@v4
@@ -121,6 +126,8 @@ jobs:
               check) python -m orchestration.krx_daily --source "$src" --check ;;
               probe) python -m orchestration.krx_daily --source "$src" --probe ;;
               migrate) python -m orchestration.krx_daily --source "$src" --data-dir private_data --migrate-parquet ;;
+              derive) python -m orchestration.krx_daily --source "$src" --data-dir private_data --derive-from-raw ;;
+              pubcheck) python -m orchestration.krx_daily --source "$src" --data-dir private_data --observe-publication ;;
               backfill)
                 if [ -z "$START" ]; then echo "backfill에는 start가 필요"; return 2; fi
                 python -m orchestration.krx_daily --source "$src" --data-dir private_data --start "$START" ${END:+--end "$END"} ;;
@@ -133,6 +140,7 @@ jobs:
           status=0
           for src in fsc krx; do
             [ "$SOURCE" = all ] || [ "$SOURCE" = "$src" ] || continue
+            if [ "$src" = fsc ] && { [ "$MODE" = derive ] || [ "$MODE" = pubcheck ]; }; then continue; fi
             if [ "$src" = fsc ] && [ -z "$DATA_GO_KR_KEY" ]; then echo "fsc: DATA_GO_KR_KEY 없음 — 건너뜀"; continue; fi
             if [ "$src" = krx ] && [ -z "$KRX_API_KEY" ]; then echo "krx: KRX_API_KEY 없음 — 건너뜀"; continue; fi
             echo "== $src"

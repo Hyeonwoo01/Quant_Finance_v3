@@ -29,6 +29,7 @@ from core.calendar_align import KR_VENUE, calendar, first_kr_cutoff_at_or_after,
 from core.pit_schema import PITRecord
 
 SERIES_KRX_PRICE = "krx_openapi_daily"
+SERIES_KRX_BASE = "krx_openapi_base"          # 거래소 기준가 (= 종가 − 전일대비). 수정주가 계수의 재료
 PROVIDER = "KRX"
 SOURCE_URL = "https://openapi.krx.co.kr/contents/OPP/INFO/service/OPPINFO004.cmd"
 ATTRIBUTION = "한국거래소 통계정보"
@@ -42,8 +43,9 @@ MARKETS = {m: ALL_MARKETS[m] for m in DEFAULT_MARKETS}
 FIELDS = {"TDD_OPNPRC": "open", "TDD_HGPRC": "high", "TDD_LWPRC": "low", "TDD_CLSPRC": "close",
           "ACC_TRDVOL": "volume", "ACC_TRDVAL": "value", "LIST_SHRS": "shares", "MKTCAP": "mktcap"}
 ID_FIELDS = ("BAS_DD", "ISU_CD", "ISU_NM", "MKT_NM")
-REQUIRED = (*ID_FIELDS, *FIELDS)
-KNOWN = ("SECT_TP_NM", "CMPPREVDD_PRC", "FLUC_RT")
+CHANGE_FIELD = "CMPPREVDD_PRC"                                 # 전일대비. 기준가(분할·무상증자 등을 반영해 거래소가 정한 값) 계산에 쓴다
+REQUIRED = (*ID_FIELDS, *FIELDS, CHANGE_FIELD)
+KNOWN = ("SECT_TP_NM", "FLUC_RT")
 LICENSE_STATE = Path("state") / "krx_openapi_license.json"
 
 
@@ -112,33 +114,35 @@ def available_at(day: date, ingested_at_utc: datetime) -> datetime:
     return max(rule, first_kr_cutoff_at_or_after(ingested_at_utc)).to_pydatetime()
 
 
-def price_records(rows: list, day: date, *, contract_id: str, raw_sha: str, ingested_at_utc: datetime,
-                  latest: Callable[[tuple], Optional[PITRecord]]) -> tuple[list, dict]:
-    """하루치 행 → 종목마다 레코드 하나 (값: {open, high, low, close, volume, value, shares, mktcap} JSON)."""
+def _records(rows: list, day: date, *, series_id: str, metric_id: str, content: Callable[[dict], dict],
+             contract_id: str, raw_sha: str, ingested_at_utc: datetime,
+             latest: Callable[[tuple], Optional[PITRecord]]) -> tuple[list, dict]:
+    """하루치 행 → 종목마다 레코드 하나. content(row)가 값 JSON이 된다 (KeyError·ValueError면 해석 못 한 행)."""
     cal = calendar(KR_VENUE)
     close = session_close_utc(pd.Timestamp(day), KR_VENUE).to_pydatetime() if cal.is_session(pd.Timestamp(day)) else None
     avail = available_at(day, ingested_at_utc)
     counts = {"rows": len(rows), "bad_rows": 0, "duplicates": 0, "unchanged": 0, "revised": 0}
+    tag = "" if series_id == SERIES_KRX_PRICE else f"{metric_id}|"
     out, seen = [], set()
     for row in rows:
         try:
             code = str(row["ISU_CD"]).strip()
             if str(row["BAS_DD"]).strip() != f"{day:%Y%m%d}" or not code:
                 raise ValueError("기준일·종목코드 이상")
-            content = {name: _int(row[f]) for f, name in FIELDS.items()}
-        except (KeyError, ValueError, AttributeError):
+            value_obj = content(row)
+        except (KeyError, ValueError, AttributeError, TypeError):
             counts["bad_rows"] += 1
             continue
         if code in seen:
             counts["duplicates"] += 1
             continue
         seen.add(code)
-        value = json.dumps(content, sort_keys=True)
+        value = json.dumps(value_obj, sort_keys=True)
         attrs = {"code": code, "name": str(row["ISU_NM"]).strip(), "market": str(row["MKT_NM"]).strip(),
                  "section": str(row.get("SECT_TP_NM") or "").strip()}
-        rec = PITRecord(entity_id=f"KRX:{code}", series_id=SERIES_KRX_PRICE, metric_id="ohlcv",
+        rec = PITRecord(entity_id=f"KRX:{code}", series_id=series_id, metric_id=metric_id,
                         available_at_utc=avail, ingested_at_utc=ingested_at_utc,
-                        revision_id=f"KRX:{code}|{day:%Y%m%d}|{hashlib.sha256(value.encode()).hexdigest()[:10]}",
+                        revision_id=f"KRX:{code}|{tag}{day:%Y%m%d}|{hashlib.sha256(value.encode()).hexdigest()[:10]}",
                         value=value, unit="json", source_provider=PROVIDER, raw_payload_hash=raw_sha,
                         license_contract_id=contract_id, observation_period_start=day, observation_period_end=day,
                         event_time_utc=close, provider_available_at_utc=provider_available_at(day), currency="KRW",
@@ -153,6 +157,30 @@ def price_records(rows: list, day: date, *, contract_id: str, raw_sha: str, inge
                           supersedes_revision_id=prev.revision_id)
         out.append(rec)
     return out, counts
+
+
+def price_records(rows: list, day: date, **kw) -> tuple[list, dict]:
+    """하루치 행 → 종목마다 레코드 하나 (값: {open, high, low, close, volume, value, shares, mktcap} JSON)."""
+    return _records(rows, day, series_id=SERIES_KRX_PRICE, metric_id="ohlcv",
+                    content=lambda row: {name: _int(row[f]) for f, name in FIELDS.items()}, **kw)
+
+
+def _base(row: dict) -> dict:
+    close, chg = _int(row["TDD_CLSPRC"]), _int(row[CHANGE_FIELD])
+    if close is None or chg is None:
+        raise ValueError("종가·전일대비 없음")
+    if close - chg <= 0:
+        raise ValueError("기준가가 0 이하")
+    return {"base": close - chg, "chg": chg}
+
+
+def base_records(rows: list, day: date, **kw) -> tuple[list, dict]:
+    """하루치 행 → 종목마다 기준가 레코드 (값: {base, chg}). 기준가 = 종가 − 전일대비.
+
+    기준가는 거래소가 분할·병합·무상증자·권리락 등을 반영해 정한 그날의 비교 기준이다. 그래서 그날의 조정 계수는
+    기준가 ÷ 전 거래일 종가이고, 기업행위가 없는 날은 정확히 1이다 (정수끼리 계산). 현금배당은 기준가에 반영하지
+    않으므로 이 계수로 만든 수익률은 배당을 뺀 가격 수익률이다."""
+    return _records(rows, day, series_id=SERIES_KRX_BASE, metric_id="base", content=_base, **kw)
 
 
 def schema_problems(rows: list) -> tuple[tuple, tuple]:
