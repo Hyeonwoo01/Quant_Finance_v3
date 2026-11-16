@@ -1,0 +1,27 @@
+{
+  "code_version": "1acb11172a4464a14f35f43c143c3d8c234a65d5",
+  "contract_id": "opendart_xbrl_v1",
+  "counts": {
+    "not_yet": 6
+  },
+  "errors": [],
+  "finished_at_utc": "2026-11-16T01:12:49.679532+00:00",
+  "permission": {
+    "approval_status": "approved_for_public_display",
+    "attribution_required": true,
+    "license_url": "https://opendart.fss.or.kr/intro/terms.do",
+    "permission_reference": "OpenDART 이용약관(2020-01-21 시행) 2026-11-09 원문 검토 — DATA_SOURCES.md#opendart"
+  },
+  "requests": [],
+  "run_id": "20261116T010958Z",
+  "schema_version": "manifest-1",
+  "source_id": "opendart_xbrl",
+  "started_at_utc": "2026-11-16T01:12:44.295508+00:00",
+  "status": "ok",
+  "target": {
+    "minutes": 25.0,
+    "queued": 6,
+    "remaining": 6
+  },
+  "warnings": []
+}

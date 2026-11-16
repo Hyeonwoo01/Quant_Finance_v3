@@ -684,6 +684,22 @@
    "report_nm": "분기보고서 (2026.09)",
    "reprt_code": "11014"
   },
+  "20261112000436": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00113058",
+   "corp_name": "한화생명",
+   "done_at_utc": "2026-11-16T01:11:31.227051+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261112",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
   "20261112000446": {
    "bsns_year": 2026,
    "cfs_checked": true,
@@ -1009,6 +1025,22 @@
    "corp_code": "01722437",
    "corp_name": "한화갤러리아",
    "done_at_utc": "2026-11-13T01:56:14.649136+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261112",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261112000647": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00126566",
+   "corp_name": "한화에어로스페이스",
+   "done_at_utc": "2026-11-16T01:11:43.052715+00:00",
    "fs_divs": [
     "OFS",
     "CFS"
@@ -2812,6 +2844,22 @@
    "report_nm": "분기보고서 (2026.09)",
    "reprt_code": "11014"
   },
+  "20261113001034": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00113526",
+   "corp_name": "대한항공",
+   "done_at_utc": "2026-11-16T01:12:01.197773+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261113",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
   "20261113001042": {
    "bsns_year": 2026,
    "cfs_checked": true,
@@ -3115,6 +3163,22 @@
    "report_nm": "분기보고서 (2026.09)",
    "reprt_code": "11014"
   },
+  "20261113001144": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00432102",
+   "corp_name": "한국금융지주",
+   "done_at_utc": "2026-11-16T01:12:11.337127+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261113",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
   "20261113001151": {
    "bsns_year": 2026,
    "cfs_checked": true,
@@ -3359,6 +3423,22 @@
    "corp_code": "00103042",
    "corp_name": "케이씨티시",
    "done_at_utc": "2026-11-14T01:57:30.939731+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261113",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261113001240": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00124504",
+   "corp_name": "포스코인터내셔널",
+   "done_at_utc": "2026-11-16T01:12:25.112230+00:00",
    "fs_divs": [
     "OFS",
     "CFS"
@@ -4309,6 +4389,22 @@
    "report_nm": "분기보고서 (2026.09)",
    "reprt_code": "11014"
   },
+  "20261113001553": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00244455",
+   "corp_name": "케이티앤지",
+   "done_at_utc": "2026-11-16T01:12:44.278607+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261113",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
   "20261113001557": {
    "bsns_year": 2026,
    "cfs_checked": true,
@@ -4664,22 +4760,22 @@
  "gave_up": {},
  "pending": {
   "20261112000726": {
-   "attempts": 3,
+   "attempts": 4,
    "corp_code": "01032486",
    "corp_name": "두산밥캣",
    "first_seen_utc": "2026-11-13T01:54:33.609525+00:00",
-   "last_try_utc": "2026-11-15T01:06:35.956147+00:00",
+   "last_try_utc": "2026-11-16T01:11:45.860103+00:00",
    "rcept_dt": "20261112",
    "rcept_no": "20261112000726",
    "report_nm": "분기보고서 (2026.09)",
    "rm": ""
   },
   "20261113001265": {
-   "attempts": 2,
+   "attempts": 3,
    "corp_code": "00111111",
    "corp_name": "대양금속",
    "first_seen_utc": "2026-11-14T01:34:11.973514+00:00",
-   "last_try_utc": "2026-11-15T01:06:36.846411+00:00",
+   "last_try_utc": "2026-11-16T01:12:29.145870+00:00",
    "rcept_dt": "20261113",
    "rcept_no": "20261113001265",
    "report_nm": "분기보고서 (2026.09)",
