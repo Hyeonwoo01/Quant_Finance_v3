@@ -86,3 +86,14 @@ def test_regime_buckets_use_only_past():
     assert list(by["trend"]) == ["up", "down", "up", "up"]
     assert list(by["vol_regime"]) == ["n/a", "high", "low", "high"]       # 첫날은 비교할 과거가 없음
     assert set(df["liq_q"]) == {1, 2, 3, 4, 5}
+
+
+def test_keep_buffer_reduces_turnover():
+    p = pred_frame()
+    second = p["date"] == p["date"].max()
+    p.loc[second & (p["code"] == "c27"), "score"] = 25.5        # 둘째 판단일: 상위 10% 밖, 상위 20% 안
+    sc = CostScenario("t", commission=0.0, slippage_ticks=0.0, max_participation=1.0)
+    plain = long_only(p, h=5, scenario=sc)
+    buffered = long_only(p, h=5, keep=0.2, scenario=sc)
+    assert plain.loc[1, "turnover"] > 0.3 and buffered.loc[1, "n"] == 4      # c27을 계속 들고 c26을 더 산다
+    assert buffered.loc[1, "turnover"] < plain.loc[1, "turnover"]

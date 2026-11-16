@@ -77,7 +77,7 @@ def breakdown(p: pd.DataFrame, col: str) -> dict:
 def run(data_dir, target_id: str = "RET_5D", *, start: date = date(2010, 1, 1), first_test: date = date(2016, 1, 1),
         vault_start: date = date(2024, 11, 1), every: int = 5, models=MODELS, liquidity_pct: float = 0.2,
         min_history: int = 252, embargo_sessions: int = 5, today=None, record: bool = True, log=print,
-        top: float = 0.1, notional: float = 1e8) -> dict:
+        top: float = 0.1, keep: float = None, notional: float = 1e8) -> dict:
     t0 = time.time()
     t = TARGETS[target_id]
     panel = load_price_panel(data_dir, start, vault_start - timedelta(days=1), today=today)
@@ -105,7 +105,7 @@ def run(data_dir, target_id: str = "RET_5D", *, start: date = date(2010, 1, 1), 
         by_bucket[m] = {c: breakdown(p, c) for c in ("liq_q", "market", "trend", "vol_regime") if c in p}
         if m != "uncond" and every == t.horizon_sessions and t.kind == "RET":      # 겹치지 않는 보유일 때만
             portfolios[m] = {sc.name: portfolio_eval.summarize(
-                portfolio_eval.long_only(p, h=t.horizon_sessions, top=top, notional=notional, scenario=sc),
+                portfolio_eval.long_only(p, h=t.horizon_sessions, top=top, keep=keep, notional=notional, scenario=sc),
                 h=t.horizon_sessions) for sc in SCENARIOS}
     out = {"target_definition_id": target_id, "target": t.__dict__, "feature_schema_version": FEATURE_VERSION,
            "feature_list_hash": list_hash(FEATURES), "features": list(FEATURES), "models": list(models),
@@ -117,7 +117,7 @@ def run(data_dir, target_id: str = "RET_5D", *, start: date = date(2010, 1, 1), 
                                "folds": [[str(f.test_start.date()), str(f.test_end.date())] for f in folds]},
            "sample": {"rows": len(df), "dates": int(df["date"].nunique()), "codes": int(df["code"].nunique())},
            "metrics": results, "ic_by_year": by_year, "ic_by_bucket": by_bucket,
-           "portfolio": {"type": "long_only_top", "top": top, "notional_krw": notional, "results": portfolios},
+           "portfolio": {"type": "long_only_top", "top": top, "keep": keep, "notional_krw": notional, "results": portfolios},
            "cost_model_version": COST_VERSION,
            "seconds": round(time.time() - t0)}
     if record:
@@ -146,16 +146,18 @@ def report(out: dict) -> str:
                                                         ensure_ascii=False))
     pf = out.get("portfolio", {}).get("results", {})
     if pf:
-        lines.append(f"Long-only 상위 {out['portfolio']['top']:.0%} (운용금액 {out['portfolio']['notional_krw']:,.0f}원, 비용 후, 연율):")
-        lines.append(f"  {'모델':10s} {'시나리오':12s} {'순수익':>8s} {'기준':>8s} {'초과':>8s} {'샤프':>6s} {'초과샤프':>8s} {'MDD':>7s} "
-                     f"{'회전율':>6s} {'비용/회':>7s} {'현금':>6s}")
+        pk = out["portfolio"].get("keep") or out["portfolio"]["top"]
+        lines.append(f"Long-only 상위 {out['portfolio']['top']:.0%} 매수·상위 {pk:.0%} 밖이면 매도 "
+                     f"(운용금액 {out['portfolio']['notional_krw']:,.0f}원, 연율):")
+        lines.append(f"  {'모델':10s} {'시나리오':12s} {'비용전':>8s} {'순수익':>8s} {'기준':>8s} {'초과':>8s} {'샤프':>6s} {'초과샤프':>8s} "
+                     f"{'MDD':>7s} {'회전율':>6s} {'비용/회':>7s} {'현금':>6s} {'종목수':>6s}")
         for m, scs in pf.items():
             for sc, r in scs.items():
                 if not r:
                     continue
-                lines.append(f"  {m:10s} {sc:12s} {r['ann_net']:8.2%} {r['ann_bench']:8.2%} {r['ann_excess']:8.2%} "
+                lines.append(f"  {m:10s} {sc:12s} {r['ann_gross']:8.2%} {r['ann_net']:8.2%} {r['ann_bench']:8.2%} {r['ann_excess']:8.2%} "
                              f"{r['sharpe_net']:6.2f} {r['sharpe_excess']:8.2f} {r['mdd_net']:7.1%} {r['avg_turnover']:6.2f} "
-                             f"{r['avg_cost']:7.3%} {r['avg_cash']:6.1%}")
+                             f"{r['avg_cost']:7.3%} {r['avg_cash']:6.1%} {r['avg_names']:6.0f}")
         g = pf.get("gbm", {}).get("base")
         if g:
             lines.append("  gbm·base 연도별 초과수익: " + json.dumps(g["excess_by_year"], ensure_ascii=False))
@@ -175,10 +177,13 @@ def main(argv=None) -> int:
     ap.add_argument("--models", default=",".join(MODELS))
     ap.add_argument("--top", type=float, default=0.1, help="Long-only 포트폴리오: 점수 상위 비율")
     ap.add_argument("--notional", type=float, default=1e8, help="Long-only 포트폴리오: 운용 금액(원), 용량 제약 계산용")
+    ap.add_argument("--keep", type=float, default=None, help="교체 완충: 보유 종목은 상위 이 비율 안이면 유지 (기본: top과 같음)")
+    ap.add_argument("--liquidity-pct", type=float, default=0.2, help="유니버스: 그날 거래대금 하위 이 비율 제외")
     args = ap.parse_args(argv)
     out = run(args.data_dir, args.target, first_test=date.fromisoformat(args.first_test),
               vault_start=date.fromisoformat(args.vault_start), every=args.every,
-              models=tuple(m.strip() for m in args.models.split(",") if m.strip()), top=args.top, notional=args.notional)
+              models=tuple(m.strip() for m in args.models.split(",") if m.strip()), top=args.top, keep=args.keep,
+              notional=args.notional, liquidity_pct=args.liquidity_pct)
     print(report(out))
     return 0
 
