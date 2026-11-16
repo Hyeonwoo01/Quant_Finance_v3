@@ -383,7 +383,8 @@ GitHub Actions 설정 (Settings → Secrets and variables → Actions):
    - 2-3 ✅: 시점 기준 시세 피처([`feature_store/price_features.py`](feature_store/price_features.py)), Purged Walk-forward와 Vault 차단([`evaluation/walkforward.py`](evaluation/walkforward.py)), 기준선과 Model A(가격·거래량, [`engines/prediction_engine.py`](engines/prediction_engine.py)), 지표와 실험 기록. 실행: 워크플로 `research`
    - **첫 실험 (`RET_5D`, 2016~2024-10, 비용 전):** Model A(GBM)의 판단일별 Rank IC 평균 0.087(Newey-West t 26), 9년 모두 양수. 단순 기준선(반전 0.020, Ridge 0.049)보다 높다. 방향 적중률은 항상 상승을 찍는 기준보다 낫지 않다. 해석의 한계는 가이드 7-5 구현 노트.
    - 2-4 (이번): 비용 모델 `costs_v1`([`evaluation/costs.py`](evaluation/costs.py), 날짜별 매도 세금·수수료·호가단위 슬리피지·거래대금 용량, 시나리오 3개), Long-only 상위 10% 평가([`evaluation/portfolio_eval.py`](evaluation/portfolio_eval.py)), 거래대금·시장·국면별 IC 분해
-   - 다음: Model A에 PIT 재무·국내 거시 피처, 모델 비교 검정(DM·SPA), Vault 사전 등록
+   - **비용 반영 결과:** 매주 교체는 비용 후 기준보다 낮다(회전율 72%). 월 1회 교체 + 교체 완충은 base·conservative 시나리오에서 기준보다 높다(GBM +8.2%·+4.0%, Ridge +13.3%·+9.9%, 연율). 시행 19개에 대한 보정 검정([`evaluation/statistical_tests.py`](evaluation/statistical_tests.py)) 결과를 보고 Vault 후보를 사전 등록한다.
+   - 다음: Vault 사전 등록과 1회 평가, Model A에 PIT 재무·국내 거시 피처
    - 남은 Sprint 1 항목: 현금배당·권리일정 공급원(총수익률용), 첫 PIT Feature Snapshot
 3. **사업부문 분류 규칙 v0.2:** 3분기 보고서(11/10~16)가 쌓인 뒤 미분류 레이블 반영.
 4. **Model B/C:** 미국 시장·거시 데이터 공급원 확보 뒤 Model A와 같은 표본에서 비교 (가이드 7-2).

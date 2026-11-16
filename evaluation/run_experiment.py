@@ -10,6 +10,7 @@
 """
 import argparse
 import json
+import math
 
 import numpy as np
 import sys
@@ -24,6 +25,7 @@ from evaluation import portfolio_eval
 from evaluation.costs import SCENARIOS
 from evaluation.costs import VERSION as COST_VERSION
 from evaluation.metrics import evaluate, rank_ic
+from evaluation.statistical_tests import block_bootstrap_ci, deflated_sharpe, effective_trials, nw_t
 from evaluation.targets import TARGETS, build_targets
 from evaluation.walkforward import assert_no_vault, make_folds, split
 from feature_store.price_features import FEATURE_VERSION, FEATURES, decision_grid, features_at
@@ -95,7 +97,7 @@ def run(data_dir, target_id: str = "RET_5D", *, start: date = date(2010, 1, 1), 
         log(f"  폴드 {f.fold_id}: 검증 {f.test_start.date()}~{f.test_end.date()}, 학습 {len(tr):,}행, 검증 {len(te):,}행")
     cols = ["date", "code", "ret", "tradable", "ret_delist", "entry_open", "entry_no_trade", "entry_limit_up",
             "exit_no_trade", "exit_limit_down", "no_exit_row", "market", "log_adv_21", "liq_q", "trend", "vol_regime"]
-    results, by_year, by_bucket, portfolios = {}, {}, {}, {}
+    results, by_year, by_bucket, portfolios, series, ic_series = {}, {}, {}, {}, {}, {}
     for m in models:
         p = pd.concat(preds[m], ignore_index=True).merge(df[[c for c in cols if c in df]], on=["date", "code"])
         prob = "prob" if p["prob"].notna().any() else None
@@ -103,10 +105,16 @@ def run(data_dir, target_id: str = "RET_5D", *, start: date = date(2010, 1, 1), 
         by_year[m] = {int(y): _round(evaluate(g, horizon=t.horizon_sessions, step=every)["ic_mean"])
                       for y, g in p.groupby(p["date"].dt.year)}
         by_bucket[m] = {c: breakdown(p, c) for c in ("liq_q", "market", "trend", "vol_regime") if c in p}
+        ic_series[m] = rank_ic(p)
         if m != "uncond" and every == t.horizon_sessions and t.kind == "RET":      # 겹치지 않는 보유일 때만
-            portfolios[m] = {sc.name: portfolio_eval.summarize(
-                portfolio_eval.long_only(p, h=t.horizon_sessions, top=top, keep=keep, notional=notional, scenario=sc),
-                h=t.horizon_sessions) for sc in SCENARIOS}
+            portfolios[m] = {}
+            for sc in SCENARIOS:
+                res = portfolio_eval.long_only(p, h=t.horizon_sessions, top=top, keep=keep, notional=notional, scenario=sc)
+                portfolios[m][sc.name] = portfolio_eval.summarize(res, h=t.horizon_sessions)
+                if sc.name == "base":
+                    series[m] = {"dates": [str(d.date()) for d in res["date"]],
+                                 "excess_base": [round(float(x), 6) for x in res["excess"]]}
+    tests = significance(data_dir, target_id, t.horizon_sessions, every, keep, liquidity_pct, series, ic_series)
     out = {"target_definition_id": target_id, "target": t.__dict__, "feature_schema_version": FEATURE_VERSION,
            "feature_list_hash": list_hash(FEATURES), "features": list(FEATURES), "models": list(models),
            "hyperparameters": {m: PARAMS.get(m, {}) for m in models}, "data_snapshot_id": data_snapshot_id(data_dir),
@@ -118,12 +126,54 @@ def run(data_dir, target_id: str = "RET_5D", *, start: date = date(2010, 1, 1), 
            "sample": {"rows": len(df), "dates": int(df["date"].nunique()), "codes": int(df["code"].nunique())},
            "metrics": results, "ic_by_year": by_year, "ic_by_bucket": by_bucket,
            "portfolio": {"type": "long_only_top", "top": top, "keep": keep, "notional_krw": notional, "results": portfolios},
-           "cost_model_version": COST_VERSION,
+           "cost_model_version": COST_VERSION, "tests": tests, "series": series,
            "seconds": round(time.time() - t0)}
     if record:
         rec = ExperimentRegistry(data_dir).record(out)
         out["experiment_id"] = rec["experiment_id"]
         out["prior_trials_same_target"] = ExperimentRegistry(data_dir).count_trials(target_id)
+    return out
+
+
+def significance(data_dir, target_id, h, every, keep, liquidity_pct, series, ic_series) -> dict:
+    """비용 후 초과수익의 신뢰구간·NW t, 모든 시행을 반영한 Deflated Sharpe, 모델 간 IC 차이 검정 (가이드 7-8, 7-12).
+    시행 집합: 같은 타깃의 이전 실험 기록 + 이번 모델들. 이전 기록에 시계열이 있으면 상관으로 유효 시행 수를 낸다."""
+    per_year = 252 / h
+    lags = max(1, math.ceil(h / max(every, 1)))
+    prior_sr, prior_series = [], []
+    try:
+        prior = [r for r in ExperimentRegistry(data_dir).all() if r.get("target_definition_id") == target_id]
+    except Exception:                      # 기록을 못 읽어도 검정은 이번 시행만으로 낸다 (보수성은 줄어듦을 표시)
+        prior = []
+    for r in prior:
+        hp = r.get("target", {}).get("horizon_sessions", h)
+        for m, scs in (r.get("portfolio", {}).get("results") or {}).items():
+            b = (scs or {}).get("base") or {}
+            if b.get("sharpe_excess") == b.get("sharpe_excess") and b.get("sharpe_excess") is not None:
+                prior_sr.append(b["sharpe_excess"] / math.sqrt(252 / hp))
+        for m, sr in (r.get("series") or {}).items():
+            prior_series.append(sr.get("excess_base"))
+    cur_sr = {m: (np.mean(s["excess_base"]) / np.std(s["excess_base"], ddof=1)) for m, s in series.items()
+              if len(s["excess_base"]) > 2 and np.std(s["excess_base"], ddof=1) > 0}
+    all_sr = prior_sr + list(cur_sr.values())
+    n_trials = len(all_sr)
+    with_series = [x for x in prior_series if x] + [s["excess_base"] for s in series.values()]
+    n_eff = effective_trials(with_series) if len(with_series) >= 2 else None
+    sr_var = float(np.var(all_sr, ddof=1)) if len(all_sr) >= 2 else 0.0
+    out = {"n_trials": n_trials, "n_trials_effective_from_series": n_eff, "sr_var_per_period": sr_var, "models": {}}
+    for m, s in series.items():
+        x = np.asarray(s["excess_base"], dtype=float)
+        lo, hi = block_bootstrap_ci(x, block=max(2, int(round(per_year / 4))))
+        dsr = deflated_sharpe(x, n_trials=max(n_trials, 1), sr_var=sr_var)
+        out["models"][m] = {"mean_excess_per_period": float(x.mean()), "ci95_annualized": [lo * per_year, hi * per_year],
+                            "t_nw": nw_t(x, lags), "dsr": dsr["dsr"], "sr_per_period": dsr["sr"],
+                            "sr_benchmark": dsr["sr_benchmark"]}
+    ic_diff = {}
+    for a, b in (("gbm", "ridge"), ("gbm", "reversal"), ("ridge", "reversal"), ("gbm", "momentum")):
+        if a in ic_series and b in ic_series:
+            d = (ic_series[a] - ic_series[b]).dropna()
+            ic_diff[f"{a}-{b}"] = {"mean": float(d.mean()), "t_nw": nw_t(d.to_numpy(), lags), "dates": len(d)}
+    out["ic_difference"] = ic_diff
     return out
 
 
@@ -161,6 +211,18 @@ def report(out: dict) -> str:
         g = pf.get("gbm", {}).get("base")
         if g:
             lines.append("  gbm·base 연도별 초과수익: " + json.dumps(g["excess_by_year"], ensure_ascii=False))
+    ts = out.get("tests") or {}
+    if ts.get("models"):
+        lines.append(f"검정 (base 비용 후 초과수익, 같은 타깃 시행 {ts['n_trials']}개"
+                     + (f", 시계열 상관으로 본 유효 시행 {ts['n_trials_effective_from_series']:.1f}개" if ts.get("n_trials_effective_from_series") else "")
+                     + "):")
+        for m, r in ts["models"].items():
+            lo, hi = r["ci95_annualized"]
+            lines.append(f"  {m:10s} 연율 95% 신뢰구간 [{lo:.2%}, {hi:.2%}], NW t {r['t_nw']:.2f}, "
+                         f"Deflated Sharpe {r['dsr']:.3f} (기간 샤프 {r['sr_per_period']:.3f} vs 운으로 기대되는 최대 {r['sr_benchmark']:.3f})")
+    if ts.get("ic_difference"):
+        lines.append("IC 차이 검정 (판단일별, NW t): " + json.dumps({k: [round(v["mean"], 4), round(v["t_nw"], 2)]
+                                                                for k, v in ts["ic_difference"].items()}, ensure_ascii=False))
     if "prior_trials_same_target" in out:
         lines.append(f"같은 타깃 누적 시행 수(모델 기준): {out['prior_trials_same_target']} — 다중검정 보정에 쓴다")
     lines.append(ATTRIBUTION)
