@@ -120,6 +120,32 @@ class OpenDartClient:
         return self.call("fnlttSinglAcntAll.json", {"corp_code": corp_code, "bsns_year": str(bsns_year),
                                                     "reprt_code": reprt_code, "fs_div": fs_div})
 
+    def multi_account(self, corp_codes: list, bsns_year: int, reprt_code: str) -> ApiResult:
+        """다중회사 주요계정 (fnlttMultiAcnt.json): 한 번에 최대 100개 회사의 주요 계정. 과거 채우기용.
+        이 API는 지금 시점의 값(정정이 있었다면 정정된 값)을 준다고 보고, 가용 시각은 공시 목록의 마지막
+        기재정정 접수일로 정한다 (opendart_history)."""
+        codes = [c for c in corp_codes if c]
+        if not codes or len(codes) > 100 or reprt_code not in REPORT_CODES or bsns_year < 2015:
+            raise ValueError(f"잘못된 다중회사 주요계정 요청: {len(codes)}개 {bsns_year} {reprt_code}")
+        return self.call("fnlttMultiAcnt.json", {"corp_code": ",".join(codes), "bsns_year": str(bsns_year),
+                                                 "reprt_code": reprt_code})
+
+
+def probe_multi_account(client: "OpenDartClient", corp_codes=("00126380", "00164779", "00401731"),
+                        bsns_year: int = 2023, reprt_code: str = "11011") -> list:
+    """다중회사 주요계정 응답 구조 확인 (공개 허용 데이터라 값도 일부 보여 준다)."""
+    r = client.call("fnlttMultiAcnt.json", {"corp_code": ",".join(corp_codes), "bsns_year": str(bsns_year),
+                                            "reprt_code": reprt_code})
+    rows = r.rows
+    lines = [f"상태 {r.status}, 행 {len(rows)}개, 응답 키 {sorted(r.data)[:10]}"]
+    if rows:
+        lines.append(f"행 필드: {sorted(rows[0])}")
+        lines.append(f"fs_div: {sorted({x.get('fs_div') for x in rows})}, sj_div: {sorted({x.get('sj_div') for x in rows})}")
+        lines.append(f"계정: {sorted({x.get('account_nm') for x in rows})}")
+        lines.append(f"접수번호(rcept_no): {sorted({(x.get('corp_code') or x.get('stock_code'), x.get('rcept_no')) for x in rows})}")
+        lines.append(f"예시 행: {json.dumps(rows[0], ensure_ascii=False)}")
+    return lines
+
 
 # ---------------- 보고서명 해석 ----------------
 
