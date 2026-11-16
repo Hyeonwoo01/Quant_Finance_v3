@@ -102,3 +102,21 @@ def test_end_to_end_finds_planted_signal_and_never_reads_vault(tmp_path, monkeyp
     assert "한국거래소 통계정보" in text and "gbm" in text and "10000" not in text
     assert out["portfolio"]["results"] == {}                                    # RET_21D를 5세션마다: 보유가 겹쳐 평가 안 함
     assert set(out["ic_by_bucket"]["gbm"]) == {"liq_q", "market", "trend", "vol_regime"}
+
+
+def test_market_state_is_per_date_and_used_raw(tmp_path, monkeypatch):
+    from feature_store.price_features import MARKET_FEATURES, market_state
+    f = pd.DataFrame({"date": pd.to_datetime(["2020-01-02"] * 3 + ["2020-01-03"] * 2), "code": list("abcab"),
+                      "mom_21": [0.1, -0.1, 0.3, -0.2, -0.4], "mom_63": [0.0] * 5, "vol_21": [0.02] * 5})
+    m = market_state(f)
+    assert m.loc[0, "mkt_mom_21"] == pytest.approx(0.1) and m.loc[0, "mkt_breadth_21"] == pytest.approx(2 / 3)
+    assert m.loc[3, "mkt_breadth_21"] == 0.0 and m["mkt_mom_21"].nunique() == 2         # 판단일마다 같은 값
+    (tmp_path / PRIVATE_MARKER).write_text("private\n")
+    panel = synth_panel(n_codes=120)
+    monkeypatch.setattr(run_experiment, "load_price_panel",
+                        lambda d, s, e, **kw: panel[(panel["date"] >= pd.Timestamp(s)) & (panel["date"] <= pd.Timestamp(e))])
+    out = run_experiment.run(tmp_path, "RET_21D", start=date(2017, 1, 1), first_test=date(2019, 1, 1),
+                             vault_start=date(2020, 7, 1), every=5, liquidity_pct=0.0, min_history=126,
+                             models=("uncond", "gbm"), market=True, log=lambda s: None)
+    assert out["feature_schema_version"] == "price_v1+mkt_v1" and out["raw_features"] == list(MARKET_FEATURES)
+    assert out["metrics"]["gbm"]["ic_mean"] > 0.05                                   # 심어 둔 신호는 그대로 찾는다

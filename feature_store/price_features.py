@@ -77,3 +77,19 @@ def features_at(panel: pd.DataFrame, grid: pd.DataFrame) -> pd.DataFrame:
                       direction="backward", allow_exact_matches=True)
     assert (m["bt_available_at"].isna() | (m["bt_available_at"] <= m["decision_time_utc"])).all()   # PIT 불변조건
     return m.sort_values(["date", "code"]).reset_index(drop=True)
+
+
+MARKET_FEATURES = ("mkt_mom_21", "mkt_mom_63", "mkt_vol_21", "mkt_breadth_21", "mkt_dispersion_21")
+MARKET_VERSION = "mkt_v1"
+
+
+def market_state(feats: pd.DataFrame) -> pd.DataFrame:
+    """판단일마다 유니버스 전체의 시장 상태 (국내 시장 국면 피처, 가이드 5-5·7-2). 같은 판단일의 피처 행(이미 시점 기준)만
+    모아 계산하므로 미래 정보가 없다. 모든 종목에 같은 값이라 모델에는 원값으로 넣는다 (prediction_engine raw_features).
+      mkt_mom_21·63   종목 평균 누적 수익률        mkt_vol_21      종목 평균 21세션 변동성
+      mkt_breadth_21  21세션 수익률이 양수인 종목 비율   mkt_dispersion_21 21세션 수익률의 종목 간 표준편차"""
+    g = feats.groupby("date")
+    m = pd.DataFrame({"mkt_mom_21": g["mom_21"].mean(), "mkt_mom_63": g["mom_63"].mean(), "mkt_vol_21": g["vol_21"].mean(),
+                      "mkt_breadth_21": g["mom_21"].apply(lambda s: float((s.dropna() > 0).mean()) if s.notna().any() else np.nan),
+                      "mkt_dispersion_21": g["mom_21"].std()})
+    return feats.join(m, on="date")
