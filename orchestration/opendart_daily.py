@@ -489,6 +489,7 @@ def main(argv=None) -> int:
     ap.add_argument("--end-date", help="마지막 접수일 (YYYY-MM-DD, 기본: 어제 KST)")
     ap.add_argument("--max-calls", type=int, default=8000, help="이번 실행의 호출 상한 (일일 한도 20,000건을 다른 작업과 나눠 씀)")
     ap.add_argument("--check", action="store_true", help="기록 없이 인증키·연결만 확인")
+    ap.add_argument("--probe-multi", action="store_true", help="다중회사 주요계정 API 응답 구조 확인 (저장 없음)")
     ap.add_argument("--xbrl-minutes", type=float, default=XBRL_MINUTES, help="사업부문 XBRL 단계 시간 예산(분), 0이면 건너뜀")
     args = ap.parse_args(argv)
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
@@ -500,6 +501,14 @@ def main(argv=None) -> int:
     end = date.fromisoformat(args.end_date) if args.end_date else datetime.now(KST).date() - timedelta(days=1)
     client = OpenDartClient(key, budget=CallBudget(args.max_calls))
     try:
+        if args.probe_multi:
+            from collectors.opendart import probe_multi_account
+            for code in ("11011", "11014"):
+                print(f"== 다중회사 주요계정 2023 {code}")
+                print("\n".join(probe_multi_account(client, reprt_code=code)))
+            print("== 2016 사업보고서 (오래된 보고서: 접수번호가 원래 제출인지 정정본인지 공시 목록과 맞춰 본다)")
+            print("\n".join(probe_multi_account(client, bsns_year=2016)))
+            return 0
         if args.check:
             print(check_connection(client, end))
             f = fetch_corp_codes(client)                      # 저장 없이 고유번호 파일의 크기만 확인
