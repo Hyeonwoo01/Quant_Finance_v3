@@ -29,19 +29,48 @@ KST = ZoneInfo("Asia/Seoul")
 HISTORY_SERIES = (SERIES_REPORT_INDEX, SERIES_FIN_HIST)
 
 
+RETRIES, RETRY_WAIT = 3, 60.0          # JSON이 아닌 응답(점검 페이지 등)·연결 오류는 기다렸다 다시 묻는다
+
+
 class HistoryRun:
-    def __init__(self, client, data_dir, *, now=lambda: datetime.now(timezone.utc), version=None, log=print):
+    def __init__(self, client, data_dir, *, now=lambda: datetime.now(timezone.utc), version=None, log=print,
+                 sleep=None, retry_wait: float = RETRY_WAIT):
+        import time as _time
         self.client, self.data_dir, self.now, self.log = client, Path(data_dir), now, log
+        self.sleep, self.retry_wait = sleep or _time.sleep, retry_wait
         self.registry = default_registry()
         self.version = version or code_version()
         self.raw = RawStore(self.data_dir, self.registry)
         self.pit = PITFileStore(self.data_dir, self.registry, partitions={s: by_period_month for s in HISTORY_SERIES},
                                 parquet_series=HISTORY_SERIES)
 
+    def _retry(self, what: str, fn, m: BatchManifest):
+        """일시 오류는 다시 시도하고, 그래도 안 되면 None (그 단위만 건너뛰고 경고). 인증·한도 오류는 그대로 올린다."""
+        for i in range(RETRIES):
+            try:
+                return fn()
+            except OpenDartError as e:
+                if e.status not in ("parse", "800", "900"):          # 인증키·한도 등은 다시 물어도 소용없다
+                    raise
+                err = e
+            except CollectorError as e:
+                if isinstance(e, BudgetExhausted):
+                    raise
+                err = e
+            m.count("retries")
+            self.sleep(self.retry_wait * (i + 1))
+        m.warnings.append(f"{what}: {type(err).__name__} {err} — {RETRIES}번 시도 뒤 건너뜀 (다음 실행에서 다시)")
+        m.count("skipped_units")
+        return None
+
     def scan(self, start: date, end: date, m: BatchManifest) -> list:
         rows, counts = [], Counter()
         for bgn, fin in windows(start, end):
-            pages, problem = self.client.list_filings(bgn, fin, None, pblntf_ty="A")
+            got_pages = self._retry(f"공시 목록 {bgn}~{fin}",
+                                    lambda: self.client.list_filings(bgn, fin, None, pblntf_ty="A"), m)
+            if got_pages is None:
+                continue
+            pages, problem = got_pages
             if problem:
                 m.warnings.append(problem)
             for p in pages:
@@ -72,8 +101,11 @@ class HistoryRun:
             period_end = period_end_of(year, code)
             for i in range(0, len(corps), 100):
                 batch = corps[i:i + 100]
-                r = self.client.multi_account(batch, year, code)
+                r = self._retry(f"주요계정 {year} {code} {i // 100 + 1}번째 묶음",
+                                lambda: self.client.multi_account(batch, year, code), m)
                 m.count("value_calls")
+                if r is None:
+                    continue
                 if not r.rows:
                     m.count("value_empty_batches")
                     continue
@@ -100,7 +132,11 @@ class HistoryRun:
             rows = self.scan(start, end, m)
             years = Counter(r.key[1] for r in rows)
             self.log(f"정기보고서 {len(rows):,}건 (연도별 {dict(sorted(years.items()))})")
-            self.fetch_values(rows, m)
+            if m.counts.get("skipped_units"):
+                # 목록에 빠진 기간이 있으면 그 기간의 [기재정정]을 놓쳐, 정정된 값을 정정 전 날짜로 저장할 수 있다
+                m.errors.append("공시 목록에 빠진 기간이 있어 값 받기를 하지 않음 (가용 시각이 이르게 잡힐 위험) — 다시 실행")
+            else:
+                self.fetch_values(rows, m)
         except BudgetExhausted as e:
             m.warnings.append(f"{e} — 나머지는 다음 실행으로")
         except (OpenDartError, CollectorError) as e:

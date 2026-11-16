@@ -81,3 +81,34 @@ def test_history_run_uses_last_correction_date(tmp_path):
     m2 = HistoryRun(client(FakeDart(), max_calls=200), tmp_path, now=lambda: NOW, version="t", log=lambda s: None).run(
         date(2017, 1, 1), date(2017, 6, 30))
     assert m2.counts.get("fin_added", 0) == 0 and m2.counts["fin_unchanged"] == 1   # 다시 돌려도 그대로
+
+
+class FlakyDart(FakeDart):
+    """처음 n번의 공시 목록 요청에 점검 페이지(HTML)를 돌려준다."""
+
+    def __init__(self, fail_times):
+        super().__init__()
+        self.fail_times = fail_times
+
+    def __call__(self, url, params, timeout, headers=None):
+        if urlparse(url).path.endswith("list.json") and self.fail_times > 0:
+            self.fail_times -= 1
+            self.calls.append(("list.json", dict(params)))
+            return 200, {}, b"<html>maintenance</html>"
+        return super().__call__(url, params, timeout, headers)
+
+
+def test_transient_bad_response_is_retried(tmp_path):
+    run = HistoryRun(client(FlakyDart(1), max_calls=200), tmp_path, now=lambda: NOW, version="t", log=lambda s: None,
+                     sleep=lambda s: None)
+    m = run.run(date(2017, 1, 1), date(2017, 6, 30))
+    assert m.status == "ok" and m.counts["retries"] == 1 and m.counts["fin_added"] == 1
+
+
+def test_missing_list_window_blocks_value_fetch(tmp_path):
+    fake = FlakyDart(3)                                  # 첫 기간이 세 번 다 실패 → 그 기간을 건너뜀
+    run = HistoryRun(client(fake, max_calls=200), tmp_path, now=lambda: NOW, version="t", log=lambda s: None,
+                     sleep=lambda s: None)
+    m = run.run(date(2017, 1, 1), date(2017, 6, 30))
+    assert m.status == "failed" and m.counts["skipped_units"] == 1 and "값 받기를 하지 않음" in m.errors[0]
+    assert not any(e == "fnlttMultiAcnt.json" for e, _ in fake.calls)            # 정정 이력이 불완전하면 값을 받지 않음
