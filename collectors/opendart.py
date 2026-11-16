@@ -144,6 +144,9 @@ def probe_multi_account(client: "OpenDartClient", corp_codes=("00126380", "00164
         lines.append(f"계정: {sorted({x.get('account_nm') for x in rows})}")
         lines.append(f"접수번호(rcept_no): {sorted({(x.get('corp_code') or x.get('stock_code'), x.get('rcept_no')) for x in rows})}")
         lines.append(f"예시 행: {json.dumps(rows[0], ensure_ascii=False)}")
+        is_rows = [x for x in rows if x.get("sj_div") == "IS" and x.get("account_nm") == "매출액"][:2]
+        for x in is_rows:                         # 분기 손익이 3개월치인지 누적인지 (thstrm_add_amount 유무)
+            lines.append(f"손익 행: {json.dumps(x, ensure_ascii=False)}")
     return lines
 
 
