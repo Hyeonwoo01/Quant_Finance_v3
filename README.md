@@ -178,7 +178,8 @@ Quant_Finance_v3/
 ├── feature_store/
 │   ├── segment_exposure.py          # 사업부문 → 산업·지역 노출도 (5-3)
 │   ├── price_panel.py               # 학습용 시세 패널: 수정주가 계수·백테스트용 가용 시각 (8-1, 4-4)
-│   └── price_features.py            # 시점 기준 시세 피처 price_v1 (5-4, 7-2)
+│   ├── price_features.py            # 시점 기준 시세 피처 price_v1 (5-4, 7-2)
+│   └── fundamental_features.py      # 시점 기준 재무 피처 fund_v1: TTM·B/M·E/P 등 (5-4, 7-2)
 │
 ├── evaluation/                      # 모델 평가 (7장·8장)
 │   ├── targets.py                   # 예측 타깃 사전 정의 v1: 시가 진입·시가 청산, 체결 가능성 (7-3)
@@ -384,7 +385,8 @@ GitHub Actions 설정 (Settings → Secrets and variables → Actions):
    - **첫 실험 (`RET_5D`, 2016~2024-10, 비용 전):** Model A(GBM)의 판단일별 Rank IC 평균 0.087(Newey-West t 26), 9년 모두 양수. 단순 기준선(반전 0.020, Ridge 0.049)보다 높다. 방향 적중률은 항상 상승을 찍는 기준보다 낫지 않다. 해석의 한계는 가이드 7-5 구현 노트.
    - 2-4 (이번): 비용 모델 `costs_v1`([`evaluation/costs.py`](evaluation/costs.py), 날짜별 매도 세금·수수료·호가단위 슬리피지·거래대금 용량, 시나리오 3개), Long-only 상위 10% 평가([`evaluation/portfolio_eval.py`](evaluation/portfolio_eval.py)), 거래대금·시장·국면별 IC 분해
    - **비용 반영 결과:** 매주 교체는 비용 후 기준보다 낮다(회전율 72%). 월 1회 교체 + 교체 완충은 base·conservative 시나리오에서 기준보다 높다(GBM +8.2%·+4.0%, Ridge +13.3%·+9.9%, 연율). 시행 19개에 대한 보정 검정([`evaluation/statistical_tests.py`](evaluation/statistical_tests.py)) 결과를 보고 Vault 후보를 사전 등록한다.
-   - 다음: Vault 사전 등록과 1회 평가, Model A에 PIT 재무·국내 거시 피처
+   - 2-5 (이번): 과거 재무 채우기 2015~([`collectors/opendart_history.py`](collectors/opendart_history.py), 마지막 재무 변경일 기준 가용 시각), PIT 재무 피처 `fund_v1`([`feature_store/fundamental_features.py`](feature_store/fundamental_features.py))
+   - 다음: 재무 피처를 더한 Model A 실험, 국내 거시 피처, Vault 사전 등록과 1회 평가
    - 남은 Sprint 1 항목: 현금배당·권리일정 공급원(총수익률용), 첫 PIT Feature Snapshot
 3. **사업부문 분류 규칙 v0.2:** 3분기 보고서(11/10~16)가 쌓인 뒤 미분류 레이블 반영.
 4. **Model B/C:** 미국 시장·거시 데이터 공급원 확보 뒤 Model A와 같은 표본에서 비교 (가이드 7-2).
