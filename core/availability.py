@@ -11,8 +11,13 @@
 2. 원본 레코드 (정정본이 아님: supersedes_revision_id 없음). 정정본은 실제로 받은 뒤부터만 쓴다
 3. 공급자 가용 시각(provider_available_at_utc)이 기록돼 있음. 그 시각 뒤 첫 08:30 KST 컷오프부터 쓴다
 
-재무제표·공시·거시 지표처럼 정정·개정되는 값에는 쓰지 않는다. 과거 채우기로 받은 값은 받을 때의 공급자 값이고,
-그 사이에 공급자가 고쳤는지는 알 수 없다. 거래소 확정 시세는 그럴 일이 드물어 받아들인 가정이다 (MASTER_GUIDE 4-4 구현 노트).
+재무제표·공시·거시 지표처럼 정정·개정되는 값에는 원칙적으로 쓰지 않는다. 과거 채우기로 받은 시세는 받을 때의
+공급자 값이고, 그 사이에 공급자가 고쳤는지는 알 수 없다. 거래소 확정 시세는 그럴 일이 드물어 받아들인 가정이다
+(MASTER_GUIDE 4-4 구현 노트).
+
+예외 BACKFILL_PROVIDER_TIME_SERIES: 과거 재무(dart_fin_hist)는 공급자 시각을 그 보고서의 **마지막 재무 변경일**
+(최초 제출·기재정정 중 가장 늦은 것)로 정해 두었다. 그래서 저장된 최신 값은 그 시각부터 실제로 공개돼 있던 값이다
+(정정 전 기간은 비워 둔다). 정기보고서 목록(dart_periodic_index)은 접수 사실이라 바뀌지 않는다.
 """
 from datetime import datetime
 from typing import Optional
@@ -21,11 +26,15 @@ from core.calendar_align import first_kr_cutoff_at_or_after
 from core.pit_schema import PITRecord
 
 IMMUTABLE_MARKET_SERIES = frozenset({"krx_openapi_daily", "krx_openapi_base", "krx_daily_price"})
+# 과거 채우기로 받았지만 공급자 시각을 보수적으로 정한 시리즈 (collectors/opendart_history.py):
+# 정기보고서 목록(접수 사실은 바뀌지 않음)과, 마지막 재무 변경일 기준으로 가용 시각을 둔 과거 재무 값.
+BACKFILL_PROVIDER_TIME_SERIES = frozenset({"dart_periodic_index", "dart_fin_hist"})
+PROVIDER_TIME_SERIES = IMMUTABLE_MARKET_SERIES | BACKFILL_PROVIDER_TIME_SERIES
 
 
 def uses_provider_time(series_id: str, supersedes_revision_id: Optional[str],
                        provider_available_at_utc: Optional[datetime]) -> bool:
-    return (series_id in IMMUTABLE_MARKET_SERIES and not supersedes_revision_id
+    return (series_id in PROVIDER_TIME_SERIES and not supersedes_revision_id
             and provider_available_at_utc is not None)
 
 
