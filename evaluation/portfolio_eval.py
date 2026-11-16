@@ -24,21 +24,29 @@ def _realized(df: pd.DataFrame) -> pd.Series:
     return r
 
 
-def long_only(pred: pd.DataFrame, *, h: int, top: float = 0.1, notional: float = 1e8,
+def long_only(pred: pd.DataFrame, *, h: int, top: float = 0.1, keep: float = None, notional: float = 1e8,
               scenario: CostScenario = SCENARIOS[0]) -> pd.DataFrame:
-    """판단일별 결과 표: date, n, filled, cash, gross, cost, net, bench, excess, turnover."""
+    """판단일별 결과 표: date, n, filled, cash, gross, cost, net, bench, excess, turnover.
+
+    keep (교체 완충): 이미 들고 있는 종목은 점수가 상위 keep 비율 안에 있으면 계속 들고 간다 (새로 사는 것은 상위
+    top 안에서만). keep=None이면 top과 같다 (완충 없음). 회전율을 줄여 비용을 낮추는 장치다."""
+    keep = top if keep is None else keep
     rows, prev = [], pd.Series(dtype=float)
     for d, g in pred.sort_values("date").groupby("date"):
         g = g.dropna(subset=["score"])
         if len(g) < 20:
             continue
-        pick = g[g["score"].rank(pct=True, method="first") > 1 - top]
+        pct = g["score"].rank(pct=True, method="first")
+        held = g["code"].isin(prev.index[prev > 0])
+        pick = g[(pct > 1 - top) | (held & (pct > 1 - keep))]
         n = len(pick)
         w_target = 1.0 / n
+        was_held = pick["code"].isin(prev.index[prev > 0]).to_numpy()
         fillable = ~(pick["entry_no_trade"].fillna(True).astype(bool) | pick["entry_limit_up"].fillna(False).astype(bool))
         adv = np.exp(pick["log_adv_21"].to_numpy(dtype=float))
         cap = np.where(np.isfinite(adv), adv * scenario.max_participation / (notional * w_target), 0.0)
         frac = np.where(fillable, np.minimum(1.0, cap), 0.0)
+        frac = np.where(was_held, 1.0, frac)            # 이미 들고 있는 종목은 새로 살 필요가 없다
         w = pd.Series(w_target * frac, index=pick["code"].values)
         r = _realized(pick).to_numpy(dtype=float)
         r = np.where(np.isfinite(r), r, 0.0)
@@ -81,7 +89,7 @@ def summarize(res: pd.DataFrame, *, h: int) -> dict:
     def mdd(x):
         c = (1 + x).cumprod()
         return float((c / c.cummax() - 1).min())
-    out = {"periods": len(res), "ann_net": ann(res["net"]), "ann_gross": ann(res["gross"]), "ann_bench": ann(res["bench"]),
+    out = {"periods": len(res), "avg_names": float(res["n"].mean()), "ann_net": ann(res["net"]), "ann_gross": ann(res["gross"]), "ann_bench": ann(res["bench"]),
            "ann_excess": ann(res["net"]) - ann(res["bench"]), "sharpe_net": sharpe(res["net"]),
            "sharpe_excess": sharpe(res["excess"]), "mdd_net": mdd(res["net"]),
            "avg_turnover": float(res["turnover"].mean()), "avg_cost": float(res["cost"].mean()),

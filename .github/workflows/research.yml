@@ -24,6 +24,12 @@ on:
       models:
         description: "모델 (쉼표로 구분)"
         default: "uncond,momentum,reversal,ridge,gbm"
+      liquidity_pct:
+        description: "유니버스: 그날 거래대금 하위 이 비율 제외 (0~1)"
+        default: "0.2"
+      keep:
+        description: "교체 완충: 보유 종목은 점수 상위 이 비율 안이면 유지 (비우면 완충 없음)"
+        default: ""
 
 permissions:
   contents: read
@@ -67,11 +73,14 @@ jobs:
           FIRST_TEST: ${{ inputs.first_test }}
           VAULT_START: ${{ inputs.vault_start }}
           MODELS: ${{ inputs.models }}
+          LIQ: ${{ inputs.liquidity_pct }}
+          KEEP: ${{ inputs.keep }}
         run: |
           case "$EVERY$FIRST_TEST$VAULT_START" in *[!0-9-]*) echo "every·날짜 형식 오류"; exit 2;; esac
+          case "$LIQ$KEEP" in *[!0-9.]*) echo "liquidity_pct·keep 형식 오류"; exit 2;; esac
           case "$MODELS" in *[!a-z,_]*) echo "models 형식 오류"; exit 2;; esac
           python -m evaluation.run_experiment --data-dir private_data --target "$TARGET" --every "$EVERY" \
-            --first-test "$FIRST_TEST" --vault-start "$VAULT_START" --models "$MODELS"
+            --first-test "$FIRST_TEST" --vault-start "$VAULT_START" --models "$MODELS" --liquidity-pct "$LIQ" ${KEEP:+--keep "$KEEP"}
       - name: 실험 기록 저장 (비공개 저장소)
         if: always()
         working-directory: private_data

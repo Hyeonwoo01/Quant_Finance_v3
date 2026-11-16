@@ -129,7 +129,7 @@ def check_against_data(panel, methods=(BASE_TICK, LIMIT_TICK, DOUBLE)) -> dict:
     out = {"rows": int(len(df)), "close_off_tick": int(off.sum())}
     if off.any():            # 어긋난 행이 어느 시장·가격대에 몰려 있는지 (호가단위 표 진단용, 값 대신 구간만)
         new = day >= np.datetime64(TICK_REFORM)
-        bands = []
+        bands, when = [], []
         for i in np.flatnonzero(off):
             table = _TICKS_UNIFIED if new[i] else (_TICKS_KOSDAQ_OLD if kosdaq[i] else _TICKS_KOSPI_OLD)
             lo = 0
@@ -138,7 +138,11 @@ def check_against_data(panel, methods=(BASE_TICK, LIMIT_TICK, DOUBLE)) -> dict:
                     break
                 lo = upper
             bands.append(f"{'KOSDAQ' if kosdaq[i] else 'KOSPI'} {'개편후' if new[i] else '개편전'} {lo:,.0f}원~ (표 호가단위 {tick})")
-        out["off_tick_by_band"] = dict(pd.Series(bands).value_counts().head(15).items())
+            when.append(str(day[i]))
+        bd = pd.DataFrame({"band": bands, "day": when})
+        agg = bd.groupby("band")["day"].agg(["count", "min", "max", "nunique"]).sort_values("count", ascending=False)
+        out["off_tick_by_band"] = {b: {"rows": int(r["count"]), "first": r["min"], "last": r["max"], "days": int(r["nunique"])}
+                                   for b, r in agg.head(15).iterrows()}
     base = df["base"].to_numpy(dtype=float)
     rate = np.where(day >= np.datetime64(LIMIT_30), 0.30, 0.15)
     near_up = close / base - 1 >= rate - 0.01
