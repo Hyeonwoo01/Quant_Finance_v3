@@ -29,7 +29,8 @@ from evaluation.statistical_tests import block_bootstrap_ci, deflated_sharpe, ef
 from evaluation.targets import TARGETS, build_targets
 from evaluation.walkforward import assert_no_vault, make_folds, split
 from feature_store import fundamental_features as fund
-from feature_store.price_features import FEATURE_VERSION, FEATURES, decision_grid, features_at
+from feature_store.price_features import (FEATURE_VERSION, FEATURES, MARKET_FEATURES, MARKET_VERSION, decision_grid,
+                                          features_at, market_state)
 from feature_store.price_panel import load_price_panel
 
 ATTRIBUTION = "자료: 한국거래소 통계정보 (KRX Open API) — 모델 성능 요약이며 시세 값은 포함하지 않음"
@@ -43,7 +44,7 @@ def build_dataset(panel: pd.DataFrame, target_id: str, every: int, liquidity_pct
                   reports: pd.DataFrame = None):
     t = TARGETS[target_id]
     grid = decision_grid(panel, every=every)
-    feats = features_at(panel, grid)
+    feats = market_state(features_at(panel, grid))
     if reports is not None:
         feats = fund.fundamentals_at(feats, reports)
     tg = build_targets(panel, horizons=(t.horizon_sessions,))
@@ -83,13 +84,14 @@ def breakdown(p: pd.DataFrame, col: str) -> dict:
 def run(data_dir, target_id: str = "RET_5D", *, start: date = date(2010, 1, 1), first_test: date = date(2016, 1, 1),
         vault_start: date = date(2024, 11, 1), every: int = 5, models=MODELS, liquidity_pct: float = 0.2,
         min_history: int = 252, embargo_sessions: int = 5, today=None, record: bool = True, log=print,
-        top: float = 0.1, keep: float = None, notional: float = 1e8, public_dir=None) -> dict:
+        top: float = 0.1, keep: float = None, notional: float = 1e8, public_dir=None, market: bool = False) -> dict:
     t0 = time.time()
     t = TARGETS[target_id]
     panel = load_price_panel(data_dir, start, vault_start - timedelta(days=1), today=today)
     reports = fund.report_table(fund.load_fin_hist(public_dir)) if public_dir else None
     features = list(FEATURES) + (list(fund.FUND_FEATURES) if reports is not None else [])
-    version = FEATURE_VERSION + (f"+{fund.FUND_VERSION}" if reports is not None else "")
+    version = FEATURE_VERSION + (f"+{fund.FUND_VERSION}" if reports is not None else "") + (f"+{MARKET_VERSION}" if market else "")
+    raw = list(MARKET_FEATURES) if market else []
     df = build_dataset(panel, target_id, every, liquidity_pct, min_history, reports=reports)
     if reports is not None:
         log(f"재무 피처 커버리지(연도별 비율): {fund.coverage(df)}")
@@ -101,7 +103,7 @@ def run(data_dir, target_id: str = "RET_5D", *, start: date = date(2010, 1, 1), 
     for f in folds:
         tr, te = split(df, f)
         for m in models:
-            p = fit_predict(m, tr, te, features, target="ret")
+            p = fit_predict(m, tr, te, features, target="ret", raw_features=raw)
             preds[m].append(p.assign(fold=f.fold_id))
         log(f"  폴드 {f.fold_id}: 검증 {f.test_start.date()}~{f.test_end.date()}, 학습 {len(tr):,}행, 검증 {len(te):,}행")
     cols = ["date", "code", "ret", "tradable", "ret_delist", "entry_open", "entry_no_trade", "entry_limit_up",
@@ -125,7 +127,7 @@ def run(data_dir, target_id: str = "RET_5D", *, start: date = date(2010, 1, 1), 
                                  "excess_base": [round(float(x), 6) for x in res["excess"]]}
     tests = significance(data_dir, target_id, t.horizon_sessions, every, keep, liquidity_pct, series, ic_series)
     out = {"target_definition_id": target_id, "target": t.__dict__, "feature_schema_version": version,
-           "feature_list_hash": list_hash(features), "features": features, "models": list(models),
+           "feature_list_hash": list_hash(features + raw), "features": features, "raw_features": raw, "models": list(models),
            "fundamental_coverage": fund.coverage(df) if reports is not None else None,
            "hyperparameters": {m: PARAMS.get(m, {}) for m in models}, "data_snapshot_id": data_snapshot_id(data_dir),
            "universe": {"liquidity_pct": liquidity_pct, "min_history": min_history, "every_sessions": every},
@@ -252,11 +254,12 @@ def main(argv=None) -> int:
     ap.add_argument("--keep", type=float, default=None, help="교체 완충: 보유 종목은 상위 이 비율 안이면 유지 (기본: top과 같음)")
     ap.add_argument("--liquidity-pct", type=float, default=0.2, help="유니버스: 그날 거래대금 하위 이 비율 제외")
     ap.add_argument("--public-dir", default=None, help="공개 data 브랜치 경로 — 주면 PIT 재무 피처(fund_v1)를 더한다")
+    ap.add_argument("--market", action="store_true", help="시장 상태 피처(mkt_v1)를 gbm에 원값으로 더한다")
     args = ap.parse_args(argv)
     out = run(args.data_dir, args.target, first_test=date.fromisoformat(args.first_test),
               vault_start=date.fromisoformat(args.vault_start), every=args.every,
               models=tuple(m.strip() for m in args.models.split(",") if m.strip()), top=args.top, keep=args.keep,
-              notional=args.notional, liquidity_pct=args.liquidity_pct, public_dir=args.public_dir)
+              notional=args.notional, liquidity_pct=args.liquidity_pct, public_dir=args.public_dir, market=args.market)
     print(report(out))
     return 0
 

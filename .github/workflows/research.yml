@@ -34,6 +34,10 @@ on:
         description: "PIT 재무 피처(fund_v1, 공개 data 브랜치의 dart_fin_hist)를 더할지"
         type: boolean
         default: false
+      market:
+        description: "시장 상태 피처(mkt_v1)를 gbm에 더할지"
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -87,13 +91,14 @@ jobs:
           LIQ: ${{ inputs.liquidity_pct }}
           KEEP: ${{ inputs.keep }}
           FUND: ${{ inputs.fundamentals }}
+          MKT: ${{ inputs.market }}
         run: |
           case "$EVERY$FIRST_TEST$VAULT_START" in *[!0-9-]*) echo "every·날짜 형식 오류"; exit 2;; esac
           case "$LIQ$KEEP" in *[!0-9.]*) echo "liquidity_pct·keep 형식 오류"; exit 2;; esac
           case "$MODELS" in *[!a-z,_]*) echo "models 형식 오류"; exit 2;; esac
           python -m evaluation.run_experiment --data-dir private_data --target "$TARGET" --every "$EVERY" \
             --first-test "$FIRST_TEST" --vault-start "$VAULT_START" --models "$MODELS" --liquidity-pct "$LIQ" ${KEEP:+--keep "$KEEP"} \
-            $( [ "$FUND" = "true" ] && echo "--public-dir public_data" )
+            $( [ "$FUND" = "true" ] && echo "--public-dir public_data" ) $( [ "$MKT" = "true" ] && echo "--market" )
       - name: 실험 기록 저장 (비공개 저장소)
         if: always()
         working-directory: private_data

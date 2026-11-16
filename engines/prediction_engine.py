@@ -27,8 +27,12 @@ def cross_sectional_rank(df: pd.DataFrame, cols, by: str = "date") -> pd.DataFra
     return out.fillna(0.0)
 
 
-def fit_predict(model: str, train: pd.DataFrame, test: pd.DataFrame, features, target: str = "ret") -> pd.DataFrame:
-    """test에 score(클수록 수익률이 높을 것)와 prob(상승 확률, 없으면 NaN)를 붙여 돌려준다."""
+def fit_predict(model: str, train: pd.DataFrame, test: pd.DataFrame, features, target: str = "ret",
+                raw_features=()) -> pd.DataFrame:
+    """test에 score(클수록 수익률이 높을 것)와 prob(상승 확률, 없으면 NaN)를 붙여 돌려준다.
+
+    raw_features: 판단일마다 모든 종목에 같은 값(시장 상태 등). 순위로 바꾸면 0이 되므로 gbm에만 원값으로 넣어
+    종목 피처와의 상호작용을 배우게 한다 (트리는 크기 조정이 필요 없어 학습 폴드에서 fit할 것이 없다)."""
     out = test[["date", "code"]].copy()
     tr = train.dropna(subset=[target])
     y = tr[target].to_numpy()
@@ -52,6 +56,9 @@ def fit_predict(model: str, train: pd.DataFrame, test: pd.DataFrame, features, t
     elif model == "gbm":
         from sklearn.ensemble import HistGradientBoostingClassifier, HistGradientBoostingRegressor
         p = PARAMS["gbm"]
+        if raw_features:
+            Xtr = np.hstack([Xtr, tr[list(raw_features)].to_numpy(dtype=float)])
+            Xte = np.hstack([Xte, test[list(raw_features)].to_numpy(dtype=float)])
         reg = HistGradientBoostingRegressor(loss="absolute_error", **p).fit(Xtr, y)   # 꼬리가 두꺼운 수익률에 강건
         clf = HistGradientBoostingClassifier(**p).fit(Xtr, up)
     else:
