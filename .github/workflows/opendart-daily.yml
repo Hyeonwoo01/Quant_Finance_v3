@@ -9,9 +9,9 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: "collect = 수집해서 data 브랜치에 저장, check = 저장 없이 인증키·연결만 확인, probe-xbrl = 대형주 XBRL 구조 점검(저장 없음)"
+        description: "collect = 수집해서 data 브랜치에 저장, check = 저장 없이 인증키·연결만 확인, probe-xbrl = 대형주 XBRL 구조 점검(저장 없음), history = 2015~ 과거 재무 채우기, history-values = 빠짐없이 끝난 목록 저장본으로 값만 다시 받기"
         type: choice
-        options: [collect, check, probe-xbrl, probe-multi, history]
+        options: [collect, check, probe-xbrl, probe-multi, history, history-values]
         default: collect
       lookback_days:
         description: "어제부터 거꾸로 며칠 치 접수일을 훑을지 (1~60)"
@@ -27,7 +27,8 @@ concurrency:
 jobs:
   collect:
     runs-on: ubuntu-latest
-    timeout-minutes: 120
+    # history(과거 재무 채우기)는 목록 훑기만 2시간 가까이 걸린다
+    timeout-minutes: ${{ startsWith(inputs.mode, 'history') && 330 || 120 }}
     env:
       PYTHONUNBUFFERED: "1"          # 로그가 실행 중에도 바로 보이게
       MODE: ${{ inputs.mode || 'collect' }}
@@ -35,7 +36,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: data 브랜치 가져오기
-        if: env.MODE == 'collect' || env.MODE == 'history'
+        if: env.MODE == 'collect' || startsWith(env.MODE, 'history')
         uses: actions/checkout@v4
         with:
           ref: data
@@ -58,6 +59,8 @@ jobs:
             python -m orchestration.opendart_daily --check
           elif [ "$MODE" = "history" ]; then
             python -m orchestration.dart_history --data-dir data
+          elif [ "$MODE" = "history-values" ]; then
+            python -m orchestration.dart_history --data-dir data --from-index
           elif [ "$MODE" = "probe-multi" ]; then
             python -m orchestration.opendart_daily --probe-multi
           elif [ "$MODE" = "probe-xbrl" ]; then
@@ -66,7 +69,7 @@ jobs:
             python -m orchestration.opendart_daily --data-dir data --lookback-days "$LOOKBACK"
           fi
       - name: data 브랜치에 저장 (실패해도 받은 만큼과 수집 기록은 남김)
-        if: always() && (env.MODE == 'collect' || env.MODE == 'history')
+        if: always() && (env.MODE == 'collect' || startsWith(env.MODE, 'history'))
         working-directory: data
         run: |
           git config user.name "github-actions[bot]"

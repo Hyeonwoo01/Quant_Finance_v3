@@ -112,3 +112,45 @@ def test_missing_list_window_blocks_value_fetch(tmp_path):
     m = run.run(date(2017, 1, 1), date(2017, 6, 30))
     assert m.status == "failed" and m.counts["skipped_units"] == 1 and "값 받기를 하지 않음" in m.errors[0]
     assert not any(e == "fnlttMultiAcnt.json" for e, _ in fake.calls)            # 정정 이력이 불완전하면 값을 받지 않음
+
+
+class OldYearDart(FakeDart):
+    """2015년 이후에 늦게 낸 2013 사업연도 보고서가 섞인 목록."""
+
+    def __call__(self, url, params, timeout, headers=None):
+        if urlparse(url).path.endswith("list.json") and params["bgn_de"] <= "20170105" <= params["end_de"]:
+            rows = [lrow("00000009", "000009", "사업보고서 (2013.12)", "20170105000009", "20170105")]
+            body = {"status": "000", "message": "", "page_no": 1, "total_page": 1, "total_count": 1, "list": rows}
+            self.calls.append(("list.json", dict(params)))
+            return 200, {}, json.dumps(body, ensure_ascii=False).encode()
+        return super().__call__(url, params, timeout, headers)
+
+
+def test_pre_api_years_are_indexed_but_not_fetched(tmp_path):
+    fake = OldYearDart()
+    m = HistoryRun(client(fake, max_calls=200), tmp_path, now=lambda: NOW, version="t", log=lambda s: None).run(
+        date(2017, 1, 1), date(2017, 6, 30))
+    assert m.status == "ok" and m.counts["value_skipped_pre_api_year"] == 1 and m.counts["fin_added"] == 1
+    assert all(p["bsns_year"] >= "2015" for e, p in fake.calls if e == "fnlttMultiAcnt.json")
+
+
+def test_from_index_reuses_a_complete_scan_only(tmp_path):
+    mk = lambda fake: HistoryRun(client(fake, max_calls=200), tmp_path, now=lambda: NOW, version="t", log=lambda s: None)
+    m0 = mk(FakeDart()).run(date(2017, 1, 1), date(2017, 6, 30), from_index=True)
+    assert m0.status == "failed" and "from_index 없이" in m0.errors[0]              # 끝난 훑기 기록이 없으면 거절
+    mk(FakeDart()).run(date(2017, 1, 1), date(2017, 6, 30))
+    assert json.loads((tmp_path / "state" / "dart_history_scan.json").read_text())["rows"] == 3
+    from collectors.opendart_history import rows_from_records
+    stored = rows_from_records(mk(FakeDart()).pit.iter_records([SERIES_REPORT_INDEX]))
+    assert stored == sorted(report_rows(LIST)[0], key=lambda r: (r.rcept_dt, r.rcept_no))   # 다시 만든 행이 원래와 같다
+    fake = FakeDart()
+    m = mk(fake).run(date(2017, 1, 1), date(2017, 6, 30), from_index=True)
+    assert not any(e == "list.json" for e, _ in fake.calls) and m.counts["index_rows_reused"] == 3
+    assert m.status == "ok" and m.counts["fin_unchanged"] == 1
+    assert mk(FakeDart()).run(date(2016, 1, 1), date(2017, 6, 30), from_index=True).status == "failed"   # 범위 밖
+
+
+def test_incomplete_scan_leaves_no_state(tmp_path):
+    HistoryRun(client(FlakyDart(3), max_calls=200), tmp_path, now=lambda: NOW, version="t", log=lambda s: None,
+               sleep=lambda s: None).run(date(2017, 1, 1), date(2017, 6, 30))
+    assert not (tmp_path / "state" / "dart_history_scan.json").exists()

@@ -1,24 +1,29 @@
 """OpenDART 과거 재무 채우기 실행 (2015년~). 공개 data 브랜치에 Parquet로 저장한다 (OpenDART는 재배포 허용).
 
-    python -m orchestration.dart_history --data-dir data [--start 2015-01-01] [--end 2026-11-15]
+    python -m orchestration.dart_history --data-dir data [--start 2015-01-01] [--end 2026-11-15] [--from-index]
 
 1. 정기공시 목록(list.json, pblntf_ty=A)을 3개월 창으로 모두 훑는다 → 시리즈 dart_periodic_index
 2. 12월 결산 표준 보고서의 (사업연도, 보고서 코드)마다 회사 100개씩 다중회사 주요계정 → 시리즈 dart_fin_hist
    가용 시각 규칙은 collectors/opendart_history.py (마지막 재무 변경일 다음 세션 08:30).
+   API가 2015 사업연도부터라, 그 전 연도의 늦은 제출은 목록에만 남기고 값은 받지 않는다.
+목록 훑기가 빠짐없이 끝나면 state/dart_history_scan.json에 기간을 남긴다. --from-index는 그 기간 안에서만
+저장된 목록을 다시 써 값 받기만 한다 (훑기에 두 시간 가까이 걸려서).
 """
 import argparse
+import json
 import logging
 import os
 import sys
 from collections import Counter
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
+from typing import Optional
 from zoneinfo import ZoneInfo
 
 from collectors.base_client import BudgetExhausted, CallBudget, CollectorError
 from collectors.opendart import OpenDartClient, OpenDartError
 from collectors.opendart_history import (SERIES_FIN_HIST, SERIES_REPORT_INDEX, fin_records, fin_values, index_records,
-                                         last_change, period_end_of, report_rows, windows)
+                                         last_change, period_end_of, report_rows, rows_from_records, windows)
 from core.repro import code_version
 from core.source_registry import OPENDART_FINANCIALS, OPENDART_LIST, default_registry
 from storage.manifests import BatchManifest
@@ -30,6 +35,8 @@ HISTORY_SERIES = (SERIES_REPORT_INDEX, SERIES_FIN_HIST)
 
 
 RETRIES, RETRY_WAIT = 3, 60.0          # JSON이 아닌 응답(점검 페이지 등)·연결 오류는 기다렸다 다시 묻는다
+FIRST_VALUE_YEAR = 2015                # 다중회사 주요계정 API가 주는 첫 사업연도 (그 전 연도의 늦은 제출은 목록에만 남긴다)
+SCAN_STATE = "state/dart_history_scan.json"
 
 
 class HistoryRun:
@@ -95,6 +102,9 @@ class HistoryRun:
         keys = {r.key for r in rows}
         by_period: dict[tuple, list] = {}
         for corp, year, code in keys:
+            if year < FIRST_VALUE_YEAR:
+                m.count("value_skipped_pre_api_year")
+                continue
             by_period.setdefault((year, code), []).append(corp)
         for (year, code), corps in sorted(by_period.items()):
             corps = sorted(set(corps))
@@ -124,19 +134,45 @@ class HistoryRun:
                         m.count(f"fin_{k}", v)
             self.log(f"  {year} {code}: 회사 {len(corps)}개")
 
-    def run(self, start: date, end: date) -> BatchManifest:
+    def _state_path(self) -> Path:
+        return self.data_dir / SCAN_STATE
+
+    def rows_from_index(self, start: date, end: date, m: BatchManifest) -> Optional[list]:
+        """이전 실행이 빠짐없이 끝낸 목록 훑기(상태 파일)가 [start, end]를 덮으면, 저장된 목록에서 정기보고서 행을
+        다시 만든다. 덮지 못하면 None (목록을 다시 훑어야 한다)."""
+        p = self._state_path()
+        if not p.exists():
+            return None
+        st = json.loads(p.read_text())
+        if date.fromisoformat(st["start"]) > start or date.fromisoformat(st["end"]) < end:
+            return None
+        rows = [r for r in rows_from_records(self.pit.iter_records([SERIES_REPORT_INDEX])) if start <= r.rcept_dt <= end]
+        m.count("index_rows_reused", len(rows))
+        return rows
+
+    def run(self, start: date, end: date, *, from_index: bool = False) -> BatchManifest:
         started = self.now()
         m = BatchManifest.start(run_id=f"{started:%Y%m%dT%H%M%SZ}-history", contract=OPENDART_FINANCIALS,
                                 code_version=self.version, now=started, target={"start": str(start), "end": str(end)})
         try:
-            rows = self.scan(start, end, m)
-            years = Counter(r.key[1] for r in rows)
-            self.log(f"정기보고서 {len(rows):,}건 (연도별 {dict(sorted(years.items()))})")
-            if m.counts.get("skipped_units"):
-                # 목록에 빠진 기간이 있으면 그 기간의 [기재정정]을 놓쳐, 정정된 값을 정정 전 날짜로 저장할 수 있다
-                m.errors.append("공시 목록에 빠진 기간이 있어 값 받기를 하지 않음 (가용 시각이 이르게 잡힐 위험) — 다시 실행")
+            rows = self.rows_from_index(start, end, m) if from_index else None
+            if from_index and rows is None:
+                m.errors.append("저장된 공시 목록이 이 기간을 빠짐없이 덮는다는 기록이 없음 — from_index 없이 다시 실행")
             else:
-                self.fetch_values(rows, m)
+                if rows is None:
+                    rows = self.scan(start, end, m)
+                    if not m.counts.get("skipped_units"):
+                        self._state_path().parent.mkdir(parents=True, exist_ok=True)
+                        self._state_path().write_text(json.dumps(
+                            {"start": str(start), "end": str(end), "completed_at_utc": self.now().isoformat(),
+                             "rows": len(rows)}, indent=1) + "\n")
+                years = Counter(r.key[1] for r in rows)
+                self.log(f"정기보고서 {len(rows):,}건 (연도별 {dict(sorted(years.items()))})")
+                if m.counts.get("skipped_units"):
+                    # 목록에 빠진 기간이 있으면 그 기간의 [기재정정]을 놓쳐, 정정된 값을 정정 전 날짜로 저장할 수 있다
+                    m.errors.append("공시 목록에 빠진 기간이 있어 값 받기를 하지 않음 (가용 시각이 이르게 잡힐 위험) — 다시 실행")
+                else:
+                    self.fetch_values(rows, m)
         except BudgetExhausted as e:
             m.warnings.append(f"{e} — 나머지는 다음 실행으로")
         except (OpenDartError, CollectorError) as e:
@@ -152,6 +188,8 @@ def main(argv=None) -> int:
     ap.add_argument("--start", default="2015-01-01")
     ap.add_argument("--end", default=None, help="기본: 어제 (KST)")
     ap.add_argument("--max-calls", type=int, default=9000)
+    ap.add_argument("--from-index", action="store_true",
+                    help="공시 목록을 다시 훑지 않고, 이전에 빠짐없이 끝낸 훑기의 저장본으로 값만 받는다")
     args = ap.parse_args(argv)
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
     key = os.environ.get("DART_API_KEY", "").strip()
@@ -160,7 +198,7 @@ def main(argv=None) -> int:
         return 2
     end = date.fromisoformat(args.end) if args.end else datetime.now(KST).date() - timedelta(days=1)
     client = OpenDartClient(key, budget=CallBudget(args.max_calls))
-    m = HistoryRun(client, args.data_dir).run(date.fromisoformat(args.start), end)
+    m = HistoryRun(client, args.data_dir).run(date.fromisoformat(args.start), end, from_index=args.from_index)
     print(f"과거 재무 채우기: {m.status} {dict(m.counts)}")
     for w in m.warnings[:10]:
         print("경고:", w)

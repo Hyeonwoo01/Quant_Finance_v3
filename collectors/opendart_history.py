@@ -113,6 +113,19 @@ def index_records(rows: list, *, contract_id: str, raw_sha: str, ingested_at_utc
     return out
 
 
+def rows_from_records(records: Iterable[PITRecord]) -> list:
+    """저장된 정기보고서 목록 레코드(index_records) → ReportRow. 목록을 다시 훑지 않고 값 받기만 할 때 쓴다."""
+    out = []
+    for rec in records:
+        if rec.series_id != SERIES_REPORT_INDEX:
+            continue
+        v = json.loads(rec.value)
+        name = json.loads(rec.attributes).get("corp_name", "") if rec.attributes else ""
+        out.append(ReportRow(rec.entity_id, v["stock_code"], name, v["kind"], date.fromisoformat(v["period_end"]),
+                             tuple(v["tags"]), rec.metric_id.split("|", 1)[1], date.fromisoformat(v["rcept_dt"])))
+    return sorted(out, key=lambda r: (r.rcept_dt, r.rcept_no))
+
+
 def fin_values(api_rows: list) -> dict:
     """한 응답의 행들 → 회사마다 {fs_div, rcept_no, stock_code, accounts{key: {amt, cum, prev_cum}}}.
     연결(CFS)이 있으면 연결, 없으면 별도(OFS)."""
