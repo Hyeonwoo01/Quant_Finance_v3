@@ -34,15 +34,15 @@ jobs:
       MODE: ${{ inputs.mode || 'collect' }}
       LOOKBACK: ${{ inputs.lookback_days || '7' }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: data 브랜치 가져오기
         if: env.MODE == 'collect' || startsWith(env.MODE, 'history')
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           ref: data
           path: data
           fetch-depth: 0
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.13"
           cache: pip

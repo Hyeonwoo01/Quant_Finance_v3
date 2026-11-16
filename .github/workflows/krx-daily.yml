@@ -63,7 +63,7 @@ jobs:
       SOURCE: ${{ inputs.source || (github.event.schedule == '23 5 * * 1-5' && 'all' || 'krx') }}
       PRIVATE_REPO: ${{ vars.PRIVATE_DATA_REPO || format('{0}/Quant_Finance_v3_private', github.repository_owner) }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: 설정 확인 (비공개 저장소가 정말 비공개인지)
         id: setup
         env:
@@ -90,7 +90,7 @@ jobs:
           echo "ready=yes" >> "$GITHUB_OUTPUT"
       - name: 비공개 저장소 가져오기
         if: steps.setup.outputs.ready == 'yes'
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           repository: ${{ env.PRIVATE_REPO }}
           token: ${{ secrets.PRIVATE_DATA_TOKEN }}
@@ -101,7 +101,7 @@ jobs:
         run: |
           # 위에서 GitHub에 비공개임을 확인한 저장소에만 표식을 둔다. 표식이 없으면 코드가 저장을 막는다
           [ -f private_data/PRIVATE_STORE ] || echo "비공개 저장소: 제3자 제공·재배포가 금지된 데이터 보관용. 공개로 바꾸지 말 것." > private_data/PRIVATE_STORE
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         if: steps.setup.outputs.ready != 'no'
         with:
           python-version: "3.13"
