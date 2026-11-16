@@ -87,7 +87,8 @@ class OpenDartClient:
             raise OpenDartError(result.status, str(data.get("message", "")), endpoint)
         return result
 
-    def list_filings(self, bgn: date, end: date, corp_cls: str) -> tuple[list[ApiResult], Optional[str]]:
+    def list_filings(self, bgn: date, end: date, corp_cls: Optional[str],
+                     pblntf_ty: Optional[str] = None) -> tuple[list[ApiResult], Optional[str]]:
         """접수일 bgn~end(포함) 공시의 모든 페이지. 반환: (페이지들, 완결성 문제 설명 또는 None).
 
         끝난 날짜만 묻는다 (오늘은 아직 공시가 들어오는 중이라 페이지가 밀릴 수 있다). 완결성이 깨져도 받은 페이지는
@@ -97,8 +98,13 @@ class OpenDartClient:
             raise ValueError("고유번호 없는 공시검색은 3개월 이내, bgn <= end")
         pages, page = [], 1
         while True:
-            r = self.call("list.json", {"bgn_de": f"{bgn:%Y%m%d}", "end_de": f"{end:%Y%m%d}", "corp_cls": corp_cls,
-                                        "page_no": page, "page_count": 100, "sort": "date", "sort_mth": "asc"})
+            params = {"bgn_de": f"{bgn:%Y%m%d}", "end_de": f"{end:%Y%m%d}", "page_no": page, "page_count": 100,
+                      "sort": "date", "sort_mth": "asc"}
+            if corp_cls:
+                params["corp_cls"] = corp_cls
+            if pblntf_ty:
+                params["pblntf_ty"] = pblntf_ty            # A = 정기공시
+            r = self.call("list.json", params)
             pages.append(r)
             if r.status == NO_DATA:
                 return pages, None
@@ -111,7 +117,7 @@ class OpenDartClient:
                              got_rows=sum(len(p.rows) for p in pages),
                              expected_pages=int(pages[0].data.get("total_page") or 1), got_pages=len(pages))
         except CollectorError as e:
-            return pages, f"list.json {corp_cls} {bgn}~{end}: {e}"
+            return pages, f"list.json {corp_cls or pblntf_ty or ''} {bgn}~{end}: {e}"
         return pages, None
 
     def financial_statement(self, corp_code: str, bsns_year: int, reprt_code: str, fs_div: str) -> ApiResult:

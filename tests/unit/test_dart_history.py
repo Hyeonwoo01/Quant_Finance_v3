@@ -1,0 +1,83 @@
+"""OpenDART 과거 재무 채우기: 정기보고서 목록 → 마지막 재무 변경일 기준 가용 시각, 연결 우선, 비표준·비상장 제외."""
+import json
+from datetime import date, datetime, timezone
+from urllib.parse import parse_qs, urlparse
+
+from collectors.opendart_history import SERIES_FIN_HIST, SERIES_REPORT_INDEX, last_change, report_rows
+from core.availability import backtest_available_at
+from core.calendar_align import dart_available_at
+from orchestration.dart_history import HistoryRun
+from storage.pit_store import read_parquet
+from tests.unit.test_opendart import client
+
+UTC = timezone.utc
+NOW = datetime(2026, 11, 16, 3, 0, tzinfo=UTC)
+
+
+def lrow(corp, stock, name, rcept_no, rcept_dt):
+    return {"corp_code": corp, "corp_name": "회사" + corp[-1], "stock_code": stock, "corp_cls": "Y", "report_nm": name,
+            "rcept_no": rcept_no, "flr_nm": "회사", "rcept_dt": rcept_dt, "rm": ""}
+
+
+LIST = [lrow("00000001", "000001", "사업보고서 (2016.12)", "20170331000001", "20170331"),
+        lrow("00000001", "000001", "[기재정정]사업보고서 (2016.12)", "20170510000002", "20170510"),
+        lrow("00000001", "000001", "[첨부정정]사업보고서 (2016.12)", "20170601000003", "20170601"),   # 숫자 안 바뀜
+        lrow("00000002", "000002", "사업보고서 (2016.03)", "20160630000004", "20160630"),            # 3월 결산
+        lrow("00000003", "", "사업보고서 (2016.12)", "20170331000005", "20170331"),                  # 비상장
+        lrow("00000004", "000004", "주요사항보고서(유상증자결정)", "20170401000006", "20170401")]
+
+
+def acct(corp, fs, name, amt, sj="IS", cum=None, prev_cum=None, rcept="20170331000001"):
+    r = {"rcept_no": rcept, "reprt_code": "11011", "bsns_year": "2016", "corp_code": corp, "stock_code": "000001",
+         "fs_div": fs, "sj_div": sj, "account_nm": name, "thstrm_amount": f"{amt:,}", "frmtrm_amount": "1,000"}
+    if cum is not None:
+        r["thstrm_add_amount"], r["frmtrm_add_amount"] = f"{cum:,}", f"{prev_cum:,}"
+    return r
+
+
+class FakeDart:
+    def __init__(self):
+        self.calls = []
+
+    def __call__(self, url, params, timeout, headers=None):
+        ep = urlparse(url).path.rsplit("/", 1)[-1]
+        self.calls.append((ep, dict(params)))
+        if ep == "list.json":
+            rows = [r for r in LIST if params["bgn_de"] <= r["rcept_dt"] <= params["end_de"]] if params.get("pblntf_ty") == "A" else []
+            body = {"status": "000" if rows else "013", "message": "", "page_no": 1, "total_page": 1,
+                    "total_count": len(rows), "list": rows}
+        elif ep == "fnlttMultiAcnt.json":
+            rows = []
+            if "00000001" in params["corp_code"] and params["bsns_year"] == "2016" and params["reprt_code"] == "11011":
+                rows = [acct("00000001", "CFS", "매출액", 500), acct("00000001", "OFS", "매출액", 300),
+                        acct("00000001", "CFS", "자본총계", 2000, sj="BS"), acct("00000001", "CFS", "당기순이익(손실)", 50)]
+            body = {"status": "000" if rows else "013", "message": "", "list": rows}
+        else:
+            body = {"status": "013", "message": ""}
+        return 200, {}, json.dumps(body, ensure_ascii=False).encode()
+
+
+def test_report_rows_and_last_change():
+    rows, counts = report_rows(LIST)
+    assert counts == {"not_periodic": 1, "non_standard": 1, "no_stock_code": 1}
+    assert last_change(rows) == {("00000001", 2016, "11011"): date(2017, 5, 10)}      # 첨부정정은 숫자 변경 아님
+
+
+def test_history_run_uses_last_correction_date(tmp_path):
+    fake = FakeDart()
+    run = HistoryRun(client(fake, max_calls=200), tmp_path, now=lambda: NOW, version="t", log=lambda s: None)
+    m = run.run(date(2017, 1, 1), date(2017, 6, 30))
+    assert m.status == "ok" and m.counts["fin_added"] == 1 and m.counts["index_added"] == 3
+    assert all(p.get("pblntf_ty") == "A" and "corp_cls" not in p for e, p in fake.calls if e == "list.json")
+    rec = read_parquet(tmp_path / "pit_versions" / SERIES_FIN_HIST / "2016-01.parquet")[0]
+    v = json.loads(rec.value)
+    assert v["fs_div"] == "CFS" and v["accounts"]["revenue"]["amt"] == 500 and v["accounts"]["equity"]["amt"] == 2000
+    # 응답 접수번호는 원래 제출(3/31)이지만, 5/10 기재정정 뒤의 값일 수 있으므로 5/10 기준
+    assert rec.provider_available_at_utc == dart_available_at(date(2017, 5, 10)).to_pydatetime()
+    assert backtest_available_at(rec) == rec.provider_available_at_utc
+    assert rec.available_at_utc > datetime(2026, 11, 1, tzinfo=UTC)                 # 실제로 받은 시각 기준은 지금
+    idx = read_parquet(tmp_path / "pit_versions" / SERIES_REPORT_INDEX / "2016-12.parquet")
+    assert {json.loads(r.value)["rcept_dt"] for r in idx} == {"2017-03-31", "2017-05-10", "2017-06-01"}
+    m2 = HistoryRun(client(FakeDart(), max_calls=200), tmp_path, now=lambda: NOW, version="t", log=lambda s: None).run(
+        date(2017, 1, 1), date(2017, 6, 30))
+    assert m2.counts.get("fin_added", 0) == 0 and m2.counts["fin_unchanged"] == 1   # 다시 돌려도 그대로
