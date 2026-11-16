@@ -154,3 +154,30 @@ def test_incomplete_scan_leaves_no_state(tmp_path):
     HistoryRun(client(FlakyDart(3), max_calls=200), tmp_path, now=lambda: NOW, version="t", log=lambda s: None,
                sleep=lambda s: None).run(date(2017, 1, 1), date(2017, 6, 30))
     assert not (tmp_path / "state" / "dart_history_scan.json").exists()
+
+
+class FlakyValues(FakeDart):
+    """처음 n번의 주요계정 요청에 점검 페이지를 돌려준다."""
+
+    def __init__(self, fail_times):
+        super().__init__()
+        self.fail_times = fail_times
+
+    def __call__(self, url, params, timeout, headers=None):
+        if urlparse(url).path.endswith("fnlttMultiAcnt.json") and self.fail_times > 0:
+            self.fail_times -= 1
+            self.calls.append(("fnlttMultiAcnt.json", dict(params)))
+            return 200, {}, b"<html>maintenance</html>"
+        return super().__call__(url, params, timeout, headers)
+
+
+def test_only_missing_fills_skipped_batches(tmp_path):
+    mk = lambda fake: HistoryRun(client(fake, max_calls=200), tmp_path, now=lambda: NOW, version="t", log=lambda s: None,
+                                 sleep=lambda s: None)
+    m = mk(FlakyValues(3)).run(date(2017, 1, 1), date(2017, 6, 30))
+    assert m.counts["skipped_units"] == 1 and m.counts.get("fin_added", 0) == 0     # 값 묶음만 건너뜀, 목록은 완전
+    m2 = mk(FakeDart()).run(date(2017, 1, 1), date(2017, 6, 30), from_index=True, only_missing=True)
+    assert m2.status == "ok" and m2.counts["fin_added"] == 1
+    fake = FakeDart()
+    m3 = mk(fake).run(date(2017, 1, 1), date(2017, 6, 30), from_index=True, only_missing=True)
+    assert m3.counts["value_already_stored"] == 1 and not any(e == "fnlttMultiAcnt.json" for e, _ in fake.calls)

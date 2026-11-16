@@ -97,7 +97,9 @@ class HistoryRun:
             m.count(k, v)
         return rows
 
-    def fetch_values(self, rows: list, m: BatchManifest) -> None:
+    def fetch_values(self, rows: list, m: BatchManifest, *, only_missing: bool = False) -> None:
+        """only_missing: 이미 저장된 (회사, 연도, 보고서)는 다시 묻지 않는다 (건너뛴 묶음만 채울 때).
+        이 경우 이미 있는 값의 정정은 확인하지 않으므로, 정정 반영은 전체 실행으로 한다."""
         changes = last_change(rows)
         keys = {r.key for r in rows}
         by_period: dict[tuple, list] = {}
@@ -106,9 +108,18 @@ class HistoryRun:
                 m.count("value_skipped_pre_api_year")
                 continue
             by_period.setdefault((year, code), []).append(corp)
+        stores: dict[int, object] = {}
         for (year, code), corps in sorted(by_period.items()):
             corps = sorted(set(corps))
             period_end = period_end_of(year, code)
+            if year not in stores:                                                   # 분할: 관측 시작(1월 1일) 월
+                stores = {year: self.pit.load(parts=[(SERIES_FIN_HIST, f"{year}-01")])}
+            store = stores[year]
+            if only_missing:
+                have = [c for c in corps if store.latest((c, SERIES_FIN_HIST, f"fin|{code}", date(year, 1, 1),
+                                                          period_end, None)) is not None]
+                m.count("value_already_stored", len(have))
+                corps = sorted(set(corps) - set(have))
             for i in range(0, len(corps), 100):
                 batch = corps[i:i + 100]
                 r = self._retry(f"주요계정 {year} {code} {i // 100 + 1}번째 묶음",
@@ -124,7 +135,6 @@ class HistoryRun:
                 vals = fin_values(r.rows)
                 m.count("companies_returned", len(vals))
                 m.count("companies_missing", len(set(batch) - set(vals)))
-                store = self.pit.load(parts=[(SERIES_FIN_HIST, f"{year}-01")])        # 분할: 관측 시작(1월 1일) 월
                 recs, c = fin_records(vals, year, code, period_end, changes, contract_id=OPENDART_FINANCIALS.contract_id,
                                       raw_sha=ref.sha256, ingested_at_utc=self.now(), latest=store.latest)
                 res = self.pit.append(recs, store=store)
@@ -150,7 +160,7 @@ class HistoryRun:
         m.count("index_rows_reused", len(rows))
         return rows
 
-    def run(self, start: date, end: date, *, from_index: bool = False) -> BatchManifest:
+    def run(self, start: date, end: date, *, from_index: bool = False, only_missing: bool = False) -> BatchManifest:
         started = self.now()
         m = BatchManifest.start(run_id=f"{started:%Y%m%dT%H%M%SZ}-history", contract=OPENDART_FINANCIALS,
                                 code_version=self.version, now=started, target={"start": str(start), "end": str(end)})
@@ -172,7 +182,7 @@ class HistoryRun:
                     # 목록에 빠진 기간이 있으면 그 기간의 [기재정정]을 놓쳐, 정정된 값을 정정 전 날짜로 저장할 수 있다
                     m.errors.append("공시 목록에 빠진 기간이 있어 값 받기를 하지 않음 (가용 시각이 이르게 잡힐 위험) — 다시 실행")
                 else:
-                    self.fetch_values(rows, m)
+                    self.fetch_values(rows, m, only_missing=only_missing)
         except BudgetExhausted as e:
             m.warnings.append(f"{e} — 나머지는 다음 실행으로")
         except (OpenDartError, CollectorError) as e:
@@ -190,6 +200,7 @@ def main(argv=None) -> int:
     ap.add_argument("--max-calls", type=int, default=9000)
     ap.add_argument("--from-index", action="store_true",
                     help="공시 목록을 다시 훑지 않고, 이전에 빠짐없이 끝낸 훑기의 저장본으로 값만 받는다")
+    ap.add_argument("--only-missing", action="store_true", help="이미 저장된 (회사, 연도, 보고서)는 건너뛴다")
     args = ap.parse_args(argv)
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
     key = os.environ.get("DART_API_KEY", "").strip()
@@ -198,7 +209,8 @@ def main(argv=None) -> int:
         return 2
     end = date.fromisoformat(args.end) if args.end else datetime.now(KST).date() - timedelta(days=1)
     client = OpenDartClient(key, budget=CallBudget(args.max_calls))
-    m = HistoryRun(client, args.data_dir).run(date.fromisoformat(args.start), end, from_index=args.from_index)
+    m = HistoryRun(client, args.data_dir).run(date.fromisoformat(args.start), end, from_index=args.from_index,
+                                         only_missing=args.only_missing)
     print(f"과거 재무 채우기: {m.status} {dict(m.counts)}")
     for w in m.warnings[:10]:
         print("경고:", w)
