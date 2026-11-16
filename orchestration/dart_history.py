@@ -148,14 +148,17 @@ class HistoryRun:
         return self.data_dir / SCAN_STATE
 
     def rows_from_index(self, start: date, end: date, m: BatchManifest) -> Optional[list]:
-        """이전 실행이 빠짐없이 끝낸 목록 훑기(상태 파일)가 [start, end]를 덮으면, 저장된 목록에서 정기보고서 행을
-        다시 만든다. 덮지 못하면 None (목록을 다시 훑어야 한다)."""
+        """이전 실행이 빠짐없이 끝낸 목록 훑기(상태 파일)가 start부터 덮으면, 저장된 목록에서 정기보고서 행을
+        다시 만든다 (끝은 훑은 날까지로 줄인다). start를 덮지 못하면 None (목록을 다시 훑어야 한다)."""
         p = self._state_path()
         if not p.exists():
             return None
         st = json.loads(p.read_text())
-        if date.fromisoformat(st["start"]) > start or date.fromisoformat(st["end"]) < end:
+        if date.fromisoformat(st["start"]) > start:
             return None
+        if date.fromisoformat(st["end"]) < end:                # 훑은 날까지만 쓴다 (그 뒤 접수분은 매일 수집이 맡는다)
+            end = date.fromisoformat(st["end"])
+            m.warnings.append(f"저장된 공시 목록이 {end}까지라 그날까지만 씀")
         rows = [r for r in rows_from_records(self.pit.iter_records([SERIES_REPORT_INDEX])) if start <= r.rcept_dt <= end]
         m.count("index_rows_reused", len(rows))
         return rows

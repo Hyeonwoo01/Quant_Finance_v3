@@ -9,6 +9,12 @@
   분기·반기: 전년 사업보고서 금액 + 올해 누적 − 전년 같은 기간 누적 (전년 사업보고서도 그 보고서보다 먼저 쓸 수 있었어야 함)
 저량 값(자본·자산·부채)은 그 보고서 기말 값.
 
+단위 오류: 원 대신 천원·백만원 단위로 낸 듯한 보고서가 있다 (같은 회사의 다른 보고서보다 자산이 1,000배·100만 배).
+보고서 안의 비율(이익률·ROE·부채비율·성장률)은 단위와 무관하지만, 두 보고서를 섞는 TTM과 시가총액 대비 값은 틀어진다.
+판단 시각에 알 수 있는 정보만으로 거른다 (회사 전체 이력의 중앙값처럼 미래 보고서를 보는 규칙은 쓰지 않는다):
+  TTM       전년 사업보고서와 이 보고서의 자산 규모가 SCALE_JUMP배 넘게 다르면 비움
+  bm·ep·sp  자산총계 / 시가총액이 ASSET_MCAP 범위 밖이면 비움 (정상 범위: 성장주 ~0.05, 은행 ~수십; 자산이 없으면 둔다)
+
 피처:
   bm          자본총계 / 시가총액           ep    TTM 순이익 / 시가총액       sp   TTM 매출 / 시가총액
   op_margin   TTM 영업이익 / TTM 매출        roe   TTM 순이익 / 자본총계       leverage 부채총계 / 자산총계
@@ -29,6 +35,8 @@ from storage.pit_store import read_parquet
 FUND_FEATURES = ("bm", "ep", "sp", "op_margin", "roe", "leverage", "rev_growth", "ni_growth", "fin_age")
 FUND_VERSION = "fund_v1"
 FLOWS = ("revenue", "op_income", "net_income")
+SCALE_JUMP = 20.0
+ASSET_MCAP = (0.002, 500.0)
 
 
 def load_fin_hist(public_dir) -> pd.DataFrame:
@@ -76,6 +84,12 @@ def report_table(fin: pd.DataFrame) -> pd.DataFrame:
     prev_key = pd.MultiIndex.from_arrays([out["stock_code"], out["bsns_year"] - 1])
     prev = ann.reindex(prev_key)
     prev_ok = (prev["bt_available_at"].to_numpy() <= out["bt_available_at"].to_numpy())
+    if "assets_amt" in out and "assets_amt" in prev:
+        with np.errstate(invalid="ignore", divide="ignore"):
+            jump = (pd.to_numeric(prev["assets_amt"], errors="coerce").to_numpy(dtype=float)
+                    / pd.to_numeric(out["assets_amt"], errors="coerce").to_numpy(dtype=float))
+            same_scale = (jump < SCALE_JUMP) & (jump > 1 / SCALE_JUMP)
+        prev_ok = prev_ok & same_scale                     # 자산이 없으면(NaN) 단위를 확인할 수 없어 TTM도 비움
     is_annual = (out["reprt_code"] == "11011").to_numpy()
     for k in FLOWS:
         ttm_q = prev[f"{k}_amt"].to_numpy() + out[f"{k}_cum"].to_numpy() - out[f"{k}_prev_cum"].to_numpy()
@@ -110,9 +124,12 @@ def fundamentals_at(feats: pd.DataFrame, reports: pd.DataFrame) -> pd.DataFrame:
     assert (m["fin_available_at"].isna() | (m["fin_available_at"] <= m["_t"])).all()    # PIT 불변조건
     m = m.set_index("_i").sort_index()
     mcap = np.exp(m["log_mktcap"])
-    out["bm"] = m["equity"] / mcap
-    out["ep"] = m["net_income_ttm"] / mcap
-    out["sp"] = m["revenue_ttm"] / mcap
+    scale = m["assets"] / mcap
+    plausible = scale.isna() | ((scale > ASSET_MCAP[0]) & (scale < ASSET_MCAP[1]))   # 단위 오류로 보이면 비움 (자산이 없으면 확인 불가라 둠)
+    out["bm"] = (m["equity"] / mcap).where(plausible)
+    out["ep"] = (m["net_income_ttm"] / mcap).where(plausible)
+    out["sp"] = (m["revenue_ttm"] / mcap).where(plausible)
+    out["fin_unit_suspect"] = m["assets"].notna() & mcap.notna() & ~plausible
     out["op_margin"] = m["op_income_ttm"] / m["revenue_ttm"].where(m["revenue_ttm"] > 0)
     out["roe"] = m["net_income_ttm"] / m["equity"].where(m["equity"] > 0)
     out["leverage"] = m["liabilities"] / m["assets"].where(m["assets"] > 0)
@@ -120,6 +137,13 @@ def fundamentals_at(feats: pd.DataFrame, reports: pd.DataFrame) -> pd.DataFrame:
     out["ni_growth"] = m["net_income_growth"]
     out["fin_age"] = (m["_t"] - m["fin_available_at"]).dt.days
     return out
+
+
+def unit_suspect_rate(df: pd.DataFrame) -> float:
+    """재무가 붙은 행 중 자산/시가총액이 범위 밖이라 bm·ep·sp를 비운 비율."""
+    if "fin_unit_suspect" not in df or df["fin_age"].notna().sum() == 0:
+        return float("nan")
+    return round(float(df.loc[df["fin_age"].notna(), "fin_unit_suspect"].mean()), 5)
 
 
 def coverage(df: pd.DataFrame) -> dict:

@@ -88,3 +88,17 @@ def test_experiment_runs_with_fundamentals(tmp_path, monkeypatch):
     cov = out["fundamental_coverage"]
     # 40종목 중 1종목(000001)만 재무가 있고, 2017-05-10 기재정정 다음 세션부터 쓸 수 있다
     assert 0 < cov[2017] <= 0.025 and cov[2018] == pytest.approx(1 / 40, abs=0.001)
+
+
+def test_unit_errors_do_not_leak_into_ttm_or_market_ratios():
+    rows = fin_rows()
+    rows.loc[0, ["revenue_amt", "net_income_amt", "equity_amt", "assets_amt", "liabilities_amt"]] *= 1000   # 천 배 단위 오류
+    r = report_table(rows).set_index(["stock_code", "reprt_code"])
+    assert r.loc[("000001", "11011"), "revenue_ttm"] == 1_000_000                     # 그 보고서만 보면 그대로
+    assert np.isnan(r.loc[("000001", "11013"), "revenue_ttm"])                       # 단위가 다른 전년 보고서와 섞지 않음
+    assert r.loc[("000001", "11013"), "revenue_growth"] == pytest.approx(0.2)        # 보고서 안 비율은 그대로
+    feats = pd.DataFrame({"date": pd.to_datetime(["2017-04-10"]), "code": ["000001"],
+                          "decision_time_utc": [ts("2017-04-09 23:30")], "log_mktcap": np.log([5_000])})
+    out = fundamentals_at(feats, report_table(rows))
+    assert out.loc[0, ["bm", "ep", "sp"]].isna().all() and bool(out.loc[0, "fin_unit_suspect"])   # 자산/시총 1,000배
+    assert out.loc[0, "leverage"] == pytest.approx(0.6) and out.loc[0, "fin_age"] == 7

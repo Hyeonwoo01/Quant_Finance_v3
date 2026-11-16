@@ -94,7 +94,7 @@ def run(data_dir, target_id: str = "RET_5D", *, start: date = date(2010, 1, 1), 
     raw = list(MARKET_FEATURES) if market else []
     df = build_dataset(panel, target_id, every, liquidity_pct, min_history, reports=reports)
     if reports is not None:
-        log(f"재무 피처 커버리지(연도별 비율): {fund.coverage(df)}")
+        log(f"재무 피처 커버리지(연도별 비율): {fund.coverage(df)}, 단위 오류 의심으로 bm·ep·sp를 비운 비율 {fund.unit_suspect_rate(df)}")
     assert_no_vault(df, vault_start)
     folds = make_folds(df["date"], first_test=first_test, vault_start=vault_start, embargo_sessions=embargo_sessions)
     log(f"표본 {len(df):,}행, 판단일 {df['date'].nunique():,}일, 종목 {df['code'].nunique():,}개, 폴드 {len(folds)}개 "
@@ -129,6 +129,7 @@ def run(data_dir, target_id: str = "RET_5D", *, start: date = date(2010, 1, 1), 
     out = {"target_definition_id": target_id, "target": t.__dict__, "feature_schema_version": version,
            "feature_list_hash": list_hash(features + raw), "features": features, "raw_features": raw, "models": list(models),
            "fundamental_coverage": fund.coverage(df) if reports is not None else None,
+           "fundamental_unit_suspect": fund.unit_suspect_rate(df) if reports is not None else None,
            "hyperparameters": {m: PARAMS.get(m, {}) for m in models}, "data_snapshot_id": data_snapshot_id(data_dir),
            "universe": {"liquidity_pct": liquidity_pct, "min_history": min_history, "every_sessions": every},
            "fold_definition": {"type": "expanding", "test_months": 12, "first_test": str(first_test),
