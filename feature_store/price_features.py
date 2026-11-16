@@ -61,7 +61,8 @@ def row_features(panel: pd.DataFrame) -> pd.DataFrame:
 def decision_grid(panel: pd.DataFrame, every: int = 1) -> pd.DataFrame:
     """판단 세션 D(every 세션마다)와 그 종목 목록. D에 행이 있는(상장된) 종목만."""
     sessions = sorted(panel["date"].unique())[::every]
-    g = panel[panel["date"].isin(sessions)][["date", "code"]].copy()
+    cols = ["date", "code"] + (["market"] if "market" in panel else [])
+    g = panel[panel["date"].isin(sessions)][cols].copy()            # 시장 구분은 분류 정보라 D의 값을 쓴다
     cut = {d: kr_decision_cutoff(pd.Timestamp(d)) for d in sessions}
     g["decision_time_utc"] = g["date"].map(cut)
     return g
