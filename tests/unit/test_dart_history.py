@@ -147,7 +147,9 @@ def test_from_index_reuses_a_complete_scan_only(tmp_path):
     m = mk(fake).run(date(2017, 1, 1), date(2017, 6, 30), from_index=True)
     assert not any(e == "list.json" for e, _ in fake.calls) and m.counts["index_rows_reused"] == 3
     assert m.status == "ok" and m.counts["fin_unchanged"] == 1
-    assert mk(FakeDart()).run(date(2016, 1, 1), date(2017, 6, 30), from_index=True).status == "failed"   # 범위 밖
+    assert mk(FakeDart()).run(date(2016, 1, 1), date(2017, 6, 30), from_index=True).status == "failed"   # 시작이 범위 밖
+    m4 = mk(FakeDart()).run(date(2017, 1, 1), date(2017, 7, 2), from_index=True)                       # 끝은 줄여서 씀
+    assert m4.status == "ok" and m4.counts["index_rows_reused"] == 3 and "2017-06-30까지" in m4.warnings[0]
 
 
 def test_incomplete_scan_leaves_no_state(tmp_path):
