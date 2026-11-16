@@ -54,7 +54,7 @@ jobs:
       PYTHONUNBUFFERED: "1"
       PRIVATE_REPO: ${{ vars.PRIVATE_DATA_REPO || format('{0}/Quant_Finance_v3_private', github.repository_owner) }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: 비공개 저장소 확인
         env:
           TOKEN: ${{ secrets.PRIVATE_DATA_TOKEN }}
@@ -63,7 +63,7 @@ jobs:
           private=$(curl -sS -H "Authorization: Bearer $TOKEN" -H "Accept: application/vnd.github+json" \
             "https://api.github.com/repos/$PRIVATE_REPO" | python3 -c "import json,sys; print(json.load(sys.stdin).get('private'))")
           if [ "$private" != "True" ]; then echo "::error::$PRIVATE_REPO 가 비공개 저장소로 확인되지 않음"; exit 1; fi
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           repository: ${{ env.PRIVATE_REPO }}
           token: ${{ secrets.PRIVATE_DATA_TOKEN }}
@@ -71,12 +71,12 @@ jobs:
           fetch-depth: 1
       - name: 공개 data 브랜치 (재무 피처용)
         if: inputs.fundamentals
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           ref: data
           path: public_data
           fetch-depth: 1
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.13"
           cache: pip
