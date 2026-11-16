@@ -100,3 +100,5 @@ def test_end_to_end_finds_planted_signal_and_never_reads_vault(tmp_path, monkeyp
     assert len(rec) == 1 and rec[0]["target_definition_id"] == "RET_21D" and rec[0]["experiment_id"] == out["experiment_id"]
     text = run_experiment.report(out)
     assert "한국거래소 통계정보" in text and "gbm" in text and "10000" not in text
+    assert out["portfolio"]["results"] == {}                                    # RET_21D를 5세션마다: 보유가 겹쳐 평가 안 함
+    assert set(out["ic_by_bucket"]["gbm"]) == {"liq_q", "market", "trend", "vol_regime"}

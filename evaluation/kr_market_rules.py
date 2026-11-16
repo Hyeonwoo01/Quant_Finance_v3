@@ -125,7 +125,20 @@ def check_against_data(panel, methods=(BASE_TICK, LIMIT_TICK, DOUBLE)) -> dict:
     kosdaq = np.asarray(df["market"].astype(str).str.upper() == "KOSDAQ")
     close = df["close"].to_numpy(dtype=float)
     # 호가단위 표 검증: 거래가 있었던 날의 종가는 그날 표의 호가단위 배수여야 한다
-    out = {"rows": int(len(df)), "close_off_tick": int((np.mod(close, _tick_arr(close, day, kosdaq)) != 0).sum())}
+    off = np.mod(close, _tick_arr(close, day, kosdaq)) != 0
+    out = {"rows": int(len(df)), "close_off_tick": int(off.sum())}
+    if off.any():            # 어긋난 행이 어느 시장·가격대에 몰려 있는지 (호가단위 표 진단용, 값 대신 구간만)
+        new = day >= np.datetime64(TICK_REFORM)
+        bands = []
+        for i in np.flatnonzero(off):
+            table = _TICKS_UNIFIED if new[i] else (_TICKS_KOSDAQ_OLD if kosdaq[i] else _TICKS_KOSPI_OLD)
+            lo = 0
+            for upper, tick in table:
+                if close[i] < upper:
+                    break
+                lo = upper
+            bands.append(f"{'KOSDAQ' if kosdaq[i] else 'KOSPI'} {'개편후' if new[i] else '개편전'} {lo:,.0f}원~ (표 호가단위 {tick})")
+        out["off_tick_by_band"] = dict(pd.Series(bands).value_counts().head(15).items())
     base = df["base"].to_numpy(dtype=float)
     rate = np.where(day >= np.datetime64(LIMIT_30), 0.30, 0.15)
     near_up = close / base - 1 >= rate - 0.01

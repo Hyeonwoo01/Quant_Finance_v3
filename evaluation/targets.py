@@ -89,6 +89,18 @@ def build_targets(panel: pd.DataFrame, horizons=(1, 5, 21), *, limit_method: str
         t["exit_limit_down"] = (ex["open"].values <= ex["limit_down"].values) & (ex["open"].values > 0)
         t["tradable"] = ~(t["entry_no_trade"] | t["entry_limit_up"] | t["exit_no_trade"] | t["exit_limit_down"]
                           | t["no_exit_row"]) & t["ret"].notna()
+        t["ret_delist"] = np.nan
+        nx = t.index[t["no_exit_row"] & t["entry_open"].notna()]
+        if len(nx):                       # 청산일에 행이 없으면(상장폐지 등) 청산일 전 마지막 종가로 계산한 수익률
+            q = pd.DataFrame({"i": nx, "code": t.loc[nx, "code"].values,
+                              "exit_date": pd.to_datetime(t.loc[nx, "exit_date"].values).astype("datetime64[ns]"),
+                              "cum_d": df.loc[nx, "cumlog"].values}).sort_values("exit_date")
+            last = df[["code", "date", "close", "cumlog"]].copy()
+            last["date"] = pd.to_datetime(last["date"]).astype("datetime64[ns]")
+            last = last.sort_values("date")
+            m = pd.merge_asof(q, last, left_on="exit_date", right_on="date", by="code", direction="backward")
+            g = np.exp(m["cumlog"].values - m["cum_d"].values)
+            t.loc[m["i"].values, "ret_delist"] = m["close"].values / (t.loc[m["i"].values, "entry_open"].values * g) - 1
         out.append(t[valid.values])
     return pd.concat(out, ignore_index=True)
 
