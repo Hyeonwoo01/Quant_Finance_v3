@@ -4755,31 +4755,8272 @@
    "rcept_dt": "20261113",
    "report_nm": "분기보고서 (2026.09)",
    "reprt_code": "11014"
+  },
+  "20261116000004": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00415628",
+   "corp_name": "세진중공업",
+   "done_at_utc": "2026-11-17T04:04:15.005612+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000016": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "01519790",
+   "corp_name": "엠앤씨솔루션",
+   "done_at_utc": "2026-11-17T04:04:20.881242+00:00",
+   "fs_divs": [
+    "OFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000028": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00124027",
+   "corp_name": "부산산업",
+   "done_at_utc": "2026-11-17T04:04:32.110490+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000030": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00152039",
+   "corp_name": "SG글로벌",
+   "done_at_utc": "2026-11-17T04:04:40.223885+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000056": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00111689",
+   "corp_name": "아진전자부품",
+   "done_at_utc": "2026-11-17T04:04:50.406958+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000057": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00134565",
+   "corp_name": "이스타코",
+   "done_at_utc": "2026-11-17T04:04:54.659417+00:00",
+   "fs_divs": [
+    "OFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000062": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "01208885",
+   "corp_name": "경동도시가스",
+   "done_at_utc": "2026-11-17T04:05:00.047638+00:00",
+   "fs_divs": [
+    "OFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000063": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00146232",
+   "corp_name": "일성건설",
+   "done_at_utc": "2026-11-17T04:05:10.533376+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000071": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00684802",
+   "corp_name": "에이플러스에셋",
+   "done_at_utc": "2026-11-17T04:05:21.562424+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000076": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00303217",
+   "corp_name": "우진플라임",
+   "done_at_utc": "2026-11-17T04:05:32.638422+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000079": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00103130",
+   "corp_name": "MDS스피어",
+   "done_at_utc": "2026-11-17T04:05:43.075454+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000096": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00503668",
+   "corp_name": "LIG디펜스앤에어로스페이스",
+   "done_at_utc": "2026-11-17T04:05:53.554122+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000097": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00140177",
+   "corp_name": "GS리테일",
+   "done_at_utc": "2026-11-17T04:06:05.306201+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000110": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "01649204",
+   "corp_name": "달바글로벌",
+   "done_at_utc": "2026-11-17T04:06:17.596547+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000116": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00135795",
+   "corp_name": "신도리코",
+   "done_at_utc": "2026-11-17T04:06:28.260020+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000126": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00129235",
+   "corp_name": "삼화왕관",
+   "done_at_utc": "2026-11-17T04:06:43.139092+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000143": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00104722",
+   "corp_name": "국제약품",
+   "done_at_utc": "2026-11-17T04:06:51.182150+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000145": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00160232",
+   "corp_name": "KSS해운",
+   "done_at_utc": "2026-11-17T04:07:08.554352+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000161": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00480367",
+   "corp_name": "SK오션플랜트",
+   "done_at_utc": "2026-11-17T04:07:18.288394+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000164": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00102751",
+   "corp_name": "고려산업",
+   "done_at_utc": "2026-11-17T04:07:30.149746+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000169": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00129420",
+   "corp_name": "까뮤이앤씨",
+   "done_at_utc": "2026-11-17T04:07:41.435981+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000180": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00132628",
+   "corp_name": "성문전자",
+   "done_at_utc": "2026-11-17T04:07:50.543324+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000199": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00158307",
+   "corp_name": "롯데하이마트",
+   "done_at_utc": "2026-11-17T04:07:56.184628+00:00",
+   "fs_divs": [
+    "OFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000201": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00136086",
+   "corp_name": "무림페이퍼",
+   "done_at_utc": "2026-11-17T04:08:06.752331+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000208": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00119007",
+   "corp_name": "무림P&P",
+   "done_at_utc": "2026-11-17T04:08:17.410187+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000213": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "01042775",
+   "corp_name": "HL만도",
+   "done_at_utc": "2026-11-17T04:08:31.980148+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000216": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00115694",
+   "corp_name": "DB증권",
+   "done_at_utc": "2026-11-17T04:08:49.625441+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000221": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00140779",
+   "corp_name": "영보화학",
+   "done_at_utc": "2026-11-17T04:08:58.986782+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000231": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00125576",
+   "corp_name": "체시스",
+   "done_at_utc": "2026-11-17T04:09:08.327073+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000232": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00706715",
+   "corp_name": "미원홀딩스",
+   "done_at_utc": "2026-11-17T04:09:27.715436+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000233": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00161860",
+   "corp_name": "한성기업",
+   "done_at_utc": "2026-11-17T04:09:33.179950+00:00",
+   "fs_divs": [
+    "OFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000237": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00349097",
+   "corp_name": "케이티스카이라이프",
+   "done_at_utc": "2026-11-17T04:09:43.228209+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000241": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00104768",
+   "corp_name": "가온전선",
+   "done_at_utc": "2026-11-17T04:09:59.490433+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000242": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00116949",
+   "corp_name": "DN오토모티브",
+   "done_at_utc": "2026-11-17T04:10:09.132042+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000248": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00118008",
+   "corp_name": "동원모빌리티",
+   "done_at_utc": "2026-11-17T04:10:18.988602+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "반기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "반기보고서 (2026.09)",
+   "reprt_code": "11012"
+  },
+  "20261116000251": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00172228",
+   "corp_name": "엔케이",
+   "done_at_utc": "2026-11-17T04:10:29.993831+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000262": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00138279",
+   "corp_name": "S-Oil",
+   "done_at_utc": "2026-11-17T04:10:41.035101+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000263": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00144395",
+   "corp_name": "동서",
+   "done_at_utc": "2026-11-17T04:10:50.133932+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000265": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00134510",
+   "corp_name": "SJG세종",
+   "done_at_utc": "2026-11-17T04:11:04.601083+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000274": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00125530",
+   "corp_name": "삼립",
+   "done_at_utc": "2026-11-17T04:11:16.538704+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000275": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00130879",
+   "corp_name": "서울식품공업",
+   "done_at_utc": "2026-11-17T04:11:22.761460+00:00",
+   "fs_divs": [
+    "OFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000286": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00159573",
+   "corp_name": "한국주철관공업",
+   "done_at_utc": "2026-11-17T04:11:31.140308+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000290": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00129642",
+   "corp_name": "상신브레이크",
+   "done_at_utc": "2026-11-17T04:11:40.280122+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000291": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00121543",
+   "corp_name": "무학",
+   "done_at_utc": "2026-11-17T04:11:52.168752+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000296": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00193328",
+   "corp_name": "수산인더스트리",
+   "done_at_utc": "2026-11-17T04:12:03.362408+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000310": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00151128",
+   "corp_name": "모토닉",
+   "done_at_utc": "2026-11-17T04:12:13.034979+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000312": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00414601",
+   "corp_name": "유니퀘스트",
+   "done_at_utc": "2026-11-17T04:12:23.764013+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000320": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00423690",
+   "corp_name": "삼성출판사",
+   "done_at_utc": "2026-11-17T04:12:28.903164+00:00",
+   "fs_divs": [
+    "OFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000322": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00102113",
+   "corp_name": "경인양행",
+   "done_at_utc": "2026-11-17T04:12:43.909256+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000324": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00409672",
+   "corp_name": "티비에이치글로벌",
+   "done_at_utc": "2026-11-17T04:12:52.052308+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000334": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00646732",
+   "corp_name": "진양홀딩스",
+   "done_at_utc": "2026-11-17T04:13:02.712366+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000347": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00231363",
+   "corp_name": "LG유플러스",
+   "done_at_utc": "2026-11-17T04:13:19.916692+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000350": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00121570",
+   "corp_name": "문배철강",
+   "done_at_utc": "2026-11-17T04:13:25.970504+00:00",
+   "fs_divs": [
+    "OFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000359": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00112970",
+   "corp_name": "대한방직",
+   "done_at_utc": "2026-11-17T04:13:37.901422+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000360": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00117498",
+   "corp_name": "스틱인베스트먼트",
+   "done_at_utc": "2026-11-17T04:13:47.856462+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000366": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00117629",
+   "corp_name": "KBI동양철관",
+   "done_at_utc": "2026-11-17T04:13:57.332905+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000367": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00174004",
+   "corp_name": "유성기업",
+   "done_at_utc": "2026-11-17T04:14:08.560177+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000380": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00143314",
+   "corp_name": "에이엔피",
+   "done_at_utc": "2026-11-17T04:14:16.208010+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000385": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00105873",
+   "corp_name": "LG디스플레이",
+   "done_at_utc": "2026-11-17T04:14:27.116931+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000386": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00435312",
+   "corp_name": "하이스틸",
+   "done_at_utc": "2026-11-17T04:14:38.065253+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000388": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00367710",
+   "corp_name": "동인기연",
+   "done_at_utc": "2026-11-17T04:14:47.648736+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000394": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00194947",
+   "corp_name": "한전산업",
+   "done_at_utc": "2026-11-17T04:14:55.608636+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000400": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00225706",
+   "corp_name": "JW생명과학",
+   "done_at_utc": "2026-11-17T04:15:03.704902+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000404": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00143527",
+   "corp_name": "경동인베스트",
+   "done_at_utc": "2026-11-17T04:15:13.736242+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000411": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00150439",
+   "corp_name": "진양산업",
+   "done_at_utc": "2026-11-17T04:15:25.176170+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000421": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00173102",
+   "corp_name": "모나리자",
+   "done_at_utc": "2026-11-17T04:15:29.356226+00:00",
+   "fs_divs": [
+    "OFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000428": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00159786",
+   "corp_name": "유니드",
+   "done_at_utc": "2026-11-17T04:15:38.718712+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000431": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00122056",
+   "corp_name": "미창석유공업",
+   "done_at_utc": "2026-11-17T04:15:44.848200+00:00",
+   "fs_divs": [
+    "OFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000434": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00160375",
+   "corp_name": "진양폴리우레탄",
+   "done_at_utc": "2026-11-17T04:15:48.916725+00:00",
+   "fs_divs": [
+    "OFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000449": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00365989",
+   "corp_name": "모나용평",
+   "done_at_utc": "2026-11-17T04:16:02.125118+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000458": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00347734",
+   "corp_name": "진양화학",
+   "done_at_utc": "2026-11-17T04:16:07.488709+00:00",
+   "fs_divs": [
+    "OFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000460": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00145686",
+   "corp_name": "이화산업",
+   "done_at_utc": "2026-11-17T04:16:15.648936+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000468": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00128980",
+   "corp_name": "삼호개발",
+   "done_at_utc": "2026-11-17T04:16:25.714165+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000473": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00116301",
+   "corp_name": "NI스틸",
+   "done_at_utc": "2026-11-17T04:16:32.212235+00:00",
+   "fs_divs": [
+    "OFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000476": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00129387",
+   "corp_name": "SP삼화",
+   "done_at_utc": "2026-11-17T04:16:43.367732+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000478": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00105156",
+   "corp_name": "극동유화",
+   "done_at_utc": "2026-11-17T04:16:53.804988+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000479": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00112651",
+   "corp_name": "대창",
+   "done_at_utc": "2026-11-17T04:17:06.965316+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000480": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00878696",
+   "corp_name": "에스케이바이오팜",
+   "done_at_utc": "2026-11-17T04:17:16.932028+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000483": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00118026",
+   "corp_name": "동원산업",
+   "done_at_utc": "2026-11-17T04:17:35.314657+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000484": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00160418",
+   "corp_name": "한국무브넥스",
+   "done_at_utc": "2026-11-17T04:17:47.203744+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000485": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00113234",
+   "corp_name": "대한제당",
+   "done_at_utc": "2026-11-17T04:17:59.745743+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000490": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00182696",
+   "corp_name": "대한조선",
+   "done_at_utc": "2026-11-17T04:18:08.549013+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000495": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00163673",
+   "corp_name": "한진중공업홀딩스",
+   "done_at_utc": "2026-11-17T04:18:18.206840+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000500": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00148939",
+   "corp_name": "조광피혁",
+   "done_at_utc": "2026-11-17T04:18:24.935950+00:00",
+   "fs_divs": [
+    "OFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000502": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00104999",
+   "corp_name": "윌비스",
+   "done_at_utc": "2026-11-17T04:18:34.532878+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000507": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00117027",
+   "corp_name": "알루코",
+   "done_at_utc": "2026-11-17T04:18:44.182837+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000508": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00137809",
+   "corp_name": "SHD",
+   "done_at_utc": "2026-11-17T04:18:49.100289+00:00",
+   "fs_divs": [
+    "OFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000522": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "01721809",
+   "corp_name": "현대그린푸드",
+   "done_at_utc": "2026-11-17T04:19:01.307161+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000524": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00159209",
+   "corp_name": "한전기술",
+   "done_at_utc": "2026-11-17T04:19:16.464683+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000537": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00129271",
+   "corp_name": "삼화전기",
+   "done_at_utc": "2026-11-17T04:19:25.224556+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000543": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00112998",
+   "corp_name": "서울보증보험",
+   "done_at_utc": "2026-11-17T04:19:39.927985+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000544": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00145464",
+   "corp_name": "이구산업",
+   "done_at_utc": "2026-11-17T04:19:44.844241+00:00",
+   "fs_divs": [
+    "OFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000547": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "01702017",
+   "corp_name": "유니드비티플러스",
+   "done_at_utc": "2026-11-17T04:19:50.277427+00:00",
+   "fs_divs": [
+    "OFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000550": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00167208",
+   "corp_name": "흥아해운",
+   "done_at_utc": "2026-11-17T04:20:03.092145+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000553": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00828789",
+   "corp_name": "대성산업",
+   "done_at_utc": "2026-11-17T04:20:15.568301+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000556": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00124726",
+   "corp_name": "빙그레",
+   "done_at_utc": "2026-11-17T04:20:27.699356+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000559": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00508344",
+   "corp_name": "SK디앤디",
+   "done_at_utc": "2026-11-17T04:20:41.192127+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000560": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00816544",
+   "corp_name": "토니모리",
+   "done_at_utc": "2026-11-17T04:20:51.208266+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000562": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00360595",
+   "corp_name": "현대글로비스",
+   "done_at_utc": "2026-11-17T04:21:04.464030+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000563": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00107987",
+   "corp_name": "남해화학",
+   "done_at_utc": "2026-11-17T04:21:15.523828+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000566": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00122694",
+   "corp_name": "범양건영",
+   "done_at_utc": "2026-11-17T04:21:25.606062+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000567": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00129989",
+   "corp_name": "코스모신소재",
+   "done_at_utc": "2026-11-17T04:21:31.023495+00:00",
+   "fs_divs": [
+    "OFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000569": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00123541",
+   "corp_name": "보해양조",
+   "done_at_utc": "2026-11-17T04:21:36.170584+00:00",
+   "fs_divs": [
+    "OFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000573": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "01093007",
+   "corp_name": "LS에코에너지",
+   "done_at_utc": "2026-11-17T04:21:44.622325+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000594": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00125743",
+   "corp_name": "현대비앤지스틸",
+   "done_at_utc": "2026-11-17T04:21:54.435876+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000601": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "01167056",
+   "corp_name": "샘표식품",
+   "done_at_utc": "2026-11-17T04:22:03.197643+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000605": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00113191",
+   "corp_name": "코리안리",
+   "done_at_utc": "2026-11-17T04:22:21.221167+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000608": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00815369",
+   "corp_name": "에스제이엠",
+   "done_at_utc": "2026-11-17T04:22:30.709956+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000615": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00130091",
+   "corp_name": "샘표",
+   "done_at_utc": "2026-11-17T04:22:40.083433+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000622": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00557933",
+   "corp_name": "진도",
+   "done_at_utc": "2026-11-17T04:22:45.134402+00:00",
+   "fs_divs": [
+    "OFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000628": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00162063",
+   "corp_name": "한신공영",
+   "done_at_utc": "2026-11-17T04:22:57.377265+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000636": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00123781",
+   "corp_name": "부국철강",
+   "done_at_utc": "2026-11-17T04:23:02.160544+00:00",
+   "fs_divs": [
+    "OFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000642": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00158149",
+   "corp_name": "한국쉘석유",
+   "done_at_utc": "2026-11-17T04:23:06.032803+00:00",
+   "fs_divs": [
+    "OFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000643": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00249247",
+   "corp_name": "YG PLUS",
+   "done_at_utc": "2026-11-17T04:23:18.459107+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000648": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00269241",
+   "corp_name": "주연테크",
+   "done_at_utc": "2026-11-17T04:23:32.962593+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000652": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00121288",
+   "corp_name": "모나미",
+   "done_at_utc": "2026-11-17T04:23:43.128799+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000659": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00135777",
+   "corp_name": "신대양제지",
+   "done_at_utc": "2026-11-17T04:23:53.328965+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000660": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00162072",
+   "corp_name": "한신기계공업",
+   "done_at_utc": "2026-11-17T04:24:02.572208+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000661": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00143794",
+   "corp_name": "원림",
+   "done_at_utc": "2026-11-17T04:24:13.075006+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000662": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00132804",
+   "corp_name": "성신양회",
+   "done_at_utc": "2026-11-17T04:24:27.002085+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000666": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00153755",
+   "corp_name": "태양금속공업",
+   "done_at_utc": "2026-11-17T04:24:36.098929+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "반기보고서",
+   "period_end": "2026-06-30",
+   "rcept_dt": "20261116",
+   "report_nm": "[기재정정]반기보고서 (2026.06)",
+   "reprt_code": "11012"
+  },
+  "20261116000669": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00136457",
+   "corp_name": "SH에너지화학",
+   "done_at_utc": "2026-11-17T04:24:43.735440+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000670": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "01497869",
+   "corp_name": "티와이홀딩스",
+   "done_at_utc": "2026-11-17T04:25:00.794114+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000673": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00372882",
+   "corp_name": "KTcs",
+   "done_at_utc": "2026-11-17T04:25:09.194282+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000676": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00111458",
+   "corp_name": "대영포장",
+   "done_at_utc": "2026-11-17T04:25:15.183593+00:00",
+   "fs_divs": [
+    "OFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000681": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00146269",
+   "corp_name": "일신방직",
+   "done_at_utc": "2026-11-17T04:25:26.132073+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000688": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "01854763",
+   "corp_name": "HS효성",
+   "done_at_utc": "2026-11-17T04:25:37.014525+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000690": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00102432",
+   "corp_name": "계룡건설산업",
+   "done_at_utc": "2026-11-17T04:25:51.441451+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000696": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00107066",
+   "corp_name": "남광토건",
+   "done_at_utc": "2026-11-17T04:25:59.175124+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000699": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00166315",
+   "corp_name": "화신",
+   "done_at_utc": "2026-11-17T04:26:08.074714+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000708": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00141529",
+   "corp_name": "오뚜기",
+   "done_at_utc": "2026-11-17T04:26:19.859059+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000712": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00796994",
+   "corp_name": "조선선재",
+   "done_at_utc": "2026-11-17T04:26:24.443418+00:00",
+   "fs_divs": [
+    "OFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000717": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00161046",
+   "corp_name": "한독",
+   "done_at_utc": "2026-11-17T04:26:37.679485+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000720": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00635134",
+   "corp_name": "CJ제일제당",
+   "done_at_utc": "2026-11-17T04:26:52.209295+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000722": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00632304",
+   "corp_name": "JW홀딩스",
+   "done_at_utc": "2026-11-17T04:27:02.222644+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000726": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00138242",
+   "corp_name": "KG모빌리티",
+   "done_at_utc": "2026-11-17T04:27:12.189821+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000727": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00135962",
+   "corp_name": "신라교역",
+   "done_at_utc": "2026-11-17T04:27:24.139386+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000730": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00156859",
+   "corp_name": "다올투자증권",
+   "done_at_utc": "2026-11-17T04:27:41.273497+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000731": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00105271",
+   "corp_name": "케이씨씨",
+   "done_at_utc": "2026-11-17T04:27:55.568375+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000737": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00149026",
+   "corp_name": "CS홀딩스",
+   "done_at_utc": "2026-11-17T04:28:03.776878+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000743": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00823429",
+   "corp_name": "한국화장품",
+   "done_at_utc": "2026-11-17T04:28:13.512895+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000748": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00401731",
+   "corp_name": "LG전자",
+   "done_at_utc": "2026-11-17T04:28:28.073906+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000753": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00152880",
+   "corp_name": "코오롱글로벌",
+   "done_at_utc": "2026-11-17T04:28:42.789192+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000756": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00990165",
+   "corp_name": "아세아시멘트",
+   "done_at_utc": "2026-11-17T04:28:52.942358+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000760": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00160621",
+   "corp_name": "한국화장품제조",
+   "done_at_utc": "2026-11-17T04:28:58.593103+00:00",
+   "fs_divs": [
+    "OFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000765": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00356361",
+   "corp_name": "LG화학",
+   "done_at_utc": "2026-11-17T04:29:12.984164+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000770": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00300548",
+   "corp_name": "현대리바트",
+   "done_at_utc": "2026-11-17T04:29:21.361764+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000772": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00156150",
+   "corp_name": "엑시큐어하이트론",
+   "done_at_utc": "2026-11-17T04:29:31.039008+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000779": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00145862",
+   "corp_name": "인천도시가스",
+   "done_at_utc": "2026-11-17T04:29:36.743757+00:00",
+   "fs_divs": [
+    "OFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000791": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00118521",
+   "corp_name": "진원생명과학",
+   "done_at_utc": "2026-11-17T04:29:47.266278+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000792": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00135111",
+   "corp_name": "수산세보틱스",
+   "done_at_utc": "2026-11-17T04:29:58.618742+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000794": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00118521",
+   "corp_name": "진원생명과학",
+   "done_at_utc": "2026-11-17T04:30:09.808723+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-03-31",
+   "rcept_dt": "20261116",
+   "report_nm": "[기재정정]분기보고서 (2026.03)",
+   "reprt_code": "11013"
+  },
+  "20261116000809": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00138516",
+   "corp_name": "아남전자",
+   "done_at_utc": "2026-11-17T04:30:19.326380+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000813": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00416654",
+   "corp_name": "유엔젤",
+   "done_at_utc": "2026-11-17T04:30:30.958741+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000815": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00404701",
+   "corp_name": "한국자산신탁",
+   "done_at_utc": "2026-11-17T04:30:38.912152+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000823": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00138701",
+   "corp_name": "아세아",
+   "done_at_utc": "2026-11-17T04:30:48.378916+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000825": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00787376",
+   "corp_name": "대성에너지",
+   "done_at_utc": "2026-11-17T04:30:54.409499+00:00",
+   "fs_divs": [
+    "OFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000833": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00117577",
+   "corp_name": "오리온홀딩스",
+   "done_at_utc": "2026-11-17T04:31:08.249088+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000844": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00166500",
+   "corp_name": "화천기계",
+   "done_at_utc": "2026-11-17T04:31:13.174869+00:00",
+   "fs_divs": [
+    "OFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000851": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00671376",
+   "corp_name": "트리니티항공",
+   "done_at_utc": "2026-11-17T04:31:23.008095+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000853": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00144720",
+   "corp_name": "와이투솔루션",
+   "done_at_utc": "2026-11-17T04:31:33.937820+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000859": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00119195",
+   "corp_name": "동화약품",
+   "done_at_utc": "2026-11-17T04:31:48.888435+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000860": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00115384",
+   "corp_name": "동방아그로",
+   "done_at_utc": "2026-11-17T04:31:59.181976+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000875": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00480455",
+   "corp_name": "STX엔진",
+   "done_at_utc": "2026-11-17T04:32:12.382784+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000883": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "01199550",
+   "corp_name": "HD현대에너지솔루션",
+   "done_at_utc": "2026-11-17T04:32:20.103076+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000889": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00159218",
+   "corp_name": "한전KPS",
+   "done_at_utc": "2026-11-17T04:32:33.426933+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000893": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00157070",
+   "corp_name": "한국단자공업",
+   "done_at_utc": "2026-11-17T04:32:46.053163+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000897": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00269940",
+   "corp_name": "하나투어",
+   "done_at_utc": "2026-11-17T04:32:58.654036+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000899": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00139764",
+   "corp_name": "에넥스",
+   "done_at_utc": "2026-11-17T04:33:07.468596+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000916": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00131850",
+   "corp_name": "SK증권",
+   "done_at_utc": "2026-11-17T04:33:22.193062+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000917": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00362441",
+   "corp_name": "현대오토에버",
+   "done_at_utc": "2026-11-17T04:33:31.379372+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000921": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "01311408",
+   "corp_name": "에코프로머티",
+   "done_at_utc": "2026-11-17T04:33:42.387048+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000922": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00105952",
+   "corp_name": "LS",
+   "done_at_utc": "2026-11-17T04:33:57.194478+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000924": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00138729",
+   "corp_name": "아세아제지",
+   "done_at_utc": "2026-11-17T04:34:08.847370+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000930": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00108913",
+   "corp_name": "대교",
+   "done_at_utc": "2026-11-17T04:34:25.817796+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000932": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00146454",
+   "corp_name": "일양약품",
+   "done_at_utc": "2026-11-17T04:34:37.180459+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000935": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00153621",
+   "corp_name": "참엔지니어링",
+   "done_at_utc": "2026-11-17T04:34:47.102501+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000939": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00164830",
+   "corp_name": "HD한국조선해양",
+   "done_at_utc": "2026-11-17T04:34:59.223742+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000946": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "01350869",
+   "corp_name": "우리금융지주",
+   "done_at_utc": "2026-11-17T04:35:16.146716+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-03-31",
+   "rcept_dt": "20261116",
+   "report_nm": "[기재정정]분기보고서 (2026.03)",
+   "reprt_code": "11013"
+  },
+  "20261116000949": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00980122",
+   "corp_name": "JB금융지주",
+   "done_at_utc": "2026-11-17T04:35:30.306642+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "반기보고서",
+   "period_end": "2026-06-30",
+   "rcept_dt": "20261116",
+   "report_nm": "[기재정정]반기보고서 (2026.06)",
+   "reprt_code": "11012"
+  },
+  "20261116000951": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00178754",
+   "corp_name": "동아지질",
+   "done_at_utc": "2026-11-17T04:35:43.082724+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000957": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00631518",
+   "corp_name": "SK이노베이션",
+   "done_at_utc": "2026-11-17T04:36:04.940249+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000958": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00112022",
+   "corp_name": "대원화성",
+   "done_at_utc": "2026-11-17T04:36:17.456443+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000964": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00179489",
+   "corp_name": "명인제약",
+   "done_at_utc": "2026-11-17T04:36:27.050573+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000975": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00148522",
+   "corp_name": "퍼스텍",
+   "done_at_utc": "2026-11-17T04:36:32.840332+00:00",
+   "fs_divs": [
+    "OFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000980": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00109718",
+   "corp_name": "사조대림",
+   "done_at_utc": "2026-11-17T04:36:45.399323+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000981": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00165680",
+   "corp_name": "호텔신라",
+   "done_at_utc": "2026-11-17T04:36:59.299093+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000994": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00102858",
+   "corp_name": "고려아연",
+   "done_at_utc": "2026-11-17T04:37:12.873215+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000995": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00144252",
+   "corp_name": "유니온",
+   "done_at_utc": "2026-11-17T04:37:24.054452+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116000998": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00154055",
+   "corp_name": "태원물산",
+   "done_at_utc": "2026-11-17T04:37:30.762139+00:00",
+   "fs_divs": [
+    "OFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001002": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00904672",
+   "corp_name": "넷마블",
+   "done_at_utc": "2026-11-17T04:37:45.746223+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001005": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00141875",
+   "corp_name": "사조오양",
+   "done_at_utc": "2026-11-17T04:37:52.091197+00:00",
+   "fs_divs": [
+    "OFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001007": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00131780",
+   "corp_name": "SK네트웍스",
+   "done_at_utc": "2026-11-17T04:38:06.101413+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001009": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00100939",
+   "corp_name": "강남제비스코",
+   "done_at_utc": "2026-11-17T04:38:16.901947+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001018": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00108612",
+   "corp_name": "DS단석",
+   "done_at_utc": "2026-11-17T04:38:29.274328+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001020": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00442835",
+   "corp_name": "메타랩스",
+   "done_at_utc": "2026-11-17T04:38:42.042845+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001025": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00164478",
+   "corp_name": "현대건설",
+   "done_at_utc": "2026-11-17T04:38:55.259961+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001026": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00500254",
+   "corp_name": "GS",
+   "done_at_utc": "2026-11-17T04:39:10.153464+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001028": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "01205851",
+   "corp_name": "HD현대일렉트릭",
+   "done_at_utc": "2026-11-17T04:39:20.917795+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001030": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00157991",
+   "corp_name": "한국석유공업",
+   "done_at_utc": "2026-11-17T04:39:33.687340+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001033": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "01238169",
+   "corp_name": "오리온",
+   "done_at_utc": "2026-11-17T04:39:50.997118+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001039": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00441243",
+   "corp_name": "형지엘리트",
+   "done_at_utc": "2026-11-17T04:40:07.105818+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11013"
+  },
+  "20261116001044": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "01390344",
+   "corp_name": "HD현대중공업",
+   "done_at_utc": "2026-11-17T04:40:18.728892+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001048": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00133858",
+   "corp_name": "세방전지",
+   "done_at_utc": "2026-11-17T04:40:31.515838+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001058": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00146214",
+   "corp_name": "일성아이에스",
+   "done_at_utc": "2026-11-17T04:40:41.428222+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001059": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00107224",
+   "corp_name": "남선알미늄",
+   "done_at_utc": "2026-11-17T04:40:54.860470+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001060": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00117726",
+   "corp_name": "DYP",
+   "done_at_utc": "2026-11-17T04:41:04.869841+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001068": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "01596425",
+   "corp_name": "SK스퀘어",
+   "done_at_utc": "2026-11-17T04:41:19.825880+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001072": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00157681",
+   "corp_name": "롯데정밀화학",
+   "done_at_utc": "2026-11-17T04:41:29.810351+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001073": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00131197",
+   "corp_name": "서원",
+   "done_at_utc": "2026-11-17T04:41:41.422507+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001074": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00181712",
+   "corp_name": "SK",
+   "done_at_utc": "2026-11-17T04:41:54.615434+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001077": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00124090",
+   "corp_name": "한국특강",
+   "done_at_utc": "2026-11-17T04:41:59.531237+00:00",
+   "fs_divs": [
+    "OFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001082": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00126955",
+   "corp_name": "삼양식품",
+   "done_at_utc": "2026-11-17T04:42:11.192452+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001085": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00167192",
+   "corp_name": "넥센",
+   "done_at_utc": "2026-11-17T04:42:24.482109+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001087": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00872984",
+   "corp_name": "이마트",
+   "done_at_utc": "2026-11-17T04:42:38.398184+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001094": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00137997",
+   "corp_name": "현대차증권",
+   "done_at_utc": "2026-11-17T04:42:53.233885+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001099": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00415646",
+   "corp_name": "드림텍",
+   "done_at_utc": "2026-11-17T04:43:03.666326+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001100": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00129013",
+   "corp_name": "CJ씨푸드",
+   "done_at_utc": "2026-11-17T04:43:10.489353+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001107": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00791209",
+   "corp_name": "메타케어",
+   "done_at_utc": "2026-11-17T04:43:19.995414+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001113": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00123772",
+   "corp_name": "부국증권",
+   "done_at_utc": "2026-11-17T04:43:31.881232+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001115": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00118965",
+   "corp_name": "티에이치엔",
+   "done_at_utc": "2026-11-17T04:43:41.735012+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001116": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "01350869",
+   "corp_name": "우리금융지주",
+   "done_at_utc": "2026-11-17T04:44:00.295485+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "반기보고서",
+   "period_end": "2026-06-30",
+   "rcept_dt": "20261116",
+   "report_nm": "[기재정정]반기보고서 (2026.06)",
+   "reprt_code": "11012"
+  },
+  "20261116001119": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00104698",
+   "corp_name": "LS네트웍스",
+   "done_at_utc": "2026-11-17T04:44:10.010656+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001121": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "01386916",
+   "corp_name": "SK아이이테크놀로지",
+   "done_at_utc": "2026-11-17T04:44:22.157539+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001124": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00173874",
+   "corp_name": "넥센타이어",
+   "done_at_utc": "2026-11-17T04:44:33.116205+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001125": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00104786",
+   "corp_name": "미래아이앤지",
+   "done_at_utc": "2026-11-17T04:44:42.479075+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001130": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "01159233",
+   "corp_name": "솔루엠",
+   "done_at_utc": "2026-11-17T04:44:52.416288+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001135": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00117300",
+   "corp_name": "TCC스틸",
+   "done_at_utc": "2026-11-17T04:45:05.150537+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001138": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00302926",
+   "corp_name": "현대로템",
+   "done_at_utc": "2026-11-17T04:45:16.227944+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001139": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00181943",
+   "corp_name": "에스제이엠홀딩스",
+   "done_at_utc": "2026-11-17T04:45:33.605920+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001140": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00152385",
+   "corp_name": "에이프로젠",
+   "done_at_utc": "2026-11-17T04:45:50.899920+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001141": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00652423",
+   "corp_name": "인바이오젠",
+   "done_at_utc": "2026-11-17T04:45:55.903415+00:00",
+   "fs_divs": [
+    "OFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001147": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00127255",
+   "corp_name": "삼영",
+   "done_at_utc": "2026-11-17T04:46:03.227463+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001150": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00149655",
+   "corp_name": "삼성물산",
+   "done_at_utc": "2026-11-17T04:46:14.890985+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001151": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00156691",
+   "corp_name": "한국공항",
+   "done_at_utc": "2026-11-17T04:46:29.002393+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001161": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00137359",
+   "corp_name": "신풍제약",
+   "done_at_utc": "2026-11-17T04:46:39.709841+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001162": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00127802",
+   "corp_name": "삼익THK",
+   "done_at_utc": "2026-11-17T04:46:49.911447+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001164": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00911955",
+   "corp_name": "잇츠한불",
+   "done_at_utc": "2026-11-17T04:46:59.107069+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001166": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00172185",
+   "corp_name": "남성",
+   "done_at_utc": "2026-11-17T04:47:09.099873+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001173": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00121941",
+   "corp_name": "대상",
+   "done_at_utc": "2026-11-17T04:47:20.333191+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001175": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00125521",
+   "corp_name": "에스엘",
+   "done_at_utc": "2026-11-17T04:47:33.332860+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001178": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00361488",
+   "corp_name": "텔코웨어",
+   "done_at_utc": "2026-11-17T04:47:41.850157+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001181": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00148832",
+   "corp_name": "제주은행",
+   "done_at_utc": "2026-11-17T04:47:54.322791+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001185": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00360142",
+   "corp_name": "아이마켓코리아",
+   "done_at_utc": "2026-11-17T04:48:09.297593+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001188": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00106368",
+   "corp_name": "금호석유화학",
+   "done_at_utc": "2026-11-17T04:48:22.232638+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001189": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00132354",
+   "corp_name": "쿠쿠홀딩스",
+   "done_at_utc": "2026-11-17T04:48:34.398439+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001193": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00261285",
+   "corp_name": "한국가스공사",
+   "done_at_utc": "2026-11-17T04:48:49.938490+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001194": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00107613",
+   "corp_name": "이수페타시스",
+   "done_at_utc": "2026-11-17T04:49:01.837768+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001195": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00118451",
+   "corp_name": "동일제강",
+   "done_at_utc": "2026-11-17T04:49:05.950174+00:00",
+   "fs_divs": [
+    "OFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001200": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00145109",
+   "corp_name": "유한양행",
+   "done_at_utc": "2026-11-17T04:49:23.779365+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001201": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "01532603",
+   "corp_name": "화승알앤에이",
+   "done_at_utc": "2026-11-17T04:49:34.848591+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001215": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00204208",
+   "corp_name": "마니커",
+   "done_at_utc": "2026-11-17T04:49:44.156792+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001224": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00422895",
+   "corp_name": "세이브존I&C",
+   "done_at_utc": "2026-11-17T04:49:48.787931+00:00",
+   "fs_divs": [
+    "OFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001228": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00413046",
+   "corp_name": "셀트리온",
+   "done_at_utc": "2026-11-17T04:50:03.070576+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001229": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00109189",
+   "corp_name": "대덕",
+   "done_at_utc": "2026-11-17T04:50:13.498071+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001231": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00107677",
+   "corp_name": "비비안",
+   "done_at_utc": "2026-11-17T04:50:23.713086+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001232": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00126308",
+   "corp_name": "삼성E&A",
+   "done_at_utc": "2026-11-17T04:50:35.197754+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001236": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00109693",
+   "corp_name": "DL",
+   "done_at_utc": "2026-11-17T04:50:48.697227+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001237": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "01010110",
+   "corp_name": "더블유게임즈",
+   "done_at_utc": "2026-11-17T04:51:00.443069+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001243": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00120021",
+   "corp_name": "LG",
+   "done_at_utc": "2026-11-17T04:51:12.919083+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001244": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00104856",
+   "corp_name": "삼성증권",
+   "done_at_utc": "2026-11-17T04:51:25.547492+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001263": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00191472",
+   "corp_name": "KPX케미칼",
+   "done_at_utc": "2026-11-17T04:51:38.088613+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001264": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "01323032",
+   "corp_name": "KG모빌리티플랫폼",
+   "done_at_utc": "2026-11-17T04:51:43.251281+00:00",
+   "fs_divs": [
+    "OFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001265": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00148540",
+   "corp_name": "CJ",
+   "done_at_utc": "2026-11-17T04:51:55.966483+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001266": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00356370",
+   "corp_name": "LG생활건강",
+   "done_at_utc": "2026-11-17T04:52:09.133547+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001269": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00131054",
+   "corp_name": "유진증권",
+   "done_at_utc": "2026-11-17T04:52:22.266050+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001270": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00147222",
+   "corp_name": "전방",
+   "done_at_utc": "2026-11-17T04:52:30.417698+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001274": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00149239",
+   "corp_name": "조일알미늄",
+   "done_at_utc": "2026-11-17T04:52:39.133631+00:00",
+   "fs_divs": [
+    "OFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001275": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "01363818",
+   "corp_name": "롯데리츠",
+   "done_at_utc": "2026-11-17T04:52:43.196514+00:00",
+   "fs_divs": [
+    "OFS"
+   ],
+   "kind": "반기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "반기보고서 (2026.09)",
+   "reprt_code": "11012"
+  },
+  "20261116001276": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00104388",
+   "corp_name": "국도화학",
+   "done_at_utc": "2026-11-17T04:52:58.438547+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001286": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00146296",
+   "corp_name": "일신석재",
+   "done_at_utc": "2026-11-17T04:53:02.611712+00:00",
+   "fs_divs": [
+    "OFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001294": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00113997",
+   "corp_name": "롯데에너지머티리얼즈",
+   "done_at_utc": "2026-11-17T04:53:15.984888+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001296": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00158316",
+   "corp_name": "NICE",
+   "done_at_utc": "2026-11-17T04:53:30.309370+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001297": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00158112",
+   "corp_name": "한국수출포장공업",
+   "done_at_utc": "2026-11-17T04:53:40.059068+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001300": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00129554",
+   "corp_name": "갤럭시아에스엠",
+   "done_at_utc": "2026-11-17T04:53:48.518557+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001307": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00191588",
+   "corp_name": "삼원강재",
+   "done_at_utc": "2026-11-17T04:53:53.341502+00:00",
+   "fs_divs": [
+    "OFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001312": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00234412",
+   "corp_name": "신세계인터내셔날",
+   "done_at_utc": "2026-11-17T04:54:07.283887+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001315": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00114093",
+   "corp_name": "덕성",
+   "done_at_utc": "2026-11-17T04:54:18.922316+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001319": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00139834",
+   "corp_name": "LG씨엔에스",
+   "done_at_utc": "2026-11-17T04:54:30.492787+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001321": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "01203312",
+   "corp_name": "케이뱅크",
+   "done_at_utc": "2026-11-17T04:54:36.463354+00:00",
+   "fs_divs": [
+    "OFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001322": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00366438",
+   "corp_name": "산일전기",
+   "done_at_utc": "2026-11-17T04:54:47.437370+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001325": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00136624",
+   "corp_name": "신영와코루",
+   "done_at_utc": "2026-11-17T04:54:57.518774+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001326": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00303873",
+   "corp_name": "CJ CGV",
+   "done_at_utc": "2026-11-17T04:55:09.032149+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001328": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00101628",
+   "corp_name": "경방",
+   "done_at_utc": "2026-11-17T04:55:23.651935+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001330": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00122898",
+   "corp_name": "벽산",
+   "done_at_utc": "2026-11-17T04:55:34.599143+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001331": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00112165",
+   "corp_name": "디아이씨",
+   "done_at_utc": "2026-11-17T04:55:44.135728+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001334": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00115977",
+   "corp_name": "아이에스동서",
+   "done_at_utc": "2026-11-17T04:55:59.948638+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001340": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00128032",
+   "corp_name": "삼일제약",
+   "done_at_utc": "2026-11-17T04:56:11.209685+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001341": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00163691",
+   "corp_name": "유수홀딩스",
+   "done_at_utc": "2026-11-17T04:56:20.420108+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001343": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00406046",
+   "corp_name": "HD현대마린엔진",
+   "done_at_utc": "2026-11-17T04:56:30.190422+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001348": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00153861",
+   "corp_name": "태영건설",
+   "done_at_utc": "2026-11-17T04:56:46.238736+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001350": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00149646",
+   "corp_name": "기업은행",
+   "done_at_utc": "2026-11-17T04:57:04.694468+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001351": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00547583",
+   "corp_name": "하나금융지주",
+   "done_at_utc": "2026-11-17T04:57:23.033244+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001353": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00135050",
+   "corp_name": "팜젠사이언스",
+   "done_at_utc": "2026-11-17T04:57:29.162363+00:00",
+   "fs_divs": [
+    "OFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001354": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00108746",
+   "corp_name": "DKME",
+   "done_at_utc": "2026-11-17T04:57:37.883657+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001356": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00164973",
+   "corp_name": "현대해상",
+   "done_at_utc": "2026-11-17T04:57:56.133867+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001358": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00105299",
+   "corp_name": "금강공업",
+   "done_at_utc": "2026-11-17T04:58:11.830028+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001363": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00142661",
+   "corp_name": "우성",
+   "done_at_utc": "2026-11-17T04:58:23.448374+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001364": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00160302",
+   "corp_name": "코스모화학",
+   "done_at_utc": "2026-11-17T04:58:40.070698+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001369": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "01168383",
+   "corp_name": "일동제약",
+   "done_at_utc": "2026-11-17T04:58:53.707798+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001372": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00540641",
+   "corp_name": "동양고속",
+   "done_at_utc": "2026-11-17T04:59:02.072156+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001373": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00525934",
+   "corp_name": "LX세미콘",
+   "done_at_utc": "2026-11-17T04:59:10.971484+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001374": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00936787",
+   "corp_name": "애경케미칼",
+   "done_at_utc": "2026-11-17T04:59:21.157974+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001375": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00540605",
+   "corp_name": "이월드",
+   "done_at_utc": "2026-11-17T04:59:25.795742+00:00",
+   "fs_divs": [
+    "OFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001376": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00123718",
+   "corp_name": "부광약품",
+   "done_at_utc": "2026-11-17T04:59:37.161062+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001384": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00124799",
+   "corp_name": "사조산업",
+   "done_at_utc": "2026-11-17T04:59:49.498719+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001387": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00679314",
+   "corp_name": "동성케미컬",
+   "done_at_utc": "2026-11-17T05:00:08.271646+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "반기보고서",
+   "period_end": "2026-06-30",
+   "rcept_dt": "20261116",
+   "report_nm": "[기재정정]반기보고서 (2026.06)",
+   "reprt_code": "11012"
+  },
+  "20261116001388": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00353878",
+   "corp_name": "다스코",
+   "done_at_utc": "2026-11-17T05:00:23.312073+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001389": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00852087",
+   "corp_name": "시디즈",
+   "done_at_utc": "2026-11-17T05:00:30.565336+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001394": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00403632",
+   "corp_name": "현대퓨처넷",
+   "done_at_utc": "2026-11-17T05:00:41.532036+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001396": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00163761",
+   "corp_name": "한창제지",
+   "done_at_utc": "2026-11-17T05:00:47.147583+00:00",
+   "fs_divs": [
+    "OFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001398": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00147860",
+   "corp_name": "에스엠벡셀",
+   "done_at_utc": "2026-11-17T05:00:53.306034+00:00",
+   "fs_divs": [
+    "OFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001400": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00520887",
+   "corp_name": "비상교육",
+   "done_at_utc": "2026-11-17T05:01:03.580198+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001403": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00129280",
+   "corp_name": "삼화전자공업",
+   "done_at_utc": "2026-11-17T05:01:13.286468+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001404": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00126779",
+   "corp_name": "삼아알미늄",
+   "done_at_utc": "2026-11-17T05:01:23.895653+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001407": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00163345",
+   "corp_name": "DB",
+   "done_at_utc": "2026-11-17T05:01:35.525375+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001409": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00106669",
+   "corp_name": "세아베스틸지주",
+   "done_at_utc": "2026-11-17T05:01:47.733878+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001413": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00220561",
+   "corp_name": "광주신세계",
+   "done_at_utc": "2026-11-17T05:01:53.184802+00:00",
+   "fs_divs": [
+    "OFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001414": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00583424",
+   "corp_name": "아모레퍼시픽",
+   "done_at_utc": "2026-11-17T05:02:07.003380+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001417": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00544452",
+   "corp_name": "이리츠코크렙",
+   "done_at_utc": "2026-11-17T05:02:14.145481+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "반기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "반기보고서 (2026.09)",
+   "reprt_code": "11012"
+  },
+  "20261116001419": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00454946",
+   "corp_name": "그린케미칼",
+   "done_at_utc": "2026-11-17T05:02:19.318928+00:00",
+   "fs_divs": [
+    "OFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001423": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00526599",
+   "corp_name": "덴티움",
+   "done_at_utc": "2026-11-17T05:02:31.342208+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001427": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00583442",
+   "corp_name": "노루페인트",
+   "done_at_utc": "2026-11-17T05:02:40.304829+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001430": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "01236897",
+   "corp_name": "제일약품",
+   "done_at_utc": "2026-11-17T05:02:49.545651+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001437": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00164742",
+   "corp_name": "현대자동차",
+   "done_at_utc": "2026-11-17T05:03:04.731049+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001441": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00573579",
+   "corp_name": "평화산업",
+   "done_at_utc": "2026-11-17T05:03:12.508017+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001446": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00149947",
+   "corp_name": "JW중외제약",
+   "done_at_utc": "2026-11-17T05:03:21.689035+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001458": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00108977",
+   "corp_name": "대구백화점",
+   "done_at_utc": "2026-11-17T05:03:31.104531+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001460": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "01205709",
+   "corp_name": "HD현대",
+   "done_at_utc": "2026-11-17T05:03:45.338091+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001470": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "01205842",
+   "corp_name": "HD건설기계",
+   "done_at_utc": "2026-11-17T05:03:59.830920+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001472": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00377610",
+   "corp_name": "세아홀딩스",
+   "done_at_utc": "2026-11-17T05:04:15.481316+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001474": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00145552",
+   "corp_name": "이수화학",
+   "done_at_utc": "2026-11-17T05:04:25.668526+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001477": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00593032",
+   "corp_name": "LF",
+   "done_at_utc": "2026-11-17T05:04:38.681080+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001478": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00146083",
+   "corp_name": "일동홀딩스",
+   "done_at_utc": "2026-11-17T05:04:54.121155+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001479": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00587466",
+   "corp_name": "KPX홀딩스",
+   "done_at_utc": "2026-11-17T05:05:08.029938+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001482": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00126380",
+   "corp_name": "삼성전자",
+   "done_at_utc": "2026-11-17T05:05:21.445717+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001484": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00148920",
+   "corp_name": "조광페인트",
+   "done_at_utc": "2026-11-17T05:05:30.816336+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001486": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00160205",
+   "corp_name": "한국내화",
+   "done_at_utc": "2026-11-17T05:05:43.340961+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001489": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00106395",
+   "corp_name": "금호전기",
+   "done_at_utc": "2026-11-17T05:05:52.410717+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001491": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00105280",
+   "corp_name": "현대지에프홀딩스",
+   "done_at_utc": "2026-11-17T05:06:06.588956+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001493": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00161709",
+   "corp_name": "퍼시스",
+   "done_at_utc": "2026-11-17T05:06:16.333320+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001495": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00132725",
+   "corp_name": "SB성보",
+   "done_at_utc": "2026-11-17T05:06:26.808792+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001496": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00122579",
+   "corp_name": "BYC",
+   "done_at_utc": "2026-11-17T05:06:36.745249+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001498": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00115287",
+   "corp_name": "동방",
+   "done_at_utc": "2026-11-17T05:06:48.841350+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001501": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00159193",
+   "corp_name": "한국전력공사",
+   "done_at_utc": "2026-11-17T05:07:04.123950+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001508": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00939331",
+   "corp_name": "한국콜마",
+   "done_at_utc": "2026-11-17T05:07:17.536295+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001509": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00141626",
+   "corp_name": "오리엔트바이오",
+   "done_at_utc": "2026-11-17T05:07:22.000040+00:00",
+   "fs_divs": [
+    "OFS"
+   ],
+   "kind": "반기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "반기보고서 (2026.09)",
+   "reprt_code": "11012"
+  },
+  "20261116001513": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00159564",
+   "corp_name": "한국주강",
+   "done_at_utc": "2026-11-17T05:07:26.146367+00:00",
+   "fs_divs": [
+    "OFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001517": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00134723",
+   "corp_name": "페이퍼코리아",
+   "done_at_utc": "2026-11-17T05:07:39.315080+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001518": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00248974",
+   "corp_name": "하나제약",
+   "done_at_utc": "2026-11-17T05:07:45.372607+00:00",
+   "fs_divs": [
+    "OFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001519": {
+   "bsns_year": 2024,
+   "cfs_checked": true,
+   "corp_code": "00459871",
+   "corp_name": "농심홀딩스",
+   "done_at_utc": "2026-11-17T05:07:56.213616+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "사업보고서",
+   "period_end": "2024-12-31",
+   "rcept_dt": "20261116",
+   "report_nm": "[기재정정]사업보고서 (2024.12)",
+   "reprt_code": "11011"
+  },
+  "20261116001523": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00209780",
+   "corp_name": "케이씨",
+   "done_at_utc": "2026-11-17T05:08:12.515867+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001526": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00113243",
+   "corp_name": "대한제분",
+   "done_at_utc": "2026-11-17T05:08:23.489860+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001528": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00163196",
+   "corp_name": "한일철강",
+   "done_at_utc": "2026-11-17T05:08:33.273834+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001529": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00106641",
+   "corp_name": "기아",
+   "done_at_utc": "2026-11-17T05:08:48.091736+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001537": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00122825",
+   "corp_name": "프리티",
+   "done_at_utc": "2026-11-17T05:08:59.181635+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001538": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "01428203",
+   "corp_name": "케이씨씨글라스",
+   "done_at_utc": "2026-11-17T05:09:09.242825+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001539": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00141413",
+   "corp_name": "영화금속",
+   "done_at_utc": "2026-11-17T05:09:15.504118+00:00",
+   "fs_divs": [
+    "OFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001543": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00219097",
+   "corp_name": "BGF",
+   "done_at_utc": "2026-11-17T05:09:25.485148+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001547": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00390055",
+   "corp_name": "종근당바이오",
+   "done_at_utc": "2026-11-17T05:09:30.634570+00:00",
+   "fs_divs": [
+    "OFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001549": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00155124",
+   "corp_name": "평화홀딩스",
+   "done_at_utc": "2026-11-17T05:09:39.572901+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001553": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00124780",
+   "corp_name": "사조씨푸드",
+   "done_at_utc": "2026-11-17T05:09:52.822286+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001556": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00126487",
+   "corp_name": "F&F 홀딩스",
+   "done_at_utc": "2026-11-17T05:10:03.386890+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001557": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00428251",
+   "corp_name": "현대백화점",
+   "done_at_utc": "2026-11-17T05:10:18.426499+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001558": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00166519",
+   "corp_name": "화천기공",
+   "done_at_utc": "2026-11-17T05:10:29.240396+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001563": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00148276",
+   "corp_name": "제일기획",
+   "done_at_utc": "2026-11-17T05:10:40.067286+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001567": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00555874",
+   "corp_name": "제주항공",
+   "done_at_utc": "2026-11-17T05:10:49.713895+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001578": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00113508",
+   "corp_name": "노루홀딩스",
+   "done_at_utc": "2026-11-17T05:11:00.324002+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001580": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "01562589",
+   "corp_name": "LX홀딩스",
+   "done_at_utc": "2026-11-17T05:11:11.068006+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001583": {
+   "bsns_year": 2025,
+   "cfs_checked": true,
+   "corp_code": "00459871",
+   "corp_name": "농심홀딩스",
+   "done_at_utc": "2026-11-17T05:11:22.115523+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "사업보고서",
+   "period_end": "2025-12-31",
+   "rcept_dt": "20261116",
+   "report_nm": "[기재정정]사업보고서 (2025.12)",
+   "reprt_code": "11011"
+  },
+  "20261116001584": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00158501",
+   "corp_name": "에스원",
+   "done_at_utc": "2026-11-17T05:11:31.774108+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001591": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00154462",
+   "corp_name": "아모레퍼시픽홀딩스",
+   "done_at_utc": "2026-11-17T05:11:45.230977+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001597": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00108940",
+   "corp_name": "대성홀딩스",
+   "done_at_utc": "2026-11-17T05:11:58.522946+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001599": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00878915",
+   "corp_name": "iM금융지주",
+   "done_at_utc": "2026-11-17T05:12:15.092480+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001606": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00122472",
+   "corp_name": "PKC",
+   "done_at_utc": "2026-11-17T05:12:23.964486+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001609": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00426086",
+   "corp_name": "티케이지휴켐스",
+   "done_at_utc": "2026-11-17T05:12:36.869336+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001614": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00141477",
+   "corp_name": "영흥",
+   "done_at_utc": "2026-11-17T05:12:46.656059+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001624": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00382199",
+   "corp_name": "신한지주",
+   "done_at_utc": "2026-11-17T05:13:10.175133+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001635": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00980122",
+   "corp_name": "JB금융지주",
+   "done_at_utc": "2026-11-17T05:13:24.839800+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001637": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "01480780",
+   "corp_name": "NH올원리츠",
+   "done_at_utc": "2026-11-17T05:13:34.149302+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "반기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "반기보고서 (2026.09)",
+   "reprt_code": "11012"
+  },
+  "20261116001651": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00939687",
+   "corp_name": "동일고무벨트",
+   "done_at_utc": "2026-11-17T05:13:42.673197+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001654": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00459871",
+   "corp_name": "농심홀딩스",
+   "done_at_utc": "2026-11-17T05:13:52.160938+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001657": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00113492",
+   "corp_name": "깨끗한나라",
+   "done_at_utc": "2026-11-17T05:14:05.120589+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001659": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00877059",
+   "corp_name": "삼성바이오로직스",
+   "done_at_utc": "2026-11-17T05:14:14.786039+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001661": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00357360",
+   "corp_name": "한세엠케이",
+   "done_at_utc": "2026-11-17T05:14:25.859352+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001664": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00153393",
+   "corp_name": "태광산업",
+   "done_at_utc": "2026-11-17T05:14:39.552854+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001665": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "01319808",
+   "corp_name": "한일시멘트",
+   "done_at_utc": "2026-11-17T05:14:50.927178+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001670": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00128412",
+   "corp_name": "삼진제약",
+   "done_at_utc": "2026-11-17T05:14:56.074547+00:00",
+   "fs_divs": [
+    "OFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001676": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00137252",
+   "corp_name": "사조동아원",
+   "done_at_utc": "2026-11-17T05:15:25.395986+00:00",
+   "fs_divs": [
+    "OFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001680": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00162993",
+   "corp_name": "한일홀딩스",
+   "done_at_utc": "2026-11-17T05:15:37.422137+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001685": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00133335",
+   "corp_name": "성창기업지주",
+   "done_at_utc": "2026-11-17T05:15:46.346229+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001687": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00144818",
+   "corp_name": "유유제약",
+   "done_at_utc": "2026-11-17T05:15:55.661384+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001696": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00398701",
+   "corp_name": "엘앤에프",
+   "done_at_utc": "2026-11-17T05:16:10.711309+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001698": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00687711",
+   "corp_name": "한국철강",
+   "done_at_utc": "2026-11-17T05:16:16.122307+00:00",
+   "fs_divs": [
+    "OFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001707": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00122481",
+   "corp_name": "태경비케이",
+   "done_at_utc": "2026-11-17T05:16:27.803157+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001709": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00141404",
+   "corp_name": "블루산업개발",
+   "done_at_utc": "2026-11-17T05:16:37.804464+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001710": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00176914",
+   "corp_name": "다우기술",
+   "done_at_utc": "2026-11-17T05:16:55.038407+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001713": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "01036446",
+   "corp_name": "서연이화",
+   "done_at_utc": "2026-11-17T05:17:07.048720+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001715": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00164779",
+   "corp_name": "SK하이닉스",
+   "done_at_utc": "2026-11-17T05:17:22.137439+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001718": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00369833",
+   "corp_name": "유니온머티리얼",
+   "done_at_utc": "2026-11-17T05:17:31.213098+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001719": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00679314",
+   "corp_name": "동성케미컬",
+   "done_at_utc": "2026-11-17T05:17:51.556003+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001720": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00115676",
+   "corp_name": "KG스틸",
+   "done_at_utc": "2026-11-17T05:18:01.852039+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001723": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00162416",
+   "corp_name": "한양증권",
+   "done_at_utc": "2026-11-17T05:18:08.538161+00:00",
+   "fs_divs": [
+    "OFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001730": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00112059",
+   "corp_name": "상상인증권",
+   "done_at_utc": "2026-11-17T05:18:19.084525+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001733": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00163114",
+   "corp_name": "서연",
+   "done_at_utc": "2026-11-17T05:18:31.200913+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001735": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00113544",
+   "corp_name": "대한화섬",
+   "done_at_utc": "2026-11-17T05:18:38.207361+00:00",
+   "fs_divs": [
+    "OFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001738": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00118266",
+   "corp_name": "DRB동일",
+   "done_at_utc": "2026-11-17T05:18:48.626239+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001742": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00127042",
+   "corp_name": "SYTS",
+   "done_at_utc": "2026-11-17T05:19:00.647618+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001746": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "01204056",
+   "corp_name": "하이브",
+   "done_at_utc": "2026-11-17T05:19:11.836916+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001747": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00661847",
+   "corp_name": "화인베스틸",
+   "done_at_utc": "2026-11-17T05:19:22.468327+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001748": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "01263022",
+   "corp_name": "BGF리테일",
+   "done_at_utc": "2026-11-17T05:19:32.993149+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001754": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00109161",
+   "corp_name": "태경케미컬",
+   "done_at_utc": "2026-11-17T05:19:43.280443+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001758": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00776820",
+   "corp_name": "영원무역",
+   "done_at_utc": "2026-11-17T05:19:54.691424+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001762": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00106881",
+   "corp_name": "인디에프",
+   "done_at_utc": "2026-11-17T05:20:05.582494+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001765": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00125080",
+   "corp_name": "AK홀딩스",
+   "done_at_utc": "2026-11-17T05:20:21.084774+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001766": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00142883",
+   "corp_name": "우신시스템",
+   "done_at_utc": "2026-11-17T05:20:32.495505+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001775": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00136378",
+   "corp_name": "신세계",
+   "done_at_utc": "2026-11-17T05:20:46.302925+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001778": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00126186",
+   "corp_name": "삼성에스디에스",
+   "done_at_utc": "2026-11-17T05:20:57.701991+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001779": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00173795",
+   "corp_name": "신흥",
+   "done_at_utc": "2026-11-17T05:21:08.002473+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001780": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00159740",
+   "corp_name": "KISCO홀딩스",
+   "done_at_utc": "2026-11-17T05:21:17.989352+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001782": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00595191",
+   "corp_name": "후성",
+   "done_at_utc": "2026-11-17T05:21:29.419826+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001784": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00140964",
+   "corp_name": "영원무역홀딩스",
+   "done_at_utc": "2026-11-17T05:21:41.210547+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001786": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00126292",
+   "corp_name": "삼성카드",
+   "done_at_utc": "2026-11-17T05:21:54.141873+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001789": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00164812",
+   "corp_name": "현대코퍼레이션",
+   "done_at_utc": "2026-11-17T05:22:07.637877+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001792": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00139214",
+   "corp_name": "삼성화재해상보험",
+   "done_at_utc": "2026-11-17T05:22:23.684139+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001800": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00165583",
+   "corp_name": "E1",
+   "done_at_utc": "2026-11-17T05:22:35.009657+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001802": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00174527",
+   "corp_name": "HS화성",
+   "done_at_utc": "2026-11-17T05:22:45.711916+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001807": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00145880",
+   "corp_name": "현대제철",
+   "done_at_utc": "2026-11-17T05:22:59.858789+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001814": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00760971",
+   "corp_name": "크래프톤",
+   "done_at_utc": "2026-11-17T05:23:13.452408+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001815": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "01267684",
+   "corp_name": "쿠쿠홈시스",
+   "done_at_utc": "2026-11-17T05:23:22.333068+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001822": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00126478",
+   "corp_name": "삼성중공업",
+   "done_at_utc": "2026-11-17T05:23:34.627109+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001826": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00139889",
+   "corp_name": "SKC",
+   "done_at_utc": "2026-11-17T05:23:50.613243+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001832": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00138260",
+   "corp_name": "SIMPAC",
+   "done_at_utc": "2026-11-17T05:24:01.985238+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001854": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00858364",
+   "corp_name": "BNK금융지주",
+   "done_at_utc": "2026-11-17T05:24:17.173104+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001856": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00134316",
+   "corp_name": "세원정공",
+   "done_at_utc": "2026-11-17T05:24:29.750257+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11013"
+  },
+  "20261116001858": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00161116",
+   "corp_name": "HL D&I",
+   "done_at_utc": "2026-11-17T05:24:42.054713+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001865": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00117337",
+   "corp_name": "동양",
+   "done_at_utc": "2026-11-17T05:24:56.319646+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001866": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00112378",
+   "corp_name": "다이나맥",
+   "done_at_utc": "2026-11-17T05:25:09.949658+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001869": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "01762569",
+   "corp_name": "이수스페셜티케미컬",
+   "done_at_utc": "2026-11-17T05:25:19.652441+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001870": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00126201",
+   "corp_name": "삼성공조",
+   "done_at_utc": "2026-11-17T05:25:28.738098+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001874": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00107598",
+   "corp_name": "남양유업",
+   "done_at_utc": "2026-11-17T05:25:39.652107+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001877": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "01784394",
+   "corp_name": "STX그린로지스",
+   "done_at_utc": "2026-11-17T05:25:48.171641+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001889": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "01568413",
+   "corp_name": "F&F",
+   "done_at_utc": "2026-11-17T05:25:58.031410+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001891": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00101664",
+   "corp_name": "경보제약",
+   "done_at_utc": "2026-11-17T05:26:03.442354+00:00",
+   "fs_divs": [
+    "OFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001893": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00152862",
+   "corp_name": "코오롱",
+   "done_at_utc": "2026-11-17T05:26:21.222463+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001915": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00126371",
+   "corp_name": "삼성전기",
+   "done_at_utc": "2026-11-17T05:26:33.780108+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001919": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00219486",
+   "corp_name": "신세계I&C",
+   "done_at_utc": "2026-11-17T05:26:46.320127+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001924": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00113614",
+   "corp_name": "대현",
+   "done_at_utc": "2026-11-17T05:26:52.356651+00:00",
+   "fs_divs": [
+    "OFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001930": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00153755",
+   "corp_name": "태양금속공업",
+   "done_at_utc": "2026-11-17T05:27:04.345268+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001945": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00113562",
+   "corp_name": "롯데손해보험",
+   "done_at_utc": "2026-11-17T05:27:14.803120+00:00",
+   "fs_divs": [
+    "OFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001946": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00116824",
+   "corp_name": "동아제약",
+   "done_at_utc": "2026-11-17T05:27:26.985503+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001947": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00126414",
+   "corp_name": "삼성제약",
+   "done_at_utc": "2026-11-17T05:27:31.929258+00:00",
+   "fs_divs": [
+    "OFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001948": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00797364",
+   "corp_name": "KC코트렐",
+   "done_at_utc": "2026-11-17T05:27:41.408860+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001950": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00126256",
+   "corp_name": "삼성생명",
+   "done_at_utc": "2026-11-17T05:27:53.988354+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001956": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00164724",
+   "corp_name": "현대엘리베이터",
+   "done_at_utc": "2026-11-17T05:28:08.123356+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001959": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00413523",
+   "corp_name": "한미글로벌",
+   "done_at_utc": "2026-11-17T05:28:18.462585+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001962": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00158963",
+   "corp_name": "유나이티드",
+   "done_at_utc": "2026-11-17T05:28:26.042201+00:00",
+   "fs_divs": [
+    "OFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001963": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "01105153",
+   "corp_name": "두산로보틱스",
+   "done_at_utc": "2026-11-17T05:28:34.624288+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001965": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00159102",
+   "corp_name": "DB손해보험",
+   "done_at_utc": "2026-11-17T05:28:55.175464+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001967": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00172936",
+   "corp_name": "동일산업",
+   "done_at_utc": "2026-11-17T05:29:06.817370+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001968": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00129679",
+   "corp_name": "녹십자",
+   "done_at_utc": "2026-11-17T05:29:19.097198+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001975": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00115612",
+   "corp_name": "동부건설",
+   "done_at_utc": "2026-11-17T05:29:33.209253+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "반기보고서",
+   "period_end": "2026-06-30",
+   "rcept_dt": "20261116",
+   "report_nm": "[기재정정]반기보고서 (2026.06)",
+   "reprt_code": "11012"
+  },
+  "20261116001979": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00112332",
+   "corp_name": "미래에셋생명",
+   "done_at_utc": "2026-11-17T05:29:48.131119+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001983": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00153339",
+   "corp_name": "태경산업",
+   "done_at_utc": "2026-11-17T05:29:59.552326+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001984": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00628189",
+   "corp_name": "웅진씽크빅",
+   "done_at_utc": "2026-11-17T05:30:12.916373+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001988": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00125974",
+   "corp_name": "삼부토건",
+   "done_at_utc": "2026-11-17T05:30:22.580436+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116001990": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00992871",
+   "corp_name": "종근당",
+   "done_at_utc": "2026-11-17T05:30:37.230355+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116002006": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00109824",
+   "corp_name": "대림통상",
+   "done_at_utc": "2026-11-17T05:30:56.391889+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116002008": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00956930",
+   "corp_name": "동아에스티",
+   "done_at_utc": "2026-11-17T05:31:12.603435+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116002011": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00105855",
+   "corp_name": "엘에스일렉트릭",
+   "done_at_utc": "2026-11-17T05:31:30.552401+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116002016": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00203290",
+   "corp_name": "콜마홀딩스",
+   "done_at_utc": "2026-11-17T05:31:42.325197+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116002018": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00153524",
+   "corp_name": "태림포장",
+   "done_at_utc": "2026-11-17T05:31:54.786467+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116002023": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00148443",
+   "corp_name": "제일파마홀딩스",
+   "done_at_utc": "2026-11-17T05:32:07.210532+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116002025": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00414850",
+   "corp_name": "효성 ITX",
+   "done_at_utc": "2026-11-17T05:32:18.095587+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116002026": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00155531",
+   "corp_name": "풍산홀딩스",
+   "done_at_utc": "2026-11-17T05:32:31.832920+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116002034": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00161976",
+   "corp_name": "한세예스24홀딩스",
+   "done_at_utc": "2026-11-17T05:32:42.705882+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116002042": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00101488",
+   "corp_name": "경동나비엔",
+   "done_at_utc": "2026-11-17T05:32:53.976360+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116002043": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "01350869",
+   "corp_name": "우리금융지주",
+   "done_at_utc": "2026-11-17T05:33:14.356265+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116002050": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00180795",
+   "corp_name": "인팩",
+   "done_at_utc": "2026-11-17T05:33:23.788178+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116002051": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00111722",
+   "corp_name": "미래에셋증권",
+   "done_at_utc": "2026-11-17T05:33:38.828172+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116002060": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00145437",
+   "corp_name": "아센디오",
+   "done_at_utc": "2026-11-17T05:33:50.226434+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116002067": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00255619",
+   "corp_name": "강원랜드",
+   "done_at_utc": "2026-11-17T05:34:01.988908+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116002071": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "01108099",
+   "corp_name": "현대코퍼레이션홀딩스",
+   "done_at_utc": "2026-11-17T05:34:17.771628+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116002073": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00108038",
+   "corp_name": "엔피씨",
+   "done_at_utc": "2026-11-17T05:34:28.394204+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116002075": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00159500",
+   "corp_name": "한국종합기술",
+   "done_at_utc": "2026-11-17T05:34:38.511367+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116002081": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00159023",
+   "corp_name": "SK텔레콤",
+   "done_at_utc": "2026-11-17T05:34:54.945048+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116002087": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00539274",
+   "corp_name": "대상홀딩스",
+   "done_at_utc": "2026-11-17T05:35:07.203212+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116002089": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00428729",
+   "corp_name": "대호에이엘",
+   "done_at_utc": "2026-11-17T05:35:28.421528+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116002099": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00860332",
+   "corp_name": "메리츠금융지주",
+   "done_at_utc": "2026-11-17T05:35:49.610485+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116002112": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00299002",
+   "corp_name": "HL홀딩스",
+   "done_at_utc": "2026-11-17T05:36:21.589213+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116002119": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00372873",
+   "corp_name": "KTis",
+   "done_at_utc": "2026-11-17T05:36:28.094053+00:00",
+   "fs_divs": [
+    "OFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116002121": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00119140",
+   "corp_name": "핸즈코퍼레이션",
+   "done_at_utc": "2026-11-17T05:36:37.489585+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116002123": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00149354",
+   "corp_name": "종근당홀딩스",
+   "done_at_utc": "2026-11-17T05:36:50.805150+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116002129": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00166272",
+   "corp_name": "화승코퍼레이션",
+   "done_at_utc": "2026-11-17T05:37:06.533273+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "[기재정정]분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116002143": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00116268",
+   "corp_name": "동성제약",
+   "done_at_utc": "2026-11-17T05:37:12.081515+00:00",
+   "fs_divs": [
+    "OFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116002146": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00101220",
+   "corp_name": "KG케미칼",
+   "done_at_utc": "2026-11-17T05:37:25.717526+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116002151": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00684714",
+   "corp_name": "풍산",
+   "done_at_utc": "2026-11-17T05:37:42.553087+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116002160": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00115612",
+   "corp_name": "동부건설",
+   "done_at_utc": "2026-11-17T05:37:57.655208+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116002161": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00759513",
+   "corp_name": "LX하우시스",
+   "done_at_utc": "2026-11-17T05:38:09.182976+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116002163": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00113535",
+   "corp_name": "대한해운",
+   "done_at_utc": "2026-11-17T05:38:20.334337+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116002171": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00108135",
+   "corp_name": "녹십자홀딩스",
+   "done_at_utc": "2026-11-17T05:38:33.238573+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116002174": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00103176",
+   "corp_name": "흥국화재",
+   "done_at_utc": "2026-11-17T05:38:38.475243+00:00",
+   "fs_divs": [
+    "OFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116002181": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00233653",
+   "corp_name": "한국토지신탁",
+   "done_at_utc": "2026-11-17T05:38:53.023279+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116002184": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00123143",
+   "corp_name": "보령",
+   "done_at_utc": "2026-11-17T05:39:02.179901+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116002195": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00261443",
+   "corp_name": "NC",
+   "done_at_utc": "2026-11-17T05:39:23.023320+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116002200": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00138297",
+   "corp_name": "STX",
+   "done_at_utc": "2026-11-17T05:39:32.884442+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116002207": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00565154",
+   "corp_name": "이노션",
+   "done_at_utc": "2026-11-17T05:39:46.663127+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116002210": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00156488",
+   "corp_name": "휴스틸",
+   "done_at_utc": "2026-11-17T05:39:59.055123+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116002219": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "01436628",
+   "corp_name": "이지스레지던스리츠",
+   "done_at_utc": "2026-11-17T05:40:04.596787+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "반기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "반기보고서 (2026.09)",
+   "reprt_code": "11012"
+  },
+  "20261116002223": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00203315",
+   "corp_name": "콘텐트리중앙",
+   "done_at_utc": "2026-11-17T05:40:19.843137+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116002225": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00688996",
+   "corp_name": "KB금융",
+   "done_at_utc": "2026-11-17T05:40:38.001313+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116002231": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00143651",
+   "corp_name": "웅진",
+   "done_at_utc": "2026-11-17T05:40:52.572962+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116002232": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00111847",
+   "corp_name": "대원강업",
+   "done_at_utc": "2026-11-17T05:41:04.028475+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116002248": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00126362",
+   "corp_name": "삼성SDI",
+   "done_at_utc": "2026-11-17T05:41:29.188963+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "분기보고서 (2026.09)",
+   "reprt_code": "11014"
+  },
+  "20261116002257": {
+   "bsns_year": 2026,
+   "cfs_checked": true,
+   "corp_code": "00102618",
+   "corp_name": "계양전기",
+   "done_at_utc": "2026-11-17T05:41:38.942323+00:00",
+   "fs_divs": [
+    "OFS",
+    "CFS"
+   ],
+   "kind": "분기보고서",
+   "period_end": "2026-09-30",
+   "rcept_dt": "20261116",
+   "report_nm": "[기재정정]분기보고서 (2026.09)",
+   "reprt_code": "11014"
   }
  },
  "gave_up": {},
  "pending": {
   "20261112000726": {
-   "attempts": 4,
+   "attempts": 5,
    "corp_code": "01032486",
    "corp_name": "두산밥캣",
    "first_seen_utc": "2026-11-13T01:54:33.609525+00:00",
-   "last_try_utc": "2026-11-16T01:11:45.860103+00:00",
+   "last_try_utc": "2026-11-17T04:04:01.469311+00:00",
    "rcept_dt": "20261112",
    "rcept_no": "20261112000726",
    "report_nm": "분기보고서 (2026.09)",
    "rm": ""
   },
   "20261113001265": {
-   "attempts": 3,
+   "attempts": 4,
    "corp_code": "00111111",
    "corp_name": "대양금속",
    "first_seen_utc": "2026-11-14T01:34:11.973514+00:00",
-   "last_try_utc": "2026-11-16T01:12:29.145870+00:00",
+   "last_try_utc": "2026-11-17T04:04:05.924449+00:00",
    "rcept_dt": "20261113",
    "rcept_no": "20261113001265",
    "report_nm": "분기보고서 (2026.09)",
    "rm": "정"
+  },
+  "20261116001673": {
+   "attempts": 1,
+   "corp_code": "00166272",
+   "corp_name": "화승코퍼레이션",
+   "first_seen_utc": "2026-11-17T04:03:57.515361+00:00",
+   "last_try_utc": "2026-11-17T05:15:19.939392+00:00",
+   "rcept_dt": "20261116",
+   "rcept_no": "20261116001673",
+   "report_nm": "분기보고서 (2026.09)",
+   "rm": "정"
+  },
+  "20261116002070": {
+   "attempts": 1,
+   "corp_code": "00261285",
+   "corp_name": "한국가스공사",
+   "first_seen_utc": "2026-11-17T04:03:57.516565+00:00",
+   "last_try_utc": "2026-11-17T05:34:08.464238+00:00",
+   "rcept_dt": "20261116",
+   "rcept_no": "20261116002070",
+   "report_nm": "[기재정정]분기보고서 (2026.09)",
+   "rm": ""
+  },
+  "20261116002103": {
+   "attempts": 1,
+   "corp_code": "00102618",
+   "corp_name": "계양전기",
+   "first_seen_utc": "2026-11-17T04:03:57.516677+00:00",
+   "last_try_utc": "2026-11-17T05:36:07.527508+00:00",
+   "rcept_dt": "20261116",
+   "rcept_no": "20261116002103",
+   "report_nm": "분기보고서 (2026.09)",
+   "rm": "정"
+  },
+  "20261116002202": {
+   "attempts": 1,
+   "corp_code": "01762569",
+   "corp_name": "이수스페셜티케미컬",
+   "first_seen_utc": "2026-11-17T04:03:57.516955+00:00",
+   "last_try_utc": "2026-11-17T05:39:37.258824+00:00",
+   "rcept_dt": "20261116",
+   "rcept_no": "20261116002202",
+   "report_nm": "[기재정정]분기보고서 (2026.09)",
+   "rm": ""
+  },
+  "20261116002234": {
+   "attempts": 1,
+   "corp_code": "00113492",
+   "corp_name": "깨끗한나라",
+   "first_seen_utc": "2026-11-17T04:03:57.517032+00:00",
+   "last_try_utc": "2026-11-17T05:41:09.926614+00:00",
+   "rcept_dt": "20261116",
+   "rcept_no": "20261116002234",
+   "report_nm": "[기재정정]분기보고서 (2026.09)",
+   "rm": ""
+  },
+  "20261116002243": {
+   "attempts": 1,
+   "corp_code": "00992871",
+   "corp_name": "종근당",
+   "first_seen_utc": "2026-11-17T04:03:57.517050+00:00",
+   "last_try_utc": "2026-11-17T05:41:16.348850+00:00",
+   "rcept_dt": "20261116",
+   "rcept_no": "20261116002243",
+   "report_nm": "[기재정정]분기보고서 (2026.09)",
+   "rm": ""
   }
  }
 }
