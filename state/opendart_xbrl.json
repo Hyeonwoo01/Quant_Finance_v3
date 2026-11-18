@@ -1,11 +1,11 @@
 {
  "attempts": {
-  "20261112000436": 1,
-  "20261112000647": 1,
-  "20261113001034": 1,
-  "20261113001144": 1,
-  "20261113001240": 1,
-  "20261113001553": 1
+  "20261112000436": 2,
+  "20261112000647": 2,
+  "20261113001034": 2,
+  "20261113001144": 2,
+  "20261113001240": 2,
+  "20261113001553": 2
  },
  "done": {
   "20261106000023": {
@@ -2351,6 +2351,4150 @@
    "geography": "OK",
    "segment": "OK",
    "values": 17
+  },
+  "20261116000004": {
+   "corp_code": "00415628",
+   "corp_name": "세진중공업",
+   "done_at_utc": "2026-11-18T02:58:26.766818+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000016": {
+   "corp_code": "01519790",
+   "corp_name": "엠앤씨솔루션",
+   "done_at_utc": "2026-11-18T02:58:27.842852+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000028": {
+   "corp_code": "00124027",
+   "corp_name": "부산산업",
+   "done_at_utc": "2026-11-18T02:58:30.333291+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000030": {
+   "corp_code": "00152039",
+   "corp_name": "SG글로벌",
+   "done_at_utc": "2026-11-18T02:58:31.446257+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000056": {
+   "corp_code": "00111689",
+   "corp_name": "아진전자부품",
+   "done_at_utc": "2026-11-18T02:58:32.711635+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000057": {
+   "corp_code": "00134565",
+   "corp_name": "이스타코",
+   "done_at_utc": "2026-11-18T02:58:33.977031+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000062": {
+   "corp_code": "01208885",
+   "corp_name": "경동도시가스",
+   "done_at_utc": "2026-11-18T02:58:35.690050+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000063": {
+   "corp_code": "00146232",
+   "corp_name": "일성건설",
+   "done_at_utc": "2026-11-18T02:58:37.069086+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000071": {
+   "corp_code": "00684802",
+   "corp_name": "에이플러스에셋",
+   "done_at_utc": "2026-11-18T02:58:38.334682+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000076": {
+   "corp_code": "00303217",
+   "corp_name": "우진플라임",
+   "done_at_utc": "2026-11-18T02:58:39.651667+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000079": {
+   "corp_code": "00103130",
+   "corp_name": "MDS스피어",
+   "done_at_utc": "2026-11-18T02:58:40.924587+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000096": {
+   "corp_code": "00503668",
+   "corp_name": "LIG디펜스앤에어로스페이스",
+   "done_at_utc": "2026-11-18T02:58:43.677171+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 3
+  },
+  "20261116000097": {
+   "corp_code": "00140177",
+   "corp_name": "GS리테일",
+   "done_at_utc": "2026-11-18T02:58:46.490948+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "OK",
+   "values": 6
+  },
+  "20261116000110": {
+   "corp_code": "01649204",
+   "corp_name": "달바글로벌",
+   "done_at_utc": "2026-11-18T02:58:49.752451+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000116": {
+   "corp_code": "00135795",
+   "corp_name": "신도리코",
+   "done_at_utc": "2026-11-18T02:58:51.534274+00:00",
+   "geography": "OK",
+   "segment": "PROFIT_NOT_OPERATING",
+   "values": 4
+  },
+  "20261116000126": {
+   "corp_code": "00129235",
+   "corp_name": "삼화왕관",
+   "done_at_utc": "2026-11-18T02:58:52.998048+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000143": {
+   "corp_code": "00104722",
+   "corp_name": "국제약품",
+   "done_at_utc": "2026-11-18T02:58:54.095025+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000145": {
+   "corp_code": "00160232",
+   "corp_name": "KSS해운",
+   "done_at_utc": "2026-11-18T02:58:56.400466+00:00",
+   "geography": "OK",
+   "segment": "PROFIT_NOT_OPERATING",
+   "values": 12
+  },
+  "20261116000161": {
+   "corp_code": "00480367",
+   "corp_name": "SK오션플랜트",
+   "done_at_utc": "2026-11-18T02:58:59.224003+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "OK",
+   "values": 4
+  },
+  "20261116000164": {
+   "corp_code": "00102751",
+   "corp_name": "고려산업",
+   "done_at_utc": "2026-11-18T02:59:00.605792+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000169": {
+   "corp_code": "00129420",
+   "corp_name": "까뮤이앤씨",
+   "done_at_utc": "2026-11-18T02:59:01.994665+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000180": {
+   "corp_code": "00132628",
+   "corp_name": "성문전자",
+   "done_at_utc": "2026-11-18T02:59:03.253913+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000199": {
+   "corp_code": "00158307",
+   "corp_name": "롯데하이마트",
+   "done_at_utc": "2026-11-18T02:59:05.199761+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000201": {
+   "corp_code": "00136086",
+   "corp_name": "무림페이퍼",
+   "done_at_utc": "2026-11-18T02:59:20.345872+00:00",
+   "geography": "OK",
+   "segment": "PROFIT_NOT_OPERATING",
+   "values": 6
+  },
+  "20261116000208": {
+   "corp_code": "00119007",
+   "corp_name": "무림P&P",
+   "done_at_utc": "2026-11-18T02:59:23.051990+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 21
+  },
+  "20261116000213": {
+   "corp_code": "01042775",
+   "corp_name": "HL만도",
+   "done_at_utc": "2026-11-18T02:59:25.717604+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 5
+  },
+  "20261116000216": {
+   "corp_code": "00115694",
+   "corp_name": "DB증권",
+   "done_at_utc": "2026-11-18T02:59:29.413258+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "OK",
+   "values": 12
+  },
+  "20261116000221": {
+   "corp_code": "00140779",
+   "corp_name": "영보화학",
+   "done_at_utc": "2026-11-18T02:59:31.607000+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000231": {
+   "corp_code": "00125576",
+   "corp_name": "체시스",
+   "done_at_utc": "2026-11-18T02:59:32.828154+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000232": {
+   "corp_code": "00706715",
+   "corp_name": "미원홀딩스",
+   "done_at_utc": "2026-11-18T02:59:34.373486+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000233": {
+   "corp_code": "00161860",
+   "corp_name": "한성기업",
+   "done_at_utc": "2026-11-18T02:59:36.587577+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000237": {
+   "corp_code": "00349097",
+   "corp_name": "케이티스카이라이프",
+   "done_at_utc": "2026-11-18T02:59:38.903722+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000241": {
+   "corp_code": "00104768",
+   "corp_name": "가온전선",
+   "done_at_utc": "2026-11-18T02:59:45.500944+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 10
+  },
+  "20261116000242": {
+   "corp_code": "00116949",
+   "corp_name": "DN오토모티브",
+   "done_at_utc": "2026-11-18T02:59:48.046164+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 5
+  },
+  "20261116000248": {
+   "corp_code": "00118008",
+   "corp_name": "동원모빌리티",
+   "done_at_utc": "2026-11-18T02:59:50.318941+00:00",
+   "geography": "OK",
+   "segment": "PROFIT_NOT_OPERATING",
+   "values": 7
+  },
+  "20261116000251": {
+   "corp_code": "00172228",
+   "corp_name": "엔케이",
+   "done_at_utc": "2026-11-18T02:59:52.929251+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000262": {
+   "corp_code": "00138279",
+   "corp_name": "S-Oil",
+   "done_at_utc": "2026-11-18T03:00:01.774436+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 14
+  },
+  "20261116000263": {
+   "corp_code": "00144395",
+   "corp_name": "동서",
+   "done_at_utc": "2026-11-18T03:00:03.452172+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 10
+  },
+  "20261116000265": {
+   "corp_code": "00134510",
+   "corp_name": "SJG세종",
+   "done_at_utc": "2026-11-18T03:00:13.263943+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 4
+  },
+  "20261116000274": {
+   "corp_code": "00125530",
+   "corp_name": "삼립",
+   "done_at_utc": "2026-11-18T03:00:15.760713+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "OK",
+   "values": 8
+  },
+  "20261116000275": {
+   "corp_code": "00130879",
+   "corp_name": "서울식품공업",
+   "done_at_utc": "2026-11-18T03:00:16.998824+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000286": {
+   "corp_code": "00159573",
+   "corp_name": "한국주철관공업",
+   "done_at_utc": "2026-11-18T03:00:18.303652+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000290": {
+   "corp_code": "00129642",
+   "corp_name": "상신브레이크",
+   "done_at_utc": "2026-11-18T03:00:20.373743+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000291": {
+   "corp_code": "00121543",
+   "corp_name": "무학",
+   "done_at_utc": "2026-11-18T03:00:22.522261+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 2
+  },
+  "20261116000296": {
+   "corp_code": "00193328",
+   "corp_name": "수산인더스트리",
+   "done_at_utc": "2026-11-18T03:00:24.642325+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 13
+  },
+  "20261116000310": {
+   "corp_code": "00151128",
+   "corp_name": "모토닉",
+   "done_at_utc": "2026-11-18T03:00:26.429653+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 3
+  },
+  "20261116000312": {
+   "corp_code": "00414601",
+   "corp_name": "유니퀘스트",
+   "done_at_utc": "2026-11-18T03:00:33.979510+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 8
+  },
+  "20261116000320": {
+   "corp_code": "00423690",
+   "corp_name": "삼성출판사",
+   "done_at_utc": "2026-11-18T03:00:35.852449+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000322": {
+   "corp_code": "00102113",
+   "corp_name": "경인양행",
+   "done_at_utc": "2026-11-18T03:00:38.372901+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 8
+  },
+  "20261116000324": {
+   "corp_code": "00409672",
+   "corp_name": "티비에이치글로벌",
+   "done_at_utc": "2026-11-18T03:00:39.610104+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000334": {
+   "corp_code": "00646732",
+   "corp_name": "진양홀딩스",
+   "done_at_utc": "2026-11-18T03:00:40.909863+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000347": {
+   "corp_code": "00231363",
+   "corp_name": "LG유플러스",
+   "done_at_utc": "2026-11-18T03:00:43.052173+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "OK",
+   "values": 4
+  },
+  "20261116000350": {
+   "corp_code": "00121570",
+   "corp_name": "문배철강",
+   "done_at_utc": "2026-11-18T03:00:44.163891+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000359": {
+   "corp_code": "00112970",
+   "corp_name": "대한방직",
+   "done_at_utc": "2026-11-18T03:00:45.593255+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000360": {
+   "corp_code": "00117498",
+   "corp_name": "스틱인베스트먼트",
+   "done_at_utc": "2026-11-18T03:00:46.839279+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000366": {
+   "corp_code": "00117629",
+   "corp_name": "KBI동양철관",
+   "done_at_utc": "2026-11-18T03:00:48.095276+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000367": {
+   "corp_code": "00174004",
+   "corp_name": "유성기업",
+   "done_at_utc": "2026-11-18T03:00:50.731694+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000380": {
+   "corp_code": "00143314",
+   "corp_name": "에이엔피",
+   "done_at_utc": "2026-11-18T03:00:53.119952+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000385": {
+   "corp_code": "00105873",
+   "corp_name": "LG디스플레이",
+   "done_at_utc": "2026-11-18T03:00:55.464916+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 5
+  },
+  "20261116000386": {
+   "corp_code": "00435312",
+   "corp_name": "하이스틸",
+   "done_at_utc": "2026-11-18T03:00:56.595872+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000388": {
+   "corp_code": "00367710",
+   "corp_name": "동인기연",
+   "done_at_utc": "2026-11-18T03:00:57.853991+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000394": {
+   "corp_code": "00194947",
+   "corp_name": "한전산업",
+   "done_at_utc": "2026-11-18T03:01:00.087490+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000400": {
+   "corp_code": "00225706",
+   "corp_name": "JW생명과학",
+   "done_at_utc": "2026-11-18T03:01:01.371874+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000404": {
+   "corp_code": "00143527",
+   "corp_name": "경동인베스트",
+   "done_at_utc": "2026-11-18T03:01:02.628791+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000411": {
+   "corp_code": "00150439",
+   "corp_name": "진양산업",
+   "done_at_utc": "2026-11-18T03:01:04.008055+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000421": {
+   "corp_code": "00173102",
+   "corp_name": "모나리자",
+   "done_at_utc": "2026-11-18T03:01:05.013723+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000428": {
+   "corp_code": "00159786",
+   "corp_name": "유니드",
+   "done_at_utc": "2026-11-18T03:01:07.273468+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000431": {
+   "corp_code": "00122056",
+   "corp_name": "미창석유공업",
+   "done_at_utc": "2026-11-18T03:01:14.690660+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 2
+  },
+  "20261116000434": {
+   "corp_code": "00160375",
+   "corp_name": "진양폴리우레탄",
+   "done_at_utc": "2026-11-18T03:01:15.766613+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000449": {
+   "corp_code": "00365989",
+   "corp_name": "모나용평",
+   "done_at_utc": "2026-11-18T03:01:18.585642+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 2
+  },
+  "20261116000458": {
+   "corp_code": "00347734",
+   "corp_name": "진양화학",
+   "done_at_utc": "2026-11-18T03:01:19.696349+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000460": {
+   "corp_code": "00145686",
+   "corp_name": "이화산업",
+   "done_at_utc": "2026-11-18T03:01:21.136844+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000468": {
+   "corp_code": "00128980",
+   "corp_name": "삼호개발",
+   "done_at_utc": "2026-11-18T03:01:24.399053+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000473": {
+   "corp_code": "00116301",
+   "corp_name": "NI스틸",
+   "done_at_utc": "2026-11-18T03:01:26.287329+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000476": {
+   "corp_code": "00129387",
+   "corp_name": "SP삼화",
+   "done_at_utc": "2026-11-18T03:01:28.812340+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 12
+  },
+  "20261116000478": {
+   "corp_code": "00105156",
+   "corp_name": "극동유화",
+   "done_at_utc": "2026-11-18T03:01:30.089996+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000479": {
+   "corp_code": "00112651",
+   "corp_name": "대창",
+   "done_at_utc": "2026-11-18T03:01:32.670335+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "OK",
+   "values": 4
+  },
+  "20261116000480": {
+   "corp_code": "00878696",
+   "corp_name": "에스케이바이오팜",
+   "done_at_utc": "2026-11-18T03:01:34.989365+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 2
+  },
+  "20261116000483": {
+   "corp_code": "00118026",
+   "corp_name": "동원산업",
+   "done_at_utc": "2026-11-18T03:01:37.734458+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000484": {
+   "corp_code": "00160418",
+   "corp_name": "한국무브넥스",
+   "done_at_utc": "2026-11-18T03:01:39.062574+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000485": {
+   "corp_code": "00113234",
+   "corp_name": "대한제당",
+   "done_at_utc": "2026-11-18T03:01:41.600742+00:00",
+   "geography": "OK",
+   "segment": "PROFIT_NOT_OPERATING",
+   "values": 10
+  },
+  "20261116000490": {
+   "corp_code": "00182696",
+   "corp_name": "대한조선",
+   "done_at_utc": "2026-11-18T03:01:43.911945+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 5
+  },
+  "20261116000495": {
+   "corp_code": "00163673",
+   "corp_name": "한진중공업홀딩스",
+   "done_at_utc": "2026-11-18T03:01:45.310769+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000500": {
+   "corp_code": "00148939",
+   "corp_name": "조광피혁",
+   "done_at_utc": "2026-11-18T03:01:47.394206+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 2
+  },
+  "20261116000502": {
+   "corp_code": "00104999",
+   "corp_name": "윌비스",
+   "done_at_utc": "2026-11-18T03:01:48.523750+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000507": {
+   "corp_code": "00117027",
+   "corp_name": "알루코",
+   "done_at_utc": "2026-11-18T03:01:49.877881+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000508": {
+   "corp_code": "00137809",
+   "corp_name": "SHD",
+   "done_at_utc": "2026-11-18T03:01:53.070044+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000522": {
+   "corp_code": "01721809",
+   "corp_name": "현대그린푸드",
+   "done_at_utc": "2026-11-18T03:01:55.023388+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "OK",
+   "values": 8
+  },
+  "20261116000524": {
+   "corp_code": "00159209",
+   "corp_name": "한전기술",
+   "done_at_utc": "2026-11-18T03:01:57.919854+00:00",
+   "geography": "OK",
+   "segment": "PROFIT_NOT_OPERATING",
+   "values": 5
+  },
+  "20261116000537": {
+   "corp_code": "00129271",
+   "corp_name": "삼화전기",
+   "done_at_utc": "2026-11-18T03:01:59.056903+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000543": {
+   "corp_code": "00112998",
+   "corp_name": "서울보증보험",
+   "done_at_utc": "2026-11-18T03:02:02.115771+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "OK",
+   "values": 6
+  },
+  "20261116000544": {
+   "corp_code": "00145464",
+   "corp_name": "이구산업",
+   "done_at_utc": "2026-11-18T03:02:03.220549+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000547": {
+   "corp_code": "01702017",
+   "corp_name": "유니드비티플러스",
+   "done_at_utc": "2026-11-18T03:02:04.306895+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000550": {
+   "corp_code": "00167208",
+   "corp_name": "흥아해운",
+   "done_at_utc": "2026-11-18T03:02:05.539263+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000553": {
+   "corp_code": "00828789",
+   "corp_name": "대성산업",
+   "done_at_utc": "2026-11-18T03:02:08.161166+00:00",
+   "geography": "OK",
+   "segment": "PROFIT_NOT_OPERATING",
+   "values": 14
+  },
+  "20261116000556": {
+   "corp_code": "00124726",
+   "corp_name": "빙그레",
+   "done_at_utc": "2026-11-18T03:02:10.231519+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000559": {
+   "corp_code": "00508344",
+   "corp_name": "SK디앤디",
+   "done_at_utc": "2026-11-18T03:02:13.959437+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "OK",
+   "values": 4
+  },
+  "20261116000560": {
+   "corp_code": "00816544",
+   "corp_name": "토니모리",
+   "done_at_utc": "2026-11-18T03:02:15.227739+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000562": {
+   "corp_code": "00360595",
+   "corp_name": "현대글로비스",
+   "done_at_utc": "2026-11-18T03:02:17.963771+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "OK",
+   "values": 6
+  },
+  "20261116000563": {
+   "corp_code": "00107987",
+   "corp_name": "남해화학",
+   "done_at_utc": "2026-11-18T03:02:20.097043+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 10
+  },
+  "20261116000566": {
+   "corp_code": "00122694",
+   "corp_name": "범양건영",
+   "done_at_utc": "2026-11-18T03:02:21.327550+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000567": {
+   "corp_code": "00129989",
+   "corp_name": "코스모신소재",
+   "done_at_utc": "2026-11-18T03:02:23.539099+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 4
+  },
+  "20261116000569": {
+   "corp_code": "00123541",
+   "corp_name": "보해양조",
+   "done_at_utc": "2026-11-18T03:02:24.621935+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000573": {
+   "corp_code": "01093007",
+   "corp_name": "LS에코에너지",
+   "done_at_utc": "2026-11-18T03:02:29.371294+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000594": {
+   "corp_code": "00125743",
+   "corp_name": "현대비앤지스틸",
+   "done_at_utc": "2026-11-18T03:02:31.266048+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 2
+  },
+  "20261116000601": {
+   "corp_code": "01167056",
+   "corp_name": "샘표식품",
+   "done_at_utc": "2026-11-18T03:02:33.334782+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 2
+  },
+  "20261116000605": {
+   "corp_code": "00113191",
+   "corp_name": "코리안리",
+   "done_at_utc": "2026-11-18T03:02:36.839153+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000608": {
+   "corp_code": "00815369",
+   "corp_name": "에스제이엠",
+   "done_at_utc": "2026-11-18T03:02:39.125243+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 8
+  },
+  "20261116000615": {
+   "corp_code": "00130091",
+   "corp_name": "샘표",
+   "done_at_utc": "2026-11-18T03:02:41.337884+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 6
+  },
+  "20261116000622": {
+   "corp_code": "00557933",
+   "corp_name": "진도",
+   "done_at_utc": "2026-11-18T03:02:42.411934+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000628": {
+   "corp_code": "00162063",
+   "corp_name": "한신공영",
+   "done_at_utc": "2026-11-18T03:02:49.429493+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 12
+  },
+  "20261116000636": {
+   "corp_code": "00123781",
+   "corp_name": "부국철강",
+   "done_at_utc": "2026-11-18T03:02:50.528217+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000642": {
+   "corp_code": "00158149",
+   "corp_name": "한국쉘석유",
+   "done_at_utc": "2026-11-18T03:02:51.591784+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000643": {
+   "corp_code": "00249247",
+   "corp_name": "YG PLUS",
+   "done_at_utc": "2026-11-18T03:02:52.989374+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000648": {
+   "corp_code": "00269241",
+   "corp_name": "주연테크",
+   "done_at_utc": "2026-11-18T03:02:54.256633+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000652": {
+   "corp_code": "00121288",
+   "corp_name": "모나미",
+   "done_at_utc": "2026-11-18T03:02:55.656293+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000659": {
+   "corp_code": "00135777",
+   "corp_name": "신대양제지",
+   "done_at_utc": "2026-11-18T03:02:56.969233+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000660": {
+   "corp_code": "00162072",
+   "corp_name": "한신기계공업",
+   "done_at_utc": "2026-11-18T03:02:59.095168+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000661": {
+   "corp_code": "00143794",
+   "corp_name": "원림",
+   "done_at_utc": "2026-11-18T03:03:00.474345+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000662": {
+   "corp_code": "00132804",
+   "corp_name": "성신양회",
+   "done_at_utc": "2026-11-18T03:03:02.554513+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 2
+  },
+  "20261116000666": {
+   "corp_code": "00153755",
+   "corp_name": "태양금속공업",
+   "done_at_utc": "2026-11-18T03:03:05.338927+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 11
+  },
+  "20261116000669": {
+   "corp_code": "00136457",
+   "corp_name": "SH에너지화학",
+   "done_at_utc": "2026-11-18T03:03:06.419383+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000670": {
+   "corp_code": "01497869",
+   "corp_name": "티와이홀딩스",
+   "done_at_utc": "2026-11-18T03:03:13.546863+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "PROFIT_NOT_OPERATING",
+   "values": 3
+  },
+  "20261116000673": {
+   "corp_code": "00372882",
+   "corp_name": "KTcs",
+   "done_at_utc": "2026-11-18T03:03:14.787191+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000676": {
+   "corp_code": "00111458",
+   "corp_name": "대영포장",
+   "done_at_utc": "2026-11-18T03:03:16.018859+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000681": {
+   "corp_code": "00146269",
+   "corp_name": "일신방직",
+   "done_at_utc": "2026-11-18T03:03:18.392076+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 18
+  },
+  "20261116000688": {
+   "corp_code": "01854763",
+   "corp_name": "HS효성",
+   "done_at_utc": "2026-11-18T03:03:20.800864+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 2
+  },
+  "20261116000690": {
+   "corp_code": "00102432",
+   "corp_name": "계룡건설산업",
+   "done_at_utc": "2026-11-18T03:03:23.876367+00:00",
+   "geography": "OK",
+   "segment": "PROFIT_NOT_OPERATING",
+   "values": 8
+  },
+  "20261116000696": {
+   "corp_code": "00107066",
+   "corp_name": "남광토건",
+   "done_at_utc": "2026-11-18T03:03:25.570754+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000699": {
+   "corp_code": "00166315",
+   "corp_name": "화신",
+   "done_at_utc": "2026-11-18T03:03:27.868107+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 6
+  },
+  "20261116000708": {
+   "corp_code": "00141529",
+   "corp_name": "오뚜기",
+   "done_at_utc": "2026-11-18T03:03:30.775089+00:00",
+   "geography": "OK",
+   "segment": "PROFIT_NOT_OPERATING",
+   "values": 14
+  },
+  "20261116000712": {
+   "corp_code": "00796994",
+   "corp_name": "조선선재",
+   "done_at_utc": "2026-11-18T03:03:31.912042+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000717": {
+   "corp_code": "00161046",
+   "corp_name": "한독",
+   "done_at_utc": "2026-11-18T03:03:34.262280+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 2
+  },
+  "20261116000720": {
+   "corp_code": "00635134",
+   "corp_name": "CJ제일제당",
+   "done_at_utc": "2026-11-18T03:03:37.107290+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 13
+  },
+  "20261116000722": {
+   "corp_code": "00632304",
+   "corp_name": "JW홀딩스",
+   "done_at_utc": "2026-11-18T03:03:38.723656+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000726": {
+   "corp_code": "00138242",
+   "corp_name": "KG모빌리티",
+   "done_at_utc": "2026-11-18T03:03:41.894844+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 4
+  },
+  "20261116000727": {
+   "corp_code": "00135962",
+   "corp_name": "신라교역",
+   "done_at_utc": "2026-11-18T03:03:44.459812+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 7
+  },
+  "20261116000730": {
+   "corp_code": "00156859",
+   "corp_name": "다올투자증권",
+   "done_at_utc": "2026-11-18T03:03:47.552356+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 12
+  },
+  "20261116000731": {
+   "corp_code": "00105271",
+   "corp_name": "케이씨씨",
+   "done_at_utc": "2026-11-18T03:03:50.790286+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 8
+  },
+  "20261116000737": {
+   "corp_code": "00149026",
+   "corp_name": "CS홀딩스",
+   "done_at_utc": "2026-11-18T03:03:52.037145+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000743": {
+   "corp_code": "00823429",
+   "corp_name": "한국화장품",
+   "done_at_utc": "2026-11-18T03:03:53.289357+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000748": {
+   "corp_code": "00401731",
+   "corp_name": "LG전자",
+   "done_at_utc": "2026-11-18T03:03:56.427437+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 16
+  },
+  "20261116000753": {
+   "corp_code": "00152880",
+   "corp_name": "코오롱글로벌",
+   "done_at_utc": "2026-11-18T03:04:00.257072+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000756": {
+   "corp_code": "00990165",
+   "corp_name": "아세아시멘트",
+   "done_at_utc": "2026-11-18T03:04:02.563078+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 2
+  },
+  "20261116000760": {
+   "corp_code": "00160621",
+   "corp_name": "한국화장품제조",
+   "done_at_utc": "2026-11-18T03:04:03.845923+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000765": {
+   "corp_code": "00356361",
+   "corp_name": "LG화학",
+   "done_at_utc": "2026-11-18T03:04:07.463670+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 6
+  },
+  "20261116000770": {
+   "corp_code": "00300548",
+   "corp_name": "현대리바트",
+   "done_at_utc": "2026-11-18T03:04:09.613888+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000772": {
+   "corp_code": "00156150",
+   "corp_name": "엑시큐어하이트론",
+   "done_at_utc": "2026-11-18T03:04:10.852959+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000779": {
+   "corp_code": "00145862",
+   "corp_name": "인천도시가스",
+   "done_at_utc": "2026-11-18T03:04:12.911206+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000791": {
+   "corp_code": "00118521",
+   "corp_name": "진원생명과학",
+   "done_at_utc": "2026-11-18T03:04:14.171663+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000792": {
+   "corp_code": "00135111",
+   "corp_name": "수산세보틱스",
+   "done_at_utc": "2026-11-18T03:04:16.721157+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000794": {
+   "corp_code": "00118521",
+   "corp_name": "진원생명과학",
+   "done_at_utc": "2026-11-18T03:04:17.980405+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000809": {
+   "corp_code": "00138516",
+   "corp_name": "아남전자",
+   "done_at_utc": "2026-11-18T03:04:20.562824+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000813": {
+   "corp_code": "00416654",
+   "corp_name": "유엔젤",
+   "done_at_utc": "2026-11-18T03:04:21.943938+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000815": {
+   "corp_code": "00404701",
+   "corp_name": "한국자산신탁",
+   "done_at_utc": "2026-11-18T03:04:23.072356+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000823": {
+   "corp_code": "00138701",
+   "corp_name": "아세아",
+   "done_at_utc": "2026-11-18T03:04:24.335792+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000825": {
+   "corp_code": "00787376",
+   "corp_name": "대성에너지",
+   "done_at_utc": "2026-11-18T03:04:26.371021+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000833": {
+   "corp_code": "00117577",
+   "corp_name": "오리온홀딩스",
+   "done_at_utc": "2026-11-18T03:04:28.813639+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 3
+  },
+  "20261116000844": {
+   "corp_code": "00166500",
+   "corp_name": "화천기계",
+   "done_at_utc": "2026-11-18T03:04:29.923329+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000851": {
+   "corp_code": "00671376",
+   "corp_name": "트리니티항공",
+   "done_at_utc": "2026-11-18T03:04:32.235548+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000853": {
+   "corp_code": "00144720",
+   "corp_name": "와이투솔루션",
+   "done_at_utc": "2026-11-18T03:04:33.766559+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000859": {
+   "corp_code": "00119195",
+   "corp_name": "동화약품",
+   "done_at_utc": "2026-11-18T03:04:36.183134+00:00",
+   "geography": "OK",
+   "segment": "PROFIT_NOT_OPERATING",
+   "values": 5
+  },
+  "20261116000860": {
+   "corp_code": "00115384",
+   "corp_name": "동방아그로",
+   "done_at_utc": "2026-11-18T03:04:37.424152+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000875": {
+   "corp_code": "00480455",
+   "corp_name": "STX엔진",
+   "done_at_utc": "2026-11-18T03:04:39.645129+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 10
+  },
+  "20261116000883": {
+   "corp_code": "01199550",
+   "corp_name": "HD현대에너지솔루션",
+   "done_at_utc": "2026-11-18T03:04:42.070866+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 5
+  },
+  "20261116000889": {
+   "corp_code": "00159218",
+   "corp_name": "한전KPS",
+   "done_at_utc": "2026-11-18T03:04:44.731131+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 4
+  },
+  "20261116000893": {
+   "corp_code": "00157070",
+   "corp_name": "한국단자공업",
+   "done_at_utc": "2026-11-18T03:04:46.822171+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 4
+  },
+  "20261116000897": {
+   "corp_code": "00269940",
+   "corp_name": "하나투어",
+   "done_at_utc": "2026-11-18T03:04:48.204660+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000899": {
+   "corp_code": "00139764",
+   "corp_name": "에넥스",
+   "done_at_utc": "2026-11-18T03:04:50.559677+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000916": {
+   "corp_code": "00131850",
+   "corp_name": "SK증권",
+   "done_at_utc": "2026-11-18T03:04:54.519444+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000917": {
+   "corp_code": "00362441",
+   "corp_name": "현대오토에버",
+   "done_at_utc": "2026-11-18T03:04:57.317809+00:00",
+   "geography": "OK",
+   "segment": "PROFIT_NOT_OPERATING",
+   "values": 8
+  },
+  "20261116000921": {
+   "corp_code": "01311408",
+   "corp_name": "에코프로머티",
+   "done_at_utc": "2026-11-18T03:04:59.228323+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 2
+  },
+  "20261116000922": {
+   "corp_code": "00105952",
+   "corp_name": "LS",
+   "done_at_utc": "2026-11-18T03:05:01.952222+00:00",
+   "geography": "OK",
+   "segment": "PROFIT_NOT_OPERATING",
+   "values": 22
+  },
+  "20261116000924": {
+   "corp_code": "00138729",
+   "corp_name": "아세아제지",
+   "done_at_utc": "2026-11-18T03:05:04.167603+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 3
+  },
+  "20261116000930": {
+   "corp_code": "00108913",
+   "corp_name": "대교",
+   "done_at_utc": "2026-11-18T03:05:06.816527+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 12
+  },
+  "20261116000932": {
+   "corp_code": "00146454",
+   "corp_name": "일양약품",
+   "done_at_utc": "2026-11-18T03:05:08.092928+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000935": {
+   "corp_code": "00153621",
+   "corp_name": "참엔지니어링",
+   "done_at_utc": "2026-11-18T03:05:09.383556+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000939": {
+   "corp_code": "00164830",
+   "corp_name": "HD한국조선해양",
+   "done_at_utc": "2026-11-18T03:05:12.738477+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 13
+  },
+  "20261116000946": {
+   "corp_code": "01350869",
+   "corp_name": "우리금융지주",
+   "done_at_utc": "2026-11-18T03:05:16.925115+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000949": {
+   "corp_code": "00980122",
+   "corp_name": "JB금융지주",
+   "done_at_utc": "2026-11-18T03:05:19.591464+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000951": {
+   "corp_code": "00178754",
+   "corp_name": "동아지질",
+   "done_at_utc": "2026-11-18T03:05:20.863002+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000957": {
+   "corp_code": "00631518",
+   "corp_name": "SK이노베이션",
+   "done_at_utc": "2026-11-18T03:05:24.627993+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 13
+  },
+  "20261116000958": {
+   "corp_code": "00112022",
+   "corp_name": "대원화성",
+   "done_at_utc": "2026-11-18T03:05:25.928218+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000964": {
+   "corp_code": "00179489",
+   "corp_name": "명인제약",
+   "done_at_utc": "2026-11-18T03:05:27.868316+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000975": {
+   "corp_code": "00148522",
+   "corp_name": "퍼스텍",
+   "done_at_utc": "2026-11-18T03:05:28.945998+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000980": {
+   "corp_code": "00109718",
+   "corp_name": "사조대림",
+   "done_at_utc": "2026-11-18T03:05:31.437098+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 22
+  },
+  "20261116000981": {
+   "corp_code": "00165680",
+   "corp_name": "호텔신라",
+   "done_at_utc": "2026-11-18T03:05:34.299007+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 4
+  },
+  "20261116000994": {
+   "corp_code": "00102858",
+   "corp_name": "고려아연",
+   "done_at_utc": "2026-11-18T03:05:36.707630+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 9
+  },
+  "20261116000995": {
+   "corp_code": "00144252",
+   "corp_name": "유니온",
+   "done_at_utc": "2026-11-18T03:05:39.935855+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116000998": {
+   "corp_code": "00154055",
+   "corp_name": "태원물산",
+   "done_at_utc": "2026-11-18T03:05:41.180813+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001002": {
+   "corp_code": "00904672",
+   "corp_name": "넷마블",
+   "done_at_utc": "2026-11-18T03:05:44.193275+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 3
+  },
+  "20261116001005": {
+   "corp_code": "00141875",
+   "corp_name": "사조오양",
+   "done_at_utc": "2026-11-18T03:05:45.371445+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001007": {
+   "corp_code": "00131780",
+   "corp_name": "SK네트웍스",
+   "done_at_utc": "2026-11-18T03:05:47.938241+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "PROFIT_NOT_OPERATING",
+   "values": 5
+  },
+  "20261116001009": {
+   "corp_code": "00100939",
+   "corp_name": "강남제비스코",
+   "done_at_utc": "2026-11-18T03:05:49.183023+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001018": {
+   "corp_code": "00108612",
+   "corp_name": "DS단석",
+   "done_at_utc": "2026-11-18T03:05:51.481455+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 12
+  },
+  "20261116001020": {
+   "corp_code": "00442835",
+   "corp_name": "메타랩스",
+   "done_at_utc": "2026-11-18T03:05:52.727332+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001025": {
+   "corp_code": "00164478",
+   "corp_name": "현대건설",
+   "done_at_utc": "2026-11-18T03:05:56.069281+00:00",
+   "geography": "OK",
+   "segment": "PROFIT_NOT_OPERATING",
+   "values": 8
+  },
+  "20261116001026": {
+   "corp_code": "00500254",
+   "corp_name": "GS",
+   "done_at_utc": "2026-11-18T03:05:58.905283+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 12
+  },
+  "20261116001028": {
+   "corp_code": "01205851",
+   "corp_name": "HD현대일렉트릭",
+   "done_at_utc": "2026-11-18T03:06:01.837290+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 2
+  },
+  "20261116001030": {
+   "corp_code": "00157991",
+   "corp_name": "한국석유공업",
+   "done_at_utc": "2026-11-18T03:06:03.126386+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001033": {
+   "corp_code": "01238169",
+   "corp_name": "오리온",
+   "done_at_utc": "2026-11-18T03:06:05.511741+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 3
+  },
+  "20261116001039": {
+   "corp_code": "00441243",
+   "corp_name": "형지엘리트",
+   "done_at_utc": "2026-11-18T03:06:06.920668+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001044": {
+   "corp_code": "01390344",
+   "corp_name": "HD현대중공업",
+   "done_at_utc": "2026-11-18T03:06:10.284117+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 13
+  },
+  "20261116001048": {
+   "corp_code": "00133858",
+   "corp_name": "세방전지",
+   "done_at_utc": "2026-11-18T03:06:12.435645+00:00",
+   "geography": "OK",
+   "segment": "PROFIT_NOT_OPERATING",
+   "values": 4
+  },
+  "20261116001058": {
+   "corp_code": "00146214",
+   "corp_name": "일성아이에스",
+   "done_at_utc": "2026-11-18T03:06:13.684770+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001059": {
+   "corp_code": "00107224",
+   "corp_name": "남선알미늄",
+   "done_at_utc": "2026-11-18T03:06:15.055270+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001060": {
+   "corp_code": "00117726",
+   "corp_name": "DYP",
+   "done_at_utc": "2026-11-18T03:06:16.292228+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001068": {
+   "corp_code": "01596425",
+   "corp_name": "SK스퀘어",
+   "done_at_utc": "2026-11-18T03:06:18.656791+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001072": {
+   "corp_code": "00157681",
+   "corp_name": "롯데정밀화학",
+   "done_at_utc": "2026-11-18T03:06:20.749927+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 11
+  },
+  "20261116001073": {
+   "corp_code": "00131197",
+   "corp_name": "서원",
+   "done_at_utc": "2026-11-18T03:06:22.016667+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001074": {
+   "corp_code": "00181712",
+   "corp_name": "SK",
+   "done_at_utc": "2026-11-18T03:06:25.483207+00:00",
+   "geography": "OK",
+   "segment": "PROFIT_NOT_OPERATING",
+   "values": 18
+  },
+  "20261116001077": {
+   "corp_code": "00124090",
+   "corp_name": "한국특강",
+   "done_at_utc": "2026-11-18T03:06:27.676504+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 2
+  },
+  "20261116001082": {
+   "corp_code": "00126955",
+   "corp_name": "삼양식품",
+   "done_at_utc": "2026-11-18T03:06:29.975440+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 7
+  },
+  "20261116001085": {
+   "corp_code": "00167192",
+   "corp_name": "넥센",
+   "done_at_utc": "2026-11-18T03:06:33.242371+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 11
+  },
+  "20261116001087": {
+   "corp_code": "00872984",
+   "corp_name": "이마트",
+   "done_at_utc": "2026-11-18T03:06:36.013634+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001094": {
+   "corp_code": "00137997",
+   "corp_name": "현대차증권",
+   "done_at_utc": "2026-11-18T03:06:39.529448+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001099": {
+   "corp_code": "00415646",
+   "corp_name": "드림텍",
+   "done_at_utc": "2026-11-18T03:06:41.104989+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001100": {
+   "corp_code": "00129013",
+   "corp_name": "CJ씨푸드",
+   "done_at_utc": "2026-11-18T03:06:42.223952+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001107": {
+   "corp_code": "00791209",
+   "corp_name": "메타케어",
+   "done_at_utc": "2026-11-18T03:06:43.464090+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001113": {
+   "corp_code": "00123772",
+   "corp_name": "부국증권",
+   "done_at_utc": "2026-11-18T03:06:44.711901+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001115": {
+   "corp_code": "00118965",
+   "corp_name": "티에이치엔",
+   "done_at_utc": "2026-11-18T03:06:46.812895+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 3
+  },
+  "20261116001116": {
+   "corp_code": "01350869",
+   "corp_name": "우리금융지주",
+   "done_at_utc": "2026-11-18T03:06:51.015757+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001119": {
+   "corp_code": "00104698",
+   "corp_name": "LS네트웍스",
+   "done_at_utc": "2026-11-18T03:06:54.071661+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 13
+  },
+  "20261116001121": {
+   "corp_code": "01386916",
+   "corp_name": "SK아이이테크놀로지",
+   "done_at_utc": "2026-11-18T03:06:56.170598+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 3
+  },
+  "20261116001124": {
+   "corp_code": "00173874",
+   "corp_name": "넥센타이어",
+   "done_at_utc": "2026-11-18T03:06:58.769368+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 6
+  },
+  "20261116001125": {
+   "corp_code": "00104786",
+   "corp_name": "미래아이앤지",
+   "done_at_utc": "2026-11-18T03:07:00.015100+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001130": {
+   "corp_code": "01159233",
+   "corp_name": "솔루엠",
+   "done_at_utc": "2026-11-18T03:07:02.495341+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 10
+  },
+  "20261116001135": {
+   "corp_code": "00117300",
+   "corp_name": "TCC스틸",
+   "done_at_utc": "2026-11-18T03:07:03.764219+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001138": {
+   "corp_code": "00302926",
+   "corp_name": "현대로템",
+   "done_at_utc": "2026-11-18T03:07:06.781719+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 8
+  },
+  "20261116001139": {
+   "corp_code": "00181943",
+   "corp_name": "에스제이엠홀딩스",
+   "done_at_utc": "2026-11-18T03:07:08.368971+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001140": {
+   "corp_code": "00152385",
+   "corp_name": "에이프로젠",
+   "done_at_utc": "2026-11-18T03:07:11.799049+00:00",
+   "geography": "OK",
+   "segment": "PROFIT_NOT_OPERATING",
+   "values": 9
+  },
+  "20261116001141": {
+   "corp_code": "00652423",
+   "corp_name": "인바이오젠",
+   "done_at_utc": "2026-11-18T03:07:12.948514+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001147": {
+   "corp_code": "00127255",
+   "corp_name": "삼영",
+   "done_at_utc": "2026-11-18T03:07:14.035318+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001150": {
+   "corp_code": "00149655",
+   "corp_name": "삼성물산",
+   "done_at_utc": "2026-11-18T03:07:17.609155+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 21
+  },
+  "20261116001151": {
+   "corp_code": "00156691",
+   "corp_name": "한국공항",
+   "done_at_utc": "2026-11-18T03:07:19.871845+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "OK",
+   "values": 6
+  },
+  "20261116001161": {
+   "corp_code": "00137359",
+   "corp_name": "신풍제약",
+   "done_at_utc": "2026-11-18T03:07:21.321538+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001162": {
+   "corp_code": "00127802",
+   "corp_name": "삼익THK",
+   "done_at_utc": "2026-11-18T03:07:22.542472+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001164": {
+   "corp_code": "00911955",
+   "corp_name": "잇츠한불",
+   "done_at_utc": "2026-11-18T03:07:23.655411+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001166": {
+   "corp_code": "00172185",
+   "corp_name": "남성",
+   "done_at_utc": "2026-11-18T03:07:24.791719+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001173": {
+   "corp_code": "00121941",
+   "corp_name": "대상",
+   "done_at_utc": "2026-11-18T03:07:27.231045+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "OK",
+   "values": 4
+  },
+  "20261116001175": {
+   "corp_code": "00125521",
+   "corp_name": "에스엘",
+   "done_at_utc": "2026-11-18T03:07:29.655356+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 13
+  },
+  "20261116001178": {
+   "corp_code": "00361488",
+   "corp_name": "텔코웨어",
+   "done_at_utc": "2026-11-18T03:07:30.805404+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001181": {
+   "corp_code": "00148832",
+   "corp_name": "제주은행",
+   "done_at_utc": "2026-11-18T03:07:34.647488+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001185": {
+   "corp_code": "00360142",
+   "corp_name": "아이마켓코리아",
+   "done_at_utc": "2026-11-18T03:07:37.174195+00:00",
+   "geography": "OK",
+   "segment": "PROFIT_NOT_OPERATING",
+   "values": 7
+  },
+  "20261116001188": {
+   "corp_code": "00106368",
+   "corp_name": "금호석유화학",
+   "done_at_utc": "2026-11-18T03:07:44.203076+00:00",
+   "geography": "OK",
+   "segment": "PROFIT_NOT_OPERATING",
+   "values": 11
+  },
+  "20261116001189": {
+   "corp_code": "00132354",
+   "corp_name": "쿠쿠홀딩스",
+   "done_at_utc": "2026-11-18T03:07:46.284170+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001193": {
+   "corp_code": "00261285",
+   "corp_name": "한국가스공사",
+   "done_at_utc": "2026-11-18T03:07:49.661540+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 7
+  },
+  "20261116001194": {
+   "corp_code": "00107613",
+   "corp_name": "이수페타시스",
+   "done_at_utc": "2026-11-18T03:07:52.443827+00:00",
+   "geography": "OK",
+   "segment": "PROFIT_NOT_OPERATING",
+   "values": 7
+  },
+  "20261116001195": {
+   "corp_code": "00118451",
+   "corp_name": "동일제강",
+   "done_at_utc": "2026-11-18T03:07:53.543278+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001200": {
+   "corp_code": "00145109",
+   "corp_name": "유한양행",
+   "done_at_utc": "2026-11-18T03:07:56.052203+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001201": {
+   "corp_code": "01532603",
+   "corp_name": "화승알앤에이",
+   "done_at_utc": "2026-11-18T03:07:57.425314+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001215": {
+   "corp_code": "00204208",
+   "corp_name": "마니커",
+   "done_at_utc": "2026-11-18T03:07:58.636108+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001224": {
+   "corp_code": "00422895",
+   "corp_name": "세이브존I&C",
+   "done_at_utc": "2026-11-18T03:08:00.543431+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001228": {
+   "corp_code": "00413046",
+   "corp_name": "셀트리온",
+   "done_at_utc": "2026-11-18T03:08:03.546536+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 11
+  },
+  "20261116001229": {
+   "corp_code": "00109189",
+   "corp_name": "대덕",
+   "done_at_utc": "2026-11-18T03:08:05.609255+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 6
+  },
+  "20261116001231": {
+   "corp_code": "00107677",
+   "corp_name": "비비안",
+   "done_at_utc": "2026-11-18T03:08:06.843193+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001232": {
+   "corp_code": "00126308",
+   "corp_name": "삼성E&A",
+   "done_at_utc": "2026-11-18T03:08:10.015069+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 10
+  },
+  "20261116001236": {
+   "corp_code": "00109693",
+   "corp_name": "DL",
+   "done_at_utc": "2026-11-18T03:08:12.890147+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 12
+  },
+  "20261116001237": {
+   "corp_code": "01010110",
+   "corp_name": "더블유게임즈",
+   "done_at_utc": "2026-11-18T03:08:14.770643+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 4
+  },
+  "20261116001243": {
+   "corp_code": "00120021",
+   "corp_name": "LG",
+   "done_at_utc": "2026-11-18T03:08:18.201458+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "PROFIT_NOT_OPERATING",
+   "values": 68
+  },
+  "20261116001244": {
+   "corp_code": "00104856",
+   "corp_name": "삼성증권",
+   "done_at_utc": "2026-11-18T03:08:22.232941+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001263": {
+   "corp_code": "00191472",
+   "corp_name": "KPX케미칼",
+   "done_at_utc": "2026-11-18T03:08:24.810222+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 8
+  },
+  "20261116001264": {
+   "corp_code": "01323032",
+   "corp_name": "KG모빌리티플랫폼",
+   "done_at_utc": "2026-11-18T03:08:26.669254+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "OK",
+   "values": 4
+  },
+  "20261116001265": {
+   "corp_code": "00148540",
+   "corp_name": "CJ",
+   "done_at_utc": "2026-11-18T03:08:28.900101+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 12
+  },
+  "20261116001266": {
+   "corp_code": "00356370",
+   "corp_name": "LG생활건강",
+   "done_at_utc": "2026-11-18T03:08:31.924211+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 14
+  },
+  "20261116001269": {
+   "corp_code": "00131054",
+   "corp_name": "유진증권",
+   "done_at_utc": "2026-11-18T03:08:35.447966+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "PROFIT_NOT_OPERATING",
+   "values": 12
+  },
+  "20261116001270": {
+   "corp_code": "00147222",
+   "corp_name": "전방",
+   "done_at_utc": "2026-11-18T03:08:36.537606+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001274": {
+   "corp_code": "00149239",
+   "corp_name": "조일알미늄",
+   "done_at_utc": "2026-11-18T03:08:37.769658+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001275": {
+   "corp_code": "01363818",
+   "corp_name": "롯데리츠",
+   "done_at_utc": "2026-11-18T03:08:39.453296+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001276": {
+   "corp_code": "00104388",
+   "corp_name": "국도화학",
+   "done_at_utc": "2026-11-18T03:08:41.834734+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 9
+  },
+  "20261116001286": {
+   "corp_code": "00146296",
+   "corp_name": "일신석재",
+   "done_at_utc": "2026-11-18T03:08:42.779696+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001294": {
+   "corp_code": "00113997",
+   "corp_name": "롯데에너지머티리얼즈",
+   "done_at_utc": "2026-11-18T03:08:45.705482+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 4
+  },
+  "20261116001296": {
+   "corp_code": "00158316",
+   "corp_name": "NICE",
+   "done_at_utc": "2026-11-18T03:08:47.267742+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001297": {
+   "corp_code": "00158112",
+   "corp_name": "한국수출포장공업",
+   "done_at_utc": "2026-11-18T03:08:48.498216+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001300": {
+   "corp_code": "00129554",
+   "corp_name": "갤럭시아에스엠",
+   "done_at_utc": "2026-11-18T03:08:49.569578+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001307": {
+   "corp_code": "00191588",
+   "corp_name": "삼원강재",
+   "done_at_utc": "2026-11-18T03:08:50.659952+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001312": {
+   "corp_code": "00234412",
+   "corp_name": "신세계인터내셔날",
+   "done_at_utc": "2026-11-18T03:08:53.326831+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "OK",
+   "values": 8
+  },
+  "20261116001315": {
+   "corp_code": "00114093",
+   "corp_name": "덕성",
+   "done_at_utc": "2026-11-18T03:08:55.704249+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001319": {
+   "corp_code": "00139834",
+   "corp_name": "LG씨엔에스",
+   "done_at_utc": "2026-11-18T03:08:58.638580+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 6
+  },
+  "20261116001321": {
+   "corp_code": "01203312",
+   "corp_name": "케이뱅크",
+   "done_at_utc": "2026-11-18T03:09:00.833524+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001322": {
+   "corp_code": "00366438",
+   "corp_name": "산일전기",
+   "done_at_utc": "2026-11-18T03:09:03.135526+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 7
+  },
+  "20261116001325": {
+   "corp_code": "00136624",
+   "corp_name": "신영와코루",
+   "done_at_utc": "2026-11-18T03:09:04.371136+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001326": {
+   "corp_code": "00303873",
+   "corp_name": "CJ CGV",
+   "done_at_utc": "2026-11-18T03:09:06.158169+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "OK",
+   "values": 6
+  },
+  "20261116001328": {
+   "corp_code": "00101628",
+   "corp_name": "경방",
+   "done_at_utc": "2026-11-18T03:09:08.566663+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001330": {
+   "corp_code": "00122898",
+   "corp_name": "벽산",
+   "done_at_utc": "2026-11-18T03:09:09.966545+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001331": {
+   "corp_code": "00112165",
+   "corp_name": "디아이씨",
+   "done_at_utc": "2026-11-18T03:09:11.187594+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001334": {
+   "corp_code": "00115977",
+   "corp_name": "아이에스동서",
+   "done_at_utc": "2026-11-18T03:09:14.637553+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 13
+  },
+  "20261116001340": {
+   "corp_code": "00128032",
+   "corp_name": "삼일제약",
+   "done_at_utc": "2026-11-18T03:09:16.030766+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001341": {
+   "corp_code": "00163691",
+   "corp_name": "유수홀딩스",
+   "done_at_utc": "2026-11-18T03:09:17.284564+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001343": {
+   "corp_code": "00406046",
+   "corp_name": "HD현대마린엔진",
+   "done_at_utc": "2026-11-18T03:09:19.758584+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 7
+  },
+  "20261116001348": {
+   "corp_code": "00153861",
+   "corp_name": "태영건설",
+   "done_at_utc": "2026-11-18T03:09:23.989205+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 2
+  },
+  "20261116001350": {
+   "corp_code": "00149646",
+   "corp_name": "기업은행",
+   "done_at_utc": "2026-11-18T03:09:28.745151+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001351": {
+   "corp_code": "00547583",
+   "corp_name": "하나금융지주",
+   "done_at_utc": "2026-11-18T03:09:33.300035+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001353": {
+   "corp_code": "00135050",
+   "corp_name": "팜젠사이언스",
+   "done_at_utc": "2026-11-18T03:09:34.542637+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001354": {
+   "corp_code": "00108746",
+   "corp_name": "DKME",
+   "done_at_utc": "2026-11-18T03:09:35.640434+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001356": {
+   "corp_code": "00164973",
+   "corp_name": "현대해상",
+   "done_at_utc": "2026-11-18T03:09:39.305318+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001358": {
+   "corp_code": "00105299",
+   "corp_name": "금강공업",
+   "done_at_utc": "2026-11-18T03:09:42.037363+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 21
+  },
+  "20261116001363": {
+   "corp_code": "00142661",
+   "corp_name": "우성",
+   "done_at_utc": "2026-11-18T03:09:43.493745+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001364": {
+   "corp_code": "00160302",
+   "corp_name": "코스모화학",
+   "done_at_utc": "2026-11-18T03:09:46.284277+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 2
+  },
+  "20261116001369": {
+   "corp_code": "01168383",
+   "corp_name": "일동제약",
+   "done_at_utc": "2026-11-18T03:09:49.114069+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001372": {
+   "corp_code": "00540641",
+   "corp_name": "동양고속",
+   "done_at_utc": "2026-11-18T03:09:50.191609+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001373": {
+   "corp_code": "00525934",
+   "corp_name": "LX세미콘",
+   "done_at_utc": "2026-11-18T03:09:52.191681+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001374": {
+   "corp_code": "00936787",
+   "corp_name": "애경케미칼",
+   "done_at_utc": "2026-11-18T03:09:54.481656+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 6
+  },
+  "20261116001375": {
+   "corp_code": "00540605",
+   "corp_name": "이월드",
+   "done_at_utc": "2026-11-18T03:09:55.675696+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001376": {
+   "corp_code": "00123718",
+   "corp_name": "부광약품",
+   "done_at_utc": "2026-11-18T03:09:57.336012+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001384": {
+   "corp_code": "00124799",
+   "corp_name": "사조산업",
+   "done_at_utc": "2026-11-18T03:09:59.814245+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 17
+  },
+  "20261116001387": {
+   "corp_code": "00679314",
+   "corp_name": "동성케미컬",
+   "done_at_utc": "2026-11-18T03:10:02.447742+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 8
+  },
+  "20261116001388": {
+   "corp_code": "00353878",
+   "corp_name": "다스코",
+   "done_at_utc": "2026-11-18T03:10:03.876296+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001389": {
+   "corp_code": "00852087",
+   "corp_name": "시디즈",
+   "done_at_utc": "2026-11-18T03:10:05.129847+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001394": {
+   "corp_code": "00403632",
+   "corp_name": "현대퓨처넷",
+   "done_at_utc": "2026-11-18T03:10:07.407993+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 9
+  },
+  "20261116001396": {
+   "corp_code": "00163761",
+   "corp_name": "한창제지",
+   "done_at_utc": "2026-11-18T03:10:08.582755+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001398": {
+   "corp_code": "00147860",
+   "corp_name": "에스엠벡셀",
+   "done_at_utc": "2026-11-18T03:10:09.681342+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001400": {
+   "corp_code": "00520887",
+   "corp_name": "비상교육",
+   "done_at_utc": "2026-11-18T03:10:10.786060+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001403": {
+   "corp_code": "00129280",
+   "corp_name": "삼화전자공업",
+   "done_at_utc": "2026-11-18T03:10:12.179346+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001404": {
+   "corp_code": "00126779",
+   "corp_name": "삼아알미늄",
+   "done_at_utc": "2026-11-18T03:10:13.414656+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001407": {
+   "corp_code": "00163345",
+   "corp_name": "DB",
+   "done_at_utc": "2026-11-18T03:10:16.290329+00:00",
+   "geography": "OK",
+   "segment": "PROFIT_NOT_OPERATING",
+   "values": 12
+  },
+  "20261116001409": {
+   "corp_code": "00106669",
+   "corp_name": "세아베스틸지주",
+   "done_at_utc": "2026-11-18T03:10:22.948740+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "PROFIT_NOT_OPERATING",
+   "values": 4
+  },
+  "20261116001413": {
+   "corp_code": "00220561",
+   "corp_name": "광주신세계",
+   "done_at_utc": "2026-11-18T03:10:25.220585+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001414": {
+   "corp_code": "00583424",
+   "corp_name": "아모레퍼시픽",
+   "done_at_utc": "2026-11-18T03:10:27.461905+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 8
+  },
+  "20261116001417": {
+   "corp_code": "00544452",
+   "corp_name": "이리츠코크렙",
+   "done_at_utc": "2026-11-18T03:10:29.410458+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001419": {
+   "corp_code": "00454946",
+   "corp_name": "그린케미칼",
+   "done_at_utc": "2026-11-18T03:10:30.547370+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001423": {
+   "corp_code": "00526599",
+   "corp_name": "덴티움",
+   "done_at_utc": "2026-11-18T03:10:33.564992+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 9
+  },
+  "20261116001427": {
+   "corp_code": "00583442",
+   "corp_name": "노루페인트",
+   "done_at_utc": "2026-11-18T03:10:36.324892+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 6
+  },
+  "20261116001430": {
+   "corp_code": "01236897",
+   "corp_name": "제일약품",
+   "done_at_utc": "2026-11-18T03:10:37.420231+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001437": {
+   "corp_code": "00164742",
+   "corp_name": "현대자동차",
+   "done_at_utc": "2026-11-18T03:10:40.383869+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 11
+  },
+  "20261116001441": {
+   "corp_code": "00573579",
+   "corp_name": "평화산업",
+   "done_at_utc": "2026-11-18T03:10:41.637359+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001446": {
+   "corp_code": "00149947",
+   "corp_name": "JW중외제약",
+   "done_at_utc": "2026-11-18T03:10:43.866355+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001458": {
+   "corp_code": "00108977",
+   "corp_name": "대구백화점",
+   "done_at_utc": "2026-11-18T03:10:45.117342+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001460": {
+   "corp_code": "01205709",
+   "corp_name": "HD현대",
+   "done_at_utc": "2026-11-18T03:10:48.756004+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 5
+  },
+  "20261116001470": {
+   "corp_code": "01205842",
+   "corp_name": "HD건설기계",
+   "done_at_utc": "2026-11-18T03:10:52.247944+00:00",
+   "geography": "OK",
+   "segment": "PROFIT_NOT_OPERATING",
+   "values": 9
+  },
+  "20261116001472": {
+   "corp_code": "00377610",
+   "corp_name": "세아홀딩스",
+   "done_at_utc": "2026-11-18T03:10:54.789115+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 4
+  },
+  "20261116001474": {
+   "corp_code": "00145552",
+   "corp_name": "이수화학",
+   "done_at_utc": "2026-11-18T03:10:57.198860+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 6
+  },
+  "20261116001477": {
+   "corp_code": "00593032",
+   "corp_name": "LF",
+   "done_at_utc": "2026-11-18T03:10:59.856881+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001478": {
+   "corp_code": "00146083",
+   "corp_name": "일동홀딩스",
+   "done_at_utc": "2026-11-18T03:11:01.164250+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001479": {
+   "corp_code": "00587466",
+   "corp_name": "KPX홀딩스",
+   "done_at_utc": "2026-11-18T03:11:03.560770+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 15
+  },
+  "20261116001482": {
+   "corp_code": "00126380",
+   "corp_name": "삼성전자",
+   "done_at_utc": "2026-11-18T03:11:05.973977+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 13
+  },
+  "20261116001484": {
+   "corp_code": "00148920",
+   "corp_name": "조광페인트",
+   "done_at_utc": "2026-11-18T03:11:08.343402+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001486": {
+   "corp_code": "00160205",
+   "corp_name": "한국내화",
+   "done_at_utc": "2026-11-18T03:11:09.632782+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001489": {
+   "corp_code": "00106395",
+   "corp_name": "금호전기",
+   "done_at_utc": "2026-11-18T03:11:10.847973+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001491": {
+   "corp_code": "00105280",
+   "corp_name": "현대지에프홀딩스",
+   "done_at_utc": "2026-11-18T03:11:13.097337+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "OK",
+   "values": 24
+  },
+  "20261116001493": {
+   "corp_code": "00161709",
+   "corp_name": "퍼시스",
+   "done_at_utc": "2026-11-18T03:11:15.337512+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 10
+  },
+  "20261116001495": {
+   "corp_code": "00132725",
+   "corp_name": "SB성보",
+   "done_at_utc": "2026-11-18T03:11:16.744549+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001496": {
+   "corp_code": "00122579",
+   "corp_name": "BYC",
+   "done_at_utc": "2026-11-18T03:11:19.164854+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 11
+  },
+  "20261116001498": {
+   "corp_code": "00115287",
+   "corp_name": "동방",
+   "done_at_utc": "2026-11-18T03:11:21.404730+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 14
+  },
+  "20261116001501": {
+   "corp_code": "00159193",
+   "corp_name": "한국전력공사",
+   "done_at_utc": "2026-11-18T03:11:25.755839+00:00",
+   "geography": "OK",
+   "segment": "PROFIT_NOT_OPERATING",
+   "values": 7
+  },
+  "20261116001508": {
+   "corp_code": "00939331",
+   "corp_name": "한국콜마",
+   "done_at_utc": "2026-11-18T03:11:28.064846+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 14
+  },
+  "20261116001509": {
+   "corp_code": "00141626",
+   "corp_name": "오리엔트바이오",
+   "done_at_utc": "2026-11-18T03:11:29.162513+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001513": {
+   "corp_code": "00159564",
+   "corp_name": "한국주강",
+   "done_at_utc": "2026-11-18T03:11:30.413363+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001517": {
+   "corp_code": "00134723",
+   "corp_name": "페이퍼코리아",
+   "done_at_utc": "2026-11-18T03:11:31.667205+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001518": {
+   "corp_code": "00248974",
+   "corp_name": "하나제약",
+   "done_at_utc": "2026-11-18T03:11:33.003698+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001519": {
+   "corp_code": "00459871",
+   "corp_name": "농심홀딩스",
+   "done_at_utc": "2026-11-18T03:11:41.686652+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001523": {
+   "corp_code": "00209780",
+   "corp_name": "케이씨",
+   "done_at_utc": "2026-11-18T03:11:44.227703+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 3
+  },
+  "20261116001526": {
+   "corp_code": "00113243",
+   "corp_name": "대한제분",
+   "done_at_utc": "2026-11-18T03:11:46.934273+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 14
+  },
+  "20261116001528": {
+   "corp_code": "00163196",
+   "corp_name": "한일철강",
+   "done_at_utc": "2026-11-18T03:11:48.208496+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001529": {
+   "corp_code": "00106641",
+   "corp_name": "기아",
+   "done_at_utc": "2026-11-18T03:11:50.651351+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 5
+  },
+  "20261116001537": {
+   "corp_code": "00122825",
+   "corp_name": "프리티",
+   "done_at_utc": "2026-11-18T03:11:52.044178+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001538": {
+   "corp_code": "01428203",
+   "corp_name": "케이씨씨글라스",
+   "done_at_utc": "2026-11-18T03:11:55.122972+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 13
+  },
+  "20261116001539": {
+   "corp_code": "00141413",
+   "corp_name": "영화금속",
+   "done_at_utc": "2026-11-18T03:11:56.359117+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001543": {
+   "corp_code": "00219097",
+   "corp_name": "BGF",
+   "done_at_utc": "2026-11-18T03:11:58.278676+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "OK",
+   "values": 4
+  },
+  "20261116001547": {
+   "corp_code": "00390055",
+   "corp_name": "종근당바이오",
+   "done_at_utc": "2026-11-18T03:11:59.383270+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001549": {
+   "corp_code": "00155124",
+   "corp_name": "평화홀딩스",
+   "done_at_utc": "2026-11-18T03:12:02.003475+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001553": {
+   "corp_code": "00124780",
+   "corp_name": "사조씨푸드",
+   "done_at_utc": "2026-11-18T03:12:03.445072+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001556": {
+   "corp_code": "00126487",
+   "corp_name": "F&F 홀딩스",
+   "done_at_utc": "2026-11-18T03:12:06.049041+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 11
+  },
+  "20261116001557": {
+   "corp_code": "00428251",
+   "corp_name": "현대백화점",
+   "done_at_utc": "2026-11-18T03:12:09.592559+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 3
+  },
+  "20261116001558": {
+   "corp_code": "00166519",
+   "corp_name": "화천기공",
+   "done_at_utc": "2026-11-18T03:12:10.867971+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001563": {
+   "corp_code": "00148276",
+   "corp_name": "제일기획",
+   "done_at_utc": "2026-11-18T03:12:17.656132+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001567": {
+   "corp_code": "00555874",
+   "corp_name": "제주항공",
+   "done_at_utc": "2026-11-18T03:12:20.297910+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 2
+  },
+  "20261116001578": {
+   "corp_code": "00113508",
+   "corp_name": "노루홀딩스",
+   "done_at_utc": "2026-11-18T03:12:21.526395+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001580": {
+   "corp_code": "01562589",
+   "corp_name": "LX홀딩스",
+   "done_at_utc": "2026-11-18T03:12:23.739471+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "OK",
+   "values": 6
+  },
+  "20261116001583": {
+   "corp_code": "00459871",
+   "corp_name": "농심홀딩스",
+   "done_at_utc": "2026-11-18T03:12:26.741773+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001584": {
+   "corp_code": "00158501",
+   "corp_name": "에스원",
+   "done_at_utc": "2026-11-18T03:12:28.843645+00:00",
+   "geography": "OK",
+   "segment": "PROFIT_NOT_OPERATING",
+   "values": 10
+  },
+  "20261116001591": {
+   "corp_code": "00154462",
+   "corp_name": "아모레퍼시픽홀딩스",
+   "done_at_utc": "2026-11-18T03:12:30.950555+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 4
+  },
+  "20261116001597": {
+   "corp_code": "00108940",
+   "corp_name": "대성홀딩스",
+   "done_at_utc": "2026-11-18T03:12:32.337801+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001599": {
+   "corp_code": "00878915",
+   "corp_name": "iM금융지주",
+   "done_at_utc": "2026-11-18T03:12:35.821776+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001606": {
+   "corp_code": "00122472",
+   "corp_name": "PKC",
+   "done_at_utc": "2026-11-18T03:12:38.094317+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001609": {
+   "corp_code": "00426086",
+   "corp_name": "티케이지휴켐스",
+   "done_at_utc": "2026-11-18T03:12:40.513957+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 2
+  },
+  "20261116001614": {
+   "corp_code": "00141477",
+   "corp_name": "영흥",
+   "done_at_utc": "2026-11-18T03:12:41.726014+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001624": {
+   "corp_code": "00382199",
+   "corp_name": "신한지주",
+   "done_at_utc": "2026-11-18T03:12:49.726202+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001635": {
+   "corp_code": "00980122",
+   "corp_name": "JB금융지주",
+   "done_at_utc": "2026-11-18T03:12:52.499982+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001637": {
+   "corp_code": "01480780",
+   "corp_name": "NH올원리츠",
+   "done_at_utc": "2026-11-18T03:12:54.540307+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001651": {
+   "corp_code": "00939687",
+   "corp_name": "동일고무벨트",
+   "done_at_utc": "2026-11-18T03:12:55.633708+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001654": {
+   "corp_code": "00459871",
+   "corp_name": "농심홀딩스",
+   "done_at_utc": "2026-11-18T03:12:58.287595+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001657": {
+   "corp_code": "00113492",
+   "corp_name": "깨끗한나라",
+   "done_at_utc": "2026-11-18T03:13:00.935522+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 11
+  },
+  "20261116001659": {
+   "corp_code": "00877059",
+   "corp_name": "삼성바이오로직스",
+   "done_at_utc": "2026-11-18T03:13:03.676005+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 4
+  },
+  "20261116001661": {
+   "corp_code": "00357360",
+   "corp_name": "한세엠케이",
+   "done_at_utc": "2026-11-18T03:13:04.935824+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001664": {
+   "corp_code": "00153393",
+   "corp_name": "태광산업",
+   "done_at_utc": "2026-11-18T03:13:07.173765+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 3
+  },
+  "20261116001665": {
+   "corp_code": "01319808",
+   "corp_name": "한일시멘트",
+   "done_at_utc": "2026-11-18T03:13:09.450565+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "OK",
+   "values": 8
+  },
+  "20261116001670": {
+   "corp_code": "00128412",
+   "corp_name": "삼진제약",
+   "done_at_utc": "2026-11-18T03:13:10.682376+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001676": {
+   "corp_code": "00137252",
+   "corp_name": "사조동아원",
+   "done_at_utc": "2026-11-18T03:13:11.904067+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001680": {
+   "corp_code": "00162993",
+   "corp_name": "한일홀딩스",
+   "done_at_utc": "2026-11-18T03:13:14.373450+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "OK",
+   "values": 8
+  },
+  "20261116001685": {
+   "corp_code": "00133335",
+   "corp_name": "성창기업지주",
+   "done_at_utc": "2026-11-18T03:13:15.610833+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001687": {
+   "corp_code": "00144818",
+   "corp_name": "유유제약",
+   "done_at_utc": "2026-11-18T03:13:16.854359+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001696": {
+   "corp_code": "00398701",
+   "corp_name": "엘앤에프",
+   "done_at_utc": "2026-11-18T03:13:19.390229+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 3
+  },
+  "20261116001698": {
+   "corp_code": "00687711",
+   "corp_name": "한국철강",
+   "done_at_utc": "2026-11-18T03:13:20.932360+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001707": {
+   "corp_code": "00122481",
+   "corp_name": "태경비케이",
+   "done_at_utc": "2026-11-18T03:13:22.353172+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001709": {
+   "corp_code": "00141404",
+   "corp_name": "블루산업개발",
+   "done_at_utc": "2026-11-18T03:13:23.592900+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001710": {
+   "corp_code": "00176914",
+   "corp_name": "다우기술",
+   "done_at_utc": "2026-11-18T03:13:27.069909+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 2
+  },
+  "20261116001713": {
+   "corp_code": "01036446",
+   "corp_name": "서연이화",
+   "done_at_utc": "2026-11-18T03:13:29.743529+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 8
+  },
+  "20261116001715": {
+   "corp_code": "00164779",
+   "corp_name": "SK하이닉스",
+   "done_at_utc": "2026-11-18T03:13:32.816342+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 5
+  },
+  "20261116001718": {
+   "corp_code": "00369833",
+   "corp_name": "유니온머티리얼",
+   "done_at_utc": "2026-11-18T03:13:34.205762+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001719": {
+   "corp_code": "00679314",
+   "corp_name": "동성케미컬",
+   "done_at_utc": "2026-11-18T03:13:36.688788+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 8
+  },
+  "20261116001720": {
+   "corp_code": "00115676",
+   "corp_name": "KG스틸",
+   "done_at_utc": "2026-11-18T03:13:38.917053+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001723": {
+   "corp_code": "00162416",
+   "corp_name": "한양증권",
+   "done_at_utc": "2026-11-18T03:13:40.184470+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001730": {
+   "corp_code": "00112059",
+   "corp_name": "상상인증권",
+   "done_at_utc": "2026-11-18T03:13:41.409136+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001733": {
+   "corp_code": "00163114",
+   "corp_name": "서연",
+   "done_at_utc": "2026-11-18T03:13:42.968136+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001735": {
+   "corp_code": "00113544",
+   "corp_name": "대한화섬",
+   "done_at_utc": "2026-11-18T03:13:44.721486+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 3
+  },
+  "20261116001738": {
+   "corp_code": "00118266",
+   "corp_name": "DRB동일",
+   "done_at_utc": "2026-11-18T03:13:45.870188+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001742": {
+   "corp_code": "00127042",
+   "corp_name": "SYTS",
+   "done_at_utc": "2026-11-18T03:13:47.113477+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001746": {
+   "corp_code": "01204056",
+   "corp_name": "하이브",
+   "done_at_utc": "2026-11-18T03:13:50.131586+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 10
+  },
+  "20261116001747": {
+   "corp_code": "00661847",
+   "corp_name": "화인베스틸",
+   "done_at_utc": "2026-11-18T03:13:51.534884+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001748": {
+   "corp_code": "01263022",
+   "corp_name": "BGF리테일",
+   "done_at_utc": "2026-11-18T03:13:53.510708+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001754": {
+   "corp_code": "00109161",
+   "corp_name": "태경케미컬",
+   "done_at_utc": "2026-11-18T03:13:54.601903+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001758": {
+   "corp_code": "00776820",
+   "corp_name": "영원무역",
+   "done_at_utc": "2026-11-18T03:13:57.151367+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "OK",
+   "values": 6
+  },
+  "20261116001762": {
+   "corp_code": "00106881",
+   "corp_name": "인디에프",
+   "done_at_utc": "2026-11-18T03:13:58.392694+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001765": {
+   "corp_code": "00125080",
+   "corp_name": "AK홀딩스",
+   "done_at_utc": "2026-11-18T03:14:01.363678+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 4
+  },
+  "20261116001766": {
+   "corp_code": "00142883",
+   "corp_name": "우신시스템",
+   "done_at_utc": "2026-11-18T03:14:02.599667+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001775": {
+   "corp_code": "00136378",
+   "corp_name": "신세계",
+   "done_at_utc": "2026-11-18T03:14:05.633176+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001778": {
+   "corp_code": "00126186",
+   "corp_name": "삼성에스디에스",
+   "done_at_utc": "2026-11-18T03:14:08.212149+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 9
+  },
+  "20261116001779": {
+   "corp_code": "00173795",
+   "corp_name": "신흥",
+   "done_at_utc": "2026-11-18T03:14:09.620044+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001780": {
+   "corp_code": "00159740",
+   "corp_name": "KISCO홀딩스",
+   "done_at_utc": "2026-11-18T03:14:11.491728+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001782": {
+   "corp_code": "00595191",
+   "corp_name": "후성",
+   "done_at_utc": "2026-11-18T03:14:13.943321+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 10
+  },
+  "20261116001784": {
+   "corp_code": "00140964",
+   "corp_name": "영원무역홀딩스",
+   "done_at_utc": "2026-11-18T03:14:16.025764+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "OK",
+   "values": 8
+  },
+  "20261116001786": {
+   "corp_code": "00126292",
+   "corp_name": "삼성카드",
+   "done_at_utc": "2026-11-18T03:14:18.747693+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "OK",
+   "values": 6
+  },
+  "20261116001789": {
+   "corp_code": "00164812",
+   "corp_name": "현대코퍼레이션",
+   "done_at_utc": "2026-11-18T03:14:21.478377+00:00",
+   "geography": "OK",
+   "segment": "PROFIT_NOT_OPERATING",
+   "values": 11
+  },
+  "20261116001792": {
+   "corp_code": "00139214",
+   "corp_name": "삼성화재해상보험",
+   "done_at_utc": "2026-11-18T03:14:25.770320+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "PROFIT_NOT_OPERATING",
+   "values": 6
+  },
+  "20261116001800": {
+   "corp_code": "00165583",
+   "corp_name": "E1",
+   "done_at_utc": "2026-11-18T03:14:29.302568+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 16
+  },
+  "20261116001802": {
+   "corp_code": "00174527",
+   "corp_name": "HS화성",
+   "done_at_utc": "2026-11-18T03:14:32.083785+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "PROFIT_NOT_OPERATING",
+   "values": 4
+  },
+  "20261116001807": {
+   "corp_code": "00145880",
+   "corp_name": "현대제철",
+   "done_at_utc": "2026-11-18T03:14:34.405572+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 6
+  },
+  "20261116001814": {
+   "corp_code": "00760971",
+   "corp_name": "크래프톤",
+   "done_at_utc": "2026-11-18T03:14:37.444097+00:00",
+   "geography": "OK",
+   "segment": "PROFIT_NOT_OPERATING",
+   "values": 6
+  },
+  "20261116001815": {
+   "corp_code": "01267684",
+   "corp_name": "쿠쿠홈시스",
+   "done_at_utc": "2026-11-18T03:14:39.415823+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 2
+  },
+  "20261116001822": {
+   "corp_code": "00126478",
+   "corp_name": "삼성중공업",
+   "done_at_utc": "2026-11-18T03:14:41.714089+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 3
+  },
+  "20261116001826": {
+   "corp_code": "00139889",
+   "corp_name": "SKC",
+   "done_at_utc": "2026-11-18T03:14:46.914864+00:00",
+   "geography": "OK",
+   "segment": "PROFIT_NOT_OPERATING",
+   "values": 8
+  },
+  "20261116001832": {
+   "corp_code": "00138260",
+   "corp_name": "SIMPAC",
+   "done_at_utc": "2026-11-18T03:14:48.877466+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 2
+  },
+  "20261116001854": {
+   "corp_code": "00858364",
+   "corp_name": "BNK금융지주",
+   "done_at_utc": "2026-11-18T03:14:51.995711+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 2
+  },
+  "20261116001856": {
+   "corp_code": "00134316",
+   "corp_name": "세원정공",
+   "done_at_utc": "2026-11-18T03:14:53.179577+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001858": {
+   "corp_code": "00161116",
+   "corp_name": "HL D&I",
+   "done_at_utc": "2026-11-18T03:14:56.848019+00:00",
+   "geography": "OK",
+   "segment": "PROFIT_NOT_OPERATING",
+   "values": 7
+  },
+  "20261116001865": {
+   "corp_code": "00117337",
+   "corp_name": "동양",
+   "done_at_utc": "2026-11-18T03:14:59.853988+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 17
+  },
+  "20261116001866": {
+   "corp_code": "00112378",
+   "corp_name": "다이나맥",
+   "done_at_utc": "2026-11-18T03:15:01.285958+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001869": {
+   "corp_code": "01762569",
+   "corp_name": "이수스페셜티케미컬",
+   "done_at_utc": "2026-11-18T03:15:02.462268+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001870": {
+   "corp_code": "00126201",
+   "corp_name": "삼성공조",
+   "done_at_utc": "2026-11-18T03:15:03.719732+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001874": {
+   "corp_code": "00107598",
+   "corp_name": "남양유업",
+   "done_at_utc": "2026-11-18T03:15:05.923334+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001877": {
+   "corp_code": "01784394",
+   "corp_name": "STX그린로지스",
+   "done_at_utc": "2026-11-18T03:15:07.050447+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001889": {
+   "corp_code": "01568413",
+   "corp_name": "F&F",
+   "done_at_utc": "2026-11-18T03:15:09.457107+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 5
+  },
+  "20261116001891": {
+   "corp_code": "00101664",
+   "corp_name": "경보제약",
+   "done_at_utc": "2026-11-18T03:15:11.613947+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001893": {
+   "corp_code": "00152862",
+   "corp_name": "코오롱",
+   "done_at_utc": "2026-11-18T03:15:15.575790+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "PROFIT_NOT_OPERATING",
+   "values": 7
+  },
+  "20261116001915": {
+   "corp_code": "00126371",
+   "corp_name": "삼성전기",
+   "done_at_utc": "2026-11-18T03:15:18.326106+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 13
+  },
+  "20261116001919": {
+   "corp_code": "00219486",
+   "corp_name": "신세계I&C",
+   "done_at_utc": "2026-11-18T03:15:20.553113+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "PROFIT_NOT_OPERATING",
+   "values": 7
+  },
+  "20261116001924": {
+   "corp_code": "00113614",
+   "corp_name": "대현",
+   "done_at_utc": "2026-11-18T03:15:21.665718+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001930": {
+   "corp_code": "00153755",
+   "corp_name": "태양금속공업",
+   "done_at_utc": "2026-11-18T03:15:24.464374+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 11
+  },
+  "20261116001945": {
+   "corp_code": "00113562",
+   "corp_name": "롯데손해보험",
+   "done_at_utc": "2026-11-18T03:15:27.489776+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001946": {
+   "corp_code": "00116824",
+   "corp_name": "동아제약",
+   "done_at_utc": "2026-11-18T03:15:29.392553+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "OK",
+   "values": 12
+  },
+  "20261116001947": {
+   "corp_code": "00126414",
+   "corp_name": "삼성제약",
+   "done_at_utc": "2026-11-18T03:15:30.492992+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001948": {
+   "corp_code": "00797364",
+   "corp_name": "KC코트렐",
+   "done_at_utc": "2026-11-18T03:15:31.730806+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001950": {
+   "corp_code": "00126256",
+   "corp_name": "삼성생명",
+   "done_at_utc": "2026-11-18T03:15:35.795592+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 2
+  },
+  "20261116001956": {
+   "corp_code": "00164724",
+   "corp_name": "현대엘리베이터",
+   "done_at_utc": "2026-11-18T03:15:38.070517+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 20
+  },
+  "20261116001959": {
+   "corp_code": "00413523",
+   "corp_name": "한미글로벌",
+   "done_at_utc": "2026-11-18T03:15:39.296983+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001962": {
+   "corp_code": "00158963",
+   "corp_name": "유나이티드",
+   "done_at_utc": "2026-11-18T03:15:41.339577+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 4
+  },
+  "20261116001963": {
+   "corp_code": "01105153",
+   "corp_name": "두산로보틱스",
+   "done_at_utc": "2026-11-18T03:15:42.415865+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001965": {
+   "corp_code": "00159102",
+   "corp_name": "DB손해보험",
+   "done_at_utc": "2026-11-18T03:15:46.927715+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "OK",
+   "values": 8
+  },
+  "20261116001967": {
+   "corp_code": "00172936",
+   "corp_name": "동일산업",
+   "done_at_utc": "2026-11-18T03:15:48.334881+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001968": {
+   "corp_code": "00129679",
+   "corp_name": "녹십자",
+   "done_at_utc": "2026-11-18T03:15:50.898451+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 8
+  },
+  "20261116001975": {
+   "corp_code": "00115612",
+   "corp_name": "동부건설",
+   "done_at_utc": "2026-11-18T03:15:54.530168+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 11
+  },
+  "20261116001979": {
+   "corp_code": "00112332",
+   "corp_name": "미래에셋생명",
+   "done_at_utc": "2026-11-18T03:15:57.809671+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001983": {
+   "corp_code": "00153339",
+   "corp_name": "태경산업",
+   "done_at_utc": "2026-11-18T03:15:59.052857+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001984": {
+   "corp_code": "00628189",
+   "corp_name": "웅진씽크빅",
+   "done_at_utc": "2026-11-18T03:16:01.686983+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "OK",
+   "values": 8
+  },
+  "20261116001988": {
+   "corp_code": "00125974",
+   "corp_name": "삼부토건",
+   "done_at_utc": "2026-11-18T03:16:02.934658+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116001990": {
+   "corp_code": "00992871",
+   "corp_name": "종근당",
+   "done_at_utc": "2026-11-18T03:16:05.914048+00:00",
+   "geography": "OK",
+   "segment": "PROFIT_NOT_OPERATING",
+   "values": 11
+  },
+  "20261116002006": {
+   "corp_code": "00109824",
+   "corp_name": "대림통상",
+   "done_at_utc": "2026-11-18T03:16:07.326363+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116002008": {
+   "corp_code": "00956930",
+   "corp_name": "동아에스티",
+   "done_at_utc": "2026-11-18T03:16:13.442339+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 7
+  },
+  "20261116002011": {
+   "corp_code": "00105855",
+   "corp_name": "엘에스일렉트릭",
+   "done_at_utc": "2026-11-18T03:16:16.842834+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "OK",
+   "values": 8
+  },
+  "20261116002016": {
+   "corp_code": "00203290",
+   "corp_name": "콜마홀딩스",
+   "done_at_utc": "2026-11-18T03:16:18.942983+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116002018": {
+   "corp_code": "00153524",
+   "corp_name": "태림포장",
+   "done_at_utc": "2026-11-18T03:16:21.523928+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116002023": {
+   "corp_code": "00148443",
+   "corp_name": "제일파마홀딩스",
+   "done_at_utc": "2026-11-18T03:16:22.963990+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116002025": {
+   "corp_code": "00414850",
+   "corp_name": "효성 ITX",
+   "done_at_utc": "2026-11-18T03:16:24.206960+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116002026": {
+   "corp_code": "00155531",
+   "corp_name": "풍산홀딩스",
+   "done_at_utc": "2026-11-18T03:16:26.126150+00:00",
+   "geography": "OK",
+   "segment": "PROFIT_NOT_OPERATING",
+   "values": 13
+  },
+  "20261116002034": {
+   "corp_code": "00161976",
+   "corp_name": "한세예스24홀딩스",
+   "done_at_utc": "2026-11-18T03:16:28.458514+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "PROFIT_NOT_OPERATING",
+   "values": 6
+  },
+  "20261116002042": {
+   "corp_code": "00101488",
+   "corp_name": "경동나비엔",
+   "done_at_utc": "2026-11-18T03:16:31.650817+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 5
+  },
+  "20261116002043": {
+   "corp_code": "01350869",
+   "corp_name": "우리금융지주",
+   "done_at_utc": "2026-11-18T03:16:35.703549+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116002050": {
+   "corp_code": "00180795",
+   "corp_name": "인팩",
+   "done_at_utc": "2026-11-18T03:16:36.945517+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116002051": {
+   "corp_code": "00111722",
+   "corp_name": "미래에셋증권",
+   "done_at_utc": "2026-11-18T03:16:40.815982+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 10
+  },
+  "20261116002060": {
+   "corp_code": "00145437",
+   "corp_name": "아센디오",
+   "done_at_utc": "2026-11-18T03:16:42.110166+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116002067": {
+   "corp_code": "00255619",
+   "corp_name": "강원랜드",
+   "done_at_utc": "2026-11-18T03:16:44.375361+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116002071": {
+   "corp_code": "01108099",
+   "corp_name": "현대코퍼레이션홀딩스",
+   "done_at_utc": "2026-11-18T03:16:45.502633+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116002073": {
+   "corp_code": "00108038",
+   "corp_name": "엔피씨",
+   "done_at_utc": "2026-11-18T03:16:46.882112+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116002075": {
+   "corp_code": "00159500",
+   "corp_name": "한국종합기술",
+   "done_at_utc": "2026-11-18T03:16:48.584796+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116002081": {
+   "corp_code": "00159023",
+   "corp_name": "SK텔레콤",
+   "done_at_utc": "2026-11-18T03:16:51.347894+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "OK",
+   "values": 6
+  },
+  "20261116002087": {
+   "corp_code": "00539274",
+   "corp_name": "대상홀딩스",
+   "done_at_utc": "2026-11-18T03:16:53.826240+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "OK",
+   "values": 14
+  },
+  "20261116002089": {
+   "corp_code": "00428729",
+   "corp_name": "대호에이엘",
+   "done_at_utc": "2026-11-18T03:16:55.364683+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116002099": {
+   "corp_code": "00860332",
+   "corp_name": "메리츠금융지주",
+   "done_at_utc": "2026-11-18T03:16:58.618484+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116002112": {
+   "corp_code": "00299002",
+   "corp_name": "HL홀딩스",
+   "done_at_utc": "2026-11-18T03:17:01.285294+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116002119": {
+   "corp_code": "00372873",
+   "corp_name": "KTis",
+   "done_at_utc": "2026-11-18T03:17:02.511719+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116002121": {
+   "corp_code": "00119140",
+   "corp_name": "핸즈코퍼레이션",
+   "done_at_utc": "2026-11-18T03:17:04.843237+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 5
+  },
+  "20261116002123": {
+   "corp_code": "00149354",
+   "corp_name": "종근당홀딩스",
+   "done_at_utc": "2026-11-18T03:17:06.826099+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116002129": {
+   "corp_code": "00166272",
+   "corp_name": "화승코퍼레이션",
+   "done_at_utc": "2026-11-18T03:17:09.370744+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 10
+  },
+  "20261116002143": {
+   "corp_code": "00116268",
+   "corp_name": "동성제약",
+   "done_at_utc": "2026-11-18T03:17:10.593951+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116002146": {
+   "corp_code": "00101220",
+   "corp_name": "KG케미칼",
+   "done_at_utc": "2026-11-18T03:17:11.823781+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116002151": {
+   "corp_code": "00684714",
+   "corp_name": "풍산",
+   "done_at_utc": "2026-11-18T03:17:14.081592+00:00",
+   "geography": "OK",
+   "segment": "PROFIT_NOT_OPERATING",
+   "values": 8
+  },
+  "20261116002160": {
+   "corp_code": "00115612",
+   "corp_name": "동부건설",
+   "done_at_utc": "2026-11-18T03:17:17.756565+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 12
+  },
+  "20261116002161": {
+   "corp_code": "00759513",
+   "corp_name": "LX하우시스",
+   "done_at_utc": "2026-11-18T03:17:20.077010+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 13
+  },
+  "20261116002163": {
+   "corp_code": "00113535",
+   "corp_name": "대한해운",
+   "done_at_utc": "2026-11-18T03:17:22.503935+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116002171": {
+   "corp_code": "00108135",
+   "corp_name": "녹십자홀딩스",
+   "done_at_utc": "2026-11-18T03:17:25.261941+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 12
+  },
+  "20261116002174": {
+   "corp_code": "00103176",
+   "corp_name": "흥국화재",
+   "done_at_utc": "2026-11-18T03:17:27.887787+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116002181": {
+   "corp_code": "00233653",
+   "corp_name": "한국토지신탁",
+   "done_at_utc": "2026-11-18T03:17:29.344889+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116002184": {
+   "corp_code": "00123143",
+   "corp_name": "보령",
+   "done_at_utc": "2026-11-18T03:17:31.879332+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116002195": {
+   "corp_code": "00261443",
+   "corp_name": "NC",
+   "done_at_utc": "2026-11-18T03:17:34.803019+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 8
+  },
+  "20261116002200": {
+   "corp_code": "00138297",
+   "corp_name": "STX",
+   "done_at_utc": "2026-11-18T03:17:36.842229+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116002207": {
+   "corp_code": "00565154",
+   "corp_name": "이노션",
+   "done_at_utc": "2026-11-18T03:17:39.349309+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 7
+  },
+  "20261116002210": {
+   "corp_code": "00156488",
+   "corp_name": "휴스틸",
+   "done_at_utc": "2026-11-18T03:17:41.732782+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 4
+  },
+  "20261116002219": {
+   "corp_code": "01436628",
+   "corp_name": "이지스레지던스리츠",
+   "done_at_utc": "2026-11-18T03:17:43.511658+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116002223": {
+   "corp_code": "00203315",
+   "corp_name": "콘텐트리중앙",
+   "done_at_utc": "2026-11-18T03:17:46.138803+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 8
+  },
+  "20261116002225": {
+   "corp_code": "00688996",
+   "corp_name": "KB금융",
+   "done_at_utc": "2026-11-18T03:17:51.181896+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116002231": {
+   "corp_code": "00143651",
+   "corp_name": "웅진",
+   "done_at_utc": "2026-11-18T03:17:53.544650+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "PROFIT_NOT_OPERATING",
+   "values": 5
+  },
+  "20261116002232": {
+   "corp_code": "00111847",
+   "corp_name": "대원강업",
+   "done_at_utc": "2026-11-18T03:17:55.766852+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 2
+  },
+  "20261116002246": {
+   "corp_code": "01415892",
+   "corp_name": "제이알글로벌리츠",
+   "done_at_utc": "2026-11-18T03:18:00.905324+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261116002248": {
+   "corp_code": "00126362",
+   "corp_name": "삼성SDI",
+   "done_at_utc": "2026-11-18T03:18:03.810710+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 9
+  },
+  "20261116002257": {
+   "corp_code": "00102618",
+   "corp_name": "계양전기",
+   "done_at_utc": "2026-11-18T03:18:06.203133+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261117000120": {
+   "corp_code": "00152880",
+   "corp_name": "코오롱글로벌",
+   "done_at_utc": "2026-11-18T03:18:09.963302+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261117000155": {
+   "corp_code": "00442835",
+   "corp_name": "메타랩스",
+   "done_at_utc": "2026-11-18T03:18:11.236790+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
   }
  },
  "gave_up": {}
