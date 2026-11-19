@@ -1,0 +1,100 @@
+{
+  "code_version": "b59c77c734a04a298eae813f557f702590bef2a1",
+  "contract_id": "opendart_xbrl_v1",
+  "counts": {
+    "added": 1,
+    "not_yet": 6,
+    "reports": 6,
+    "segment_no_segment_table": 4,
+    "segment_ok": 1,
+    "segment_profit_not_operating": 1,
+    "unchanged": 38
+  },
+  "errors": [],
+  "finished_at_utc": "2026-11-19T02:48:39.884952+00:00",
+  "permission": {
+    "approval_status": "approved_for_public_display",
+    "attribution_required": true,
+    "license_url": "https://opendart.fss.or.kr/intro/terms.do",
+    "permission_reference": "OpenDART 이용약관(2020-01-21 시행) 2026-11-09 원문 검토 — DATA_SOURCES.md#opendart"
+  },
+  "requests": [
+    {
+      "bytes": 916251,
+      "endpoint": "fnlttXbrl.xml",
+      "geography": "OK",
+      "rcept_no": "20261116002070",
+      "reprt_code": "11014",
+      "seconds": 56.9,
+      "segment": "NO_SEGMENT_TABLE",
+      "sha256": "974890a8a2012dcf302a3fb1782b214b671eeeeea8be509ee6b63d2fedf93d16",
+      "values": 7
+    },
+    {
+      "bytes": 67324,
+      "endpoint": "fnlttXbrl.xml",
+      "geography": "NO_GEOGRAPHY",
+      "rcept_no": "20261116002202",
+      "reprt_code": "11014",
+      "seconds": 5.0,
+      "segment": "NO_SEGMENT_TABLE",
+      "sha256": "f1d1cf4fd5c26de2ae88f8138e9aebabf280a2d9fa243f603b8f41aa4dd33a6e",
+      "values": 0
+    },
+    {
+      "bytes": 599597,
+      "endpoint": "fnlttXbrl.xml",
+      "geography": "OK",
+      "rcept_no": "20261116002234",
+      "reprt_code": "11014",
+      "seconds": 37.4,
+      "segment": "OK",
+      "sha256": "8f6d53fa859d9e662e82db1fa36e1daa2f6260f405bab536bc4580f1ed78961d",
+      "values": 11
+    },
+    {
+      "bytes": 657760,
+      "endpoint": "fnlttXbrl.xml",
+      "geography": "OK",
+      "rcept_no": "20261116002243",
+      "reprt_code": "11014",
+      "seconds": 41.2,
+      "segment": "PROFIT_NOT_OPERATING",
+      "sha256": "0cff2b93d996f2f0237f3bfb59132dba2f70cd677036609a783cc77920d93a1e",
+      "values": 11
+    },
+    {
+      "bytes": 460277,
+      "endpoint": "fnlttXbrl.xml",
+      "geography": "OK",
+      "rcept_no": "20261118000133",
+      "reprt_code": "11014",
+      "seconds": 29.2,
+      "segment": "NO_SEGMENT_TABLE",
+      "sha256": "7e99c4cb6883db0dc2ff9e2252a8491d7f72dd16fa5f7ce83b6c960b6c0ef892",
+      "values": 4
+    },
+    {
+      "bytes": 53072,
+      "endpoint": "fnlttXbrl.xml",
+      "geography": "NO_GEOGRAPHY",
+      "rcept_no": "20261118000327",
+      "reprt_code": "11011",
+      "seconds": 4.9,
+      "segment": "NO_SEGMENT_TABLE",
+      "sha256": "33085bd7a3bf996152c8899a63f81113474ca1fbe5be47684835b7e633b153e9",
+      "values": 0
+    }
+  ],
+  "run_id": "20261119T024220Z",
+  "schema_version": "manifest-1",
+  "source_id": "opendart_xbrl",
+  "started_at_utc": "2026-11-19T02:45:40.017009+00:00",
+  "status": "ok",
+  "target": {
+    "minutes": 25.0,
+    "queued": 12,
+    "remaining": 6
+  },
+  "warnings": []
+}

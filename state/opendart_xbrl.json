@@ -1,11 +1,11 @@
 {
  "attempts": {
-  "20261112000436": 2,
-  "20261112000647": 2,
-  "20261113001034": 2,
-  "20261113001144": 2,
-  "20261113001240": 2,
-  "20261113001553": 2
+  "20261112000436": 3,
+  "20261112000647": 3,
+  "20261113001034": 3,
+  "20261113001144": 3,
+  "20261113001240": 3,
+  "20261113001553": 3
  },
  "done": {
   "20261106000023": {
@@ -6208,6 +6208,14 @@
    "segment": "NO_SEGMENT_TABLE",
    "values": 0
   },
+  "20261116002070": {
+   "corp_code": "00261285",
+   "corp_name": "한국가스공사",
+   "done_at_utc": "2026-11-19T02:46:42.229802+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 7
+  },
   "20261116002071": {
    "corp_code": "01108099",
    "corp_name": "현대코퍼레이션홀딩스",
@@ -6400,6 +6408,14 @@
    "segment": "NO_SEGMENT_TABLE",
    "values": 0
   },
+  "20261116002202": {
+   "corp_code": "01762569",
+   "corp_name": "이수스페셜티케미컬",
+   "done_at_utc": "2026-11-19T02:46:47.245760+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
   "20261116002207": {
    "corp_code": "00565154",
    "corp_name": "이노션",
@@ -6456,6 +6472,22 @@
    "segment": "NO_SEGMENT_TABLE",
    "values": 2
   },
+  "20261116002234": {
+   "corp_code": "00113492",
+   "corp_name": "깨끗한나라",
+   "done_at_utc": "2026-11-19T02:47:24.616271+00:00",
+   "geography": "OK",
+   "segment": "OK",
+   "values": 11
+  },
+  "20261116002243": {
+   "corp_code": "00992871",
+   "corp_name": "종근당",
+   "done_at_utc": "2026-11-19T02:48:05.805845+00:00",
+   "geography": "OK",
+   "segment": "PROFIT_NOT_OPERATING",
+   "values": 11
+  },
   "20261116002246": {
    "corp_code": "01415892",
    "corp_name": "제이알글로벌리츠",
@@ -6492,6 +6524,22 @@
    "corp_code": "00442835",
    "corp_name": "메타랩스",
    "done_at_utc": "2026-11-18T03:18:11.236790+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261118000133": {
+   "corp_code": "00156488",
+   "corp_name": "휴스틸",
+   "done_at_utc": "2026-11-19T02:48:34.985623+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 4
+  },
+  "20261118000327": {
+   "corp_code": "01714997",
+   "corp_name": "신한글로벌액티브리츠",
+   "done_at_utc": "2026-11-19T02:48:39.882113+00:00",
    "geography": "NO_GEOGRAPHY",
    "segment": "NO_SEGMENT_TABLE",
    "values": 0

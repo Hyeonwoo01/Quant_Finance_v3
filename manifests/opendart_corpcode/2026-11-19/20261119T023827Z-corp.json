@@ -1,0 +1,43 @@
+{
+  "code_version": "b59c77c734a04a298eae813f557f702590bef2a1",
+  "contract_id": "opendart_corpcode_v1",
+  "counts": {
+    "added": 3,
+    "changed": 2,
+    "code_removed": 0,
+    "new": 1,
+    "unchanged": 4016,
+    "with_code": 4019
+  },
+  "errors": [],
+  "finished_at_utc": "2026-11-19T02:42:20.915241+00:00",
+  "permission": {
+    "approval_status": "approved_for_redistribution",
+    "attribution_required": true,
+    "license_url": "https://opendart.fss.or.kr/intro/terms.do",
+    "permission_reference": "OpenDART 이용약관(2020-01-21 시행) 2026-11-09 원문 검토 — DATA_SOURCES.md#opendart"
+  },
+  "requests": [
+    {
+      "attempts": 1,
+      "endpoint": "corpCode.xml",
+      "http_status": 200,
+      "params": {
+        "crtfc_key": "***"
+      },
+      "raw_stored": false,
+      "rows": 120028,
+      "xml_sha256": "f99826314fafb1def099774b985a8aaa420fc4d773443c8a380eb0852200a819",
+      "zip_sha256": "3d75da7e7593ffe5210f8d400e08bad57da36a6d60687346ba9441b7d33ec80f"
+    }
+  ],
+  "run_id": "20261119T023827Z-corp",
+  "schema_version": "manifest-1",
+  "source_id": "opendart_corpcode",
+  "started_at_utc": "2026-11-19T02:38:27.082501+00:00",
+  "status": "ok",
+  "target": {
+    "endpoint": "corpCode.xml"
+  },
+  "warnings": []
+}
