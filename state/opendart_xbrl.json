@@ -1,12 +1,5 @@
 {
- "attempts": {
-  "20261112000436": 4,
-  "20261112000647": 4,
-  "20261113001034": 4,
-  "20261113001144": 4,
-  "20261113001240": 4,
-  "20261113001553": 4
- },
+ "attempts": {},
  "done": {
   "20261106000023": {
    "corp_code": "00855163",
@@ -6569,5 +6562,30 @@
    "values": 0
   }
  },
- "gave_up": {}
+ "gave_up": {
+  "20261112000436": {
+   "attempts": 5,
+   "reason": "OpenDART fnlttXbrl.xml: status 014 파일이 존재하지 않습니다."
+  },
+  "20261112000647": {
+   "attempts": 5,
+   "reason": "OpenDART fnlttXbrl.xml: status 014 파일이 존재하지 않습니다."
+  },
+  "20261113001034": {
+   "attempts": 5,
+   "reason": "OpenDART fnlttXbrl.xml: status 014 파일이 존재하지 않습니다."
+  },
+  "20261113001144": {
+   "attempts": 5,
+   "reason": "OpenDART fnlttXbrl.xml: status 014 파일이 존재하지 않습니다."
+  },
+  "20261113001240": {
+   "attempts": 5,
+   "reason": "OpenDART fnlttXbrl.xml: status 014 파일이 존재하지 않습니다."
+  },
+  "20261113001553": {
+   "attempts": 5,
+   "reason": "OpenDART fnlttXbrl.xml: status 014 파일이 존재하지 않습니다."
+  }
+ }
 }
