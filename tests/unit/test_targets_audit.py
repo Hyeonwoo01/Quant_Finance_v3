@@ -160,3 +160,16 @@ def test_vectorized_limits_match_scalar():
         assert np.array_equal(lo, [r[0] for r in ref]) and np.array_equal(up, [r[1] for r in ref])
     lo, up = limit_prices_arr([np.nan, 0, 10_000], [date(2020, 1, 2)] * 3, ["KOSPI"] * 3)
     assert np.isnan(lo[0]) and np.isnan(up[1]) and up[2] == 13_000
+
+
+def test_off_tick_closes_split_into_midpoint_orders_and_unexplained():
+    import pandas as pd
+    rows = [("2025-03-10", 2002.0, "KOSDAQ"),     # 호가단위 5의 절반 지점(2,002.5 버림) → 중간가호가
+            ("2025-03-10", 5005.0, "KOSDAQ"),     # 호가단위 10의 절반 → 중간가호가
+            ("2025-03-10", 2001.0, "KOSDAQ"),     # 절반 지점 아님 → 설명 안 됨
+            ("2024-06-03", 2002.0, "KOSDAQ"),     # 중간가호가 도입 전 → 설명 안 됨
+            ("2025-03-10", 2005.0, "KOSDAQ")]     # 정상
+    p = pd.DataFrame([{"date": pd.Timestamp(d), "code": f"{i:06d}", "close": c, "open": c, "high": c, "low": c,
+                       "base": c, "volume": 10, "factor": 1.0, "market": m} for i, (d, c, m) in enumerate(rows)])
+    res = check_against_data(p)
+    assert res["close_off_tick"] == 4 and res["close_off_tick_midpoint"] == 2 and res["close_off_tick_unexplained"] == 2

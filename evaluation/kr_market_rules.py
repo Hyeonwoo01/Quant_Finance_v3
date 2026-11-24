@@ -111,11 +111,15 @@ def limit_prices_arr(base, dates, markets, method: str = DEFAULT_METHOD):
     return np.where(ok, lo, np.nan), np.where(ok, up, np.nan)
 
 
+MIDPOINT_ORDER = "2025-03-04"      # 한국거래소 중간가호가 도입 (넥스트레이드 출범일, 2025-02-27 시행세칙 개정 발표)
+
+
 def check_against_data(panel, methods=(BASE_TICK, LIMIT_TICK, DOUBLE)) -> dict:
     """실제 시세로 두 방식을 검증한다 (값 없이 건수만).
 
     - over/under: 고가 > 상한가 또는 저가 < 하한가인 행 (규칙이 틀렸거나 예외 종목)
-    - close_off_tick: 종가가 그날 호가단위 표의 배수가 아닌 행 (표가 틀렸으면 많이 나온다)
+    - close_off_tick: 종가가 그날 호가단위 표의 배수가 아닌 행 (표가 틀렸으면 많이 나온다).
+      그중 2025-03-04(중간가호가 도입) 이후 호가단위의 절반 지점에 있는 것은 close_off_tick_midpoint로 따로 센다
     - limit_close: 종가가 기준가 대비 (제한폭 − 1%p) 이상 오르거나 내린 행 중 종가가 계산한 상·하한가와 정확히 같은 비율
     신규상장 첫날(전 거래일 종가 없음)과 거래가 없는 행은 뺀다."""
     import pandas as pd
@@ -125,8 +129,15 @@ def check_against_data(panel, methods=(BASE_TICK, LIMIT_TICK, DOUBLE)) -> dict:
     kosdaq = np.asarray(df["market"].astype(str).str.upper() == "KOSDAQ")
     close = df["close"].to_numpy(dtype=float)
     # 호가단위 표 검증: 거래가 있었던 날의 종가는 그날 표의 호가단위 배수여야 한다
-    off = np.mod(close, _tick_arr(close, day, kosdaq)) != 0
+    tick = _tick_arr(close, day, kosdaq)
+    off = np.mod(close, tick) != 0
     out = {"rows": int(len(df)), "close_off_tick": int(off.sum())}
+    # 중간가호가(2025-03-04 도입, 최우선 매수·매도 호가의 중간 가격으로 체결)로 생긴 종가인지:
+    # 그 날짜 이후이고 종가가 호가단위의 절반 지점(나머지 = 호가단위/2, 홀수 호가단위는 원 단위 버림·올림 둘 다)에 있는가
+    rem = np.mod(close, tick)
+    half = (day >= np.datetime64(MIDPOINT_ORDER)) & ((rem == np.floor(tick / 2)) | (rem == np.ceil(tick / 2)))
+    out["close_off_tick_midpoint"] = int((off & half).sum())
+    out["close_off_tick_unexplained"] = int((off & ~half).sum())
     if off.any():            # 어긋난 행이 어느 시장·가격대에 몰려 있는지 (호가단위 표 진단용, 값 대신 구간만)
         new = day >= np.datetime64(TICK_REFORM)
         bands, when = [], []
