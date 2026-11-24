@@ -102,3 +102,13 @@ def test_unit_errors_do_not_leak_into_ttm_or_market_ratios():
     out = fundamentals_at(feats, report_table(rows))
     assert out.loc[0, ["bm", "ep", "sp"]].isna().all() and bool(out.loc[0, "fin_unit_suspect"])   # 자산/시총 1,000배
     assert out.loc[0, "leverage"] == pytest.approx(0.6) and out.loc[0, "fin_age"] == 7
+
+
+def test_coverage_by_survival_splits_delisted_codes():
+    from evaluation.coverage_report import coverage_by_survival
+    d = pd.to_datetime(["2018-01-02", "2018-02-01", "2018-01-02", "2018-02-01"])
+    df = pd.DataFrame({"date": d, "code": ["A", "A", "B", "B"], "fin_age": [10, 20, np.nan, np.nan]})
+    last = pd.Series({"A": pd.Timestamp("2024-10-31"), "B": pd.Timestamp("2019-05-01")})
+    r = coverage_by_survival(df, last, pd.Timestamp("2024-10-31"))
+    assert r["delisted_codes"] == 1 and r["survivor_2017_on"] == 1.0 and r["delisted_2017_on"] == 0.0
+    assert r["by_year"][2018] == {"survivor": 1.0, "delisted": 0.0, "delisted_share": 0.5}

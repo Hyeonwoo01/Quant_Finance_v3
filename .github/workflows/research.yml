@@ -7,6 +7,11 @@ name: research
 on:
   workflow_dispatch:
     inputs:
+      mode:
+        description: "experiment = 실험(기록에 남음), coverage = 재무 커버리지를 생존/상장폐지 종목으로 나눠 보기(모델 없음, 기록 안 남김)"
+        type: choice
+        options: [experiment, coverage]
+        default: experiment
       target:
         description: "예측 타깃 (evaluation/targets.py)"
         type: choice
@@ -70,7 +75,7 @@ jobs:
           path: private_data
           fetch-depth: 1
       - name: 공개 data 브랜치 (재무 피처용)
-        if: inputs.fundamentals
+        if: inputs.fundamentals || inputs.mode == 'coverage'
         uses: actions/checkout@v5
         with:
           ref: data
@@ -81,7 +86,11 @@ jobs:
           python-version: "3.13"
           cache: pip
       - run: pip install -r requirements.txt
+      - name: 재무 커버리지 (생존/상장폐지)
+        if: inputs.mode == 'coverage'
+        run: python -m evaluation.coverage_report --data-dir private_data --public-dir public_data
       - name: 실험
+        if: inputs.mode != 'coverage'
         env:
           TARGET: ${{ inputs.target }}
           EVERY: ${{ inputs.every }}
