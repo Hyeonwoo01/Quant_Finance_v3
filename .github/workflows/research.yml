@@ -8,9 +8,9 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: "experiment = 실험(기록에 남음), coverage = 재무 커버리지 생존/상장폐지 점검, select = 가이드 8-5 규칙으로 Vault 후보 선택(실험 기록만 읽음)"
+        description: "experiment = 실험(기록에 남음), coverage = 재무 커버리지 생존/상장폐지 점검, select = 가이드 8-5 규칙으로 Vault 후보 선택(실험 기록만 읽음), vault = 확정된 사전 등록대로 Vault 평가 한 번(두 번째부터 거부)"
         type: choice
-        options: [experiment, coverage, select]
+        options: [experiment, coverage, select, vault]
         default: experiment
       target:
         description: "예측 타깃 (evaluation/targets.py)"
@@ -100,6 +100,9 @@ jobs:
       - name: Vault 후보 선택 (가이드 8-5 규칙)
         if: inputs.mode == 'select'
         run: python -m evaluation.select_candidates --data-dir private_data
+      - name: Vault 평가 (docs/VAULT_PREREGISTRATION.md 확정본대로, 한 번만)
+        if: inputs.mode == 'vault'
+        run: python -m evaluation.vault_eval --data-dir private_data
       - name: 실험
         if: inputs.mode == 'experiment'
         env:
