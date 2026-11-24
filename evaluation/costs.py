@@ -4,8 +4,11 @@
   코스피(거래세 + 농특세 0.15%)와 코스닥(거래세)의 합계가 같도록 정해져 왔으므로 시장 구분 없이 한 표를 쓴다.
     ~2019-06-02 0.30% · 2019-06-03 0.25% · 2021-01-01 0.23% · 2023-01-01 0.20% · 2024-01-01 0.18%
     · 2025-01-01 0.15% · 2026-01-01 0.20% (2025 세제개편: 코스피 거래세 0.05% + 농특세 0.15%, 코스닥 0.20%)
-  2021년 0.23%, 2025년 0.15%, 2026년 0.20%는 보도로 확인했다. 2019년·2023년·2024년 값은 2차 자료와 기억에
-  기댄 것이라 국세청·기재부 원문으로 확인해야 한다 (확인 전까지 시나리오 민감도로 본다).
+  확인(2026-11-24, 보도·법무법인·회계법인 자료): 2019-06-03 코스피 거래세 0.15→0.10%(농특세 0.15% 유지)·코스닥
+  0.30→0.25%. 2023~2025는 2022년 12월 세법 합의대로 코스피 0.05·0.03·0%(+농특세 0.15%), 코스닥 0.20·0.18·0.15%.
+  2026은 2025년 12월 시행령 개정으로 코스피 0.05%(+0.15%), 코스닥 0.20%. 국세법령 원문 대조는 아직이다.
+  **적용 날짜는 양도일(결제일, T+2 세션) 기준이다.** 예: 2019년 인하는 2019-05-30 체결분부터, 1월 1일 변경은 전년
+  마지막 두 세션 체결분부터 새 세율. 그래서 매도 체결일에 2세션을 더한 결제일로 세율을 찾는다 (costs_v2).
 - **수수료:** 매수·매도 각각 commission (기본 0.015%, 온라인 증권사 수준 가정).
 - **슬리피지:** 시가 단일가로 사고팔므로 호가 스프레드는 없다고 보지 않고, 호가단위 몇 틱만큼의 불리한 가격을
   가정한다 (가격대별 호가단위 / 가격). 저가주일수록 커진다. 여기에 extra_bps를 더한다.
@@ -41,11 +44,23 @@ SCENARIOS = (
     CostScenario("conservative", slippage_ticks=2.0, extra_bps=5.0, max_participation=0.02, tax_shift=0.0005),
     CostScenario("stress", slippage_ticks=3.0, extra_bps=15.0, max_participation=0.01, tax_shift=0.0005),
 )
-VERSION = "costs_v1"
+VERSION = "costs_v2"           # v2: 세율을 결제일(T+2) 기준으로 (v1은 체결일 기준)
+
+
+SETTLEMENT_SESSIONS = 2          # 주식 결제 T+2
+
+
+def settlement_day(day) -> pd.Timestamp:
+    from core.calendar_align import next_session_after
+    d = pd.Timestamp(day)
+    for _ in range(SETTLEMENT_SESSIONS):
+        d = next_session_after(d)
+    return d
 
 
 def sell_tax(days) -> np.ndarray:
-    d = pd.to_datetime(pd.Series(days)).to_numpy().astype("datetime64[D]")
+    """매도 체결일의 합계 세율. 세율은 양도일(결제일 = 체결 + 2세션) 기준으로 바뀐다."""
+    d = np.array([settlement_day(x).to_datetime64() for x in pd.to_datetime(pd.Series(days))], dtype="datetime64[D]")
     starts = np.array([np.datetime64(s) for s, _ in SELL_TAX])
     rates = np.array([r for _, r in SELL_TAX])
     return rates[np.searchsorted(starts, d, side="right") - 1]

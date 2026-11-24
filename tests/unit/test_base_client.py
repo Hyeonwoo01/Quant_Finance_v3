@@ -126,3 +126,41 @@ def test_pagination_and_schema_checks():
     with pytest.raises(SchemaChanged, match="corp_code"):
         s.raise_if_missing()
     assert check_schema([], ["rcept_no"]).missing == ()
+
+
+def test_trickling_response_hits_total_deadline(monkeypatch):
+    """서버가 조금씩 계속 보내도 응답 하나에 전체 시간 상한을 둔다 (소켓 timeout만으로는 끝나지 않음)."""
+    import threading
+    import time as _t
+    from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+
+    import collectors.base_client as bc
+
+    class Trickle(BaseHTTPRequestHandler):
+        def do_GET(self):
+            self.send_response(200)
+            self.send_header("Content-Length", "1000")
+            self.end_headers()
+            try:
+                for _ in range(1000):
+                    self.wfile.write(b"x")
+                    self.wfile.flush()
+                    _t.sleep(0.05)
+            except (BrokenPipeError, ConnectionResetError):
+                pass
+
+        def log_message(self, *a):
+            pass
+
+    srv = ThreadingHTTPServer(("127.0.0.1", 0), Trickle)
+    threading.Thread(target=srv.serve_forever, daemon=True).start()
+    monkeypatch.setenv("no_proxy", "127.0.0.1,localhost")
+    monkeypatch.setenv("NO_PROXY", "127.0.0.1,localhost")
+    monkeypatch.setattr(bc, "TOTAL_TIMEOUT_FACTOR", 2)
+    t0 = _t.monotonic()
+    try:
+        with pytest.raises(TimeoutError):
+            bc.urllib_transport(f"http://127.0.0.1:{srv.server_port}/x", {}, timeout=0.5)   # 상한 1초
+        assert _t.monotonic() - t0 < 5
+    finally:
+        srv.shutdown()

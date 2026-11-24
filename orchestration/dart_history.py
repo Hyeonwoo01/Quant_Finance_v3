@@ -211,9 +211,18 @@ def main(argv=None) -> int:
         print("DART_API_KEY 환경변수가 없음", file=sys.stderr)
         return 2
     end = date.fromisoformat(args.end) if args.end else datetime.now(KST).date() - timedelta(days=1)
-    client = OpenDartClient(key, budget=CallBudget(args.max_calls))
-    m = HistoryRun(client, args.data_dir).run(date.fromisoformat(args.start), end, from_index=args.from_index,
-                                         only_missing=args.only_missing)
+    from orchestration.opendart_daily import DAILY_CALL_CAP, daily_budget, record_calls
+    started = datetime.now(timezone.utc)
+    max_calls = daily_budget(args.data_dir, started, args.max_calls)   # 같은 날 매일 수집과 합쳐 하루 상한 안에서
+    if max_calls < 100:
+        print(f"오늘(KST) OpenDART 호출이 하루 상한 {DAILY_CALL_CAP}건에 가까워 실행하지 않음", file=sys.stderr)
+        return 1
+    client = OpenDartClient(key, budget=CallBudget(max_calls))
+    try:
+        m = HistoryRun(client, args.data_dir).run(date.fromisoformat(args.start), end, from_index=args.from_index,
+                                                 only_missing=args.only_missing)
+    finally:
+        record_calls(args.data_dir, started, client.budget.used)
     print(f"과거 재무 채우기: {m.status} {dict(m.counts)}")
     for w in m.warnings[:10]:
         print("경고:", w)

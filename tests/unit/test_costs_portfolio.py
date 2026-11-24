@@ -15,6 +15,10 @@ from tests.unit.test_targets_audit import make_panel
 def test_sell_tax_schedule():
     t = sell_tax([date(2015, 1, 2), date(2019, 6, 3), date(2021, 1, 4), date(2024, 1, 2), date(2025, 6, 2), date(2026, 1, 2)])
     assert list(t) == [0.0030, 0.0025, 0.0023, 0.0018, 0.0015, 0.0020]
+    # 세율은 양도일(결제일 = 체결 + 2세션) 기준: 2019-05-30 체결 → 06-03 결제,
+    # 2022-12-28 체결 → 2023-01-02 결제 (12-30은 연말 휴장일이라 12-28·29가 그해 마지막 두 세션)
+    edge = sell_tax([date(2019, 5, 29), date(2019, 5, 30), date(2022, 12, 27), date(2022, 12, 28)])
+    assert list(edge) == [0.0030, 0.0025, 0.0023, 0.0020]
 
 
 def test_slippage_grows_for_cheap_stocks_and_scenarios():

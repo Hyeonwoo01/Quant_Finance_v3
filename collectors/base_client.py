@@ -73,16 +73,34 @@ class HttpResponse:
         return json.loads(self.body.decode("utf-8"))
 
 
+TOTAL_TIMEOUT_FACTOR = 10        # 응답 하나를 다 받는 데 쓰는 전체 시간 상한 = timeout × 이 값
+
+
+def _read_all(r, deadline: float) -> bytes:
+    """본문을 조각으로 읽되 전체 시간 상한을 넘기면 멈춘다. urlopen의 timeout은 소켓 동작 하나마다 다시 시작해서,
+    서버가 조금씩 계속 보내면 몇 시간이고 기다릴 수 있다 (2026-11-14·17 일일 수집이 출력 없이 멈춘 원인으로 추정)."""
+    chunks = []
+    while True:
+        if time.monotonic() > deadline:
+            raise TimeoutError("응답 본문을 전체 시간 상한 안에 다 받지 못함")
+        b = r.read1(65536) if hasattr(r, "read1") else r.read(65536)   # read(n)은 n바이트가 찰 때까지 기다려서 read1
+        if not b:
+            return b"".join(chunks)
+        chunks.append(b)
+
+
 def urllib_transport(url: str, params: Mapping[str, str], timeout: float, headers: Optional[Mapping[str, str]] = None):
     """표준 라이브러리 전송. HTTPS_PROXY 같은 환경 설정을 따른다. 반환: (status, headers, body).
-    headers: 요청 헤더 (예: 헤더로 인증키를 받는 KRX Open API의 AUTH_KEY)."""
+    headers: 요청 헤더 (예: 헤더로 인증키를 받는 KRX Open API의 AUTH_KEY).
+    응답 하나에 timeout × TOTAL_TIMEOUT_FACTOR초를 넘기면 TimeoutError (OSError라 위에서 네트워크 오류로 다시 시도)."""
     full = f"{url}?{urllib.parse.urlencode(params)}" if params else url
     req = urllib.request.Request(full, headers={"User-Agent": "quant-finance-v3-collector", **dict(headers or {})})
+    deadline = time.monotonic() + timeout * TOTAL_TIMEOUT_FACTOR
     try:
         with urllib.request.urlopen(req, timeout=timeout) as r:
-            return r.status, dict(r.headers), r.read()
+            return r.status, dict(r.headers), _read_all(r, deadline)
     except urllib.error.HTTPError as e:   # 4xx·5xx도 응답으로 돌려 재시도 여부를 위에서 판단
-        return e.code, dict(e.headers or {}), (e.read() if e.fp else b"")
+        return e.code, dict(e.headers or {}), (_read_all(e, deadline) if e.fp else b"")
 
 
 class TokenBucket:
