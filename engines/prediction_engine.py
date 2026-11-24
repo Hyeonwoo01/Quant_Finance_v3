@@ -15,6 +15,10 @@ import numpy as np
 import pandas as pd
 
 MODELS = ("uncond", "momentum", "reversal", "ridge", "gbm")
+# 2026-11-24 탐색 묶음:
+#   ridge_rank·gbm_rank  목표를 수익률 대신 판단일 안 수익률 순위([-0.5, 0.5])로 — 평가 지표(Rank IC)와 맞추고 꼬리에 덜 흔들림
+#   ens                  ridge와 gbm 점수를 판단일 안 순위로 바꿔 평균 (두 신호가 다른 종목에서 강함: 저유동 vs 고유동)
+EXTRA_MODELS = ("ridge_rank", "gbm_rank", "ens")
 PARAMS = {
     "ridge": {"alpha": 10.0, "logit_C": 0.1},
     "gbm": {"max_iter": 200, "learning_rate": 0.05, "max_leaf_nodes": 31, "min_samples_leaf": 500,
@@ -34,9 +38,23 @@ def fit_predict(model: str, train: pd.DataFrame, test: pd.DataFrame, features, t
     raw_features: 판단일마다 모든 종목에 같은 값(시장 상태 등). 순위로 바꾸면 0이 되므로 gbm에만 원값으로 넣어
     종목 피처와의 상호작용을 배우게 한다 (트리는 크기 조정이 필요 없어 학습 폴드에서 fit할 것이 없다)."""
     out = test[["date", "code"]].copy()
+    if model == "ens":
+        a = fit_predict("ridge", train, test, features, target, raw_features)
+        b = fit_predict("gbm", train, test, features, target, raw_features)
+        ra = a["score"].groupby(a["date"]).rank(pct=True)
+        rb = b["score"].groupby(b["date"]).rank(pct=True)
+        out["score"] = ((ra + rb) / 2).to_numpy()
+        out["prob"] = ((a["prob"] + b["prob"]) / 2).to_numpy()
+        return out
     tr = train.dropna(subset=[target])
-    y = tr[target].to_numpy()
-    up = (y > 0).astype(int)
+    up = (tr[target].to_numpy() > 0).astype(int)
+    if model.endswith("_rank"):                           # 목표 = 판단일 안 수익률 순위
+        y = (tr[target].groupby(tr["date"]).rank(pct=True) - 0.5).to_numpy()
+        model = model[: -len("_rank")]
+        rank_target = True
+    else:
+        y = tr[target].to_numpy()
+        rank_target = False
     if model == "uncond":
         out["score"] = float(np.mean(y)) if len(y) else 0.0
         out["prob"] = float(up.mean()) if len(up) else 0.5
@@ -59,7 +77,8 @@ def fit_predict(model: str, train: pd.DataFrame, test: pd.DataFrame, features, t
         if raw_features:
             Xtr = np.hstack([Xtr, tr[list(raw_features)].to_numpy(dtype=float)])
             Xte = np.hstack([Xte, test[list(raw_features)].to_numpy(dtype=float)])
-        reg = HistGradientBoostingRegressor(loss="absolute_error", **p).fit(Xtr, y)   # 꼬리가 두꺼운 수익률에 강건
+        loss = "squared_error" if rank_target else "absolute_error"        # 순위 목표는 꼬리가 없다
+        reg = HistGradientBoostingRegressor(loss=loss, **p).fit(Xtr, y)   # 수익률 목표는 꼬리가 두꺼워 절대 오차
         clf = HistGradientBoostingClassifier(**p).fit(Xtr, up)
     else:
         raise ValueError(f"알 수 없는 모델: {model}")
