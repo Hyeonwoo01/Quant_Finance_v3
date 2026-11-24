@@ -6560,6 +6560,14 @@
    "geography": "NO_GEOGRAPHY",
    "segment": "NO_SEGMENT_TABLE",
    "values": 0
+  },
+  "20261123000065": {
+   "corp_code": "00126779",
+   "corp_name": "삼아알미늄",
+   "done_at_utc": "2026-11-24T05:22:45.923686+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
   }
  },
  "gave_up": {

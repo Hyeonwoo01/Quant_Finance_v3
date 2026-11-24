@@ -1,0 +1,208 @@
+{
+  "code_version": "da363bad32de97a831b62af826e3f83a3a733c7a",
+  "contract_id": "opendart_fnltt_v1",
+  "counts": {
+    "added": 12,
+    "not_yet": 4,
+    "older_than_stored": 0,
+    "parse_errors": 0,
+    "reports": 1,
+    "unchanged": 280
+  },
+  "errors": [],
+  "finished_at_utc": "2026-11-24T05:22:44.818513+00:00",
+  "permission": {
+    "approval_status": "approved_for_redistribution",
+    "attribution_required": true,
+    "license_url": "https://opendart.fss.or.kr/intro/terms.do",
+    "permission_reference": "OpenDART 이용약관(2020-01-21 시행) 2026-11-09 원문 검토 — DATA_SOURCES.md#opendart"
+  },
+  "requests": [
+    {
+      "attempts": 1,
+      "endpoint": "fnlttSinglAcntAll.json",
+      "http_status": 200,
+      "matched": false,
+      "params": {
+        "bsns_year": "2026",
+        "corp_code": "01032486",
+        "crtfc_key": "***",
+        "fs_div": "OFS",
+        "reprt_code": "11014"
+      },
+      "rcept_no": "20261112000726",
+      "returned_rcept_no": [],
+      "rows": 0,
+      "sha256": "5b9f448765008cd323ab5b94081c873aa00d39974e7ed5aa1964b00a19e8242b",
+      "status": "013"
+    },
+    {
+      "attempts": 1,
+      "endpoint": "fnlttSinglAcntAll.json",
+      "http_status": 200,
+      "matched": false,
+      "params": {
+        "bsns_year": "2026",
+        "corp_code": "01032486",
+        "crtfc_key": "***",
+        "fs_div": "OFS",
+        "reprt_code": "11013"
+      },
+      "rcept_no": "20261112000726",
+      "returned_rcept_no": [],
+      "rows": 0,
+      "sha256": "5b9f448765008cd323ab5b94081c873aa00d39974e7ed5aa1964b00a19e8242b",
+      "status": "013"
+    },
+    {
+      "attempts": 1,
+      "endpoint": "fnlttSinglAcntAll.json",
+      "http_status": 200,
+      "matched": false,
+      "params": {
+        "bsns_year": "2025",
+        "corp_code": "01032486",
+        "crtfc_key": "***",
+        "fs_div": "OFS",
+        "reprt_code": "11014"
+      },
+      "rcept_no": "20261112000726",
+      "returned_rcept_no": [],
+      "rows": 0,
+      "sha256": "5b9f448765008cd323ab5b94081c873aa00d39974e7ed5aa1964b00a19e8242b",
+      "status": "013"
+    },
+    {
+      "attempts": 1,
+      "endpoint": "fnlttSinglAcntAll.json",
+      "http_status": 200,
+      "matched": false,
+      "params": {
+        "bsns_year": "2025",
+        "corp_code": "01032486",
+        "crtfc_key": "***",
+        "fs_div": "OFS",
+        "reprt_code": "11013"
+      },
+      "rcept_no": "20261112000726",
+      "returned_rcept_no": [],
+      "rows": 0,
+      "sha256": "5b9f448765008cd323ab5b94081c873aa00d39974e7ed5aa1964b00a19e8242b",
+      "status": "013"
+    },
+    {
+      "attempts": 1,
+      "endpoint": "fnlttSinglAcntAll.json",
+      "http_status": 200,
+      "matched": false,
+      "params": {
+        "bsns_year": "2026",
+        "corp_code": "00111111",
+        "crtfc_key": "***",
+        "fs_div": "OFS",
+        "reprt_code": "11014"
+      },
+      "rcept_no": "20261113001265",
+      "returned_rcept_no": [
+        "20261113001546"
+      ],
+      "rows": 135,
+      "sha256": "509f09df5ead034da5b137b2bf99d5be915d2fe5c68676cbf6017b0a305b6b59",
+      "status": "000"
+    },
+    {
+      "attempts": 1,
+      "endpoint": "fnlttSinglAcntAll.json",
+      "http_status": 200,
+      "matched": false,
+      "params": {
+        "bsns_year": "2026",
+        "corp_code": "00166272",
+        "crtfc_key": "***",
+        "fs_div": "OFS",
+        "reprt_code": "11014"
+      },
+      "rcept_no": "20261116001673",
+      "returned_rcept_no": [
+        "20261116002129"
+      ],
+      "rows": 208,
+      "sha256": "1779a9eb58451f1c720984a0c0ff1afcf995cc59c34de820a67bea9a3b1d8e44",
+      "status": "000"
+    },
+    {
+      "attempts": 1,
+      "endpoint": "fnlttSinglAcntAll.json",
+      "http_status": 200,
+      "matched": false,
+      "params": {
+        "bsns_year": "2026",
+        "corp_code": "00102618",
+        "crtfc_key": "***",
+        "fs_div": "OFS",
+        "reprt_code": "11014"
+      },
+      "rcept_no": "20261116002103",
+      "returned_rcept_no": [
+        "20261116002257"
+      ],
+      "rows": 138,
+      "sha256": "00e66a39991985c588bb2438a50386e9959c161ec97e47fdc01a7f42fd53e78b",
+      "status": "000"
+    },
+    {
+      "attempts": 1,
+      "endpoint": "fnlttSinglAcntAll.json",
+      "http_status": 200,
+      "matched": true,
+      "params": {
+        "bsns_year": "2026",
+        "corp_code": "00126779",
+        "crtfc_key": "***",
+        "fs_div": "OFS",
+        "reprt_code": "11014"
+      },
+      "rcept_no": "20261123000065",
+      "returned_rcept_no": [
+        "20261123000065"
+      ],
+      "rows": 146,
+      "sha256": "49d63ca63445eaa4b6ad9356add6434fb369fe086cd052617d49ca291fb585ea",
+      "status": "000"
+    },
+    {
+      "attempts": 1,
+      "endpoint": "fnlttSinglAcntAll.json",
+      "http_status": 200,
+      "matched": true,
+      "params": {
+        "bsns_year": "2026",
+        "corp_code": "00126779",
+        "crtfc_key": "***",
+        "fs_div": "CFS",
+        "reprt_code": "11014"
+      },
+      "rcept_no": "20261123000065",
+      "returned_rcept_no": [
+        "20261123000065"
+      ],
+      "rows": 172,
+      "sha256": "f1696e3b503b9dc44f9596b1f0a72ff57e78fcf920ed8ccf7480e23edd80f1ce",
+      "status": "000"
+    }
+  ],
+  "run_id": "20261124T052215Z",
+  "schema_version": "manifest-1",
+  "source_id": "opendart_fnltt",
+  "started_at_utc": "2026-11-24T05:22:35.203608+00:00",
+  "status": "ok",
+  "target": {
+    "corp_cls": [
+      "Y"
+    ],
+    "newly_queued": 1,
+    "pending_after": 4,
+    "pending_before": 5
+  },
+  "warnings": []
+}
