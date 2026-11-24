@@ -8,9 +8,9 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: "experiment = 실험(기록에 남음), coverage = 재무 커버리지를 생존/상장폐지 종목으로 나눠 보기(모델 없음, 기록 안 남김)"
+        description: "experiment = 실험(기록에 남음), coverage = 재무 커버리지 생존/상장폐지 점검, select = 가이드 8-5 규칙으로 Vault 후보 선택(실험 기록만 읽음)"
         type: choice
-        options: [experiment, coverage]
+        options: [experiment, coverage, select]
         default: experiment
       target:
         description: "예측 타깃 (evaluation/targets.py)"
@@ -97,8 +97,11 @@ jobs:
       - name: 재무 커버리지 (생존/상장폐지)
         if: inputs.mode == 'coverage'
         run: python -m evaluation.coverage_report --data-dir private_data --public-dir public_data
+      - name: Vault 후보 선택 (가이드 8-5 규칙)
+        if: inputs.mode == 'select'
+        run: python -m evaluation.select_candidates --data-dir private_data
       - name: 실험
-        if: inputs.mode != 'coverage'
+        if: inputs.mode == 'experiment'
         env:
           TARGET: ${{ inputs.target }}
           EVERY: ${{ inputs.every }}
