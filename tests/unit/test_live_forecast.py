@@ -61,3 +61,10 @@ def test_stale_data_or_not_due_records_nothing(tmp_path):
     assert r["status"] == "stale" and ForecastLedger(tmp_path).forecasts() == []
     r2 = lf.forecast(tmp_path, datetime(2020, 10, 20, 12, tzinfo=UTC), loader=upto("2020-10-20"), log=lambda s: None)
     assert r2["status"] == "not_due"
+
+
+def test_dry_run_computes_without_recording(tmp_path):
+    (tmp_path / PRIVATE_MARKER).write_text("private\n")
+    r = lf.dry_run(tmp_path, date(2020, 11, 2), loader=upto("2020-12-30"), log=lambda s: None)
+    assert r["scores_ok"] and r["fresh"] == 1.0 and r["universe"] > 0
+    assert not (tmp_path / "forecast_audit").exists()
