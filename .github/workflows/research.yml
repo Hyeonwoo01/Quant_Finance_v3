@@ -115,7 +115,7 @@ jobs:
           case "$EVERY$FIRST_TEST$VAULT_START$TRAIN_START" in *[!0-9-]*) echo "every·날짜 형식 오류"; exit 2;; esac
           case "$FEATS" in v1|v2) ;; *) echo "features 형식 오류"; exit 2;; esac
           case "$LIQ$KEEP" in *[!0-9.]*) echo "liquidity_pct·keep 형식 오류"; exit 2;; esac
-          case "$MODELS" in *[!a-z,_]*) echo "models 형식 오류"; exit 2;; esac
+          case "$MODELS" in *[!a-z0-9,_]*) echo "models 형식 오류"; exit 2;; esac
           python -m evaluation.run_experiment --data-dir private_data --target "$TARGET" --every "$EVERY" \
             --first-test "$FIRST_TEST" --vault-start "$VAULT_START" --models "$MODELS" --liquidity-pct "$LIQ" ${KEEP:+--keep "$KEEP"} \
             $( [ "$FUND" = "true" ] && echo "--public-dir public_data" ) $( [ "$MKT" = "true" ] && echo "--market" ) \
