@@ -1,0 +1,88 @@
+name: live-forecast
+
+# 실전 예측 기록 (가이드 7-10, Vault 이후의 새 검증 데이터). orchestration/live_forecast.py
+# - 매달 첫 거래일 D의 판단(H1 ens·H2 mlp)을 D 09:00 KST 전에 비공개 저장소의 forecast_audit/에 남긴다.
+#   D 08:30 판단에는 D−2 종가까지 쓰므로 D−1 저녁부터 계산할 수 있다. GitHub 예약 실행이 몇 시간씩 늦어서
+#   하루 다섯 번 확인하고, 차례가 아니거나 이미 기록했으면 비공개 저장소를 받지 않고 바로 끝낸다.
+# - 장 시작 뒤에는 기록하지 않는다 (소급 기록 금지). D−2 종가가 아직 수집 전이면 다음 시도로 넘긴다.
+# - 토요일에는 정답이 나온 예측을 정산하고 실전 성적 요약을 남긴다.
+# 로그에는 건수·성적 요약만 남는다 (시세·종목별 값 없음).
+on:
+  schedule:
+    - cron: "7 10 * * *"      # 19:07 KST
+    - cron: "7 13 * * *"      # 22:07 KST
+    - cron: "7 16 * * *"      # 01:07 KST
+    - cron: "7 19 * * *"      # 04:07 KST
+    - cron: "37 21 * * *"     # 06:37 KST
+    - cron: "17 3 * * 6"      # 토 12:17 KST 정산
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "forecast = 차례면 예측 기록, settle = 정산과 성적 요약"
+        type: choice
+        options: [forecast, settle]
+        default: forecast
+
+permissions:
+  contents: read
+
+concurrency:
+  group: live-forecast        # 수집(private-data)과 다른 그룹: 대기 중인 수집 실행을 밀어내지 않게
+  cancel-in-progress: false
+
+jobs:
+  live:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      PYTHONUNBUFFERED: "1"
+      PRIVATE_REPO: ${{ vars.PRIVATE_DATA_REPO || format('{0}/Quant_Finance_v3_private', github.repository_owner) }}
+      MODE: ${{ inputs.mode || (github.event.schedule == '17 3 * * 6' && 'settle' || 'forecast') }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: 예측할 차례인가 (데이터 없이 거래소 달력만)
+        id: due
+        run: |
+          python -m orchestration.live_forecast --check | tee -a "$GITHUB_OUTPUT"
+      - name: 비공개 저장소 확인
+        if: env.MODE == 'settle' || steps.due.outputs.due == 'true'
+        env:
+          TOKEN: ${{ secrets.PRIVATE_DATA_TOKEN }}
+        run: |
+          if [ -z "$TOKEN" ]; then echo "::error::PRIVATE_DATA_TOKEN이 없음"; exit 1; fi
+          private=$(curl -sS -H "Authorization: Bearer $TOKEN" -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/$PRIVATE_REPO" | python3 -c "import json,sys; print(json.load(sys.stdin).get('private'))")
+          if [ "$private" != "True" ]; then echo "::error::$PRIVATE_REPO 가 비공개 저장소로 확인되지 않음"; exit 1; fi
+      - uses: actions/checkout@v5
+        if: env.MODE == 'settle' || steps.due.outputs.due == 'true'
+        with:
+          repository: ${{ env.PRIVATE_REPO }}
+          token: ${{ secrets.PRIVATE_DATA_TOKEN }}
+          path: private_data
+          fetch-depth: 1
+      - name: 예측 기록
+        if: env.MODE == 'forecast' && steps.due.outputs.due == 'true'
+        run: python -m orchestration.live_forecast --data-dir private_data --forecast
+      - name: 정산과 실전 성적 요약
+        if: env.MODE == 'settle'
+        run: python -m orchestration.live_forecast --data-dir private_data --settle
+      - name: 기록 저장 (비공개 저장소)
+        if: always() && (env.MODE == 'settle' || steps.due.outputs.due == 'true')
+        working-directory: private_data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if [ ! -d forecast_audit ]; then echo "기록 없음"; exit 0; fi
+          git add forecast_audit
+          if git diff --cached --quiet; then echo "변경 없음"; exit 0; fi
+          git commit -q -m "실전 예측 기록 $(date -u +%Y-%m-%dT%H:%MZ) ($MODE)"
+          for i in 1 2 3; do
+            git push -q origin HEAD && exit 0
+            git pull -q --rebase origin "$(git rev-parse --abbrev-ref HEAD)"
+          done
+          exit 1

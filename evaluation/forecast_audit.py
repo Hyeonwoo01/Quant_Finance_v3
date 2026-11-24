@@ -46,6 +46,8 @@ class ForecastRecord:
     universe_snapshot_id: Optional[str] = None
     signal_status: str = "ACTIVE"
     abstained: bool = False
+    score: Optional[float] = None               # 모델 점수 (순위 모델은 수익률이 아니라 점수, 2026-11 실전 기록부터)
+    rank_pct: Optional[float] = None            # 그날 유니버스 안 점수 백분위 (1 = 가장 높음)
 
 
 @dataclass(frozen=True)
@@ -136,6 +138,27 @@ class ForecastLedger:
         if any(f.forecast_id == rec.forecast_id for f in self.forecasts()):
             raise ValueError(f"이미 있는 forecast_id: {rec.forecast_id} (예측은 고치지 않는다)")
         self._append("forecasts", rec.created_at_utc, _json(rec))
+
+    def record_many(self, recs: list) -> int:
+        """같은 판단의 여러 종목 예측을 한 번에 기록한다 (기존 id는 한 번만 읽음). 규칙은 record와 같다."""
+        have = {f.forecast_id for f in self.forecasts()}
+        lines = []
+        for rec in recs:
+            if rec.created_at_utc >= session_start_after(rec.data_cutoff_utc):
+                raise ValueError(f"{rec.forecast_id}: data_cutoff 다음 세션이 시작된 뒤에 만든 예측 — 소급 기록 금지 (7-10)")
+            if rec.data_cutoff_utc > rec.decision_time_utc:
+                raise ValueError(f"{rec.forecast_id}: 판단 시각보다 늦은 정보로 만든 예측")
+            if rec.forecast_id in have:
+                raise ValueError(f"이미 있는 forecast_id: {rec.forecast_id} (예측은 고치지 않는다)")
+            have.add(rec.forecast_id)
+            lines.append(_json(rec))
+        if lines:
+            self._guard()
+            p = self.root / "forecast_audit" / "forecasts" / f"{recs[0].created_at_utc:%Y-%m}.jsonl"
+            p.parent.mkdir(parents=True, exist_ok=True)
+            with p.open("a", encoding="utf-8") as f:
+                f.write("\n".join(lines) + "\n")
+        return len(lines)
 
     def pending(self) -> list:
         done = {e["forecast_id"] for e in self.evaluations()}
