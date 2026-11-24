@@ -6568,6 +6568,14 @@
    "geography": "NO_GEOGRAPHY",
    "segment": "NO_SEGMENT_TABLE",
    "values": 0
+  },
+  "20261124000453": {
+   "corp_code": "00149804",
+   "corp_name": "디와이에이",
+   "done_at_utc": "2026-11-24T20:51:48.808747+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
   }
  },
  "gave_up": {
