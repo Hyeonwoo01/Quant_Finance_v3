@@ -1,10 +1,12 @@
 name: macro-daily
 
-# 매일 07:47 KST(전날 22:47 UTC)에 관세청 품목별 수출입·한국은행 ECOS·미국 EIA 지표를 받아 data 브랜치에 쌓는다.
-# 한국 장 시작 전 컷오프(08:30 KST) 전에 끝나도록 돈다. OpenDART 수집과 같은 data 브랜치를 쓰므로 같은 concurrency 그룹.
+# 관세청 품목별 수출입·한국은행 ECOS·미국 EIA 지표를 받아 data 브랜치에 쌓는다. 01:47 KST(16:47 UTC)·07:47 KST(22:47 UTC)
+# 두 번 예약한다 (GitHub 예약 실행이 몇 시간씩 늦어도 한 번은 08:30 KST 컷오프 전에 끝나게). 중복은 건너뛰므로 여러 번 돌아도 같다.
+# OpenDART 수집과 같은 data 브랜치를 쓰므로 같은 concurrency 그룹.
 # 수동 실행: mode=check면 저장 없이 인증키·연결만, probe면 저장 없이 응답 구조와 품목 코드 후보를 출력한다.
 on:
   schedule:
+    - cron: "47 16 * * *"
     - cron: "47 22 * * *"
   workflow_dispatch:
     inputs:

@@ -1,10 +1,15 @@
 name: opendart-daily
 
-# 매일 06:17 KST(전날 21:17 UTC)에 OpenDART 공시 목록·재무제표를 받아 data 브랜치에 쌓는다.
-# 한국 장 시작 전 의사결정 컷오프(08:30 KST) 전에 끝나도록 일찍 돈다. 예약 실행은 기본 브랜치(main)의 이 파일로만 돈다.
+# OpenDART 공시 목록·재무제표를 받아 data 브랜치에 쌓는다. 하루 세 번 예약한다:
+#   19:37 KST(10:37 UTC) · 00:47 KST(15:47 UTC) · 06:17 KST(21:17 UTC)
+# GitHub 예약 실행은 부하가 많으면 몇 시간씩 늦게 시작한다 (2026-11 관측: 06:17 예약이 10~13시에 시작). 한 번이라도
+# 08:30 KST 판단 전에 끝나도록 시각을 나눴다. 수집은 최근 며칠을 다시 훑고 중복은 건너뛰므로 여러 번 돌아도 같은 결과이고,
+# 하루 호출 수는 state/opendart_calls.json으로 모든 실행을 합쳐 제한한다.
 # 수동 실행(Run workflow): mode=check면 저장 없이 인증키·연결만 확인. lookback_days로 다시 훑을 접수일 범위를 정한다.
 on:
   schedule:
+    - cron: "37 10 * * *"
+    - cron: "47 15 * * *"
     - cron: "17 21 * * *"
   workflow_dispatch:
     inputs:
@@ -50,6 +55,8 @@ jobs:
       - name: 수집
         id: collect
         continue-on-error: true
+        # 평소 일일 수집은 2~22분. 멈추면(2026-11-14·17) 다음 단계(받은 만큼 저장)가 돌 시간을 남기고 끊는다
+        timeout-minutes: ${{ startsWith(inputs.mode, 'history') && 320 || 60 }}
         env:
           DART_API_KEY: ${{ secrets.DART_API_KEY }}
         run: |

@@ -49,6 +49,32 @@ CALLS_PER_FS_ITEM = 6            # 대기열 한 건에 드는 최대 호출 수
 XBRL_STATE_FILE = Path("state") / "opendart_xbrl.json"
 XBRL_MAX_ATTEMPTS = 5            # XBRL 파일이 아직 없다는 응답이 이만큼 이어지면 포기하고 경고
 XBRL_MINUTES = 25.0              # 실행당 XBRL 단계 시간 예산 (보고서 하나 받는 데 수십 초 걸릴 수 있음)
+CALLS_FILE = Path("state") / "opendart_calls.json"   # KST 날짜별 호출 수 (하루에 여러 번 돌아도 일일 한도를 넘지 않게)
+DAILY_CALL_CAP = 18000           # 모든 OpenDART 실행을 합친 하루 상한 (제공자 한도 20,000건에서 여유를 둠)
+STALL_DUMP_MINUTES = 40          # 실행이 이보다 길어지면 그 순간의 스택을 로그에 남긴다 (멈춘 곳 진단용)
+
+
+def calls_used_today(data_dir, now: datetime) -> int:
+    p = Path(data_dir) / CALLS_FILE
+    if not p.exists():
+        return 0
+    return int(json.loads(p.read_text()).get(now.astimezone(KST).date().isoformat(), 0))
+
+
+def record_calls(data_dir, now: datetime, n: int) -> None:
+    """오늘(KST) 호출 수에 n을 더한다. 최근 14일만 남긴다."""
+    p = Path(data_dir) / CALLS_FILE
+    d = json.loads(p.read_text()) if p.exists() else {}
+    day = now.astimezone(KST).date()
+    d[day.isoformat()] = int(d.get(day.isoformat(), 0)) + int(n)
+    keep = {k: v for k, v in d.items() if date.fromisoformat(k) >= day - timedelta(days=14)}
+    p.parent.mkdir(parents=True, exist_ok=True)
+    p.write_text(json.dumps(dict(sorted(keep.items())), indent=1) + "\n")
+
+
+def daily_budget(data_dir, now: datetime, max_calls: int) -> int:
+    """이번 실행에 쓸 호출 수 = min(실행 상한, 하루 상한 − 오늘 이미 쓴 호출)."""
+    return max(0, min(max_calls, DAILY_CALL_CAP - calls_used_today(data_dir, now)))
 
 
 @dataclass
@@ -424,7 +450,9 @@ class DailyRun:
         bgn = end - timedelta(days=lookback_days - 1)
         m_list = BatchManifest.start(run_id=run_id, contract=OPENDART_LIST, code_version=self.version, now=started,
                                      target={"bgn_de": bgn.isoformat(), "end_de": end.isoformat(), "corp_cls": list(LIST_CORP_CLS)})
+        log.info("공시 목록 %s ~ %s 받는 중", bgn, end)
         rows, stopped = self.collect_filings(bgn, end, run_id, m_list)
+        log.info("공시 목록 끝: %s건 (호출 %d회)", len(rows), self.client.budget.used)
         m_list.finish(self.now())
         m_list.write(self.data_dir)
         if stopped and stopped != "budget":
@@ -435,7 +463,10 @@ class DailyRun:
         m_fs = BatchManifest.start(run_id=run_id, contract=OPENDART_FINANCIALS, code_version=self.version, now=self.now(),
                                    target={"corp_cls": list(FS_CORP_CLS), "newly_queued": added,
                                            "pending_before": len(state.pending)})
-        for rcept_no in sorted(state.pending):
+        log.info("재무제표 대기열 %d건 (새로 %d건)", len(state.pending), added)
+        for i, rcept_no in enumerate(sorted(state.pending)):
+            if i and i % 50 == 0:
+                log.info("  재무제표 %d / %d건 (호출 %d회)", i, len(state.pending), self.client.budget.used)
             if self.client.budget.remaining < CALLS_PER_FS_ITEM:
                 m_fs.warnings.append(f"호출 예산이 남지 않아 {len(state.pending)}건은 다음 실행으로 넘김")
                 break
@@ -457,6 +488,7 @@ class DailyRun:
         m_fs.write(self.data_dir)
         m_x = None
         if not (stopped and stopped != "budget") and xbrl_minutes > 0:
+            log.info("사업부문 XBRL (최대 %.0f분)", xbrl_minutes)
             m_x, x_stopped = self.collect_xbrl(state, run_id, xbrl_minutes)
             stopped = stopped or x_stopped
         return RunResult(m_list, m_fs, stopped if stopped != "budget" else None, m_x)
@@ -499,7 +531,17 @@ def main(argv=None) -> int:
         print("DART_API_KEY 환경변수가 없음 (GitHub Actions에서는 레포 Secrets에 등록)", file=sys.stderr)
         return 2
     end = date.fromisoformat(args.end_date) if args.end_date else datetime.now(KST).date() - timedelta(days=1)
-    client = OpenDartClient(key, budget=CallBudget(args.max_calls))
+    collecting = not (args.probe_multi or args.check)
+    started = datetime.now(timezone.utc)
+    max_calls = daily_budget(args.data_dir, started, args.max_calls) if collecting else args.max_calls
+    if collecting and max_calls < 50:
+        print(f"오늘(KST) OpenDART 호출이 하루 상한 {DAILY_CALL_CAP}건에 가까워 이번 실행은 건너뜀 "
+              f"(이미 {calls_used_today(args.data_dir, started)}건)")
+        return 0
+    client = OpenDartClient(key, budget=CallBudget(max_calls))
+    if collecting:
+        import faulthandler
+        faulthandler.dump_traceback_later(STALL_DUMP_MINUTES * 60, exit=False)   # 오래 멈추면 어디서 멈췄는지 남김
     try:
         if args.probe_multi:
             from collectors.opendart import probe_multi_account
@@ -522,6 +564,11 @@ def main(argv=None) -> int:
     except OpenDartError as e:
         print(f"실패: {e}", file=sys.stderr)
         return 1
+    finally:
+        if collecting:
+            import faulthandler
+            faulthandler.cancel_dump_traceback_later()
+            record_calls(args.data_dir, started, client.budget.used)
     print(f"종목 식별자 매핑: {m_corp.status} {m_corp.counts}")
     for e in m_corp.errors:
         print(f"  오류: {e}")
