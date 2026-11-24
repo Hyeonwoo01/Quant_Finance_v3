@@ -120,3 +120,30 @@ def test_market_state_is_per_date_and_used_raw(tmp_path, monkeypatch):
                              models=("uncond", "gbm"), market=True, log=lambda s: None)
     assert out["feature_schema_version"] == "price_v1+mkt_v1" and out["raw_features"] == list(MARKET_FEATURES)
     assert out["metrics"]["gbm"]["ic_mean"] > 0.05                                   # 심어 둔 신호는 그대로 찾는다
+
+
+def test_price_v2_features_and_rank_ensemble_models(tmp_path, monkeypatch):
+    from feature_store.price_features import FEATURES_V2
+    p = synth_panel(n_codes=4, end=date(2017, 9, 29))
+    rf = row_features(p)
+    a = rf[rf["code"] == "000001"].reset_index(drop=True)
+    assert a["max_ret_21"].iloc[:20].isna().all() and a["skew_63"].iloc[:62].isna().all()          # 창이 차기 전엔 비움
+    assert a.loc[30, "max_ret_21"] == pytest.approx(a["rev_1"].iloc[10:31].max())                  # 그날까지의 21세션
+    assert np.isfinite(a.loc[100, ["amihud_21", "ivol_63"]].astype(float)).all()
+    # 미래 행을 바꿔도 과거 피처는 그대로 (과거 방향 창만)
+    cut = sorted(p["date"].unique())[150]
+    q = p.copy()
+    q.loc[q["date"] > cut, "close"] *= 1.5
+    b = row_features(q)
+    pd.testing.assert_frame_equal(rf[rf["date"] <= cut][list(FEATURES_V2)].reset_index(drop=True),
+                                  b[b["date"] <= cut][list(FEATURES_V2)].reset_index(drop=True))
+    (tmp_path / PRIVATE_MARKER).write_text("private\n")
+    panel = synth_panel(n_codes=120)
+    monkeypatch.setattr(run_experiment, "load_price_panel",
+                        lambda d, s, e, **kw: panel[(panel["date"] >= pd.Timestamp(s)) & (panel["date"] <= pd.Timestamp(e))])
+    out = run_experiment.run(tmp_path, "RET_21D", start=date(2017, 1, 1), first_test=date(2019, 7, 1),
+                             vault_start=date(2020, 7, 1), every=5, liquidity_pct=0.0, min_history=126,
+                             models=("ridge_rank", "gbm_rank", "ens"), feature_set="v2", train_start=date(2018, 1, 1),
+                             log=lambda s: None)
+    assert out["feature_schema_version"] == "price_v2" and "ivol_63" in out["features"] and out["train_start"] == "2018-01-01"
+    assert all(out["metrics"][m]["ic_mean"] > 0.03 for m in ("ridge_rank", "gbm_rank", "ens"))     # 심어 둔 신호를 찾는다

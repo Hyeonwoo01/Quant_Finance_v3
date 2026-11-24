@@ -43,6 +43,14 @@ on:
         description: "시장 상태 피처(mkt_v1)를 gbm에 더할지"
         type: boolean
         default: false
+      features:
+        description: "시세 피처: v1 = price_v1, v2 = price_v2 (이상현상 피처 4개 추가)"
+        type: choice
+        options: [v1, v2]
+        default: v1
+      train_start:
+        description: "학습을 이 날짜 이후 판단일로만 (비우면 처음부터). 검증 폴드는 first_test부터 그대로"
+        default: ""
 
 permissions:
   contents: read
@@ -101,13 +109,17 @@ jobs:
           KEEP: ${{ inputs.keep }}
           FUND: ${{ inputs.fundamentals }}
           MKT: ${{ inputs.market }}
+          FEATS: ${{ inputs.features }}
+          TRAIN_START: ${{ inputs.train_start }}
         run: |
-          case "$EVERY$FIRST_TEST$VAULT_START" in *[!0-9-]*) echo "every·날짜 형식 오류"; exit 2;; esac
+          case "$EVERY$FIRST_TEST$VAULT_START$TRAIN_START" in *[!0-9-]*) echo "every·날짜 형식 오류"; exit 2;; esac
+          case "$FEATS" in v1|v2) ;; *) echo "features 형식 오류"; exit 2;; esac
           case "$LIQ$KEEP" in *[!0-9.]*) echo "liquidity_pct·keep 형식 오류"; exit 2;; esac
           case "$MODELS" in *[!a-z,_]*) echo "models 형식 오류"; exit 2;; esac
           python -m evaluation.run_experiment --data-dir private_data --target "$TARGET" --every "$EVERY" \
             --first-test "$FIRST_TEST" --vault-start "$VAULT_START" --models "$MODELS" --liquidity-pct "$LIQ" ${KEEP:+--keep "$KEEP"} \
-            $( [ "$FUND" = "true" ] && echo "--public-dir public_data" ) $( [ "$MKT" = "true" ] && echo "--market" )
+            $( [ "$FUND" = "true" ] && echo "--public-dir public_data" ) $( [ "$MKT" = "true" ] && echo "--market" ) \
+            --features "$FEATS" ${TRAIN_START:+--train-start "$TRAIN_START"}
       - name: 실험 기록 저장 (비공개 저장소)
         if: always()
         working-directory: private_data

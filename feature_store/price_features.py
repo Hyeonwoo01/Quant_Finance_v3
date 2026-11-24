@@ -25,6 +25,14 @@ from core.calendar_align import kr_decision_cutoff
 FEATURES = ("mom_5", "mom_21", "mom_63", "mom_126", "mom_252_21", "rev_1", "vol_21", "vol_63", "dist_high_252",
             "log_adv_21", "turnover_21", "volume_z_21", "log_mktcap")
 FEATURE_VERSION = "price_v1"
+# price_v2 = price_v1 + 한국 시장에서 보고된 이상현상 네 가지 (2026-11-24 탐색 묶음):
+#   amihud_21  log(21세션 평균 |일간 수익률| / 거래대금) — 비유동성 (Amihud 2002)
+#   max_ret_21 21세션 최대 일간 수익률 — 복권형 종목 (Bali·Cakici·Whitelaw 2011)
+#   skew_63    63세션 일간 수익률 왜도
+#   ivol_63    63세션 (종목 수익률 − 그날 전 종목 평균 수익률)의 표준편차 — 고유 변동성 (Ang 외 2006)
+V2_EXTRA = ("amihud_21", "max_ret_21", "skew_63", "ivol_63")
+FEATURES_V2 = FEATURES + V2_EXTRA
+FEATURE_VERSION_V2 = "price_v2"
 
 
 def _roll(g: pd.core.groupby.SeriesGroupBy, w: int, fn: str, minp: int):
@@ -54,6 +62,14 @@ def row_features(panel: pd.DataFrame) -> pd.DataFrame:
     out["volume_z_21"] = np.log((vol + 1) / (vmean + 1))
     out["log_mktcap"] = np.log(df["mktcap"].where(df["mktcap"] > 0))
     out["history"] = df.groupby("code").cumcount() + 1
+    # price_v2 추가 피처 (그날까지의 행만 씀)
+    illiq = (r.abs() / value.where(value > 0)).replace([np.inf, -np.inf], np.nan)
+    am = _roll(illiq.groupby(df["code"]), 21, "mean", 15)
+    out["amihud_21"] = np.log(am.where(am > 0))
+    out["max_ret_21"] = _roll(g, 21, "max", 21)
+    out["skew_63"] = _roll(g, 63, "skew", 63)
+    resid = r - r.groupby(df["date"]).transform("mean")                    # 같은 날 전 종목 평균 (그날 정보만)
+    out["ivol_63"] = _roll(resid.groupby(df["code"]), 63, "std", 63)
     out["traded"] = df["volume"] > 0
     return out
 
