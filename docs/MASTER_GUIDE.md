@@ -1269,7 +1269,7 @@ Impact_{bps}=BaseSpread_{bps}+\eta\cdot\sigma_{daily}\cdot\sqrt{OrderNotional/AD
 최종 성과는 한 가지 낙관적 체결 가정만으로 보고하지 않는다.
 백테스터의 체결 결과는 Forecast Audit(7-10)에 `fill_type=SIMULATED`로 기록되며, 어떤 시나리오의 체결 가정인지 함께 남긴다.
 
-**구현 노트 (2026-11-16, `evaluation/costs.py`·`evaluation/portfolio_eval.py`, 비용 모델 `costs_v1`).**
+**구현 노트 (2026-11-16, `evaluation/costs.py`·`evaluation/portfolio_eval.py`, 비용 모델 `costs_v1` → 2026-11-24 `costs_v2`: 매도세율을 체결일이 아니라 결제일(T+2) 기준으로 찾는다. 세율 값은 보도·법무법인·회계법인 자료로 확인).**
 
 - **매도 세금:** 증권거래세(코스피는 농어촌특별세 포함) 합계 세율을 날짜별 표로 쓴다. 코스피·코스닥 합계가 같도록 정해져 왔으므로 한 표다.
   - 0.30%(~2019-06-02) → 0.25% → 0.23%(2021) → 0.20%(2023) → 0.18%(2024) → 0.15%(2025) → 0.20%(2026).
