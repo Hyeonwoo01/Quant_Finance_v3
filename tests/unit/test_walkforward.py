@@ -147,3 +147,16 @@ def test_price_v2_features_and_rank_ensemble_models(tmp_path, monkeypatch):
                              log=lambda s: None)
     assert out["feature_schema_version"] == "price_v2" and "ivol_63" in out["features"] and out["train_start"] == "2018-01-01"
     assert all(out["metrics"][m]["ic_mean"] > 0.03 for m in ("ridge_rank", "gbm_rank", "ens"))     # 심어 둔 신호를 찾는다
+
+
+def test_mlp_and_mlp_ensembles_find_planted_signal(tmp_path, monkeypatch):
+    (tmp_path / PRIVATE_MARKER).write_text("private\n")
+    panel = synth_panel(n_codes=120)
+    monkeypatch.setattr(run_experiment, "load_price_panel",
+                        lambda d, s, e, **kw: panel[(panel["date"] >= pd.Timestamp(s)) & (panel["date"] <= pd.Timestamp(e))])
+    out = run_experiment.run(tmp_path, "RET_21D", start=date(2017, 1, 1), first_test=date(2019, 7, 1),
+                             vault_start=date(2020, 7, 1), every=5, liquidity_pct=0.0, min_history=126,
+                             models=("mlp", "ens_gm", "ens3"), log=lambda s: None)
+    assert all(out["metrics"][m]["ic_mean"] > 0.03 for m in ("mlp", "ens_gm", "ens3"))
+    assert out["hyperparameters"]["mlp"]["hidden_layer_sizes"] == (32, 16)
+    assert set(out["hyperparameters"]["ens3"]) == {"ridge", "gbm", "mlp"}

@@ -19,7 +19,7 @@ from datetime import date, timedelta
 
 import pandas as pd
 
-from engines.prediction_engine import MODELS, PARAMS, fit_predict
+from engines.prediction_engine import ENSEMBLES, MODELS, PARAMS, combine, fit_predict
 from evaluation.experiment_registry import ExperimentRegistry, data_snapshot_id, list_hash
 from evaluation import portfolio_eval
 from evaluation.costs import SCENARIOS
@@ -109,8 +109,11 @@ def run(data_dir, target_id: str = "RET_5D", *, start: date = date(2010, 1, 1), 
         tr, te = split(df, f)
         if train_start is not None:
             tr = tr[tr["date"] >= pd.Timestamp(train_start)]
+        cache = {}                                      # 앙상블은 같은 폴드의 구성 모델 예측을 다시 쓴다 (다시 학습하지 않음)
+        for m in [*dict.fromkeys(c for m in models for c in ENSEMBLES.get(m, (m,)))]:
+            cache[m] = fit_predict(m, tr, te, features, target="ret", raw_features=raw)
         for m in models:
-            p = fit_predict(m, tr, te, features, target="ret", raw_features=raw)
+            p = combine([cache[c] for c in ENSEMBLES[m]]) if m in ENSEMBLES else cache[m]
             preds[m].append(p.assign(fold=f.fold_id))
         log(f"  폴드 {f.fold_id}: 검증 {f.test_start.date()}~{f.test_end.date()}, 학습 {len(tr):,}행, 검증 {len(te):,}행")
     cols = ["date", "code", "ret", "tradable", "ret_delist", "entry_open", "entry_no_trade", "entry_limit_up",
@@ -137,7 +140,8 @@ def run(data_dir, target_id: str = "RET_5D", *, start: date = date(2010, 1, 1), 
            "feature_list_hash": list_hash(features + raw), "features": features, "raw_features": raw, "models": list(models),
            "fundamental_coverage": fund.coverage(df) if reports is not None else None,
            "fundamental_unit_suspect": fund.unit_suspect_rate(df) if reports is not None else None,
-           "hyperparameters": {m: PARAMS.get(m.removesuffix("_rank"), {}) for m in models}, "data_snapshot_id": data_snapshot_id(data_dir),
+           "hyperparameters": {m: PARAMS.get(m.removesuffix("_rank")) or {c: PARAMS.get(c, {}) for c in ENSEMBLES.get(m, ())}
+                               for m in models}, "data_snapshot_id": data_snapshot_id(data_dir),
            "train_start": str(train_start) if train_start else None,
            "universe": {"liquidity_pct": liquidity_pct, "min_history": min_history, "every_sessions": every},
            "fold_definition": {"type": "expanding", "test_months": 12, "first_test": str(first_test),
