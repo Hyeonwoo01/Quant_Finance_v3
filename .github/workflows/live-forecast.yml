@@ -18,10 +18,13 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: "forecast = 차례면 예측 기록, settle = 정산과 성적 요약"
+        description: "forecast = 차례면 예측 기록, settle = 정산과 성적 요약, dryrun = 지난 판단일을 계산만 (기록 안 함)"
         type: choice
-        options: [forecast, settle]
+        options: [forecast, settle, dryrun]
         default: forecast
+      dry_run_date:
+        description: "dryrun 판단일 (YYYY-MM-DD, 지난 날짜)"
+        default: "2026-11-02"
 
 permissions:
   contents: read
@@ -50,7 +53,7 @@ jobs:
         run: |
           python -m orchestration.live_forecast --check | tee -a "$GITHUB_OUTPUT"
       - name: 비공개 저장소 확인
-        if: env.MODE == 'settle' || steps.due.outputs.due == 'true'
+        if: env.MODE != 'forecast' || steps.due.outputs.due == 'true'
         env:
           TOKEN: ${{ secrets.PRIVATE_DATA_TOKEN }}
         run: |
@@ -59,7 +62,7 @@ jobs:
             "https://api.github.com/repos/$PRIVATE_REPO" | python3 -c "import json,sys; print(json.load(sys.stdin).get('private'))")
           if [ "$private" != "True" ]; then echo "::error::$PRIVATE_REPO 가 비공개 저장소로 확인되지 않음"; exit 1; fi
       - uses: actions/checkout@v5
-        if: env.MODE == 'settle' || steps.due.outputs.due == 'true'
+        if: env.MODE != 'forecast' || steps.due.outputs.due == 'true'
         with:
           repository: ${{ env.PRIVATE_REPO }}
           token: ${{ secrets.PRIVATE_DATA_TOKEN }}
@@ -68,6 +71,13 @@ jobs:
       - name: 예측 기록
         if: env.MODE == 'forecast' && steps.due.outputs.due == 'true'
         run: python -m orchestration.live_forecast --data-dir private_data --forecast
+      - name: 점검 (지난 판단일, 기록 안 함)
+        if: env.MODE == 'dryrun'
+        env:
+          DRY_DATE: ${{ inputs.dry_run_date }}
+        run: |
+          case "$DRY_DATE" in [0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]) ;; *) echo "날짜 형식 오류"; exit 2;; esac
+          python -m orchestration.live_forecast --data-dir private_data --dry-run "$DRY_DATE"
       - name: 정산과 실전 성적 요약
         if: env.MODE == 'settle'
         run: python -m orchestration.live_forecast --data-dir private_data --settle

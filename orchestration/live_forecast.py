@@ -146,6 +146,22 @@ def forecast(data_dir, now_utc: datetime = None, *, loader=load_price_panel, log
     return {"status": "recorded", "decision": str(d), "records": n, "universe": len(te)}
 
 
+def dry_run(data_dir, d: date, *, loader=load_price_panel, log=print) -> dict:
+    """지난 판단일 d를 실제 데이터로 끝까지 계산해 보되 기록하지 않는다 (실행 시간·데이터 신선도 점검용).
+    패널은 d 전날까지만 쓴다 (그때 있었던 자료만)."""
+    import time
+    t0 = time.time()
+    panel = loader(data_dir, START, d)
+    panel = panel[panel["date"] < pd.Timestamp(d)]
+    tr, te, fresh = build_live(panel, d)
+    needed = sorted({m for _, parts in MODELS for m in parts})
+    cache = {m: fit_predict(m, tr, te, list(FEATURES), target="ret") for m in needed}
+    ok = all(cache[m]["score"].notna().all() for m in needed)
+    log(f"점검(기록 안 함) {d}: 학습 {len(tr):,}행, 유니버스 {len(te):,}종목, D−2 종가 보유 {fresh:.0%}, "
+        f"점수 {'정상' if ok else '결측 있음'}, {time.time() - t0:.0f}초")
+    return {"train": len(tr), "universe": len(te), "fresh": fresh, "scores_ok": ok}
+
+
 def summary(ledger: ForecastLedger) -> pd.DataFrame:
     """정산된 판단마다 모델별 Rank IC와 상위 10% 평균 − 유니버스 평균 (비용 전, 실현 수익률)."""
     ev = {e["forecast_id"]: e for e in ledger.evaluations()}
@@ -190,7 +206,11 @@ def main(argv=None) -> int:
     g.add_argument("--check", action="store_true")
     g.add_argument("--forecast", action="store_true")
     g.add_argument("--settle", action="store_true")
+    g.add_argument("--dry-run", metavar="YYYY-MM-DD", help="지난 판단일을 실제 데이터로 계산만 하고 기록하지 않음")
     args = ap.parse_args(argv)
+    if args.dry_run:
+        dry_run(args.data_dir, date.fromisoformat(args.dry_run))
+        return 0
     if args.check:
         d, first = next_decision(datetime.now(timezone.utc))
         print(f"due={'true' if first else 'false'}")
