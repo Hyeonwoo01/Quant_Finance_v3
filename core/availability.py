@@ -28,7 +28,8 @@ from core.pit_schema import PITRecord
 IMMUTABLE_MARKET_SERIES = frozenset({"krx_openapi_daily", "krx_openapi_base", "krx_daily_price"})
 # 과거 채우기로 받았지만 공급자 시각을 보수적으로 정한 시리즈 (collectors/opendart_history.py):
 # 정기보고서 목록(접수 사실은 바뀌지 않음)과, 마지막 재무 변경일 기준으로 가용 시각을 둔 과거 재무 값.
-BACKFILL_PROVIDER_TIME_SERIES = frozenset({"dart_periodic_index", "dart_fin_hist"})
+# ECOS 금리 과거 채우기(collectors/ecos_history.py)도 발표 시각 규칙으로 공급자 시각을 정했다 (금리는 정정·재기준 없음).
+BACKFILL_PROVIDER_TIME_SERIES = frozenset({"dart_periodic_index", "dart_fin_hist", "bok_ecos_hist"})
 PROVIDER_TIME_SERIES = IMMUTABLE_MARKET_SERIES | BACKFILL_PROVIDER_TIME_SERIES
 
 

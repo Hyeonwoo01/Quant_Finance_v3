@@ -248,3 +248,31 @@ def test_check_mode_reports_each_source(tmp_path):
     lines = make_run(tmp_path, fake, clock, keys={"ecos": ECOS_KEY, "eia": EIA_KEY}).check()
     assert lines[0] == "kcs: DATA_GO_KR_KEY 없음" and lines[1].startswith("ecos: 정상") and lines[2].startswith("eia: 정상")
     assert not any(tmp_path.iterdir())                                        # 저장 없음
+
+
+def test_ecos_history_puts_publication_rule_times(tmp_path):
+    from collectors.ecos_history import SERIES_ECOS_HIST, provider_time
+    from core.availability import backtest_available_at
+    from storage.pit_store import read_parquet
+    fake = Fake()
+    fake.ecos["817Y002/010200000"] = ecos_rows("817Y002", "010200000", ["20240102", "20240103"], ["3.2", "3.25"],
+                                               name="국고채(3년)")
+    cfg = {"ecos": {"series": [{"stat": "722Y001", "cycle": "M", "item": "0101000", "label": "기준금리", "history_rule": "month_end"},
+                               {"stat": "817Y002", "cycle": "D", "item": "010200000", "label": "국고채 3년", "history_rule": "daily_t2"},
+                               {"stat": "402Y014", "cycle": "M", "item": "*AA", "label": "수출물가"}]}}   # 규칙 없음 → 안 받음
+    clock = Clock(datetime(2026, 11, 25, 3, tzinfo=timezone.utc))
+    run = MacroRun(tmp_path, {"ecos": ECOS_KEY}, config=cfg, registry=default_registry(), now=clock, version="t",
+                   http_kw={"transport": fake, "sleep": lambda s: None, "rate": TokenBucket(1e9)})
+    m = run.run_ecos_history("r1")
+    assert m.status == "ok" and m.counts["added"] == 4
+    assert not any("402Y014" in c[0] and "StatisticSearch" in c[0] for c in fake.calls)
+    assert any("/StatisticSearch/" in c[0] and "/D/20090101/" in c[0] for c in fake.calls)          # 처음부터
+    recs = {r.observation_period_end: r for r in read_parquet(tmp_path / "pit_versions" / SERIES_ECOS_HIST / "KR.parquet")}
+    # 일간: 2024-01-02 값 → 다음다음 세션(01-04) 08:30 KST, 월간: 2026-09 → 10-01 08:30 KST
+    assert recs[date(2024, 1, 2)].provider_available_at_utc == datetime(2024, 1, 3, 23, 30, tzinfo=timezone.utc)
+    assert recs[date(2026, 9, 30)].provider_available_at_utc == provider_time("month_end", date(2026, 9, 30))
+    assert backtest_available_at(recs[date(2024, 1, 2)]) == recs[date(2024, 1, 2)].provider_available_at_utc
+    assert run.run_ecos_history("r2").counts.get("added", 0) == 0                                      # 다시 돌려도 그대로
+    fake.ecos["817Y002/010200000"] = ecos_rows("817Y002", "010200000", ["20240102"], ["3.3"], name="국고채(3년)")
+    m3 = run.run_ecos_history("r3")                                                                    # 과거 값이 바뀌면 그 시리즈는 멈춤
+    assert m3.status != "ok" and any("과거 값이 바뀜" in e for e in m3.errors) and m3.counts.get("added", 0) == 0

@@ -11,9 +11,9 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: "collect = 수집해서 data 브랜치에 저장, check = 인증키·연결 확인, probe = 응답 구조 확인 (저장 없음)"
+        description: "collect = 수집해서 data 브랜치에 저장, check = 인증키·연결 확인, probe = 응답 구조 확인 (저장 없음), ecos-history = ECOS 금리 과거 채우기(발표 시각 규칙)"
         type: choice
-        options: [collect, check, probe]
+        options: [collect, check, probe, ecos-history]
         default: collect
 
 permissions:
@@ -33,7 +33,7 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - name: data 브랜치 가져오기
-        if: env.MODE == 'collect'
+        if: env.MODE == 'collect' || env.MODE == 'ecos-history'
         uses: actions/checkout@v5
         with:
           ref: data
@@ -55,10 +55,11 @@ jobs:
           case "$MODE" in
             check) python -m orchestration.macro_daily --check ;;
             probe) python -m orchestration.macro_daily --probe ;;
+            ecos-history) python -m orchestration.macro_daily --data-dir data --ecos-history ;;
             *) python -m orchestration.macro_daily --data-dir data ;;
           esac
       - name: data 브랜치에 저장 (실패해도 받은 만큼과 수집 기록은 남김)
-        if: always() && env.MODE == 'collect'
+        if: always() && (env.MODE == 'collect' || env.MODE == 'ecos-history')
         working-directory: data
         run: |
           git config user.name "github-actions[bot]"
