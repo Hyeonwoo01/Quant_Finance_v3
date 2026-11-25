@@ -1,0 +1,46 @@
+{
+  "code_version": "86135dc39d2e936aa26dd95ed0932480719056c6",
+  "contract_id": "bok_ecos_v1",
+  "counts": {
+    "added": 4642,
+    "unchanged": 0
+  },
+  "errors": [],
+  "finished_at_utc": "2026-11-25T00:23:38.638789+00:00",
+  "permission": {
+    "approval_status": "approved_for_redistribution",
+    "attribution_required": true,
+    "license_url": "https://ecos.bok.or.kr/api/",
+    "permission_reference": "한국은행 경제통계 Open API 이용약관(2020-11-05 시행) 제5조·제7조, 2026-11-09 원문 확인"
+  },
+  "requests": [
+    {
+      "added": 214,
+      "first_period": "2009-01-31",
+      "http_status": 200,
+      "observations": 214,
+      "series": "722Y001/0101000 한국은행 기준금리",
+      "sha256": "6ec36c81e47f2854a4be8bd9edc2f81ee7ea5d816ad3cea93170bcd8fe219738"
+    },
+    {
+      "added": 4428,
+      "first_period": "2009-01-02",
+      "http_status": 200,
+      "observations": 4428,
+      "series": "817Y002/010200000 국고채 3년 금리",
+      "sha256": "adbc08760baaba2ab90da5e5cc6e7fad3e278970c2f870b7b7f21bf22a9e4b19"
+    }
+  ],
+  "run_id": "20261125T002325Z-ecos-history",
+  "schema_version": "manifest-1",
+  "source_id": "bok_ecos",
+  "started_at_utc": "2026-11-25T00:23:25.110084+00:00",
+  "status": "ok",
+  "target": {
+    "series": [
+      "722Y001/0101000 month_end",
+      "817Y002/010200000 daily_t2"
+    ]
+  },
+  "warnings": []
+}
