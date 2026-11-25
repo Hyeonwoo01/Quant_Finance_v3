@@ -1,6 +1,6 @@
 name: krx-daily
 
-# 평일 14:23 KST(05:23 UTC)에 한국 주식 일별 시세를 받아 **비공개 저장소**에 쌓는다. 공급원 두 곳 (DATA_SOURCES.md '한국 주식 가격'):
+# 평일 14:23·16:53·20:23 KST에 한국 주식 일별 시세를 받아 **비공개 저장소**에 쌓는다 (GitHub 예약 실행이 늦거나 건너뛰어질 때를 대비해 세 번, 이미 받은 날은 건너뜀). 공급원 두 곳 (DATA_SOURCES.md '한국 주식 가격'):
 #   fsc = 금융위원회 주식시세정보 (공공데이터포털, 원천 한국거래소) — 저장만 허용
 #   krx = 한국거래소 KRX Open API 일별매매정보 — 비상업 연구용 저장·학습 허용, 인증키 이용기간 안에서만
 # 둘 다 제3자 제공·재배포가 금지돼 있어 공개 data 브랜치에 두지 않는다. 예약 실행은 키가 있는 공급원을 모두 받는다.
@@ -14,6 +14,8 @@ name: krx-daily
 on:
   schedule:
     - cron: "23 5 * * 1-5"      # 14:23 KST 수집
+    - cron: "53 7 * * 1-5"      # 16:53 KST 수집 (예약이 늦거나 건너뛰어져도 그날 안에 받게)
+    - cron: "23 11 * * 1-5"     # 20:23 KST 수집
     - cron: "17 9 * * 1-5"      # 18:17 KST 공개 관측
     - cron: "47 12 * * 1-5"     # 21:47 KST 공개 관측
     - cron: "13 21 * * 0-4"     # 다음 날 06:13 KST 공개 관측
@@ -55,7 +57,7 @@ jobs:
     timeout-minutes: 120
     env:
       PYTHONUNBUFFERED: "1"
-      MODE: ${{ inputs.mode || (github.event.schedule == '23 5 * * 1-5' && 'collect' || 'pubcheck') }}
+      MODE: ${{ inputs.mode || ((github.event.schedule == '23 5 * * 1-5' || github.event.schedule == '53 7 * * 1-5' || github.event.schedule == '23 11 * * 1-5') && 'collect' || 'pubcheck') }}
       START: ${{ inputs.start }}
       END: ${{ inputs.end }}
       REDO_DAYS: ${{ inputs.redo_days }}
