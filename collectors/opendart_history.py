@@ -9,7 +9,8 @@
 
 대상: 12월 결산 회사의 표준 보고서만 (사업 12월·반기 6월·1분기 3월·3분기 9월). 다른 결산월은 건너뛰고 센다.
 공시 목록은 시장 구분 없이 정기공시 전체를 받는다 (시장 구분으로 거르면 이미 상장폐지된 회사가 빠질 수 있다).
-종목코드가 없는 회사(비상장, 또는 지금 종목코드가 지워진 상장폐지 회사)는 시세와 이을 수 없어 건너뛰고 센다.
+종목코드가 없는 회사(비상장, 또는 지금 종목코드가 지워진 상장폐지 회사)도 목록·값을 받아 두고(2026-11-25부터),
+상장폐지 회사는 비공개 연결표로 과거 종목코드에 잇는다 (KRX 종목명 이력이 필요해서 비공개, feature_store/corp_links.py).
 """
 import hashlib
 import json
@@ -59,8 +60,10 @@ class ReportRow:
         return not self.tags or "기재정정" in self.tags
 
 
-def report_rows(list_rows: Iterable[dict]) -> tuple[list, dict]:
-    """공시 목록 행 → 정기보고서 행. counts: 정기보고서 아님·비표준 결산·종목코드 없음."""
+def report_rows(list_rows: Iterable[dict], keep_unlisted: bool = False) -> tuple[list, dict]:
+    """공시 목록 행 → 정기보고서 행. counts: 정기보고서 아님·비표준 결산·종목코드 없음.
+    keep_unlisted: 종목코드가 없는 회사(비상장, 또는 지금 종목코드가 지워진 상장폐지 회사)도 남긴다 (세기는 한다).
+    상장폐지 회사는 비공개 연결표(feature_store/corp_links.py)로 과거 종목코드에 잇는다."""
     out, counts = [], {"not_periodic": 0, "non_standard": 0, "no_stock_code": 0}
     for r in list_rows:
         rep = parse_periodic(r.get("report_nm", ""))
@@ -74,7 +77,8 @@ def report_rows(list_rows: Iterable[dict]) -> tuple[list, dict]:
             continue
         if not row.stock_code:
             counts["no_stock_code"] += 1
-            continue
+            if not keep_unlisted:
+                continue
         out.append(row)
     return out, counts
 

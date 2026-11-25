@@ -85,7 +85,7 @@ class HistoryRun:
                     continue
                 ref = self.raw.put(contract_id=OPENDART_LIST.contract_id, source_id=OPENDART_LIST.source_id,
                                    response=p.response, request_id=m.run_id)
-                got, c = report_rows(p.rows)
+                got, c = report_rows(p.rows, keep_unlisted=True)
                 counts.update(c)
                 recs = index_records(got, contract_id=OPENDART_LIST.contract_id, raw_sha=ref.sha256,
                                      ingested_at_utc=self.now(), latest=lambda k: None)
@@ -96,6 +96,31 @@ class HistoryRun:
         for k, v in counts.items():
             m.count(k, v)
         return rows
+
+    def reindex_from_raw(self, m: BatchManifest) -> int:
+        """저장된 공시 목록 원본(raw/opendart_list)에서 정기보고서 행을 다시 만들어, 목록에 없는 것(예: 예전에
+        건너뛴 종목코드 없는 회사)을 더한다. API를 부르지 않는다."""
+        import gzip
+        d = self.data_dir / "raw" / OPENDART_LIST.source_id / "objects"
+        uniq, pages = {}, 0
+        for f in sorted(d.rglob("*.gz")) if d.exists() else []:
+            body = json.loads(gzip.decompress(f.read_bytes()).decode("utf-8"))
+            if body.get("status") != "000":
+                continue
+            pages += 1
+            got, _ = report_rows(body.get("list", []), keep_unlisted=True)
+            for r in got:
+                uniq.setdefault(r.rcept_no, (r, f.name.removesuffix(".gz")))    # 원본 해시 = 파일 이름
+        store = self.pit.load([SERIES_REPORT_INDEX])
+        recs = []
+        for r, sha in uniq.values():
+            recs += index_records([r], contract_id=OPENDART_LIST.contract_id, raw_sha=sha,
+                                  ingested_at_utc=self.now(), latest=store.latest)
+        res = self.pit.append(recs, store=store)
+        m.count("raw_pages", pages)
+        m.count("index_added_from_raw", res.added)
+        self.log(f"원본 {pages}페이지에서 정기보고서 {len(uniq):,}건, 목록에 새로 더함 {res.added:,}건")
+        return res.added
 
     def fetch_values(self, rows: list, m: BatchManifest, *, only_missing: bool = False) -> None:
         """only_missing: 이미 저장된 (회사, 연도, 보고서)는 다시 묻지 않는다 (건너뛴 묶음만 채울 때).
@@ -163,11 +188,14 @@ class HistoryRun:
         m.count("index_rows_reused", len(rows))
         return rows
 
-    def run(self, start: date, end: date, *, from_index: bool = False, only_missing: bool = False) -> BatchManifest:
+    def run(self, start: date, end: date, *, from_index: bool = False, only_missing: bool = False,
+            reindex_raw: bool = False) -> BatchManifest:
         started = self.now()
         m = BatchManifest.start(run_id=f"{started:%Y%m%dT%H%M%SZ}-history", contract=OPENDART_FINANCIALS,
                                 code_version=self.version, now=started, target={"start": str(start), "end": str(end)})
         try:
+            if reindex_raw:
+                self.reindex_from_raw(m)
             rows = self.rows_from_index(start, end, m) if from_index else None
             if from_index and rows is None:
                 m.errors.append("저장된 공시 목록이 이 기간을 빠짐없이 덮는다는 기록이 없음 — from_index 없이 다시 실행")
@@ -204,6 +232,7 @@ def main(argv=None) -> int:
     ap.add_argument("--from-index", action="store_true",
                     help="공시 목록을 다시 훑지 않고, 이전에 빠짐없이 끝낸 훑기의 저장본으로 값만 받는다")
     ap.add_argument("--only-missing", action="store_true", help="이미 저장된 (회사, 연도, 보고서)는 건너뛴다")
+    ap.add_argument("--reindex-raw", action="store_true", help="저장된 공시 목록 원본에서 목록을 다시 만든다 (API 호출 없음)")
     args = ap.parse_args(argv)
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
     key = os.environ.get("DART_API_KEY", "").strip()
@@ -220,7 +249,7 @@ def main(argv=None) -> int:
     client = OpenDartClient(key, budget=CallBudget(max_calls))
     try:
         m = HistoryRun(client, args.data_dir).run(date.fromisoformat(args.start), end, from_index=args.from_index,
-                                                 only_missing=args.only_missing)
+                                                 only_missing=args.only_missing, reindex_raw=args.reindex_raw)
     finally:
         record_calls(args.data_dir, started, client.budget.used)
     print(f"과거 재무 채우기: {m.status} {dict(m.counts)}")

@@ -14,9 +14,9 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: "collect = 수집해서 data 브랜치에 저장, check = 저장 없이 인증키·연결만 확인, probe-xbrl = 대형주 XBRL 구조 점검(저장 없음), history = 2015~ 과거 재무 채우기, history-values = 빠짐없이 끝난 목록 저장본으로 아직 없는 값만 받기"
+        description: "collect = 수집해서 data 브랜치에 저장, check = 저장 없이 인증키·연결만 확인, probe-xbrl = 대형주 XBRL 구조 점검(저장 없음), history = 2015~ 과거 재무 채우기, history-values = 빠짐없이 끝난 목록 저장본으로 아직 없는 값만 받기, history-unlisted = 저장된 목록 원본에서 종목코드 없는 회사까지 목록을 다시 만들고 그 값을 받기"
         type: choice
-        options: [collect, check, probe-xbrl, probe-multi, history, history-values]
+        options: [collect, check, probe-xbrl, probe-multi, history, history-values, history-unlisted]
         default: collect
       lookback_days:
         description: "어제부터 거꾸로 며칠 치 접수일을 훑을지 (1~60)"
@@ -68,6 +68,8 @@ jobs:
             python -m orchestration.dart_history --data-dir data
           elif [ "$MODE" = "history-values" ]; then
             python -m orchestration.dart_history --data-dir data --from-index --only-missing
+          elif [ "$MODE" = "history-unlisted" ]; then
+            python -m orchestration.dart_history --data-dir data --reindex-raw --from-index --only-missing
           elif [ "$MODE" = "probe-multi" ]; then
             python -m orchestration.opendart_daily --probe-multi
           elif [ "$MODE" = "probe-xbrl" ]; then
