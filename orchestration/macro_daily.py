@@ -152,6 +152,42 @@ class MacroRun:
         m.write(self.data_dir)
         return m
 
+    def run_ecos_history(self, run_id: str) -> BatchManifest:
+        """설정에 history_rule이 있는 ECOS 금리를 처음부터 받아 발표 시각 규칙을 붙여 bok_ecos_hist에 쌓는다
+        (collectors/ecos_history.py). 다시 돌리면 같은 값은 건너뛴다."""
+        from collectors.ecos_history import SERIES_ECOS_HIST, START, history_records
+        hist = [s for s in self.config["ecos"]["series"] if s.get("history_rule")]
+        m = BatchManifest.start(run_id=run_id, contract=BOK_ECOS, code_version=self.version, now=self.now(),
+                                target={"series": [f"{s['stat']}/{s['item']} {s['history_rule']}" for s in hist]})
+        c = self._client("ecos")
+        pit = PITFileStore(self.data_dir, self.registry, parquet_series={SERIES_ECOS_HIST})
+        today = self.now().astimezone(KST).date()
+        for s in hist:
+            def one(s=s):
+                _, org, _ = c.table_org(s["stat"])
+                if org not in BOK_ORG_NAMES:
+                    m.warnings.append(f"{s['stat']}: 통계작성기관이 '{org}'라 받지 않음")
+                    return
+                end = f"{today:%Y%m%d}" if s["cycle"] == "D" else f"{today:%Y%m}"
+                resp, obs = c.search(s["stat"], s["cycle"], START[s["cycle"]], end, s["item"])
+                ref = self.raw.put(contract_id=BOK_ECOS.contract_id, source_id=BOK_ECOS.source_id, response=resp)
+                store = pit.load(parts=[(SERIES_ECOS_HIST, "KR")])
+                recs, same = history_records(obs, rule=s["history_rule"], contract_id=BOK_ECOS.contract_id,
+                                             raw_sha=ref.sha256, ingested_at_utc=self.now(),
+                                             source_url="https://ecos.bok.or.kr/", latest=store.latest)
+                res = pit.append(recs, store=store)
+                first = min((o.period_end for o in obs if o.value is not None), default=None)
+                m.requests.append({"series": f"{s['stat']}/{s['item']} {s['label']}", "http_status": resp.status,
+                                   "sha256": ref.sha256, "observations": len(obs), "added": res.added,
+                                   "first_period": str(first)})
+                m.count("added", res.added)
+                m.count("unchanged", res.unchanged + same)
+            if not self._guard(m, f"{s['stat']}/{s['item']}", one):
+                break
+        m.finish(self.now())
+        m.write(self.data_dir)
+        return m
+
     def run_eia(self, run_id: str) -> BatchManifest:
         cfg = self.config["eia"]
         m = BatchManifest.start(run_id=run_id, contract=EIA, code_version=self.version, now=self.now(),
@@ -245,6 +281,7 @@ def main(argv=None) -> int:
     ap.add_argument("--data-dir", default=os.environ.get("QF_DATA_DIR", "data"))
     ap.add_argument("--check", action="store_true", help="저장 없이 인증키·연결만 확인")
     ap.add_argument("--probe", action="store_true", help="저장 없이 응답 구조와 품목 코드 후보 출력")
+    ap.add_argument("--ecos-history", action="store_true", help="ECOS 금리 과거 채우기 (발표 시각 규칙, bok_ecos_hist)")
     args = ap.parse_args(argv)
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
     keys = {name: os.environ.get(env, "").strip() for name, env in KEY_ENV.items()}
@@ -252,6 +289,17 @@ def main(argv=None) -> int:
         print("인증키가 하나도 없음 (DATA_GO_KR_KEY·ECOS_API_KEY·EIA_API_KEY)", file=sys.stderr)
         return 2
     run = MacroRun(args.data_dir, keys)
+    if args.ecos_history:
+        if not keys.get("ecos"):
+            print("ECOS_API_KEY 없음", file=sys.stderr)
+            return 2
+        m = run.run_ecos_history(datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ") + "-ecos-history")
+        print(f"ECOS 과거 채우기: {m.status} {m.counts}")
+        for r in m.requests:
+            print(f"  {r['series']}: 관측 {r['observations']}개 (첫 기간 {r['first_period']}), 추가 {r['added']}")
+        for w in m.warnings[:10] + m.errors[:10]:
+            print(f"  {w}")
+        return 1 if m.status == "failed" else 0
     if args.check or args.probe:
         lines = run.check() if args.check else run.probe()
         print("\n".join(lines))
