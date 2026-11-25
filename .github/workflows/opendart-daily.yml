@@ -71,9 +71,9 @@ jobs:
           elif [ "$MODE" = "history-unlisted" ]; then
             python -m orchestration.dart_history --data-dir data --reindex-raw --from-index --only-missing
           elif [ "$MODE" = "history-single-probe" ]; then
-            python -m orchestration.dart_history --data-dir data --from-index --single --single-limit 40
+            python -m orchestration.dart_history --data-dir data --from-index --single --single-limit 60 --single-years 2016-2025
           elif [ "$MODE" = "history-single" ]; then
-            python -m orchestration.dart_history --data-dir data --from-index --single
+            python -m orchestration.dart_history --data-dir data --from-index --single --single-years 2016-2025
           elif [ "$MODE" = "probe-multi" ]; then
             python -m orchestration.opendart_daily --probe-multi
           elif [ "$MODE" = "probe-xbrl" ]; then
