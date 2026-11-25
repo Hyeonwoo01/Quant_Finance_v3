@@ -112,3 +112,16 @@ def test_coverage_by_survival_splits_delisted_codes():
     r = coverage_by_survival(df, last, pd.Timestamp("2024-10-31"))
     assert r["delisted_codes"] == 1 and r["survivor_2017_on"] == 1.0 and r["delisted_2017_on"] == 0.0
     assert r["by_year"][2018] == {"survivor": 1.0, "delisted": 0.0, "delisted_share": 0.5}
+
+
+def test_missing_reasons_split_filed_vs_not_filed():
+    from collectors.opendart_history import ReportRow
+    from evaluation.coverage_report import missing_reasons
+    df = pd.DataFrame({"date": pd.to_datetime(["2018-06-01", "2018-06-01", "2018-06-01"]), "code": ["A", "B", "C"],
+                       "fin_age": [np.nan, np.nan, 5.0]})
+    last = pd.Series({"A": pd.Timestamp("2024-10-31"), "B": pd.Timestamp("2019-01-02"), "C": pd.Timestamp("2024-10-31")})
+    rows = [ReportRow("x", "A", "a", "사업보고서", date(2017, 12, 31), (), "1", date(2018, 3, 30)),
+            ReportRow("y", "B", "b", "사업보고서", date(2015, 12, 31), (), "2", date(2016, 3, 30))]   # 너무 오래됨
+    r = missing_reasons(df, last, pd.Timestamp("2024-10-31"), rows)
+    assert r["survivor"] == {"missing_rows": 1, "filed_no_value": 1.0, "not_filed": 0.0}
+    assert r["delisted"] == {"missing_rows": 1, "filed_no_value": 0.0, "not_filed": 1.0}

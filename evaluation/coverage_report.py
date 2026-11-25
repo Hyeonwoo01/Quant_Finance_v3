@@ -38,6 +38,37 @@ def coverage_by_survival(df: pd.DataFrame, last_date: pd.Series, panel_end: pd.T
     return out
 
 
+def missing_reasons(df: pd.DataFrame, last_date: pd.Series, panel_end: pd.Timestamp, report_rows: list,
+                    lookback_days: int = 456) -> dict:
+    """재무가 비어 있는 행(2017~)을 이유별로 나눈다 (생존/상장폐지 각각 비율).
+      filed_no_value  판단일 전 15개월 안에 그 종목코드로 낸 12월 결산 정기보고서가 목록에 있는데 값이 없음
+                      → 지금 API가 값을 안 줌 (우리 수집 탓, 그때는 알 수 있었을 수 있음 = 미래 정보 위험)
+      not_filed       그런 보고서가 없음 (안 냈거나, 12월 결산이 아니거나, 상장 직후) → 판단 시점에도 알 수 있는 결측"""
+    import numpy as np
+    by_code: dict = {}
+    for r in report_rows:
+        if r.stock_code:
+            by_code.setdefault(r.stock_code, []).append(np.datetime64(r.rcept_dt))
+    by_code = {k: np.sort(np.array(v)) for k, v in by_code.items()}
+    gone = last_date < panel_end - pd.Timedelta(days=DELIST_GAP_DAYS)
+    d = df[(df["date"].dt.year >= 2017) & df["fin_age"].isna()]
+    out = {}
+    for label, part in (("survivor", d[~d["code"].map(gone).fillna(False).astype(bool)]),
+                        ("delisted", d[d["code"].map(gone).fillna(False).astype(bool)])):
+        filed = 0
+        for code, dt in zip(part["code"], part["date"].to_numpy().astype("datetime64[D]")):
+            arr = by_code.get(code)
+            if arr is None:
+                continue
+            i = np.searchsorted(arr, dt)                      # 판단일 전에 접수된 보고서만
+            if i > 0 and arr[i - 1] >= dt - np.timedelta64(lookback_days, "D"):
+                filed += 1
+        n = len(part)
+        out[label] = {"missing_rows": int(n), "filed_no_value": round(filed / n, 3) if n else None,
+                      "not_filed": round(1 - filed / n, 3) if n else None}
+    return out
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--data-dir", required=True)
@@ -62,6 +93,15 @@ def main(argv=None) -> int:
     print("연도별 (생존 / 상장폐지 / 상장폐지 종목 비중):")
     for y, v in r["by_year"].items():
         print(f"  {y}: {v['survivor']} / {v['delisted']} / {v['delisted_share']}")
+    from collectors.opendart_history import SERIES_REPORT_INDEX, rows_from_records
+    from core.source_registry import default_registry
+    from storage.pit_store import PITFileStore
+    idx = rows_from_records(PITFileStore(args.public_dir, default_registry(), parquet_series={SERIES_REPORT_INDEX})
+                            .iter_records([SERIES_REPORT_INDEX]))
+    mr = missing_reasons(df, last, panel["date"].max(), idx)
+    for k, v in mr.items():
+        print(f"재무 결측 이유 ({'생존' if k == 'survivor' else '상장폐지'}, {v['missing_rows']:,}행): "
+              f"보고서는 냈는데 값 없음 {v['filed_no_value']} / 보고서 없음 {v['not_filed']}")
     print("자료: 한국거래소 통계정보 (KRX Open API)·금융감독원 전자공시 — 비율만 표시")
     return 0
 
