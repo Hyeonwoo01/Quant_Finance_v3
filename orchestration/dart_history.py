@@ -188,8 +188,42 @@ class HistoryRun:
         m.count("index_rows_reused", len(rows))
         return rows
 
+    def fill_single(self, rows: list, m: BatchManifest, limit: Optional[int] = None) -> None:
+        """다중회사 주요계정이 값을 주지 않은 (종목코드 있는 회사, 연도, 보고서)를 단일회사 주요계정으로 다시 묻는다.
+        가용 시각 규칙은 같다 (마지막 재무 변경일 기준). limit: 이번에 물을 최대 건수 (시험용)."""
+        changes = last_change(rows)
+        keys = sorted({r.key for r in rows if r.stock_code and r.key[1] >= FIRST_VALUE_YEAR}, key=lambda k: (k[1], k[2], k[0]))
+        stores: dict = {}
+        asked = 0
+        for corp, year, code in keys:
+            if limit is not None and asked >= limit:
+                break
+            if year not in stores:
+                stores = {year: self.pit.load(parts=[(SERIES_FIN_HIST, f"{year}-01")])}
+            store = stores[year]
+            period_end = period_end_of(year, code)
+            if store.latest((corp, SERIES_FIN_HIST, f"fin|{code}", date(year, 1, 1), period_end, None)) is not None:
+                continue
+            asked += 1
+            r = self._retry(f"단일 주요계정 {corp} {year} {code}", lambda: self.client.single_account(corp, year, code), m)
+            m.count("single_calls")
+            if r is None or not r.rows:
+                m.count("single_empty")
+                continue
+            ref = self.raw.put(contract_id=OPENDART_FINANCIALS.contract_id, source_id=OPENDART_FINANCIALS.source_id,
+                               response=r.response, request_id=m.run_id)
+            vals = fin_values(r.rows)
+            recs, c = fin_records(vals, year, code, period_end, changes, contract_id=OPENDART_FINANCIALS.contract_id,
+                                  raw_sha=ref.sha256, ingested_at_utc=self.now(), latest=store.latest)
+            res = self.pit.append(recs, store=store)
+            m.count("single_fin_added", res.added)
+            if c.get("no_accounts"):
+                m.count("single_no_accounts", c["no_accounts"])
+        self.log(f"단일회사 주요계정으로 다시 물음 {asked:,}건: 값 받음 {m.counts.get('single_fin_added', 0):,}, "
+                 f"빈 응답 {m.counts.get('single_empty', 0):,}")
+
     def run(self, start: date, end: date, *, from_index: bool = False, only_missing: bool = False,
-            reindex_raw: bool = False) -> BatchManifest:
+            reindex_raw: bool = False, single: bool = False, single_limit: Optional[int] = None) -> BatchManifest:
         started = self.now()
         m = BatchManifest.start(run_id=f"{started:%Y%m%dT%H%M%SZ}-history", contract=OPENDART_FINANCIALS,
                                 code_version=self.version, now=started, target={"start": str(start), "end": str(end)})
@@ -212,6 +246,8 @@ class HistoryRun:
                 if m.counts.get("skipped_units"):
                     # 목록에 빠진 기간이 있으면 그 기간의 [기재정정]을 놓쳐, 정정된 값을 정정 전 날짜로 저장할 수 있다
                     m.errors.append("공시 목록에 빠진 기간이 있어 값 받기를 하지 않음 (가용 시각이 이르게 잡힐 위험) — 다시 실행")
+                elif single:
+                    self.fill_single(rows, m, limit=single_limit)
                 else:
                     self.fetch_values(rows, m, only_missing=only_missing)
         except BudgetExhausted as e:
@@ -233,6 +269,8 @@ def main(argv=None) -> int:
                     help="공시 목록을 다시 훑지 않고, 이전에 빠짐없이 끝낸 훑기의 저장본으로 값만 받는다")
     ap.add_argument("--only-missing", action="store_true", help="이미 저장된 (회사, 연도, 보고서)는 건너뛴다")
     ap.add_argument("--reindex-raw", action="store_true", help="저장된 공시 목록 원본에서 목록을 다시 만든다 (API 호출 없음)")
+    ap.add_argument("--single", action="store_true", help="다중회사 API가 값을 안 준 보고서를 단일회사 주요계정으로 다시 묻기")
+    ap.add_argument("--single-limit", type=int, default=None, help="--single로 물을 최대 건수 (시험용)")
     args = ap.parse_args(argv)
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
     key = os.environ.get("DART_API_KEY", "").strip()
@@ -249,7 +287,8 @@ def main(argv=None) -> int:
     client = OpenDartClient(key, budget=CallBudget(max_calls))
     try:
         m = HistoryRun(client, args.data_dir).run(date.fromisoformat(args.start), end, from_index=args.from_index,
-                                                 only_missing=args.only_missing, reindex_raw=args.reindex_raw)
+                                                 only_missing=args.only_missing, reindex_raw=args.reindex_raw,
+                                                 single=args.single, single_limit=args.single_limit)
     finally:
         record_calls(args.data_dir, started, client.budget.used)
     print(f"과거 재무 채우기: {m.status} {dict(m.counts)}")

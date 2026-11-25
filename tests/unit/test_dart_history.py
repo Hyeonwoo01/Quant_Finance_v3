@@ -46,6 +46,11 @@ class FakeDart:
             rows = [r for r in LIST if params["bgn_de"] <= r["rcept_dt"] <= params["end_de"]] if params.get("pblntf_ty") == "A" else []
             body = {"status": "000" if rows else "013", "message": "", "page_no": 1, "total_page": 1,
                     "total_count": len(rows), "list": rows}
+        elif ep == "fnlttSinglAcnt.json":                       # 단일회사 주요계정: 같은 필드
+            rows = []
+            if params["corp_code"] == "00000001" and params["bsns_year"] == "2016" and params["reprt_code"] == "11011":
+                rows = [acct("00000001", "CFS", "매출액", 500), acct("00000001", "CFS", "자본총계", 2000, sj="BS")]
+            body = {"status": "000" if rows else "013", "message": "", "list": rows}
         elif ep == "fnlttMultiAcnt.json":
             rows = []
             if "00000001" in params["corp_code"] and params["bsns_year"] == "2016" and params["reprt_code"] == "11011":
@@ -205,3 +210,28 @@ def test_reindex_from_raw_adds_unlisted_rows_without_api_calls(tmp_path):
     m = BatchManifest.start(run_id="r", contract=OPENDART_FINANCIALS, code_version="t", now=NOW, target={})
     assert run2.reindex_from_raw(m) == 1 and fake.calls == []            # 00000003(비상장) 한 건만 새로, 호출 없음
     assert run2.reindex_from_raw(m) == 0                                 # 다시 해도 그대로
+
+
+class NoMultiDart(FakeDart):
+    """다중회사 주요계정은 늘 빈 응답 (그 회사를 빠뜨리는 경우)."""
+
+    def __call__(self, url, params, timeout, headers=None):
+        if urlparse(url).path.endswith("fnlttMultiAcnt.json"):
+            self.calls.append(("fnlttMultiAcnt.json", dict(params)))
+            return 200, {}, json.dumps({"status": "013", "message": ""}).encode()
+        return super().__call__(url, params, timeout, headers)
+
+
+def test_single_account_fills_what_multi_missed(tmp_path):
+    mk = lambda fake: HistoryRun(client(fake, max_calls=200), tmp_path, now=lambda: NOW, version="t", log=lambda s: None)
+    m = mk(NoMultiDart()).run(date(2017, 1, 1), date(2017, 6, 30))
+    assert m.counts.get("fin_added", 0) == 0
+    fake = FakeDart()
+    m2 = mk(fake).run(date(2017, 1, 1), date(2017, 6, 30), from_index=True, single=True)
+    singles = [p for e, p in fake.calls if e == "fnlttSinglAcnt.json"]
+    assert m2.status == "ok" and m2.counts["single_fin_added"] == 1 and len(singles) == 1   # 종목코드 있는 회사만
+    rec = read_parquet(tmp_path / "pit_versions" / SERIES_FIN_HIST / "2016-01.parquet")[0]
+    assert rec.provider_available_at_utc == dart_available_at(date(2017, 5, 10)).to_pydatetime()  # 같은 가용 시각 규칙
+    fake3 = FakeDart()
+    mk(fake3).run(date(2017, 1, 1), date(2017, 6, 30), from_index=True, single=True)
+    assert not any(e == "fnlttSinglAcnt.json" for e, _ in fake3.calls)                       # 이미 있으면 묻지 않음

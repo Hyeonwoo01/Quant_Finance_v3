@@ -126,6 +126,11 @@ class OpenDartClient:
         return self.call("fnlttSinglAcntAll.json", {"corp_code": corp_code, "bsns_year": str(bsns_year),
                                                     "reprt_code": reprt_code, "fs_div": fs_div})
 
+    def single_account(self, corp_code: str, bsns_year: int, reprt_code: str) -> ApiResult:
+        """단일회사 주요계정 (fnlttSinglAcnt.json). 다중회사 API가 값을 주지 않은 회사를 다시 물을 때 쓴다.
+        응답 필드는 다중회사 주요계정과 같다."""
+        return _single_account_impl(self, corp_code, bsns_year, reprt_code)
+
     def multi_account(self, corp_codes: list, bsns_year: int, reprt_code: str) -> ApiResult:
         """다중회사 주요계정 (fnlttMultiAcnt.json): 한 번에 최대 100개 회사의 주요 계정. 과거 채우기용.
         이 API는 지금 시점의 값(정정이 있었다면 정정된 값)을 준다고 보고, 가용 시각은 공시 목록의 마지막
@@ -135,6 +140,12 @@ class OpenDartClient:
             raise ValueError(f"잘못된 다중회사 주요계정 요청: {len(codes)}개 {bsns_year} {reprt_code}")
         return self.call("fnlttMultiAcnt.json", {"corp_code": ",".join(codes), "bsns_year": str(bsns_year),
                                                  "reprt_code": reprt_code})
+
+
+def _single_account_impl(client, corp_code: str, bsns_year: int, reprt_code: str) -> ApiResult:
+    if not corp_code or reprt_code not in REPORT_CODES or bsns_year < 2015:
+        raise ValueError(f"잘못된 단일회사 주요계정 요청: {corp_code} {bsns_year} {reprt_code}")
+    return client.call("fnlttSinglAcnt.json", {"corp_code": corp_code, "bsns_year": str(bsns_year), "reprt_code": reprt_code})
 
 
 def probe_multi_account(client: "OpenDartClient", corp_codes=("00126380", "00164779", "00401731"),
