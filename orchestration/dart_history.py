@@ -188,11 +188,18 @@ class HistoryRun:
         m.count("index_rows_reused", len(rows))
         return rows
 
-    def fill_single(self, rows: list, m: BatchManifest, limit: Optional[int] = None) -> None:
+    def fill_single(self, rows: list, m: BatchManifest, limit: Optional[int] = None,
+                    years: Optional[tuple] = None) -> None:
         """다중회사 주요계정이 값을 주지 않은 (종목코드 있는 회사, 연도, 보고서)를 단일회사 주요계정으로 다시 묻는다.
         가용 시각 규칙은 같다 (마지막 재무 변경일 기준). limit: 이번에 물을 최대 건수 (시험용)."""
         changes = last_change(rows)
-        keys = sorted({r.key for r in rows if r.stock_code and r.key[1] >= FIRST_VALUE_YEAR}, key=lambda k: (k[1], k[2], k[0]))
+        lo, hi = years or (FIRST_VALUE_YEAR, 9999)
+        keys = sorted({r.key for r in rows if r.stock_code and max(lo, FIRST_VALUE_YEAR) <= r.key[1] <= hi},
+                      key=lambda k: (k[1], k[2], k[0]))
+        if limit is not None:                                     # 시험: 여러 회사·연도가 섞이게 고정 시드로 섞는다
+            import random
+            random.Random(0).shuffle(keys)
+            keys = sorted(keys[: limit * 50], key=lambda k: (k[1], k[2], k[0]))   # 저장 여부는 아래에서 걸러짐
         stores: dict = {}
         asked = 0
         for corp, year, code in keys:
@@ -223,7 +230,8 @@ class HistoryRun:
                  f"빈 응답 {m.counts.get('single_empty', 0):,}")
 
     def run(self, start: date, end: date, *, from_index: bool = False, only_missing: bool = False,
-            reindex_raw: bool = False, single: bool = False, single_limit: Optional[int] = None) -> BatchManifest:
+            reindex_raw: bool = False, single: bool = False, single_limit: Optional[int] = None,
+            single_years: Optional[tuple] = None) -> BatchManifest:
         started = self.now()
         m = BatchManifest.start(run_id=f"{started:%Y%m%dT%H%M%SZ}-history", contract=OPENDART_FINANCIALS,
                                 code_version=self.version, now=started, target={"start": str(start), "end": str(end)})
@@ -247,7 +255,7 @@ class HistoryRun:
                     # 목록에 빠진 기간이 있으면 그 기간의 [기재정정]을 놓쳐, 정정된 값을 정정 전 날짜로 저장할 수 있다
                     m.errors.append("공시 목록에 빠진 기간이 있어 값 받기를 하지 않음 (가용 시각이 이르게 잡힐 위험) — 다시 실행")
                 elif single:
-                    self.fill_single(rows, m, limit=single_limit)
+                    self.fill_single(rows, m, limit=single_limit, years=single_years)
                 else:
                     self.fetch_values(rows, m, only_missing=only_missing)
         except BudgetExhausted as e:
@@ -271,6 +279,7 @@ def main(argv=None) -> int:
     ap.add_argument("--reindex-raw", action="store_true", help="저장된 공시 목록 원본에서 목록을 다시 만든다 (API 호출 없음)")
     ap.add_argument("--single", action="store_true", help="다중회사 API가 값을 안 준 보고서를 단일회사 주요계정으로 다시 묻기")
     ap.add_argument("--single-limit", type=int, default=None, help="--single로 물을 최대 건수 (시험용)")
+    ap.add_argument("--single-years", default=None, help="--single로 물을 사업연도 범위 (예: 2016-2025)")
     args = ap.parse_args(argv)
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
     key = os.environ.get("DART_API_KEY", "").strip()
@@ -288,7 +297,8 @@ def main(argv=None) -> int:
     try:
         m = HistoryRun(client, args.data_dir).run(date.fromisoformat(args.start), end, from_index=args.from_index,
                                                  only_missing=args.only_missing, reindex_raw=args.reindex_raw,
-                                                 single=args.single, single_limit=args.single_limit)
+                                                 single=args.single, single_limit=args.single_limit,
+                                                 single_years=tuple(int(x) for x in args.single_years.split("-")) if args.single_years else None)
     finally:
         record_calls(args.data_dir, started, client.budget.used)
     print(f"과거 재무 채우기: {m.status} {dict(m.counts)}")
