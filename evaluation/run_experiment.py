@@ -92,7 +92,9 @@ def run(data_dir, target_id: str = "RET_5D", *, start: date = date(2010, 1, 1), 
     t0 = time.time()
     t = TARGETS[target_id]
     panel = load_price_panel(data_dir, start, vault_start - timedelta(days=1), today=today)
-    reports = fund.report_table(fund.load_fin_hist(public_dir)) if public_dir else None
+    from feature_store.corp_links import load_links
+    links = load_links(data_dir) if public_dir else {}
+    reports = fund.report_table(fund.load_fin_hist(public_dir, links)) if public_dir else None
     price_feats, price_ver = {"v1": (FEATURES, FEATURE_VERSION), "v2": (FEATURES_V2, FEATURE_VERSION_V2)}[feature_set]
     features = list(price_feats) + (list(fund.FUND_FEATURES) if reports is not None else [])
     version = price_ver + (f"+{fund.FUND_VERSION}" if reports is not None else "") + (f"+{MARKET_VERSION}" if market else "")
@@ -140,6 +142,7 @@ def run(data_dir, target_id: str = "RET_5D", *, start: date = date(2010, 1, 1), 
            "feature_list_hash": list_hash(features + raw), "features": features, "raw_features": raw, "models": list(models),
            "fundamental_coverage": fund.coverage(df) if reports is not None else None,
            "fundamental_unit_suspect": fund.unit_suspect_rate(df) if reports is not None else None,
+           "fundamental_links": len(links) if reports is not None else None,
            "hyperparameters": {m: PARAMS.get(m.removesuffix("_rank")) or {c: PARAMS.get(c, {}) for c in ENSEMBLES.get(m, ())}
                                for m in models}, "data_snapshot_id": data_snapshot_id(data_dir),
            "train_start": str(train_start) if train_start else None,

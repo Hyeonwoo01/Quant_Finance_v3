@@ -8,9 +8,9 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: "experiment = 실험(기록에 남음), coverage = 재무 커버리지 생존/상장폐지 점검, select = 가이드 8-5 규칙으로 Vault 후보 선택(실험 기록만 읽음), vault = 확정된 사전 등록대로 Vault 평가 한 번(두 번째부터 거부)"
+        description: "experiment = 실험(기록에 남음), coverage = 재무 커버리지 생존/상장폐지 점검, select = 가이드 8-5 규칙으로 Vault 후보 선택(실험 기록만 읽음), vault = 확정된 사전 등록대로 Vault 평가 한 번(두 번째부터 거부), links = 상장폐지 회사 고유번호→과거 종목코드 연결표(비공개)"
         type: choice
-        options: [experiment, coverage, select, vault]
+        options: [experiment, coverage, select, vault, links]
         default: experiment
       target:
         description: "예측 타깃 (evaluation/targets.py)"
@@ -83,7 +83,7 @@ jobs:
           path: private_data
           fetch-depth: 1
       - name: 공개 data 브랜치 (재무 피처용)
-        if: inputs.fundamentals || inputs.mode == 'coverage'
+        if: inputs.fundamentals || inputs.mode == 'coverage' || inputs.mode == 'links'
         uses: actions/checkout@v5
         with:
           ref: data
@@ -97,6 +97,9 @@ jobs:
       - name: 재무 커버리지 (생존/상장폐지)
         if: inputs.mode == 'coverage'
         run: python -m evaluation.coverage_report --data-dir private_data --public-dir public_data
+      - name: 상장폐지 회사 연결표 (KRX 종목명 이력 × DART 회사명, 비공개)
+        if: inputs.mode == 'links'
+        run: python -m feature_store.corp_links --data-dir private_data --public-dir public_data
       - name: Vault 후보 선택 (가이드 8-5 규칙)
         if: inputs.mode == 'select'
         run: python -m evaluation.select_candidates --data-dir private_data
@@ -132,8 +135,8 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          if [ ! -d experiments ]; then echo "실험 기록 없음"; exit 0; fi
-          git add experiments
+          [ -d experiments ] && git add experiments
+          [ -f state/corp_code_links.json ] && git add state/corp_code_links.json
           if git diff --cached --quiet; then echo "변경 없음"; exit 0; fi
           git commit -q -m "실험 기록 $(date -u +%Y-%m-%dT%H:%MZ)"
           for i in 1 2 3; do

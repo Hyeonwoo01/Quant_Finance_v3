@@ -39,8 +39,10 @@ SCALE_JUMP = 20.0
 ASSET_MCAP = (0.002, 500.0)
 
 
-def load_fin_hist(public_dir) -> pd.DataFrame:
-    """dart_fin_hist → 보고서(버전)마다 한 행: stock_code, bsns_year, reprt_code, bt_available_at, 계정 값."""
+def load_fin_hist(public_dir, links: dict = None) -> pd.DataFrame:
+    """dart_fin_hist → 보고서(버전)마다 한 행: stock_code, bsns_year, reprt_code, bt_available_at, 계정 값.
+    links: 상장폐지 회사의 {고유번호: 과거 종목코드} (feature_store/corp_links.py, 비공개). 종목코드가 빈 행에만 쓴다."""
+    links = links or {}
     d = Path(public_dir) / "pit_versions" / SERIES_FIN_HIST
     rows = []
     for p in sorted(d.glob("*.parquet")) if d.exists() else []:
@@ -50,7 +52,9 @@ def load_fin_hist(public_dir) -> pd.DataFrame:
             attrs = json.loads(r.attributes or "{}")
             v = json.loads(r.value)
             code = r.metric_id.split("|")[-1]
-            row = {"corp_code": r.entity_id, "stock_code": attrs.get("stock_code", ""), "bsns_year": r.observation_period_start.year,
+            code = attrs.get("stock_code", "") or links.get(r.entity_id, "")
+            row = {"corp_code": r.entity_id, "stock_code": code, "linked": not attrs.get("stock_code") and bool(code),
+                   "bsns_year": r.observation_period_start.year,
                    "reprt_code": code, "bt_available_at": pd.Timestamp(backtest_available_at(r))}
             for k, a in v["accounts"].items():
                 row[f"{k}_amt"], row[f"{k}_cum"], row[f"{k}_prev_cum"] = a.get("amt"), a.get("cum"), a.get("prev_cum")

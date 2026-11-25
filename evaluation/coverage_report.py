@@ -49,7 +49,10 @@ def main(argv=None) -> int:
     args = ap.parse_args(argv)
     vault = date.fromisoformat(args.vault_start)
     panel = load_price_panel(args.data_dir, date(2010, 1, 1), vault - timedelta(days=1))
-    reports = fund.report_table(fund.load_fin_hist(args.public_dir))
+    from feature_store.corp_links import load_links
+    links = load_links(args.data_dir)
+    print(f"상장폐지 회사 연결표: {len(links):,}개 회사" if links else "상장폐지 회사 연결표 없음")
+    reports = fund.report_table(fund.load_fin_hist(args.public_dir, links))
     df = build_dataset(panel, args.target, args.every, args.liquidity_pct, 252, reports=reports)
     last = panel.groupby("code")["date"].max()
     r = coverage_by_survival(df, last, panel["date"].max())

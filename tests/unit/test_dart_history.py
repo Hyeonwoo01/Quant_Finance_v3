@@ -67,7 +67,7 @@ def test_history_run_uses_last_correction_date(tmp_path):
     fake = FakeDart()
     run = HistoryRun(client(fake, max_calls=200), tmp_path, now=lambda: NOW, version="t", log=lambda s: None)
     m = run.run(date(2017, 1, 1), date(2017, 6, 30))
-    assert m.status == "ok" and m.counts["fin_added"] == 1 and m.counts["index_added"] == 3
+    assert m.status == "ok" and m.counts["fin_added"] == 1 and m.counts["index_added"] == 4    # 종목코드 없는 회사도 목록에
     assert all(p.get("pblntf_ty") == "A" and "corp_cls" not in p for e, p in fake.calls if e == "list.json")
     rec = read_parquet(tmp_path / "pit_versions" / SERIES_FIN_HIST / "2016-01.parquet")[0]
     v = json.loads(rec.value)
@@ -139,17 +139,17 @@ def test_from_index_reuses_a_complete_scan_only(tmp_path):
     m0 = mk(FakeDart()).run(date(2017, 1, 1), date(2017, 6, 30), from_index=True)
     assert m0.status == "failed" and "from_index 없이" in m0.errors[0]              # 끝난 훑기 기록이 없으면 거절
     mk(FakeDart()).run(date(2017, 1, 1), date(2017, 6, 30))
-    assert json.loads((tmp_path / "state" / "dart_history_scan.json").read_text())["rows"] == 3
+    assert json.loads((tmp_path / "state" / "dart_history_scan.json").read_text())["rows"] == 4
     from collectors.opendart_history import rows_from_records
     stored = rows_from_records(mk(FakeDart()).pit.iter_records([SERIES_REPORT_INDEX]))
-    assert stored == sorted(report_rows(LIST)[0], key=lambda r: (r.rcept_dt, r.rcept_no))   # 다시 만든 행이 원래와 같다
+    assert stored == sorted(report_rows(LIST, keep_unlisted=True)[0], key=lambda r: (r.rcept_dt, r.rcept_no))   # 다시 만든 행이 원래와 같다
     fake = FakeDart()
     m = mk(fake).run(date(2017, 1, 1), date(2017, 6, 30), from_index=True)
-    assert not any(e == "list.json" for e, _ in fake.calls) and m.counts["index_rows_reused"] == 3
+    assert not any(e == "list.json" for e, _ in fake.calls) and m.counts["index_rows_reused"] == 4
     assert m.status == "ok" and m.counts["fin_unchanged"] == 1
     assert mk(FakeDart()).run(date(2016, 1, 1), date(2017, 6, 30), from_index=True).status == "failed"   # 시작이 범위 밖
     m4 = mk(FakeDart()).run(date(2017, 1, 1), date(2017, 7, 2), from_index=True)                       # 끝은 줄여서 씀
-    assert m4.status == "ok" and m4.counts["index_rows_reused"] == 3 and "2017-06-30까지" in m4.warnings[0]
+    assert m4.status == "ok" and m4.counts["index_rows_reused"] == 4 and "2017-06-30까지" in m4.warnings[0]
 
 
 def test_incomplete_scan_leaves_no_state(tmp_path):
@@ -182,4 +182,26 @@ def test_only_missing_fills_skipped_batches(tmp_path):
     assert m2.status == "ok" and m2.counts["fin_added"] == 1
     fake = FakeDart()
     m3 = mk(fake).run(date(2017, 1, 1), date(2017, 6, 30), from_index=True, only_missing=True)
-    assert m3.counts["value_already_stored"] == 1 and not any(e == "fnlttMultiAcnt.json" for e, _ in fake.calls)
+    assert m3.counts["value_already_stored"] == 1                                    # 저장된 회사는 다시 묻지 않음
+    assert not any(e == "fnlttMultiAcnt.json" and "00000001" in p["corp_code"] for e, p in fake.calls)
+
+
+def test_reindex_from_raw_adds_unlisted_rows_without_api_calls(tmp_path):
+    """예전 방식(종목코드 없는 회사를 버림)으로 쌓인 목록을 저장된 원본에서 다시 만들어 채운다."""
+    import gzip
+    from collectors.opendart_history import index_records
+    from core.source_registry import OPENDART_LIST
+    run = HistoryRun(client(FakeDart(), max_calls=200), tmp_path, now=lambda: NOW, version="t", log=lambda s: None)
+    old, _ = report_rows(LIST)                                           # 종목코드 있는 행만 (예전 목록)
+    run.pit.append(index_records(old, contract_id=OPENDART_LIST.contract_id, raw_sha="x", ingested_at_utc=NOW,
+                                 latest=lambda k: None))
+    body = json.dumps({"status": "000", "list": LIST}, ensure_ascii=False).encode()
+    d = tmp_path / "raw" / OPENDART_LIST.source_id / "objects" / "ab"
+    d.mkdir(parents=True)
+    (d / "ab12.gz").write_bytes(gzip.compress(body))
+    fake = FakeDart()
+    run2 = HistoryRun(client(fake, max_calls=200), tmp_path, now=lambda: NOW, version="t", log=lambda s: None)
+    from orchestration.dart_history import BatchManifest, OPENDART_FINANCIALS
+    m = BatchManifest.start(run_id="r", contract=OPENDART_FINANCIALS, code_version="t", now=NOW, target={})
+    assert run2.reindex_from_raw(m) == 1 and fake.calls == []            # 00000003(비상장) 한 건만 새로, 호출 없음
+    assert run2.reindex_from_raw(m) == 0                                 # 다시 해도 그대로
