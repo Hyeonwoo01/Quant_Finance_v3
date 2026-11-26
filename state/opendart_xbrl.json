@@ -6584,6 +6584,14 @@
    "geography": "OK",
    "segment": "NO_SEGMENT_TABLE",
    "values": 4
+  },
+  "20261126000822": {
+   "corp_code": "01510489",
+   "corp_name": "프레스티지바이오파마",
+   "done_at_utc": "2026-11-26T19:48:47.336087+00:00",
+   "geography": "OK",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 4
   }
  },
  "gave_up": {
