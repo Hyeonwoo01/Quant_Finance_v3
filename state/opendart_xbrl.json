@@ -6592,6 +6592,30 @@
    "geography": "OK",
    "segment": "NO_SEGMENT_TABLE",
    "values": 4
+  },
+  "20261127000773": {
+   "corp_code": "00133618",
+   "corp_name": "우양피앤엘",
+   "done_at_utc": "2026-11-27T19:43:32.164833+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261127001270": {
+   "corp_code": "01276594",
+   "corp_name": "신한알파리츠",
+   "done_at_utc": "2026-11-27T19:43:58.696328+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
+  },
+  "20261127001641": {
+   "corp_code": "00117498",
+   "corp_name": "스틱인베스트먼트",
+   "done_at_utc": "2026-11-27T19:44:04.518665+00:00",
+   "geography": "NO_GEOGRAPHY",
+   "segment": "NO_SEGMENT_TABLE",
+   "values": 0
   }
  },
  "gave_up": {
