@@ -1,0 +1,29 @@
+{
+  "code_version": "d91609ff563a31f0c77e46a72bce61b4d7996bbd",
+  "contract_id": "eia_v1",
+  "counts": {},
+  "errors": [
+    "WCESTUS1: RequestFailed: https://api.eia.gov/v2/petroleum/stoc/wstk/data/ {'api_key': '***', 'frequency': 'weekly', 'data[0]': 'value', 'facets[series][]': 'WCESTUS1', 'start': '2026-05-29', 'sort[0][column]': 'period', 'sort[0][direction]': 'desc', 'length': '500'}: 네트워크 오류 TimeoutError, 5회 시도 후 실패",
+    "NW2_EPG0_SWO_R48_BCF: RequestFailed: https://api.eia.gov/v2/natural-gas/stor/wkly/data/ {'api_key': '***', 'frequency': 'weekly', 'data[0]': 'value', 'facets[series][]': 'NW2_EPG0_SWO_R48_BCF', 'start': '2026-05-29', 'sort[0][column]': 'period', 'sort[0][direction]': 'desc', 'length': '500'}: 네트워크 오"
+  ],
+  "finished_at_utc": "2026-11-27T00:55:34.488883+00:00",
+  "permission": {
+    "approval_status": "approved_for_redistribution",
+    "attribution_required": true,
+    "license_url": "https://www.eia.gov/about/copyrights_reuse.php",
+    "permission_reference": "EIA Copyrights and Reuse + API Terms of Service, 2026-11-09 원문 확인"
+  },
+  "requests": [],
+  "run_id": "20261127T004950Z",
+  "schema_version": "manifest-1",
+  "source_id": "eia",
+  "started_at_utc": "2026-11-27T00:50:14.483491+00:00",
+  "status": "failed",
+  "target": {
+    "series": [
+      "WCESTUS1",
+      "NW2_EPG0_SWO_R48_BCF"
+    ]
+  },
+  "warnings": []
+}
